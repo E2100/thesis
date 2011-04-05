@@ -1,9 +1,34 @@
-Unified framework for discussing fields in same vocabulary.
-Theory and previous work.
-IR, then RS, then SS.
+\section{User Modeling}
+
+\begin{eqnarray}
+  \mathrm{M_{UM}} = (I, C, U, F, u(i_i, c_u))\\
+\end{eqnarray}
+
+\subsection{Recommender Systems}
+
+\begin{eqnarray}
+  \mathrm{M_{RS}}   &=& (I, C, U, F,    u(i_i, c_u))\\
+  \mathrm{M_{RSQ}}  &=& (I, C, Q, U, F, u(q_i, i_j, c_u))
+\end{eqnarray}
+
+Based on \cite[p2]{Adomavicius2005}.
 
 
-\section{Information Retrieval}
+\cite[p5]{Sugiyama2004} Example of collaborative recommendation: 
+"Collaborative filtering can be represented as the problem of pre- dicting missing values in a user-item ratings matrix. Figure 3 shows a simplified example of a user-item ratings matrix.
+In the neighborhood-based algorithm, a subset of users is first chosen based on their similarity to the active user, and a weighted combination of their rating is then used to produce predictions for the active user."
+
+\cite[p2]{Bell2007b}: Sparsity, variety, numbers of ratings:
+"First, the numbers of users and items may be very large, as in the Netflix data, with the former likely much larger than the latter.
+Second, an overwhelming portion of the user-item matrix (e.g., 99\%) may be unknown. Sometimes we refer to matrix R as a sparse matrix, although its sparsity pattern is driven by containing many unknown values rather than the common case of having many zeros.
+Third, the pattern of observed data may be very nonrandom, i.e., the amount of observed data may vary by several orders of magnitude among users or among items."
+
+\cite[p2]{Bell2007b}: Shrinkage for parameter estimation:
+"Although cross validation is a great tool for tuning a few param- eters, it is inadequate for dealing with massive numbers of param- eters. Cross validation works very well for determining whether the use of a given parameter improves predictions relative to other factors. However, that all-or-nothing choice does not scale up to se- lecting or fitting many parameters at once. Sometimes the amount of data available to fit different parameters will vary widely, per- haps by orders of magnitude. The idea behind “shrinkage” is to impose a penalty for those parameters that have less data associ- ated with them. The penalty is to shrink the parameter estimate towards a null value, often zero. "
+
+
+
+\section{Personalized Search}
 
 An Information Retrielal Model is a quadruple \citep[p23]{Baeza-Yates1999}:
 
@@ -21,31 +46,8 @@ Similar notation for FolkRank in \cite[p4]{Hotho}.
 Conceptually, this is a graph.
 Nodes, and F represents the edges.
 
-
-\section{User Modeling and Recommender Systems, multimodels}
-
-\begin{eqnarray}
-  \mathrm{M_{RS}}   &=& (D, C, U, F,    u(d_i, c_i))\\
-  \mathrm{M_{RSQ}}  &=& (D, C, Q, U, F, u(q_i, d_i, c_i))
-\end{eqnarray}
-
-Based on \cite[p2]{Adomavicius2005}.
-
-Use simple algorithms over complex, monolithic ones. E.g., one algorithm can measure freshness - 0 when the rating is out of date, and 1 when it's completely fresh.
-
-\cite[p5]{Sugiyama2004} Example of collaborative recommendation: 
-"Collaborative filtering can be represented as the problem of pre- dicting missing values in a user-item ratings matrix. Figure 3 shows a simplified example of a user-item ratings matrix.
-In the neighborhood-based algorithm, a subset of users is first chosen based on their similarity to the active user, and a weighted combination of their rating is then used to produce predictions for the active user."
-
-\cite[p2]{Bell2007b}: Sparsity, variety, numbers of ratings:
-"First, the numbers of users and items may be very large, as in the Netflix data, with the former likely much larger than the latter.
-Second, an overwhelming portion of the user-item matrix (e.g., 99\%) may be unknown. Sometimes we refer to matrix R as a sparse matrix, although its sparsity pattern is driven by containing many unknown values rather than the common case of having many zeros.
-Third, the pattern of observed data may be very nonrandom, i.e., the amount of observed data may vary by several orders of magnitude among users or among items."
-
-\cite[p2]{Bell2007b}: Shrinkage for parameter estimation:
-"Although cross validation is a great tool for tuning a few param- eters, it is inadequate for dealing with massive numbers of param- eters. Cross validation works very well for determining whether the use of a given parameter improves predictions relative to other factors. However, that all-or-nothing choice does not scale up to se- lecting or fitting many parameters at once. Sometimes the amount of data available to fit different parameters will vary widely, per- haps by orders of magnitude. The idea behind “shrinkage” is to impose a penalty for those parameters that have less data associ- ated with them. The penalty is to shrink the parameter estimate towards a null value, often zero. "
-
-\section{Personalized Search / Recommendations in search}
+\cite[p6]{Micarelli2007}: Three dimensions of user modeling in IR: Part of retrieval; re-ranking after
+retrieval; query modification based on user model.
 
 \begin{eqnarray}
   \mathrm{M_{PS}}  &=& (D, C, Q, U, F, R)\\
@@ -71,12 +73,28 @@ Introduce pagerank, topic sensitive pagerank, personalized topic sensitive pager
 
 Trust of sites/other users can be one algorithm in an aggregate user model.
 
-\textbf{Tagging}
+Feedback: 
+\cite[p9]{Micarelli2007} implicit from usage data or explicit user profiles. 
+\cite{Shen2005}: Use of imidiate previous search history to provide real-time updating of user models. Previous searches more important.
+
+Modeling:
+\cite{Jeh2003}: Partial personalized pagerank vector, to bias pagerank towards already visited or bookmarked sites.
+
+\cite[p2]{Teevan2005a}: Implications of personalized search. Users have different needs/domains/expectations.
+"The study suggests personalization of results via re-ranking would provide significant benefit for users."
+"Importantly, there are still many relevant results at ranks 11-50, well beyond what users typically see. 
+This suggests the search result ordering could be improved."
+Standard sets give high correlation between user relevance judgements -- however, when asking users
+to rank according to their personal expectations, the disparity increases rapidly. Weakness in 
+traditional IR expert relevance judgement.
+
+Google personalized Search: Give access to store search history, personalized results thereafter. See \url{google.com/psearch} [google psearch patent]; 
+Google Alerts: Emails when new results on a query is available. See \url{http://www.google.com/alerts}.
+
+\subsection{Tags in Personalized Search}
 
 \cite[p4]{Noll2007}: 
 Tagging can be interpreted as a relation R\_tagging < D * U * T, where D is the set of documents, U the set of users and T the set of tags.
-
-\section{Previous work (on similar hypotheses)}
 
 \cite[p2]{Hotho}: Folksonomies as a ranking source: 
 "To this end, we propose a formal model for folksonomies, and present a new algorithm, called FolkRank, that takes into account the folksonomy structure for rank- ing search requests in folksonomy based systems."
@@ -95,30 +113,11 @@ Standard sets give high correlation between user relevance judgements -- however
 to rank according to their personal expectations, the disparity increases rapidly. Weakness in 
 traditional IR expert relevance judgement.
 
-\cite[p6]{Micarelli2007}: Three dimensions of user modeling in IR: Part of retrieval; re-ranking after
-retrieval; query modification based on user model.
-
-Feedback: 
-\cite[p9]{Micarelli2007} implicit from usage data or explicit user profiles. 
-\cite{Shen2005}: Use of imidiate previous search history to provide real-time updating of user models. Previous searches more important.
-
-Modeling:
-\cite{Jeh2003}: Partial personalized pagerank vector, to bias pagerank towards already visited or bookmarked sites.
-
-Implementations:
-Google personalized Search: Give access to store search history, personalized results thereafter. See \url{google.com/psearch} [google psearch patent]; 
-Google Alerts: Emails when new results on a query is available. See \url{http://www.google.com/alerts}.
 
 
 
-\section{Detailed Hypotheses}
+\section{Aggregate Modeling}
 
-\textbf{Assumptions}
-
-\textbf{Detailed problem statement}
-
-\textbf{Hypothesis, Contributions}
+Use simple algorithms over complex, monolithic ones. E.g., one algorithm can measure freshness - 0 when the rating is out of date, and 1 when it's completely fresh.
 
 
-
-\textbf{Plan, outline}

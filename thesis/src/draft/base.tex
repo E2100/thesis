@@ -1,0 +1,38 @@
+\documentclass[
+  10pt,
+  b5paper,
+  %a4paper,
+  %draft,
+  oneside
+]{thesis}
+
+\begin{document}
+  
+  \frontmatter
+    \include{frontmatter}
+    
+  \mainmatter
+    
+    \chapter{Introduction}
+      \input{intro}
+
+    \chapter{Theory}
+      \input{theory}
+ 
+    \chapter{Methods}
+      \input{methods}
+
+    \chapter{Results}
+      \input{results}
+
+    \chapter{Conclusion}
+      \input{conclusion}
+
+  \backmatter
+    \input{references}
+    \begin{appendices}
+      \input{appendix}
+    \end{appendices}
+    
+\end{document}
+
