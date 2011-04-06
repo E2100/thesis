@@ -11,7 +11,6 @@ class MetaRecommender
 
   def create_metas
     @model.users.each do |u|
-      Log.out('Meta model for',u)
       #next if u > 1
       @meta[u] = Meta.new(meta_task(u), meta_model)
       #@meta[u] = Slider.new(meta_task(u), meta_model)
