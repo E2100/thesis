@@ -162,7 +162,7 @@
 \chapterstyle{thesis}
 
 % Sections
-\setsecheadstyle{\vspace{1em}\large\itshape}
+\setsecheadstyle{\vspace{0em}\large\itshape}
 
 % Subsections
 \setsubsecheadstyle{\large\itshape}
@@ -251,6 +251,17 @@
   \kern 5pt
   \color{darkgray}
 }
+
+% Block quotes
+\newenvironment{blockquote}{%
+  \begin{quote}
+  \itshape
+}{%
+  \end{quote}
+}
+
+
+
 
 % Quotes with citations
 % \begin{citequote}[page]{ref}{text}..

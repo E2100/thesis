@@ -1,5 +1,50 @@
 \section{User Modeling}
 
+\emph{User Modeling (UM)} is about adapting an application to its users.
+Whenever an application behaves or presents differently based on knowledge
+of individual or groups of users, it is performing user modeling. 
+Examples of UM include:
+
+\begin{itemize*}
+  \item Translating content based on user location.
+  \item Suggesting interesting items based on previous activity.
+  \item Reorganizing content based on predicted user relevance.
+  \item Changing presentation to match user preferences or abilities.
+  \item Any form of personalized content, presentation or behaviour from the application.
+\end{itemize*}
+
+Naturally, with such a vague definition, user modeling spans many fields,
+approaches and methods. However, there are two core problems each method tries to solve:
+
+\textbf{Information Overload} occurs when an application presents more information than a user is able to consume.
+\cite{Bjorkoy2010d}
+There are plenty of potential culprits: a poor signal to noise ratio, where relevant content is drowned out by useless 
+information; an interface ill suited to the current user’s presentational needs or to the content being presented; 
+a system that constrains the user, rather than adapt to how it is used. UM methods often apply personalization to solve this problem.
+The thought is that a system that is personal, not general, will be better at tackling information overload.
+
+\textbf{Content discovery} is closely related to information overload. As the amount of content increases,
+finding and discovering relevant pieces of information becomes more difficult. Many UM methods
+exists to automatically identify and present items based on knowledge of each user. For instance,
+when a system allows explicit ratings of items, individually unseen and probably relevant items can be predicted
+based on past user ratings.
+
+
+There are two main approaches to user modeling, each led by a different field of computer science:
+
+\emph{Artificial Intelligence (AI)} looks at user modeling from a bottom-up, computational perspective. 
+The goal is to develop algorithms that reliably and effectively can create models of each user
+and through these models predict future interaction or preferences. 
+
+\emph{Human-Computer Interaction (HCI)} looks at user modeling from a top-down, interaction based perspective.
+The goal here is to create approximate models of different stereotypical users to better understand how 
+an application will be used. By examining the preferences, priorities and usage patterns of different groups
+of users, the application can be adapted on a personal or stereotypical level.
+
+This paper takes the AI approach.
+
+Problem statement
+
 \begin{eqnarray}
   \mathrm{M_{UM}} = (I, C, U, F, u(i_i, c_u))\\
 \end{eqnarray}
