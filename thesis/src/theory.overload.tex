@@ -96,11 +96,8 @@ with $\gamma_{out}$ being slightly higher than $\gamma_{in}$.
 Both these probabilities exhibit power tails (or long tails). 
 In other words, a few important nodes have a huge number of inbound and outbound links --- the hubs. 
 \citet[p86]{Barabasi2003} proposed that hubs emerge in a scale-free networks because of two factors:
-
-\begin{enumerate}
-  \item Growth: Nodes are added to the network one by one, for example when new websites are added to the Internet.
-  \item Preferential attachment: When new nodes are created, they connect to existing nodes. The probability that the new node will connect to an existing node is proportional to the number of links the existing node has. In other words, older, more established and central nodes are preferred neighbors.
-\end{enumerate}
+(1) Growth: Nodes are added to the network one by one, for example when new websites are added to the Internet.
+(2) Preferential attachment: When new nodes are created, they connect to existing nodes. The probability that the new node will connect to an existing node is proportional to the number of links the existing node has. In other words, older, more established and central nodes are preferred neighbors.
 
 This is called the Barab\'{a}si-Albert model \citep{Albert1999}, 
 and the probability for a new node connecting to an existing node is given by $\prod k_i$ in Equation \ref{eq:albert:prob}, 
@@ -115,13 +112,11 @@ where $k_i$ is the number of links pointing to node $i$.
 Another important topological observation of the Web is how fragmented it is. 
 \citet[p166]{Barabasi2003} describes the Internet as a number of continents:
 
-\begin{itemize*}
-  \item The first continent is the \emph{central core}, where most important hubs reside. On this continent, most sites are easily reachable through each other.
-  \item The second is the \emph{in-continent}, and is defined by the group of websites that often link to sites in the central core, but seldom receive reciprocal links from central hubs.
-  \item The third is the \emph{out-continent}, which are comprised of sites that are often linked to from the central hub, but seldom link back.
-  \item Finally, the Internet has many \emph{islands}, or dark nets, which are not accessible through links from other continents. 
-\footnote{The islands of the Web is why search engines allows web masters to manually add their sites to the search engine index --- not all sites are discoverable by following simple links. Some of the Web is topographically close, but a lot of it is not.}
-\end{itemize*}
+The first continent is the \emph{central core}, where most important hubs reside. On this continent, most sites are easily reachable through each other.
+The second is the \emph{in-continent}, and is defined by the group of websites that often link to sites in the central core, but seldom receive reciprocal links from central hubs.
+The third is the \emph{out-continent}, which are comprised of sites that are often linked to from the central hub, but seldom link back.
+Finally, the Internet has many \emph{islands}, or dark nets, which are not accessible through links from other continents. 
+The islands of the Web is why search engines allows web masters to manually add their sites to the search engine index --- not all sites are discoverable by following simple links. Some of the Web is topographically close, but a lot of it is not.
 
 Returning to our main topic, the \emph{hubs} often represent the previously mentioned \emph{content aggregating websites}. 
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 

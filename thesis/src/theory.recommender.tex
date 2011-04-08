@@ -58,12 +58,12 @@ and each cell corresponds to an explicit rating. This matrix then becomes the fr
 RS quintuple:
 
 \begin{eqnarray*}
- R_{m,n} =
+ R_{u,i} =
  \begin{pmatrix}
-  r_{1,1} & r_{1,2} & \cdots & r_{1,n} \\
-  r_{2,1} & r_{2,2} & \cdots & r_{2,n} \\
+  r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
+  r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
-  r_{m,1} & r_{m,2} & \cdots & r_{m,n}
+  r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}
 \end{eqnarray*}
 
@@ -83,11 +83,18 @@ A directly related problem is the need for large datasets. Since the data is oft
 the systems will most often perform well if used on large numbers of items and users.
 As in many machine learning methods, concept drift, where the characteristics of a user or item
 changes over time, is also eternally present.
-Finally, the performance of RSs is often closely tied to their computational complexity. 
+
+The performance of RSs is often closely tied to their computational complexity. 
 Real world usage of the most precise methods is often hindered by the computational power
 needed to actually put them into production.
 
-
+Finally, the scale of the data in question should be a concern. If the ratings are ordinal data (e.g. 1-5)
+input directly by users, the RS should take into account the domain specific meaning of these intervals.
+For example, in a system for rating movies, the jump between ratings 4-5 might not have the same significance as
+the jump from 2-3. However, this is a fact seldom mentioned in the literature. Most RSs 
+employ metrics that assume a normal distribution, and even the common
+evaluation techniques such as RMSE or MAE treat ordinal data as a continous scale. 
+% http://technocalifornia.blogspot.com/2011/04/recommender-systems-were-doing-it-all.html
 
 
 \subsection{Estimation of Ratings}
@@ -97,7 +104,7 @@ The most interesting and important part of any RS is how it predicts unknown rat
 Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
 In our taxonomy, these dimensions are: Predictions, method, granularity, temporality and agents.
 
-\begin{table}[b]
+\begin{table}[t]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
     \toprule
     \emph{Variable} & \emph{Values} \\
@@ -167,5 +174,14 @@ implicit mining of query logs and user interaction is often used to build user m
 \subsection{Approaches}
 
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
+See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
-TODO
+\emph{Averages} baseline, slope 
+
+\emph{Dimensionaliy reduction} is a technique often used by recommendation systems.
+
+\emph{Neighborhoods} knn
+
+\emph{IR methods} cosine
+
+\emph{Social networks} traversal, transitive trust
