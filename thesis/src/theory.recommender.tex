@@ -13,7 +13,8 @@ Such systems are commonly used on the web to provide a host of predictive functi
 \end{itemize*}
 
 Common to these examples are a set of users, a set of items, and a sparse set of explicit ratings or preferences.
-A recommender system is best described as a graph, even though the underlying algorithms might not use this as the representation.
+Items can be anything: Documents, movies, music, places, people, or indeed other users.
+A recommender system is best described by graph and graph operations, even though the underlying algorithms might not use this as the representation.
 \cite{Mirza2003} explains how any RS can be expressed as a graph traversal algorithm.
 Items and users are nodes, while ratings, social connections et cetera are edges between the nodes.
 An RS performs predictive reasoning on this graph by estimating the strenghts of hypothetical connections between nodes that are not explicitly connected.
@@ -27,19 +28,19 @@ connections, and the connections of similar users, new connections can be predic
 Recommender systems are then powerful methods for user modeling, personalization and fighting information overload,
 because of their ability to infer how relevant and item (or another user) will be to the current user.
 
-Formally, a recommender system is a quintuple, $\mathrm{RS} = (I, U, R, F, M)$,
+Formally, a recommender system can be seen as a quintuple, $\mathrm{RS} = (I, U, R, F, M)$,
 where $I$ is the set of items (e.g. products, articles or movies) and $U$ is the set of users.
-$R$ is the set of known ratings, i.e. explicit preferences given by users for certain items.
-$F$ is a framework for representing the items, users and ratings, and 
-$M$ is the actual modeling method used to infer unknown ratings 
-for predicting a user's preference for an unrated item. 
+$R$ is the set of known connections, i.e. explicit preferences given by users for certain items.
+$F$ is a framework for representing the items, users and ratings, for example a graph or matrix. 
+$M$ is the actual user modeling method used to infer unknown ratings 
+for predicting a user's preference for an unrated item. This is where AI comes in.
 
 In \cite{Adomavicius2005}, $M$ is seen as a utility function
 $f: U \times I \rightarrow S$. Here, $f$ is a function that maps the set
 of users and items into a fully ordered set of items $S$, ranked by their
-utility (i.e. rating) to each user. In other words, $S$ is the complete version of $R$,
-where each user has either an explicit or predicted preference for each item in $I$.
-In this notation, to predict the best unrated item for each user, we simply find the item with the highest expected utility:
+utility (i.e. rating) to each user. In other words, $S$ is the completely specified version of $R$,
+where each user has either an explicit, implicit or predicted preference for each item in $I$.
+To predict the best unrated item for each user, we simply find the item with the highest expected utility:
 
 \begin{eqnarray*}
   \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} f(u,i)
@@ -77,13 +78,13 @@ to produce results from a matrix where only 1\% of the cells have meaningful val
 
 Naturally, this is the defining characteristic of 
 many recommender systems: the ability to extract meaningful patterns from sparse data, 
-through dimensionality reduction, neighborhood estimation and similar methods.
+through dimensionality reduction, neighborhood estimation and other methods, as we shall see.
 
 Recommender systems face many challenges other than the sparsity problem.
 A directly related problem is the need for large datasets. Since the data is often sparse,
 the systems will most often perform well if used on large numbers of items and users.
 As in many machine learning methods, concept drift, where the characteristics of a user or item
-changes over time, is also eternally present.
+changes over time, is also always present.
 
 The performance of RSs is often closely tied to their computational complexity. 
 Real world usage of the most precise methods is often hindered by the computational power
@@ -103,14 +104,14 @@ evaluation techniques such as RMSE or MAE treat ordinal data as a continous scal
 The most interesting and important part of any RS is how it predicts unknown ratings.
 (Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.)
 Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-In our taxonomy, these dimensions are: \emph{predictions}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
+In our taxonomy, these dimensions are: \emph{data}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
 
 \begin{table}[t]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
     \toprule
     \emph{Variable} & \emph{Values} \\
     \midrule
-    Predictions & Content-based | Collaborative | Hybrid\\
+    Data & Content-based | Collaborative | Hybrid\\
     Method & Heuristic | Model-based\\
     Granularity & Canonical | Typical | Individual\\
     Temporality & Short-term | Long-term\\
@@ -121,7 +122,7 @@ In our taxonomy, these dimensions are: \emph{predictions}, \emph{method}, \emph{
   \label{table:taxonomy}
 \end{table}
 
-The \emph{predictions} variable represents what data the RS uses to perform predictions. 
+The \emph{data} variable represents what data the RS uses to perform predictions. 
 Content-based methods use only the items, inter-item relations, and 
 an individual user's past history as predictive of future actions \citep{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
@@ -135,14 +136,14 @@ Collaborative or social recommendations build predictive models for users based 
 The observation is that similar users should have similar usage and action patterns. 
 By using data from more than one user, expansive models may be built. 
 These methods are especially useful when considering new users of a service. 
-A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based learning. 
+A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based prediction. 
 Collaborative models must be careful not to represent the \emph{average} user, but a single individual.
-When using collaborative learning, 
+When using a collaborative method, 
 the utility $f(u,i)$ of item $i$ for user $u$ is extrapolated from $f(u_j,i)$ where $u_j$ is a user similar to $u$. 
 
-Because of \emph{the new user problem} of content-based learning and the \emph{average user problem} of collaborative learning, 
+Because of \emph{the new user problem} of content-based prediction and the \emph{average user problem} of collaborative prediction, 
 many systems use a hybrid approach \citep{Burke2007}.
-By combining content-based and collaborative learning, 
+By combining content-based and collaborative methods, 
 systems that properly handle predictions for new users and avoid too much generalization in the models can be achieved. 
 
 The \emph{method} variable, is another way to classify recommenders. Orthogonal to what data the method uses, this variable
