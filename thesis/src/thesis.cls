@@ -63,6 +63,9 @@
 % Compact lists
 \RequirePackage{mdwlist}
 
+% Smallcaps
+\newcommand{\smallcaps}[1]{\textsc{\MakeUppercase{#1}}}
+
 
 % -----------------
 % Math
