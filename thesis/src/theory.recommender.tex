@@ -9,6 +9,7 @@ Such systems are commonly used on the web to provide a host of predictive functi
   \item Suggesting new social connections based on an existing social graph.
   \item Recommending items based the activity of similar or like-minded users.
   \item Ordering news articles by predicted individual relevance.
+  \item Personalizing search results based on the current user.
 \end{itemize*}
 
 Common to these examples are a set of users, a set of items, and a sparse set of explicit ratings or preferences.
@@ -102,7 +103,7 @@ evaluation techniques such as RMSE or MAE treat ordinal data as a continous scal
 The most interesting and important part of any RS is how it predicts unknown ratings.
 (Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.)
 Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-In our taxonomy, these dimensions are: Predictions, method, granularity, temporality and agents.
+In our taxonomy, these dimensions are: \emph{predictions}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
 
 \begin{table}[t]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
@@ -185,3 +186,6 @@ See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjor
 \emph{IR methods} cosine
 
 \emph{Social networks} traversal, transitive trust
+
+
+
