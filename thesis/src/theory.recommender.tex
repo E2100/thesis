@@ -78,6 +78,18 @@ Naturally, this is the defining characteristic of
 many recommender systems: the ability to extract meaningful patterns from sparse data, 
 through dimensionality reduction, neighborhood estimation and similar methods.
 
+Recommender systems face many challenges other than the sparsity problem.
+A directly related problem is the need for large datasets. Since the data is often sparse,
+the systems will most often perform well if used on large numbers of items and users.
+As in many machine learning methods, concept drift, where the characteristics of a user or item
+changes over time, is also eternally present.
+Finally, the performance of RSs is often closely tied to their computational complexity. 
+Real world usage of the most precise methods is often hindered by the computational power
+needed to actually put them into production.
+
+
+
+
 \subsection{Estimation of Ratings}
 
 The most interesting and important part of any RS is how it predicts unknown ratings.
@@ -106,9 +118,9 @@ Content-based methods use only the items, inter-item relations, and
 an individual user's past history as predictive of future actions \citep{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
 However, such methods often require a lot of interaction before reliable models can be created \citep{Adomavicius2005}.
-The problem of having to do complex inference from little data, as is often is in content-based learning, is often called the \emph{sparsity problem} or the \emph{cold start} problem. This is closely related to the problem of \emph{overfitting} data, where the algorithms creates models that match the training data, but not the actual underlying relationships. A lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start. 
-When using content-based learning, the utility function $f(u,i)$ of user $u$ and item $i_j$ is extrapolated from $f(u,i_u)$, 
-where $i_j$ is an item similar to $i_u$ and $f(u,i_u)$ is known.
+The problem of having to do complex inference from little data, as is often is in content-based predictions, is often called the \emph{sparsity problem} or the \emph{cold start} problem. This is closely related to the problem of \emph{overfitting} data, where the algorithms creates models that match the training data, but not the actual underlying relationships. A lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start. 
+When using content-based predictions, the utility function $f(u,i)$ of user $u$ and item $i$ is extrapolated from $f(u,i_u)$, 
+where $i$ is an item similar to $i_u$ and $f(u,i_u)$ is known.
 
 Collaborative or social recommendations build predictive models for users based on the actions of similar users 
 \citep{Schafer2007}.
@@ -118,7 +130,7 @@ These methods are especially useful when considering new users of a service.
 A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based learning. 
 Collaborative models must be careful not to represent the \emph{average} user, but a single individual.
 When using collaborative learning, 
-the utility function $f(u,i)$ of user $u$ and item $i$ is extrapolated from $f(u_j,s)$ where $u_j$ is a user similar to $u$. 
+the utility $f(u,i)$ of item $i$ for user $u$ is extrapolated from $f(u_j,i)$ where $u_j$ is a user similar to $u$. 
 
 Because of \emph{the new user problem} of content-based learning and the \emph{average user problem} of collaborative learning, 
 many systems use a hybrid approach \citep{Burke2007}.
@@ -135,129 +147,25 @@ These methods use the raw data of items, users and ratings to directly estimate 
 For example, recommending items similar to the ones already rated by computing the cosine similarity of their feature vectors is a heuristic approach.
 
 
+The \emph{granularity} variable tells whether this approach creates models for the canonical user, stereotypical users or individual users. 
+\cite{Rich1979} presented one of the first user modeling systems based on stereotypes, used to predict which books in a library each user would most enjoy.
+Here, a dialogue between the system and the user was performed to place the user into a set of sterotypes. 
+Each stereotype has a set of \emph{facets} which is then used to match books and users.
 
+\emph{Temporality} refers to how volatile the gathered knowledge will be.
+While most RSs produce long term, relatively stable knowledge based on lasting user preference and taste, 
+some systems use fluctuating parameters such as the time of day, exact location and the current context to produce recommendations.
+For example, \cite{Horvitz} used clues from a user's calendar, camera and other sensors to determine the attentional state
+of the user before delivering personalized and contextual notifications.
 
+The \emph{agents} variable signifies whether the knowledge gathering and presentation is implicit and opaque, 
+or explicit and requires dedicated user interaction. Explicit feedback through ratings is 
+common in movie, product or music rating services (e.g. \cite{Bell2007, Basu1998, Hotho}). However, for other services such as personalized search,
+implicit mining of query logs and user interaction is often used to build user models (e.g. \cite{Shen2005, Agichtein2006, Speretta2000, Teevan2005})
 
-\begin{comment}
-
-\section{Machine Learning in User Modeling}
-
-User modeling relies heavily on methods from the field of Machine Learning (\smallcaps{ML}) \citep{zukermanStatisticalUM, webbUserModelingMachineLarning, recommenderSystemsSOTA}. 
-
-One of the simplest ways of extrapolating unknown utility values in the $C \times S$ space, is by using linear models. Such models combine weighted scalars to produce some descriptive value of the user in question. For example, if the task is to estimate how much user $c_x$ likes document $d_y$, i.e. estimating $u(c_x,d_y)$, the result can be found by combining explicit ratings from other users, weighted by how similar those users are to user $c_x$\sidenote{
-The Google Prediction API is an interesting 3rd party recommender system. This HTTP REST-based API lets users submit datasets and get recommendations from Google's machine learning methods in return. See \url{code.google.com/apis/predict}}.
-
-% \begin{eqnarray}
-%   u(c_x,d_y) \sim \hat{u}(c_x,d_y) = \sum_{c_i \in C} sim(c_x,c_i) \times rating(c_i,d_y)
-% \end{eqnarray}
-% 
-% Here, $sim(c_x, c_i)$ measures the similarity between two users and $rating(c_i, d_y)$ returns the rating (if any) user $c_i$ has given document $d_y$.
-
-Markov models are another \smallcaps{ML} method applicable to predictive user modeling, along with neural networks, bayesian networks, and rule induction \citep{zukermanStatisticalUM}.
-
-Methods from \smallcaps{ML} are often focused on sets of documents, which makes them highly usable in adapting the content of a web application to a user. As our venue is the web, a document can be a website, an article on a website or something even more specific like the title or abstract of an article. When performing user modeling, being able to model the content to adapt is of course as important as modeling each user. 
-
-In addition to predictive modeling, document collection modeling is another field of \smallcaps{ML} important to \smallcaps{UM}. From \smallcaps{TF-IDF} calculation for comparing document similarity, to classifications and clustering algorithms for organizing a set of documents --- performing user modeling requires methods from machine learning.
-
-Because of the reliance of \smallcaps{UM} on \smallcaps{ML} methods, many of the challenges faced in \smallcaps{ML} must be considered when creating recommender systems. A few of these challenges, as described by \citet{webbUserModelingMachineLarning}, are summarized in Table \ref{table:ml:challenges}.
-
-
-\begin{fullwidth}
-  \begin{table}
-    \fontfamily{ppl}\selectfont
-    \small
-    \begin{tabular}{p{3cm} p{13cm}}
-      \textbf{Challenge} & \textbf{Description}\\
-      \toprule
-      
-      The need for large datasets &
-      Many \smallcaps{ML} methods need a lot of data or many documents to produce reliable predictions. This is especially problematic in content-based learning, where predictions are based on a single user --- a lot of interaction is required before any predictions can be made.\\
-      
-      The need for labeled data &
-      To create a predictive model, labeled training data must be provided to properly calibrate the model. This is especially problematic on the web, where documents come in any number of forms and formats, making reliable labeling a difficult task.\\
-      
-      Concept drift &
-      When a user's attributes, preferences or interests change over time, we have what is called concept drift. The model created by an \smallcaps{ML} method must be able to compensate for such drift by continuously refining and updating the model.\\
-      
-      Computational \hyphenation{complexity} complexity &
-      Many \smallcaps{ML} methods suffers from a high computational complexity. When considering the size of the Internet and the numbers of visitors a popular website may have, this becomes a fundamental prohibiting factor for using many methods from \smallcaps{ML} in \smallcaps{UM}.\\
-      
-      
-      %\bottomrule
-    \end{tabular}
-    \vspace{1em}
-    \label{table:ml:challenges}
-    \caption[Challenges in Machine Learning][3em]{\textbf{Fundamental challenges in machine learning}}
-    \setfloatalignment{b}
-  \end{table}
-\end{fullwidth}  
-\clearpage
-
-
-
-\subsection{An Abundance of Choice}
-
-As we have seen in this and the previous chapter, considering, evaluating and implementing a user modeling system is no simple task. 
-
-First, a developer has to consider whether personalization of content would benefit the user of the application in question --- a question without a simple yes or no answer. 
-
-Second, personalization of content can mean so many things. Is the goal to remove irrelevant content? To emphasize the most interesting information? To recommend new, unknown content? The possibilities are many. 
-
-Third, as the purpose of personalizing an application comes to light, we have the question of how this should be done. If we want a recommender system, which predictive modeling method should be used? Which underlying \smallcaps{ML} method supports the prediction? 
-
-Finally, the task of connecting the personalization with the interface is no easy task. Some methods require explicit input from the user, which the interface must take into account. The other question is how information gained from modeling should be leveraged in the interface.
-
-The next chapter will present a wide variety of different user modeling methods, that all make varying choices in machine learning method, knowledge acquisition and interface integration. However, first we need a proper framework to put the different modeling methods in the same context.
-
-
-
-
-
-
-
-
-
-
-
-the modeling problem: model+prediction
-
-the core problem: estimating preferences
-
-getting past 80\%
-
-the efficiency of data
-
-
-\subsection{Recommender Systems}
-
-\begin{eqnarray}
-  \mathrm{RS} = (Items, Users, Ratings, Framework, Method)
-\end{eqnarray}
-
-Users, items and ratings
-
-
-\begin{eqnarray}
- A_{m,n} =
- \begin{pmatrix}
-  a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\
-  a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\
-  \vdots  & \vdots  & \ddots & \vdots  \\
-  a_{m,1} & a_{m,2} & \cdots & a_{m,n}
- \end{pmatrix}
-\end{eqnarray}
-
-
-machine learning fundamentals
-
-modeling or heuristics
-
-Taxonomy: model/heur, granularity, temporality, agents
 
 \subsection{Approaches}
 
-Modeling approaches
+Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
 
-Heuristic approaches
-
-\end{comment}
+TODO
