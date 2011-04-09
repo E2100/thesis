@@ -161,7 +161,7 @@
                  \vphantom{\chapnumfont 1}\afterchapternum}
   \renewcommand*{\chaptitlefont}{\normalfont\LARGE}
   \renewcommand*{\printchaptertitle}[1]{\centering \chaptitlefont ##1}
-  \setlength{\afterchapskip}{2.5\onelineskip}
+  \setlength{\afterchapskip}{2.0\onelineskip}
 }
 \chapterstyle{thesis}
 
