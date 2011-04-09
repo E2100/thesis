@@ -30,8 +30,20 @@ Items come into our awareness, we attend to a particular item, and then we decid
 \citep{Davenport2001}. 
 To evade information overload is then to maximize available attention, allowing more focus on the most important items of an interface.
 
+\begin{wrapfigure}{rt}{0.4\textwidth}
+  \vspace{-20pt}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{../graphics/seven-stages.pdf}
+    \vspace{-20pt}
+    \caption[The Seven Stages of Action]{}  
+  \end{center}
+  \label{fig:seven-stages}
+  \vspace{-30pt}
+\end{wrapfigure}
+
 Conceptual models used in interaction design can help us see when and where information overload interferes with the user experience. 
-\cite{Norman1988} advocates a model called the seven stages of action, describing how each user goes through several states while using a system. 
+\cite{Norman1988} advocates a model called the seven stages of action, describing how each user goes through several states while using a system
+(see Figure \ref{fig:seven-stages}). 
 First, the user forms a goal and an intention to act. The user then performs a sequence of actions on the world (the interface)
  meant to align the perceived world and the goals. After performing a set of actions, the new world state is evaluated and perceived. 
 At last, the user evaluates the perception and interpretation of the world in accordance with the original goal.
@@ -48,9 +60,9 @@ Information overload happens throughout the interaction process, which is import
 
 \subsection{Online Overload}
 
-The Web is a common source of information overload. Since we shall explain our user modeling method in the context of 
-online information retrieval, it is helpful to understand exactly why the web often incites the overload. 
-Studying the problem in a well known setting will also help us understand how to solve it.
+The Web is a common source of information overload. 
+As we will use the web as an example throughout this paper, 
+this section describes why the Web is so conducive to information overload.
 
 Online information overload is especially pervasive when considering \emph{content aggregating websites}, 
 i.e. sites that collate information from multiple other sites and sources. 
@@ -60,17 +72,10 @@ As mentioned, the wealth and scope of data are natural culprits of online overlo
 as well as the varying qualities of websites publishing the information. 
 However, lessons from graph theory can also help us see why information overload occurs on the Web.
 
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{../graphics/graphs}
-  \caption[Complex Networks]{
-    \textbf{Complex Networks:} 
-    From the left: A \emph{random} network, a \emph{small-world} network and a \emph{scale-free} network 
-    (which is a type of  small-world network). Figure adapted from \cite{Huang2005}.} 
-  \label{fig:swn}
-\end{figure}
-
 Graph theory presents applicable models of the Web that characterize how people navigate between websites, 
-and show how content aggregators form important hubs in the network. Here, nodes correspond to websites and
+and show how content aggregators form important hubs in the network. 
+These models also show a theoretical foundation for why information overload occurs.
+In the Web graph, nodes correspond to websites and
 directed edges between nodes are links from one page to another. The \emph{degree} of a node is defined as its number of edges.
 
 The Internet has the properties of a \emph{small-world network} \citep{Newman2000}, 
@@ -81,6 +86,15 @@ As described by \citet[p37]{Barabasi2003}, the average number of outbound links 
 From the first page, we can reach 7 other pages. From the second, 49 documents can be reached. 
 After 19 links have been traversed, about $10^{16}$ pages can be reached (which is more than the actual number of existing web pages, since loops will form in the graph).
 %\footnote{The concept of small-world networks came from the observation that there is often a surprisingly short minimum distance between nodes in an average graph. This is called the small world phenomenon, and is often mentioned alongside the concept of "six degrees of separation", popularized in a play by John Guare. This concept states that no person is on average more than six social links removed from any other person on earth.}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{../graphics/graphs}
+  \caption[Complex Networks]{
+    \textbf{Complex Networks:} 
+    From the left: A \emph{random} network, a \emph{small-world} network and a \emph{scale-free} network 
+    (which is a type of  small-world network). Figure adapted from \cite{Huang2005}.} 
+  \label{fig:swn}
+\end{figure}
 
 The high degree of the Web graph would suggest that finding an optimal path to your desired page is quite difficult. 
 Yet, while it is true that finding the \emph{optimal path} is hard, finding \emph{a good path} is not that big a challenge. 

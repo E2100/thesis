@@ -82,6 +82,7 @@
 
 \RequirePackage{graphicx}
 \RequirePackage{pdfpages}
+\RequirePackage{wrapfig}
 
 
 % -----------------

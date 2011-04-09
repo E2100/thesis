@@ -178,17 +178,39 @@ implicit mining of query logs and user interaction is often used to build user m
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
-\emph{Averages} 
-
-baseline \cite{Koren2008}
+\emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
+While simple in nature, they are often helpful as starting points for more complex systems, or as 
+benchmarks for exploring new approaches. \cite[p2]{Koren2008} computes the baselines for items and users, and
+use more involved methods to move this starting point in some direction. 
+The baseline for a user/item pair is given by
 
 \begin{eqnarray}
-  b_{ui}   &=& \mu + b_u + b_i\\
-  \min_{b*} &=& \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda_1 ( \sum_{u} b_u^2 + \sum_{i} b_i^2 )
+  b_{ui}   &=& \mu + b_u + b_i
 \end{eqnarray}
 
-slope one
-\cite{Lemire2005}
+where $\mu$ is the average system rating, $b_u$ is the user baseline and $b_i$ is the item baseline.
+The user and item baselines correspond to how the user's and item's ratings deviate from the norm.
+This makes sense as some items may be consistently rated higher than the average, some users may be 
+highly critical in their assesments, and so on. \citeauthor{Koren2008} compute these baselines by solving the
+least squares problem
+
+\begin{eqnarray}
+  \min_{b*} &=& \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda ( \sum_{u} b_u^2 + \sum_{i} b_i^2 )
+\end{eqnarray}
+
+which finds baselines that fit the given ratings while trying to reduce overfitting
+(as weighted by the $\lambda$ parameter). 
+By using baselines instead of simple averages, more complex predictors gain a better starting point,
+or in other words, a better average.
+
+Another approach based on simple averages is the  Slope One family of collaborative filtering algorithms. 
+As introduced by \cite{Lemire2005}, these algorithms predict unknown ratings based on the average difference in ratings between two items. 
+For example, if item $i$ is on average rated $\delta$ points above item $j$, and the user $u$ has rated item $j$,
+that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delta$.
+While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
+
+
+
 
 
 \emph{Dimensionaliy reduction} is a technique often used by recommendation systems.
