@@ -178,13 +178,24 @@ implicit mining of query logs and user interaction is often used to build user m
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
-\emph{Averages} baseline, slope 
+\emph{Averages} 
+
+baseline \cite{Koren2008}
+
+\begin{eqnarray}
+  b_{ui}   &=& \mu + b_u + b_i\\
+  \min_{b*} &=& \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda_1 ( \sum_{u} b_u^2 + \sum_{i} b_i^2 )
+\end{eqnarray}
+
+slope one
+\cite{Lemire2005}
+
 
 \emph{Dimensionaliy reduction} is a technique often used by recommendation systems.
 
-\emph{Neighborhoods} knn
+\emph{Neighborhoods} knn, pearson
 
-\emph{IR methods} cosine
+\emph{IR methods} vector space, page rank
 
 \emph{Social networks} traversal, transitive trust
 
