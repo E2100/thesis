@@ -145,7 +145,7 @@
   \setlength{\beforechapskip}{-4em}
   \renewcommand*{\printchaptername}{}
   \renewcommand*{\chapternamenum}{}
-  \renewcommand*{\chapnumfont}{\normalfont\Large}
+  \renewcommand*{\chapnumfont}{\normalfont\LARGE}
   \settoheight{\midchapskip}{\chapnumfont 1}
   \renewcommand*{\printchapternum}{
     \centering \chapnumfont
@@ -159,9 +159,9 @@
   }
   \renewcommand*{\printchapternonum}{\centering
                  \vphantom{\chapnumfont 1}\afterchapternum}
-  \renewcommand*{\chaptitlefont}{\normalfont\LARGE}
+  \renewcommand*{\chaptitlefont}{\normalfont\huge}
   \renewcommand*{\printchaptertitle}[1]{\centering \chaptitlefont ##1}
-  \setlength{\afterchapskip}{2.0\onelineskip}
+  \setlength{\afterchapskip}{1.0\onelineskip}
 }
 \chapterstyle{thesis}
 
