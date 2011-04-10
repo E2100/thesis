@@ -114,17 +114,17 @@
 % Page margins
 \settypeblocksize{46pc}{32pc}{*} % (height,width,ratio)
 \setlrmargins{*}{*}{1}
-\setulmargins{6pc}{*}{*}
+\setulmargins{5pc}{*}{*}
 \checkandfixthelayout
 
 % Standard text pages
 \makepagestyle{thesis} 
   %\nouppercaseheads
   \createmark{chapter}{right}{nonumber}{}{}
-  \makeevenhead{thesis}{\centering\color{gray}\rightmark}{}{}
-  \makeoddhead{thesis}{\centering\color{gray}\rightmark}{}{}
-  \makeevenfoot{thesis}{}{\color{gray}\thepage}{}
-  \makeoddfoot{thesis}{}{\color{gray}\thepage}{}
+  %\makeevenhead{thesis}{\centering\color{gray}\rightmark}{}{}
+  %\makeoddhead{thesis}{\centering\color{gray}\rightmark}{}{}
+  \makeevenfoot{thesis}{}{\vspace{-2em}\color{gray}\thepage}{}
+  \makeoddfoot{thesis}{}{\vspace{-2em}\color{gray}\thepage}{}
 \pagestyle{thesis}
 
 % Pages with chapter headings
@@ -166,7 +166,7 @@
 \chapterstyle{thesis}
 
 % Sections
-\setsecheadstyle{\vspace{0em}\large\itshape}
+\setsecheadstyle{\vspace{0em}\Large}
 
 % Subsections
 \setsubsecheadstyle{\large\itshape}
