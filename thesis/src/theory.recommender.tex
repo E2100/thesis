@@ -101,7 +101,7 @@ evaluation techniques such as RMSE or MAE treat ordinal data as a continous scal
 
 \subsection{Prediction}
 
-The most interesting and important part of any RS is how it predicts unknown ratings.
+The crucial part of any RS is how it predicts unknown ratings.
 (Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.)
 Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
 In our taxonomy, these dimensions are: \emph{data}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
@@ -225,7 +225,10 @@ While simplistic, Slope One is computationally effective and produces results co
 
 (2) \emph{Neighborhood estimation} is part of many recommendation systems. 
 It is the core principle behind most collaborative filtering algorithms, that
-estimate an unknown rating by averaging the ratings of similar users, weighted by this similarity.
+estimate an unknown rating by averaging the ratings of similar items or users, weighted by this similarity.
+These approaches often work in two steps: First, a neighborhood if similar elements is computed.
+Second, the similarities and connections within this neighborhood is used to produce a prediction.
+
 The principal method for computing user similarity is the \emph{pearson correlation coefficient} (PCC)
 \cite[p11]{Segaran2007}.
 While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
@@ -259,8 +262,8 @@ $n$ does not have to be a raondom sampling --- it can also be limited by the num
 the two compared users have in common, the number of ratings each user have, or something similar,
 as denoted by $K$ in our the formula.
 
-When a neighborhood is determined, it is time to predict our desired rating.
-Basically, this means averaging the neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
+After a neighborhood is determined, it is time to predict our desired rating.
+When using \emph{collaborative} recommenders, this means averaging the neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
 
 \begin{equation*}
   \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) },
@@ -273,14 +276,24 @@ uses the baseline ratings discussed above instead of plain user and item ratings
 remove what they call global effects where some users are generous or strict in their 
 explicit preferences, and some items are consistently rated differently than the average.
 
-There are many other methods than the PCC used to compute neighborhoods. 
-Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007} or 
-matching metrics from information retrieval, as used in the \emph{vector space model} (VSM)
-(as explained in section \ref{sec:search}). 
-\cite{Bell2007a} shows a more sophisticated approach by computing global interpolation weights 
-as an optimization problem.
-Combinations are also possible. 
-\cite{Ujjin} first use a simple metric to gather a larger neighborhood, which is then refined
+\emph{Content-based} recommenders based on neighborhoods work on similar principles.
+The difference is that we compute similarities between items, not users. The simplest
+approach is to find items highly rated by the current user, compute the neighborhood 
+by finding items similar to these, and produce ratings by weighting the initial rating
+with the similarity of the neighboring items.
+
+The PCC is but one of many methods used to compute neighborhoods. 
+Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007},
+Spearman's or Kendall Tau rank correlation coefficients \cite[p30]{Herlocker2004} --- 
+variations on the PCC.
+Similarity metrics from information retrieval,
+such as \emph{cosine correlation} from the \emph{vector space model} (VSM) are also popular,
+often used to compute item similarities (see section \ref{sec:search}).
+
+\cite{Bell2007a} shows a more sophisticated neighborhood estimation which computes global interpolation weights,
+that can be computed simultaneously for all neirest neighbors.
+Combinations of metrics are also possible. 
+\cite{Ujjin} first use a simple euclidean metric to gather a larger neighborhood, which is then refined
 by a \emph{genetic algorithm}.
 Another way of computing neighborhoods is by reducing the dimensions of the ratings matrix,
 as we will now introduce.
@@ -338,7 +351,9 @@ This means that the reduced factors can for instance identify features that corr
 These features are comparable to the mapping of terms to concepts in LSI.
 
 There are many ways of using the reduced factors.
-We can for instance use the resulting reduced factors to find similar users by their cosine similarity (explained below).
+We can for instance use the resulting reduced factors to find similar users by their cosine similarity (see Section \ref{sec:search}).
+We can of course also find similarities between items, clusters of items and user and so on, all based on latent "categories"
+discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
 
