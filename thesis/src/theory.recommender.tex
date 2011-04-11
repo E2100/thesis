@@ -176,6 +176,9 @@ implicit mining of query logs and user interaction is often used to build user m
 \subsection{Approaches}
 
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
+Let us take a closer look at \emph{baseline ratings}, \emph{dimensionality reduction}, \emph{neighborhood estimation} 
+and \emph{social network traversal}. This is by no means an exhaustive list, but rather
+a quick rundown of common approaches in recommender systems, that we will use in the next chapter.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
 (1) \emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
@@ -202,7 +205,7 @@ least squares problem
 \end{equation*}
 
 which finds baselines that fit the given ratings while trying to reduce overfitting
-(as weighted by the $\lambda$ parameter). 
+(by punishing greater values, as weighted by the $\lambda$ parameter). 
 By using baselines instead of simple averages, more complex predictors gain a better starting point,
 or in other words, a better average.
 
@@ -276,13 +279,65 @@ We can for instance use the resulting reduced factors to find similar users by t
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
 
+(3) \emph{Neighborhood estimation} is part of many recommendation systems. 
+It is the core principle behind most collaborative filtering algorithms, that
+estimate an unknown rating by averaging the ratings of similar users, weighted by this similarity.
+The principal method for computing user similarity is the \emph{pearson correlation coefficient} (PCC).
+While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
+for testing new ideas (e.g. in \citet{Lemire2005, Ujjin, Konstas}).
+
+The PCC is a statistical measure of the correlation between two variables. In our domain, the variables
+are two users, and their measurements are the ratings of co-rated items. 
+The coefficient produces a value in the range $[-1,1]$ where $1$ signifies perfect correlation (equal ratings),
+$0$ for no correlation and $-1$ for a negative correlation.
+The negative correlation can for example signify two users that have diametrically opposing tastes in movies.
+We compute PCC by dividing the covariances of the user ratings with their standard deviations:
+
+\begin{equation*}
+  pcc(u,v) = \frac{cov(R_u, R_v)}{\sigma_{R_u} \sigma_{R_v}}
+\end{equation*}
+
+When expanding the terms for covariance and standard deviations, 
+and using a limited neighborhood size $n$, we get
+
+\begin{equation*}
+  pcc_{n}(u,v) = 
+    \frac{
+      \sum_{i=1}^{n} (R_{ui} - \bar{R_u}) (R_{vi} - \bar{R_v}) }{ 
+        \sqrt{ \sum_{i=1}^{n} (R_{ui} - \bar{R_u})^2 } 
+        \sqrt{ \sum_{i=1}^{n} (R_{vi} - \bar{R_v})^2 }}.
+\end{equation*}
+
+The limited neighborhood size becomes the statistical sampling size, and is a useful
+way of placing an upper bound on the complexity of computing a neighborhood.
+$n$ does not have to be a raondom sampling --- it can also be limited by the number of ratings 
+the two compared users have in common, the number of ratings each user have, or something similar.
+
+When a neighborhood is determined, it is time to predict our desired rating.
+Basically, this means averaging the neighborhood ratings weighted by similarity:
+
+\begin{equation*}
+  \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} sim(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} sim(u,v) },
+\end{equation*}
+
+where $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
+Naturally, this is the simplest possible way of computing a neighborhood-based prediction.
+Most systems use more complex estimations. For instance, \cite{Koren2008} 
+uses the baseline ratings discussed above instead of plain user and item ratings, to
+remove what they call global effects where some users are generous or strict in their 
+explicit preferences, and some items are consistently rated differently than the average.
+
+There are many other methods than the PCC used to compute neighborhoods. 
+Other simple measures include the \emph{euclidean distance} or \emph{cosine correlation}
+between user rating vectors.
+\cite{Bell2007a} shows a more sophisticated approach by computing global interpolation weights 
+as an optimization problem.
+Combinations are also possible. 
+\cite{Ujjin} first use a simple metric to gather a larger neighborhood, which is then refined
+by a \emph{genetic algorithm}.
 
 
-(3) \emph{Neighborhoods} knn, pearson
-
-(4) \emph{IR methods} vector space, page rank
-
-(5) \emph{Social networks} traversal, transitive trust
+(4) \emph{Social networks} traversal, transitive trust
 
 
 
