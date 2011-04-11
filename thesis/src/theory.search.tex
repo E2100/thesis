@@ -48,7 +48,7 @@ There are numerous extensions to this framework, including:
 
 All these techniques help improve (among other things)
 the \emph{recall} and \emph{precision} of the retrieval engine. 
-Recall and precision and relevance are well defined masures for evaluating the quality of a search engine \cite[p5]{Manning2008}:
+Recall, precision and relevance are well defined masures for evaluating the quality of a search engine \cite[p5]{Manning2008}:
 
 \begin{itemize*}
   \item A document is \emph{relevant} if it satisfies the user's information need.
@@ -108,6 +108,9 @@ Latent Semantic Indexing (LSI), the application of SVD to IR by performing dimen
 into concept-space is another approach.
 See \cite{Manning2008}, \cite{Robertson2010} or \cite{Baeza-Yates1999} for a more comprehensive introduction to models in IR.
 
+The important take-away is that, while serving different use cases, RSs and IR systems 
+employ much of the same technology with different input and expected output.
+
 
 \subsection{Signals}
 
@@ -125,7 +128,21 @@ Bing, another popular search engine, uses the same terminology:
 "We use over 1,000 different signals and features in our ranking 
 algorithm."\footnote{\url{bing.com/community/site_blogs/b/search/archive/2011/02/01/thoughts-on-search-quality.aspx} --- accessed 11/04/2011}
 
-PageRank \cite[p4]{Bender2005} is perhaps the most known of these additional signals.
+Signals are often products of the document structure of the current domain.
+\citet[p5]{Bender2005} points to the use of the proximity of query terms in matching documents.
+Those where the terms appear close together are natural candidates for a higher ranking.
+Other signals, still reliant on the documents themselves, are more domain oriented.
+Another signal they point out is how words in a larger or bold font can be weighted 
+higher than normally typset words.
+
+Signals can also depend on the query. \citet[p145]{Manning2008} describes a system that takes
+multi-word queries, breaks them up into different permutations and runs each new query against the same
+document index and ranking function. Each query corresponds to its own ranked set of results,
+which are sent to a \emph{rank aggregation function} which turns the accumulated ranking evidence
+into one coherent result. We will have more to say on rank aggregation in Section \ref{sec:aggregate}.  
+
+Signals can also be external to the collection or relational within the collection.
+PageRank \cite[p4]{Bender2005} is perhaps the most known of the relational signals.
 The algorithm forms a probability distribution over web pages, ranking their percieved
 authority or importance according to a simple iterative estimation.
 Each web site is given its rank based on how many pages that link to it.
@@ -141,7 +158,7 @@ by a damping parameter $d$, which is the probability that a user will stop brows
 
 where $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is the number of outbound links from page $y$.
 The first term distributes an equal pagerank score to all pages that have no outbound links, as $N$ is the total number of pages.
-
+This iterative algorithm is run until convergence inside a small delta.
 
 
 
