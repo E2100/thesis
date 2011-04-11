@@ -163,7 +163,7 @@ This iterative algorithm is run until convergence inside a small delta.
 Let us now finally take a look at one of the main uses of signals: \emph{personalized search}.
 
 
-\subsection{Personalization}
+\subsection{Personalization of Search Results}
 
 Search engines, especially online search engines, face a huge challenge. 
 In addition to the wide range of websites, the ambiguity of language,
@@ -174,20 +174,128 @@ Another identified problem is that users use search engines for navigation as we
 \citet{Teevan2007} found that as many as 40\% of all queries to the Yahoo! search engine were "re-finding queries",
 i.e. attempts to find information the user had accessed before.
 
-Personalized search attempts to solve this problem by introducing individually catered search results. 
+Personalized search attempts to solve these problems by introducing individually catered search results. 
 These techniques are based on user modeling (as introduced in Section \ref{sec:modeling}),
 and attempts to build predictive models based on mined user preferences.
 Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000})
 In other words, these are often model-based techniques with implicit knowledge gathering agents,
-that create individual, long-term user models {see Section \ref{sec:recommender}}.
+that create individual, long-term user models (see Section \ref{sec:recommender}).
 
 To demonstrate how these methods compare to traditional recommendation systems,
-we will explore a few different approaches to user modeling.
+we will explore a few different approaches to personalized search: 
+(1) \emph{personalized topic-sensitive PageRank},
+(2) \emph{folksonomy-based personalization} and
+(3) \emph{social network search ranking}.
 
-Personalized PageRank \cite{Haveliwala}
+(1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
+to be "generate more accurate rankings than with a single, generic PageRank vector". 
+In essence, they create topic-specific PageRank vectors for a number of pre-set topics,
+creating many rankings per page, one for each topic.
+This new PageRank is computed based on an existing set of websites that belong to each topic.
+\citet{Qiu2006} achieved "significant improvements" to this approach by adding a personally adaptive layer
+to the topic-sensitive PageRank algorithm, creating a \emph{personalized PageRank algoriithm}. 
 
-Cube svd: \cite{Sun2005}
+In addition to the topic vector, \citeauthor{Qiu2006}
+creates a topic-preference vector for each user. When the user has clicked on a few search results,
+a learning algorithm kicks in and estimates approximately how likely the user is to be interested 
+in each of the pre-set topics, creating the topic-preference vector $T$. When it is time to rank a 
+page $p$ in response to the query $q$, they compute the personalized ranking:
 
-Folksonomy: \cite{Bao2007}
+\begin{equation*}
+  PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \times Pr(q|T(i)) \times TSPR_i(p)
+\end{equation*}
 
-social network: \cite{Carmel2009}
+We will not deduce this equation here (see \citet[p5]{Qiu2006}), but let us explain it. 
+$T$ is the user-specific topic preference vector.
+$i$ is the index of a topic and $m$ the total number of topics.
+$Pr(q|T(i))$ is the probability that the query belongs in topic i.
+This can be as simple as the total number of times the query terms appear in websites under topic $i$.
+$TSPR_i(p)$ is the topic-sensitive PageRank score for page $p$ in topic $i$. Basically, this is 
+the normal PageRank vector computed within a pre-set topic $i$.
+
+The construction of $T(i)$, i.e. the training phase of the algorithm, is performed by mining the query logs for each user.
+By identifying how many sites the user has visited in each topic, computing $T$ can be done through linear regression or
+by using a Maximum-likelihood estimator (basically, any method that can fit a curve).
+\citet[p10]{Qiu2006} reports improvements of 25\% to 33\% over the Topic-sensitive PageRank approach, which 
+\citet{Haveliwala2003} reports outperformed the original PageRank algorithm.
+
+%Cube svd: \cite{Sun2005}
+
+(2) Web applications often have more information about users and items (documents, sites or articles) 
+than simple ratings. One of these extra resources are tags, simple keywords assigned from users to items. 
+The collection of users, items, tags and user-based assignment of tags to resources is called a \emph{folksonomy}.
+
+\cite{Hotho} defines a folksonomy as a tuple $F = (U,T,R,Y,\prec)$. 
+Here, $U$, $T$ and $R$ are finite sets of users, tags and resources (items), respectively. 
+$Y$ is a ternary relation between users, tags and resources, called tag assignments. 
+$\prec$ is a user-specific tag hierarchy, applicable if the tags are organized as super- and sub-tags. 
+The \emph{personomy} $P_u$ is a user-specific part of $F$, 
+i.e. the tags, items and assignments related to one user $u$. 
+In our terms, this personomy would be the user model. 
+\citeauthor{Hotho} use folksonomies to do information retrieval based on their 
+\emph{FolkRank} search algorithm, a derivative of PageRank. 
+
+\cite{Bao2007} shows how folksonomies can be used to personalize search.
+They first create a topic-space, where every user and document are represented.
+Each tag in the system is a dimension in this topic-space, or tag-space.
+Whenever a new query is issued, two things happen: First, a regular IR method
+computed a standard, non-personalized ranking of documents.
+Second, a personalized ranking list is computed by performing a simple
+vector-space model matching in the topic-space, for example by using
+cosine similarity (as previously explained). The personalized list
+is then unrelated to the actual query, and is simply a ranking of the
+most relevant pages to the current user.
+
+The two ranks are aggregated by a simple consensus-metric, the
+\emph{weighted borda-fuse} (WBS) aggregator \cite[p3]{Xu2008}, 
+which is nothing more than a weighted combination of the rankings:
+
+\begin{equation*}
+  \mathrm{rank}(u,q,p) = \alpha \cdot \mathrm{rank}_{IR}(q,p) 
+                 + (1-\alpha) \cdot \mathrm{rank}_{personal}(u,p)
+\end{equation*}
+
+\citeauthor{Xu2008} tried many combinations of weights,
+topic selection and datasets, with the general conclusion
+that folksonomy-based personalized search has great potential.
+If nothing else, this example shows how easily tags can be integrated
+to provide an individual searching experience.
+
+(3) \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
+By re-ranking documents according to their relation to with individuals in the current user's social network,
+they arrived at a document ranking that "significantly outperformed" non-personalized social search \cite[p1]{Carmel2009}.
+Note, however the qualifier "social search" --- their project searches through social data within an enterprise, 
+naturally conducive to algorithmic alterations based on social concepts. However, as social data is data just as well,
+seeing how a personalized approach improves standard IR in this domain, is helpful.
+
+Their approach: First, documents are retrieved by a standard IR method. Second, the user's socially connected peers
+are also retrieved. Third, the initial ranked list of documents is re-ranked based on how strongly they are connected 
+to the user's peers, and how strongly those peers are connected to the user. The user-user similarity is
+computed based on a few signals \cite[p2]{Carmel2009}, e.g. co-authoring of documents, the use of similar tags
+(see (2)) or commenting on the same content. 
+The user model also includes a list of terms the current user has employed in a social context (profile, tags, et cetera).
+This is all done to infer implicit similarity based on social connections.
+
+The algorithm is quite powerful, and combines three types of rankings: 
+The initial IR score, the social connection score, and a term score, where the terms are tags and keywords used by a user.
+The user model is $U(u) = (N(u), T(u))$, 
+where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile terms.
+First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
+
+\begin{equation*}
+  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \times w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \times w(t,d)
+\end{equation*}
+
+Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
+A parameter $\alpha$ is used to control how much each method is weighted:
+
+\begin{equation*}
+  S(q,d|P(u)) = \alpha R_{IR}(q,d) + (1-\alpha) S_P(q,d|U(u)) 
+\end{equation*}
+
+This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.
+However, \citet[p10]{Carmel2009} notes that the high quality data in their enterprise setting were important
+to achieve the improved results. 
+
+
+
