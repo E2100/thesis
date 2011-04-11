@@ -24,7 +24,7 @@
 
 % Color
 \definecolor{red}{HTML}{990000}
-\definecolor{green}{HTML}{990000}
+\definecolor{green}{HTML}{336633}
 
 % Black and white
 \definecolor{black}{HTML}{000000}
