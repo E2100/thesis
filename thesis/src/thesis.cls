@@ -83,7 +83,9 @@
 \RequirePackage{graphicx}
 \RequirePackage{pdfpages}
 \RequirePackage{wrapfig}
-
+\RequirePackage{subfig}
+\RequirePackage{caption}
+\captionsetup{font={small,it},labelfont=it}
 
 % -----------------
 % References
@@ -264,9 +266,6 @@
   \end{quote}
 }
 
-
-
-
 % Quotes with citations
 % \begin{citequote}[page]{ref}{text}..
 \newenvironment{citequote}[3][]{%
@@ -277,7 +276,16 @@
   \end{quote}
 }
 
-
+% Horizontal separator
+\newcommand{\hr}{
+  \vspace{2em}
+  \centering
+  \color{gray}
+  %\includegraphics[scale=1.0]{../graphics/hr.pdf} 
+  * * *
+  \color{black}
+  \vspace{2em}
+}
 
 
 
