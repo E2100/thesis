@@ -178,7 +178,7 @@ implicit mining of query logs and user interaction is often used to build user m
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
-\emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
+(1) \emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
 The data is content-based, and used to compute heuristic predictions. 
 This is done on a per-user, individual basis and collects long term knowledge
 so far as the user is rational in most of his or her ratings.
@@ -209,20 +209,80 @@ or in other words, a better average.
 Another approach based on simple averages is the  \emph{Slope One} family of collaborative filtering algorithms. 
 As introduced by \cite{Lemire2005}, these algorithms predict unknown ratings based on the average difference in ratings between two items. 
 For example, if item $i$ is on average rated $\delta$ points above item $j$, and the user $u$ has rated item $j$,
-that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delta$.
+that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delta$, for all ratings that match this pattern.
+In other words,
+
+\begin{equation*}
+  \hat{r}_{ui} = \frac{\sum_{j \in K_u} \mathrm{ratings}(j) \times (r_{uj} + \mathrm{diff}(i,j))}{\sum_{j \in K_u} \mathrm{ratings}(j) },
+\end{equation*}
+
+where $\hat{r}_{ui}$ is the estimated rating, $K_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
+and $\mathrm{diff}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
 
+(2) \emph{Dimensionaliy reduction} is an oft-used technique when creating recommender systems.
+The ratings matrix is factored into a set of lower dimension matrixes, that can be used to approximate the original matrix.
+Since this has the added effect of trying to approximate unknown cells, the lower dimension matrices
+can be used to predict unknown ratings (a type of least squares data fitting).
+
+\emph{Singular Value Decomposition} (SVD) is a common method for such matrix factorization (e.g. \citet[p5]{Billsus}, \citet{Sun2005}, \citet{Bell2007}).  
+This is the same underlying technique used by \emph{latent semantic indexing} (LSI) in information retrieval \cite[p44]{Baeza-Yates1999}.
+Formally, SVD is the factorization $M = U \Sigma V^{*}$. 
+$M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
+$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{*}$ (the conjugate transpose of $V$) is an $n \times n$ factor ("stretcher").
+$\Sigma$ is a $m \times n$ diagonal matrix ("aligner"). 
+
+The dimensionalty of the ratings space is performed by truncating the factor matrices each to a number of rows or columns, 
+where the number is a paramenter depending on the current domain and data. By truncating the factors, 
+we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
+With the factors reduced to $k$ dimensions, the result looks like this:
+
+\begin{equation*}
+  \begin{bmatrix}
+    { } & { } & { }     & { } & { }\\
+    { } & { } & { }     & { } & { }\\
+    { } & { } & R_{m,n} & { } & { }\\
+    { } & { } & { }     & { } & { }\\
+    { } & { } & { }     & { } & { }
+  \end{bmatrix} 
+  \qquad 
+  \Rightarrow
+  \qquad
+  \begin{bmatrix}
+    { }\\
+    { }\\
+    U_{m,k}\\
+    { }\\
+    { }
+  \end{bmatrix}
+  \quad
+  \begin{bmatrix}
+    \Sigma_{k,k}
+  \end{bmatrix}
+  \quad
+  \begin{bmatrix}
+    { } & { } & V_{k,n}^{*} & { } & { }\\
+  \end{bmatrix} 
+\end{equation*}
+
+Two important transformations happen in this reduction. 
+First, ratings that do not contribute to any greater pattern are removed as "noise".
+Second, ratings that in some way correlate to each other are enhanced, giving more weight to the actual predictive parts of the data.
+This means that the reduced factors can for instance identify features that correspond to correlations between items or users.
+These features are comparable to the mapping of terms to concepts in LSI.
+
+There are many ways of using the reduced factors.
+We can for instance use the resulting reduced factors to find similar users by their cosine similarity (explained below).
+SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
+which is exactly what we need to predict unknown ratings or connections.
 
 
 
+(3) \emph{Neighborhoods} knn, pearson
 
-\emph{Dimensionaliy reduction} is a technique often used by recommendation systems.
+(4) \emph{IR methods} vector space, page rank
 
-\emph{Neighborhoods} knn, pearson
-
-\emph{IR methods} vector space, page rank
-
-\emph{Social networks} traversal, transitive trust
+(5) \emph{Social networks} traversal, transitive trust
 
 
 
