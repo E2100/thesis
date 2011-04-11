@@ -176,8 +176,8 @@ implicit mining of query logs and user interaction is often used to build user m
 \subsection{Approaches}
 
 Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
-Let us take a closer look at \emph{baseline ratings}, \emph{dimensionality reduction}, \emph{neighborhood estimation} 
-and \emph{social network traversal}. This is by no means an exhaustive list, but rather
+Let us take a closer look at (1) \emph{baseline ratings}, (2) \emph{neighborhood estimation}, (3) \emph{dimensionality reduction}, 
+and (4) \emph{network traversal}. This is by no means an exhaustive list, but rather
 a quick rundown of common approaches in recommender systems, that we will use in the next chapter.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 
@@ -223,7 +223,70 @@ where $\hat{r}_{ui}$ is the estimated rating, $K_u$ is the items rated by user $
 and $\mathrm{diff}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
 
-(2) \emph{Dimensionaliy reduction} is an oft-used technique when creating recommender systems.
+(2) \emph{Neighborhood estimation} is part of many recommendation systems. 
+It is the core principle behind most collaborative filtering algorithms, that
+estimate an unknown rating by averaging the ratings of similar users, weighted by this similarity.
+The principal method for computing user similarity is the \emph{pearson correlation coefficient} (PCC)
+\cite[p11]{Segaran2007}.
+While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
+for testing new ideas (e.g. in \citet{Lemire2005, Ujjin, Konstas}).
+
+The PCC is a statistical measure of the correlation between two variables. In our domain, the variables
+are two users, and their measurements are the ratings of co-rated items. 
+The coefficient produces a value in the range $[-1,1]$ where $1$ signifies perfect correlation (equal ratings),
+$0$ for no correlation and $-1$ for a negative correlation.
+The negative correlation can for example signify two users that have diametrically opposing tastes in movies.
+We compute PCC by dividing the covariances of the user ratings with their standard deviations:
+
+\begin{equation*}
+  \mathrm{pcc}(u,v) = \frac{cov(R_u, R_v)}{\sigma_{R_u} \sigma_{R_v}}.
+\end{equation*}
+
+When expanding the terms for covariance and standard deviations, 
+and using a limited neighborhood size $n$, we get
+
+\begin{equation*}
+  \mathrm{pcc}_{n}(u,v) = 
+    \frac{
+      \sum_{i \in K}^{n} (R_{ui} - \bar{R_u}) (R_{vi} - \bar{R_v}) }{ 
+        \sqrt{ \sum_{i \in K}^{n} (R_{ui} - \bar{R_u})^2 } 
+        \sqrt{ \sum_{i \in K}^{n} (R_{vi} - \bar{R_v})^2 }}.
+\end{equation*}
+
+The limited neighborhood size becomes the statistical sampling size, and is a useful
+way of placing an upper bound on the complexity of computing a neighborhood.
+$n$ does not have to be a raondom sampling --- it can also be limited by the number of ratings 
+the two compared users have in common, the number of ratings each user have, or something similar,
+as denoted by $K$ in our the formula.
+
+When a neighborhood is determined, it is time to predict our desired rating.
+Basically, this means averaging the neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
+
+\begin{equation*}
+  \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) },
+\end{equation*}
+
+where $\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
+This is possible the simplest way of computing a neighborhood-based prediction.
+Most systems use more complex estimations. For instance, \cite{Koren2008} 
+uses the baseline ratings discussed above instead of plain user and item ratings, to
+remove what they call global effects where some users are generous or strict in their 
+explicit preferences, and some items are consistently rated differently than the average.
+
+There are many other methods than the PCC used to compute neighborhoods. 
+Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007} or 
+matching metrics from information retrieval, as used in the \emph{vector space model} (VSM)
+(as explained in section \ref{sec:search}). 
+\cite{Bell2007a} shows a more sophisticated approach by computing global interpolation weights 
+as an optimization problem.
+Combinations are also possible. 
+\cite{Ujjin} first use a simple metric to gather a larger neighborhood, which is then refined
+by a \emph{genetic algorithm}.
+Another way of computing neighborhoods is by reducing the dimensions of the ratings matrix,
+as we will now introduce.
+
+
+(3) \emph{Dimensionaliy reduction} is an oft-used technique when creating recommender systems.
 The ratings matrix is factored into a set of lower dimension matrixes, that can be used to approximate the original matrix.
 Since this has the added effect of trying to approximate unknown cells, the lower dimension matrices
 can be used to predict unknown ratings (a type of least squares data fitting).
@@ -248,9 +311,9 @@ With the factors reduced to $k$ dimensions, the result looks like this:
     { } & { } & { }     & { } & { }\\
     { } & { } & { }     & { } & { }
   \end{bmatrix} 
-  \qquad 
+  \quad 
   \Rightarrow
-  \qquad
+  \quad
   \begin{bmatrix}
     { }\\
     { }\\
@@ -258,11 +321,11 @@ With the factors reduced to $k$ dimensions, the result looks like this:
     { }\\
     { }
   \end{bmatrix}
-  \quad
+  %\quad
   \begin{bmatrix}
     \Sigma_{k,k}
   \end{bmatrix}
-  \quad
+  %\quad
   \begin{bmatrix}
     { } & { } & V_{k,n}^{*} & { } & { }\\
   \end{bmatrix} 
@@ -279,65 +342,61 @@ We can for instance use the resulting reduced factors to find similar users by t
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
 
-(3) \emph{Neighborhood estimation} is part of many recommendation systems. 
-It is the core principle behind most collaborative filtering algorithms, that
-estimate an unknown rating by averaging the ratings of similar users, weighted by this similarity.
-The principal method for computing user similarity is the \emph{pearson correlation coefficient} (PCC).
-While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
-for testing new ideas (e.g. in \citet{Lemire2005, Ujjin, Konstas}).
+(4) \emph{Network traversal} refers to estimating predictions by traversing a graph of users and items to provide recommendations.
+The connections between nodes can be any type of relation that makes sense to the RS. Examples include linking item and user nodes
+based on purchases or explicit ratings, linking user nodes from asymetrical (directed edges) symetrical (undirected edges) relations,
+or linking items based on some similarity metric.
 
-The PCC is a statistical measure of the correlation between two variables. In our domain, the variables
-are two users, and their measurements are the ratings of co-rated items. 
-The coefficient produces a value in the range $[-1,1]$ where $1$ signifies perfect correlation (equal ratings),
-$0$ for no correlation and $-1$ for a negative correlation.
-The negative correlation can for example signify two users that have diametrically opposing tastes in movies.
-We compute PCC by dividing the covariances of the user ratings with their standard deviations:
+\cite{Huang2002} used network traversal to create a simple system for recommending books to customers.
+Here, edges between items and users correspond to ratings, and edges connecting nodes of the same type
+are created by connecting elements that have similarity above a certain threshold. Predictions are generated
+by traversing the graph a preset number of steps starting at the current user, and multiplying the weights
+of paths leading to the target item (see Figure \ref{fig:book-graphs}).
+
+\begin{figure}[t]
+  \centering
+  \subfloat[]{\label{fig:graph-layers}
+    \includegraphics[width=0.5\textwidth]{../graphics/graph-layers}}                
+  \subfloat[]{\label{fig:graph-layers-detail}
+    \includegraphics[width=0.5\textwidth]{../graphics/graph-layers-detail}}
+  \caption[Network Traversal]{Network Traversal: (a) A graph with two kinds of nodes,
+    e.g. items and users. (b) A graph with books and customers, where recommendations
+    can be made by traversing the weighted connections. Connections between nodes of the same type
+    represent similarity, while connections between books and customers represent purchases.
+    Figures from \cite{Huang2002}.}
+  \label{fig:book-graphs}
+\end{figure}
+
+The complexity of recommender systems based on networks are only limited by the kinds of relations we can produce.
+For example, recommending other users in social networks can easily utilize friend or friend-of-a-friend relations
+to find others the current user might be interested in connecting to. Indeed, any relevant similarity metric can be used to
+connect nodes of the same type, or nodes of different types.
+
+One variation comes from \cite{Walter2008}, who create a network of \emph{transitive trust} to produce recommendations. Here,
+the neighborhood of users is determined by traversing through users connected by a level of trust. 
+The trust can for example be a function of how many agreeable results the connection to a user has produced.
+In other words, users trust each others recommendations based on previous experience.
+
+\cite{Konstas} takes yet another approach that measures the similarity between two nodes through their \emph{random walks with restarts} (RWR) technique.
+
+Starting from a node $x$, the RWR algorithm randomly follows a link to a neighboring node. 
+In every step, there is a probability $\alpha$ that the algorithm will restart its random walk from the same node, $x$. 
+A user-specific column vector $\mathbf{p}^{(t)}$ stores the long term probability rates of each node, 
+where $\mathbf{p}^{(t)}_i$ represents the probability that the random walk at step $t$ is at node $i$. 
+$\mathbf{S}$ is the column-normalized adjacency-matrix of the graph, i.e. the transition probability table. 
+$\mathbf{q}$ is a column vector of zeroes with a value of $1$ at the starting node (that is, $\mathbf{q}_i$ is $1$ when the RWR algorithm starts at node $x$). 
+The stationary probabilities of each node, signifying their long term visiting rate, is then given by 
 
 \begin{equation*}
-  pcc(u,v) = \frac{cov(R_u, R_v)}{\sigma_{R_u} \sigma_{R_v}}
+  \mathbf{p}^{(t+1)} = (1 - \alpha)\mathbf{S}\mathbf{p}^{(t)} + {\alpha}\mathbf{q}
 \end{equation*}
 
-When expanding the terms for covariance and standard deviations, 
-and using a limited neighborhood size $n$, we get
+when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $\mathbf{p}_y$ where $p$ is the user model for the user represented by node $x$.
+\citeauthor{Konstas} found that this approach outperformed the PCC, as long as the social networks were an explicit part of the system in question.
+In other words, the connections between users had to be one actively created by the users to be of such quality and precision that
+accurate predictions could be made.
 
-\begin{equation*}
-  pcc_{n}(u,v) = 
-    \frac{
-      \sum_{i=1}^{n} (R_{ui} - \bar{R_u}) (R_{vi} - \bar{R_v}) }{ 
-        \sqrt{ \sum_{i=1}^{n} (R_{ui} - \bar{R_u})^2 } 
-        \sqrt{ \sum_{i=1}^{n} (R_{vi} - \bar{R_v})^2 }}.
-\end{equation*}
-
-The limited neighborhood size becomes the statistical sampling size, and is a useful
-way of placing an upper bound on the complexity of computing a neighborhood.
-$n$ does not have to be a raondom sampling --- it can also be limited by the number of ratings 
-the two compared users have in common, the number of ratings each user have, or something similar.
-
-When a neighborhood is determined, it is time to predict our desired rating.
-Basically, this means averaging the neighborhood ratings weighted by similarity:
-
-\begin{equation*}
-  \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} sim(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} sim(u,v) },
-\end{equation*}
-
-where $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
-Naturally, this is the simplest possible way of computing a neighborhood-based prediction.
-Most systems use more complex estimations. For instance, \cite{Koren2008} 
-uses the baseline ratings discussed above instead of plain user and item ratings, to
-remove what they call global effects where some users are generous or strict in their 
-explicit preferences, and some items are consistently rated differently than the average.
-
-There are many other methods than the PCC used to compute neighborhoods. 
-Other simple measures include the \emph{euclidean distance} or \emph{cosine correlation}
-between user rating vectors.
-\cite{Bell2007a} shows a more sophisticated approach by computing global interpolation weights 
-as an optimization problem.
-Combinations are also possible. 
-\cite{Ujjin} first use a simple metric to gather a larger neighborhood, which is then refined
-by a \emph{genetic algorithm}.
-
-
-(4) \emph{Social networks} traversal, transitive trust
-
-
+After this whirlwind tour of recommender systems, it is time to look at some closely related topics:
+information retrieval and personalized search. This will form the basis for the case study
+performed in the next chapter.
 
