@@ -160,6 +160,34 @@ where $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is 
 The first term distributes an equal pagerank score to all pages that have no outbound links, as $N$ is the total number of pages.
 This iterative algorithm is run until convergence inside a small delta.
 
+Let us now finally take a look at one of the main uses of signals: \emph{personalized search}.
 
 
 \subsection{Personalization}
+
+Search engines, especially online search engines, face a huge challenge. 
+In addition to the wide range of websites, the ambiguity of language,
+the restricted nature of queries, comes the wildly differing users.
+Each user is unique. Even when considering one user, there might be many 
+different use cases, for example when using the same search engine at work and at home.
+Another identified problem is that users use search engines for navigation as well as pure search.
+\citet{Teevan2007} found that as many as 40\% of all queries to the Yahoo! search engine were "re-finding queries",
+i.e. attempts to find information the user had accessed before.
+
+Personalized search attempts to solve this problem by introducing individually catered search results. 
+These techniques are based on user modeling (as introduced in Section \ref{sec:modeling}),
+and attempts to build predictive models based on mined user preferences.
+Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000})
+In other words, these are often model-based techniques with implicit knowledge gathering agents,
+that create individual, long-term user models {see Section \ref{sec:recommender}}.
+
+To demonstrate how these methods compare to traditional recommendation systems,
+we will explore a few different approaches to user modeling.
+
+Personalized PageRank \cite{Haveliwala}
+
+Cube svd: \cite{Sun2005}
+
+Folksonomy: \cite{Bao2007}
+
+social network: \cite{Carmel2009}
