@@ -1,11 +1,122 @@
 \section{Aggregate Modeling}
 \label{sec:aggregate}
 
-Important for both IR and RS
+So far we have seen a lot of modeling methods, both for recommender systems (RS) and for personalized search (PS).
+\emph{Aggregate modeling} (AM) is the act of merging two or more modeling methods in some way.
+A proper aggregation method creates a combined result that is better than either of the individual methods.
+In other words, the sum is greater than the parts.
+We have already seen a few examples of aggregate modeling:
 
-Current methods (non-personal)
+\begin{itemize*}
+  \item \cite{Koren2008} aggregates global, individual and per-item averages to a baseline.
+  \item \cite{Huang2002} aggregates different types of graph relations into one prediction.
+  \item \citet{Haveliwala2003} combined their personalized PageRank with another approach.
+  \item \cite{Carmel2009} combined classic IR with social relations and annotations.
+\end{itemize*}
 
-Use cases (netflix, ...)
+Clearly, aggregation is an important part of both RS and PS.
+The reasoning behind combining different approaches is that no one methods
+can capture all the predictive nature of the available data.
+For example, 
+\cite{Bell2007b} created a recommender systems where the neighborhood- and SVD-based approaches complement each other.
+While the neighborhoods correspond to "local effects" where similar users influence each other's preictions,
+the dimensionality reduction finds "regional effects", major structural patterns in the data.
+As they say: 
+"Both the local and the regional approaches, and in particular their combination through a unifying model, 
+compare favorably with other approaches and deliver substantially better results than the 
+commercial Netflix Cinematch recommender system ..."
+\cite[p1]{Bell2007b}
+
+Early approaches in recommender systems dabbeled in aggregating content-based and collaborative approaches.
+\cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
+Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
+Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
+knowledge of other users in the system --- knowledge that out-performes simple content analysis.
+In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
+
+So, are all hybrid recommenders aggregation based? This is mostly a question of semantics and implementation.
+\cite[p4]{Burke2007} defines a hybrid system as "any recommender system that combines multiple recommendation techniques together to produce its output."
+Some hybrid methods combine stand-alone methods, and are definitely aggregations.
+Other methods merge the methods themselves into one implementation that uses the data in different ways.
+\cite[p4]{Burke2007} describes a few types of hybrid recommenders:
+
+\begin{itemize*}
+  \item Weighted combinations of recommenders.
+  \item Switching and choosing one recommender in different contexts.
+  \item Mixing the outputs and presenting the result to each user.
+  \item Cascading, or prioritized recommenders applied in succession.
+  \item Augmentation, where one recommender produces input to the next.
+\end{itemize*}
+
+However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
+to create a result better than any single methods would provide.
+
+\cite{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
+by combining 107 individual results from different recommenders: 
+"We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
+complementing aspects of the data. Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
+Quite frequently we have found that the more accurate predictors are less useful within the full blend." \cite[p6]{Bell2007}
+In other words, the final result is improved because of the disjoint reasoning performed by the different predictors.
+
+There are two main approaches to model aggretation \cite[p1]{Liu2007}: 
+
+\begin{enumerate}
+  \item Rank (or \emph{order-based}) aggregation (RA) lets each method
+  produce a sorted list of recommendations or search results. These lists are then combined
+  into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
+  These methods only require the resulting list of items from each method \cite[p1]{Aslam2001}.
+
+  \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combinining predicted scores
+  one-by-one, creating an aggregated result for each element that should be evaulated.
+  These methods require the actual prediction scores for any item from each method \cite[p2]{Aslam2001}.
+\end{enumerate}
+
+\subsection{Rank Aggregation}
+
+RA combines multiple result lists into one list by some metric.
+\cite{Dwork2001} shows a few metrics applicable to meta-search, the combination of results from multiple search engines.
+Borda's method \cite[p6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
+based on where it appears in the sorted list. Items at the top gets the most points, while lower items gets fewer points.
+This is in essence a method where each method has a set number of votes ($c$, the number of results) that they give to each item.
+
+As we saw in Section \ref{sec:search}, \citet[p3]{Xu2008} used a weighted version
+of this approach to combine an IR and personal approach to result ranking.
+\citet[p3]{Aslam2001} calls their version of this \emph{Weighted Borda-Fuse},
+where the points given from a method to an item is controlled
+by the weights estimated for each method.
+\citet[p4]{Aslam2001} also explain a bayesian approach (\emph{bayes-fuse}),
+that combined with the \emph{naive Bayes} independence assumption 
+produce the following formula:
+
+\begin{equation*}
+  \mathrm{relevance}(d)  = \sum_{i \in Methods} \log 
+    \frac{ \mathrm{Pr}(r_i(d) | rel) }{ \mathrm{Pr}(r_i(d) | irr) }.
+\end{equation*}
+
+Here, $\mathrm{Pr}(r_i(d) | rel)$ is the probability that document $d$
+is relevant given its ranking by method $i$.
+Conversely, $\mathrm{Pr}(r_i(d) | irr)$ is the probability that the document 
+is irrelevant. The probability values are obtained through training,
+and evaluating the results against known relevance judgements.
+Their results were positive:
+"Our experimental results show that metasearch algorithms based on the 
+Borda and Bayesian models usually outperform the best input system 
+and are competitive with, and often outperform, 
+existing metasearch strategies."
+\citet[p1]{Aslam2001}.
+
+Rank aggregation is a substantial topic, with many approaches.
+The main take-away is that this approach combines list of results
+into one single results, and experiments show that results superior
+to the best of the combined methods are attainable.
+See \cite{Aslam2001}, \cite{Liu2007} or \cite{Klementiev2008} 
+for more information.
+
+
+\subsection{Prediction Aggregation}
+
+
+
 
 For personalized search (speculation)
 
