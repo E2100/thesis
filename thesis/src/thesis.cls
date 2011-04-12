@@ -282,13 +282,14 @@
 
 % Horizontal separator
 \newcommand{\hr}{
-  \vspace{2em}
-  \centering
-  \color{gray}
-  %\includegraphics[scale=1.0]{../graphics/hr.pdf} 
-  * * *
-  \color{black}
-  \vspace{2em}
+  \begin{center}
+    \vspace{1em}
+    %\color{gray}
+    \includegraphics[scale=0.6]{../graphics/hr.pdf} 
+    %* * *
+    %\color{black}
+    \vspace{1em}
+  \end{center}
 }
 
 
