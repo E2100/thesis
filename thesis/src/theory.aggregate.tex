@@ -27,37 +27,6 @@ compare favorably with other approaches and deliver substantially better results
 commercial Netflix Cinematch recommender system ..."
 \cite[p1]{Bell2007b}
 
-Early approaches in recommender systems dabbeled in aggregating content-based and collaborative approaches.
-\cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
-Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
-Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
-knowledge of other users in the system --- knowledge that out-performes simple content analysis.
-In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
-
-So, are all hybrid recommenders aggregation based? This is mostly a question of semantics and implementation.
-\cite[p4]{Burke2007} defines a hybrid system as "any recommender system that combines multiple recommendation techniques together to produce its output."
-Some hybrid methods combine stand-alone methods, and are definitely aggregations.
-Other methods merge the methods themselves into one implementation that uses the data in different ways.
-\cite[p4]{Burke2007} describes a few types of hybrid recommenders:
-
-\begin{itemize*}
-  \item Weighted combinations of recommenders.
-  \item Switching and choosing one recommender in different contexts.
-  \item Mixing the outputs and presenting the result to each user.
-  \item Cascading, or prioritized recommenders applied in succession.
-  \item Augmentation, where one recommender produces input to the next.
-\end{itemize*}
-
-However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
-to create a result better than any single methods would provide.
-
-\cite{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
-by combining 107 individual results from different recommenders: 
-"We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
-complementing aspects of the data. Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
-Quite frequently we have found that the more accurate predictors are less useful within the full blend." \cite[p6]{Bell2007}
-In other words, the final result is improved because of the disjoint reasoning performed by the different predictors.
-
 There are two main approaches to model aggretation \cite[p1]{Liu2007}: 
 
 \begin{enumerate}
@@ -98,12 +67,18 @@ is relevant given its ranking by method $i$.
 Conversely, $\mathrm{Pr}(r_i(d) | irr)$ is the probability that the document 
 is irrelevant. The probability values are obtained through training,
 and evaluating the results against known relevance judgements.
-Their results were positive:
+An interesting note is that the standard Borda method does not require training data,
+while the weighted version and the bayesian approach do.
+\citet[p1]{Aslam2001} results with these rank aggregations were positive:
 "Our experimental results show that metasearch algorithms based on the 
 Borda and Bayesian models usually outperform the best input system 
 and are competitive with, and often outperform, 
 existing metasearch strategies."
-\citet[p1]{Aslam2001}.
+
+\cite{Liu2007} presents a rank-aggregation framework, where
+the task of estimating a ranking function by using training data.
+They treat this task as a general optimization problem, with results
+showing that this framework can outperform existing methods \cite[p7]{Liu2007}.
 
 Rank aggregation is a substantial topic, with many approaches.
 The main take-away is that this approach combines list of results
@@ -115,12 +90,61 @@ for more information.
 
 \subsection{Prediction Aggregation}
 
+Unlike rank aggregation, prediction aggregation (PA) does not deal with lists of results.
+PA works on the item-level, collecting scalar predictions of an item's relevance from a number of methods,
+and combining these predictions into a final score.
 
+\cite{Aslam2001} describe a number of simple approaches:
+Min, max and sum models combine the individual predictions in some way, 
+or select one or more of the results as the final prediction. 
+Other models use the average, or log-average of the different methods.
+The linear combination model trains weights for each predictor, and weighs predictions accordingly.
+At slightly more complex approach is to train a logistic regression model \cite[p3]{Aslam2001}
+over a training set, in an effort to find the combination that gives the lowest possible error.
+This last method improved on the top-scoring predictor by almost 11\% \cite[p3]{Aslam2001},
+showing that even fairly simple combinations have merit.
 
+Early approaches in recommender systems dabbeled in aggregating content-based and collaborative approaches.
+\cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
+Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
+Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
+knowledge of other users in the system --- knowledge that out-performes simple content analysis.
+In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
 
-For personalized search (speculation)
+So, are all hybrid recommenders aggregation based? This is mostly a question of semantics and implementation.
+\cite[p4]{Burke2007} defines a hybrid system as "any recommender system that combines multiple recommendation techniques together to produce its output."
+Some hybrid methods combine stand-alone methods, and are definitely aggregations.
+Other methods merge the methods themselves into one implementation that uses the data in different ways.
+\cite[p4]{Burke2007} describes a few types of hybrid recommenders:
 
-Explain next chapter
+\begin{itemize*}
+  \item Weighted combinations of recommenders.
+  \item Switching and choosing one recommender in different contexts.
+  \item Mixing the outputs and presenting the result to each user.
+  \item Cascading, or prioritized recommenders applied in succession.
+  \item Augmentation, where one recommender produces input to the next.
+\end{itemize*}
 
-Rank aggregation for the web: \cite{Dwork2001}
+However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
+to create a result better than any single methods would provide.
+
+\cite{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
+by combining 107 individual results from different recommenders: 
+"We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
+complementing aspects of the data. Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
+Quite frequently we have found that the more accurate predictors are less useful within the full blend." \cite[p6]{Bell2007}
+In other words, the final result is improved because of the disjoint reasoning performed by the different predictors.
+
+Like RA, PA is an extensive topic.
+The take-away stays the same: by combining different modeling methods,
+more patterns in the data can be mined, and 
+the resulting combination can outperform the best performing method.
+This is key to the model we shall build in the next chapter.
+
+\hr
+
+This chapter has introduced the basic theory we will need to develop our take on user modeling.
+The next chapter will build this model,
+While Chapter \ref{chap:results} presents our evaluation experiments.
+
 
