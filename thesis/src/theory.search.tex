@@ -174,7 +174,7 @@ Another identified problem is that users use search engines for navigation as we
 \citet{Teevan2007} found that as many as 40\% of all queries to the Yahoo! search engine were "re-finding queries",
 i.e. attempts to find information the user had accessed before.
 
-Personalized search attempts to solve these problems by introducing individually catered search results. 
+\emph{Personalized search} (PS) attempts to solve these problems by introducing individually catered search results. 
 These techniques are based on user modeling (as introduced in Section \ref{sec:modeling}),
 and attempts to build predictive models based on mined user preferences.
 Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000})
@@ -260,6 +260,30 @@ topic selection and datasets, with the general conclusion
 that folksonomy-based personalized search has great potential.
 If nothing else, this example shows how easily tags can be integrated
 to provide an individual searching experience.
+
+
+%\begin{center}
+%\begin{tikzpicture}[node distance   = 4 cm]
+%  %\useasboundingbox (-1,-1) rectangle (11,11); 
+%  \tikzset{VertexStyle/.style = {shape          = circle,
+%                                 ball color     = black,
+%                                 text           = white,
+%                                 inner sep      = 2pt,
+%                                 outer sep      = 0pt,
+%                                 minimum size   = 24 pt}}
+%  \tikzset{EdgeStyle/.style   = {thick,
+%                                 double          = black,
+%                                 double distance = 1pt}}
+%  \tikzset{LabelStyle/.style =   {draw,
+%                                  fill           = white,
+%                                  text           = red}}
+%  \node[VertexStyle](A){A};
+%  \node[VertexStyle,right=of A](B){B};
+%  \draw[EdgeStyle](A) to node[LabelStyle]{2} (B);
+% 
+%  \end{tikzpicture}
+%\end{center}
+
 
 (3) \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
 By re-ranking documents according to their relation to with individuals in the current user's social network,

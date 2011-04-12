@@ -87,6 +87,10 @@
 \RequirePackage{caption}
 \captionsetup{font={small,it},labelfont=it}
 
+\RequirePackage{tikz}
+\usetikzlibrary{arrows,shapes,positioning}
+
+
 % -----------------
 % References
 % -----------------
