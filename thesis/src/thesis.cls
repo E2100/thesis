@@ -66,6 +66,9 @@
 % Smallcaps
 \newcommand{\smallcaps}[1]{\textsc{\MakeUppercase{#1}}}
 
+% Ornaments
+\RequirePackage{fourier-orns}
+
 
 % -----------------
 % Math
@@ -283,12 +286,10 @@
 % Horizontal separator
 \newcommand{\hr}{
   \begin{center}
-    \vspace{1em}
-    %\color{gray}
-    \includegraphics[scale=0.6]{../graphics/hr.pdf} 
-    %* * *
-    %\color{black}
-    \vspace{1em}
+    \color{black}
+    \Huge
+    \aldine
+    \color{black}
   \end{center}
 }
 
