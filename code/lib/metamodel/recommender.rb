@@ -15,7 +15,12 @@ class Recommender
   end
   
   def recommend(userid,n)
-    @recommender.recommend(userid,n)
+    recommender.recommend(userid,n).map do |rec_item|
+      [
+        rec_item.get_value, 
+        {id: rec_item.get_item_id}
+      ]
+    end
   end
 
   def recommender
