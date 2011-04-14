@@ -2,7 +2,7 @@ require 'pp'
 require 'lib/metamodel'
 M = MetaModel
 
-def recommenders
+def make_recommenders
   M::Perform.perform_all({
     #svd1: M::Task.new({recommender: :svd, factorizer: :alswr, factorizer_features: 1}),
     #svd10: M::Task.new({recommender: :svd, factorizer: :em, factorizer_features: 1}),
@@ -14,17 +14,26 @@ def recommenders
   })
 end
 
-recommenders.each do |name,rec|
-  puts '-'*10
-  M::Log.hits( rec.recommend(1,10) )
+
+query = 'war'
+user  = 1
+
+ir = M::Lucene::API.new
+results = ir.query(query,10)
+recommenders = make_recommenders
+
+results.each_with_index do |r,i|
+  doc = r.last
+  print "#{i}: #{doc[:id]} - #{doc[:text]} (#{r.first.round(2)})\t| "
+  recommenders.each do |name,rec|
+    begin
+      p = rec.prediction(user,doc[:id])
+      next if p.nan?
+      print "#{name}: #{rec.prediction(user,doc[:id])} | "
+    rescue M::PredictionError
+    end
+  end
+  puts
 end
 
 
-
-
-#l = M::Lucene::API.new
-#t = M::Task.new({
-#  dataset: '/movielens/movielens-100k/meta/u.item'
-#})
-#l.index_documents(t)
-#pp l.serp(l.query('star').map { |x| x.last[:id] })
