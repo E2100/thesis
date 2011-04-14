@@ -12,7 +12,6 @@
 \LoadClass{memoir}
 
 % Fixes
-\RequirePackage{memhfixc}
 \RequirePackage{etex}
 
 
@@ -107,6 +106,7 @@
 
 \RequirePackage{caption}
 \RequirePackage{hyperref}
+\RequirePackage{memhfixc}
 \hypersetup{
   colorlinks=true, 
   urlcolor=red, 
@@ -182,6 +182,21 @@
 
 % Subsubsections
 \setsubsubsecheadstyle{\itshape}
+
+
+% -----------------
+% Table of Contents
+% -----------------
+
+%\RequirePackage{titlesec}
+%\RequirePackage{titletoc}
+%\contentsmargin{2.55em}
+%\titlecontents{section}
+%  [1.5em]
+%  {}
+%  {\hspace*{2.55em}\color{red}\contentslabel{2.3em}}
+%  {\hspace*{-2.3em}}
+%  {\hspace*{1em}\color{gray}\contentspage}
 
 
 % -----------------
