@@ -8,9 +8,12 @@ class Task
   def main 
     {
       mission: :recommender,
-      dataset: '/movielens/movielens-100k/base/60/u1.base.60',
-      metaset: '/movielens/movielens-100k/base/60/u1.base.60',
-      testset: '/movielens/movielens-100k/base/40/u1.base.40'
+      #dataset: '/movielens/movielens-100k/base/60/u1.base.60',
+      #metaset: '/movielens/movielens-100k/base/60/u1.base.60',
+      #testset: '/movielens/movielens-100k/base/40/u1.base.40'
+      dataset: '/movielens/movielens-100k/base/100/u1.base',
+      metaset: '/movielens/movielens-100k/base/100/u1.base',
+      testset: '/movielens/movielens-100k/test/u1.test'
       #dataset: '/jester/50/u1',
       #metaset: '/jester/30/u1',
       #testset: '/jester/20/u1'
