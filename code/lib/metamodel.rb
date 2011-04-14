@@ -8,8 +8,10 @@ $: << File.join(File.dirname(__FILE__), 'metamodel')
 # std libs
 require 'java'
 require 'pp'
+require 'csv'
 
 # app libs
+require 'lucene'
 require 'mahout'
 require 'neuroph'
 require 'exceptions'

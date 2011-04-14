@@ -59,6 +59,7 @@ module Lucene
     end
     
     def add_document(id, text)
+      Log.out('Indexing', id, text)
       existing = Term.new('id', id.to_s) # if it exists
       document = Document.new
       document.add(field('text',text))
@@ -68,11 +69,11 @@ module Lucene
       w.close
     end
 
-    def query(text)
+    def query(text, n=10)
       parser = QueryParser.new(version, 'text', analyzer)
       parsed = parser.parse(text)
       engine = IndexSearcher.new(dir)
-      scores = engine.search(parsed,10).scoreDocs
+      scores = engine.search(parsed,n).scoreDocs
       results = []
       scores.each do |score|
         results << [score.score, to_s(engine.doc(score.doc))]
@@ -81,13 +82,35 @@ module Lucene
       results
     end
 
+    def get(id)
+      parser = QueryParser.new(version, 'id', analyzer)
+      parsed = parser.parse(id.to_s)
+      engine = IndexSearcher.new(dir)
+      scores = engine.search(parsed,1).scoreDocs
+      doc    = to_s(engine.doc(scores.first.doc))
+      engine.close
+      doc
+    end
+
     def to_s(doc)
       {
         id: doc.get_field('id').string_value.to_i,
         text: doc.get_field('text').string_value
       }
     end
+  
+    def index_documents(task)
+      Log.out('Reading CSV', task[:dataset])
+      CSV.foreach(Config::Data + task[:dataset]) do |row|
+        add_document(row[0].to_i, row[1].to_s)
+      end
+    end
 
+    def serp(ids)
+      ids.each_with_index do |id,i|
+        puts "#{i}: #{id} - #{get(id)[:text]}"
+      end
+    end
   end
 
 end
