@@ -185,6 +185,21 @@
 
 
 % -----------------
+% Appendices
+% -----------------
+
+%\renewenvironment{appendices}{
+%  \pagenumbering{roman}
+%  \setcounter{page}{1}
+%  \def\thechapter {\Alph{chapter}}
+%  \def\thesection {\thechapter.\arabic{section}}
+%  \setcounter{secnumdepth}{1}
+%  \setcounter{tocdepth}{3}
+%  \color{red}
+%}
+
+
+% -----------------
 % References
 % -----------------
 
@@ -255,14 +270,16 @@
 % Footnotes
 \footmarkstyle{({#1}) \ } 
 \setlength{\footmarkwidth}{1.5em} 
-\setlength{\footmarksep}{0em} 
+\setlength{\footmarksep}{0.5em} 
 \setlength{\footparindent}{0em} 
 \renewcommand*{\foottextfont}{\footnotesize}
 \renewcommand*{\footnoterule}{%
+  \vspace{0.5em}
   \color{lightgray}
   \hrule width \columnwidth 
   \kern 5pt
   \color{darkgray}
+  \vspace{0.5em}
 }
 
 % Block quotes
