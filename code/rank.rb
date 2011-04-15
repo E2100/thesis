@@ -14,26 +14,53 @@ def make_recommenders
   })
 end
 
+def make_meta_recommender(recommenders)
+  n = recommenders.size
+  M::Perform.perform(M::Task.new({
+    recommender: :meta,
+    recommenders: recommenders.clone,
+    nn_in: n,
+    nn_out: 1,
+    nn_hidden: [n+1],
+    nn_transfer: :sigmoid,
+    nn_learning_rate: 0.3,
+    nn_max_iterations: 100,
+    nn_max_error: 0.001,
+    nn_momentum: 0.0  
+  }))
+end
+
+def ir(query, n=10)
+  M::Lucene::API.new.query(query,n)
+end
+
+def predictions(recommenders,user,item)
+  {}.tap do |res|
+    recommenders.each do |name,rec|
+      begin
+        p = rec.prediction(user,item)
+        next if p.nan?
+        res[name] = p
+      rescue M::PredictionError
+        res[name] = -1.0
+      end
+    end
+  end
+end
 
 query = 'war'
 user  = 1
-
-ir = M::Lucene::API.new
-results = ir.query(query,10)
 recommenders = make_recommenders
+recommenders[:meta] = make_meta_recommender(recommenders)
 
-results.each_with_index do |r,i|
+ir(query).each_with_index do |r,i|
   doc = r.last
-  print "#{i}: #{doc[:id]} - #{doc[:text]} (#{r.first.round(2)})\t| "
-  recommenders.each do |name,rec|
-    begin
-      p = rec.prediction(user,doc[:id])
-      next if p.nan?
-      print "#{name}: #{rec.prediction(user,doc[:id])} | "
-    rescue M::PredictionError
-    end
+  ps  = predictions(recommenders, user, doc[:id])
+  puts "#{i}: #{doc[:id]} - #{doc[:text]} (#{r.first.round(2)})"
+  ps.each do |name,p|
+    puts "  #{name}: #{p.round(2)}"
   end
-  puts
 end
+
 
 
