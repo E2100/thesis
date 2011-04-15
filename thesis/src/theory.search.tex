@@ -181,6 +181,11 @@ Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2
 In other words, these are often model-based techniques with implicit knowledge gathering agents,
 that create individual, long-term user models (see Section \ref{sec:recommender}).
 
+There are two leading approaches to personalizing search results \cite[p2]{Noll2007}. 
+The first method is query reformulation, where the actual user query is enhanced in some way, before traditional IR 
+retrieves and ranks documents. The second method is results re-ranking, where the IR results are sorted
+based on personalized metrics. This section describes the latter approach.
+
 To demonstrate how these methods compare to traditional recommendation systems,
 we will explore a few different approaches to personalized search: 
 (1) \emph{personalized topic-sensitive PageRank},
