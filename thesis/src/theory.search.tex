@@ -207,7 +207,7 @@ in each of the pre-set topics, creating the topic-preference vector $T$. When it
 page $p$ in response to the query $q$, they compute the personalized ranking:
 
 \begin{equation*}
-  PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \times Pr(q|T(i)) \times TSPR_i(p)
+  PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \cdot Pr(q|T(i)) \cdot TSPR_i(p)
 \end{equation*}
 
 We will not deduce this equation here (see \citet[p5]{Qiu2006}), but let us explain it. 
@@ -312,14 +312,14 @@ where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile ter
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
 
 \begin{equation*}
-  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \times w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \times w(t,d)
+  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \cdot w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \cdot w(t,d)
 \end{equation*}
 
 Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
 A parameter $\alpha$ is used to control how much each method is weighted:
 
 \begin{equation*}
-  S(q,d|P(u)) = \alpha R_{IR}(q,d) + (1-\alpha) S_P(q,d|U(u)) 
+  S(q,d|P(u)) = \alpha \cdot R_{IR}(q,d) + (1-\alpha) \cdot S_P(q,d|U(u)) 
 \end{equation*}
 
 This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.
