@@ -16,9 +16,31 @@ Hypotheses
 \subsection{Modeling}
 \subsection{Prediction}
 
+Weighted average
+
 \begin{equation*}
-  \hat{r}_{ui} = \frac{1}{N} \sum_{m \in M} w_{um} \cdot p_m(u,i)
+  \hat{r}_{ui} = \sum_{m \in M} w_m \cdot p_m(u,i) 
+  \quad \text{where}
+  \quad 0 \leq w \leq 1, 
+  \quad |W| = 1
 \end{equation*}
+
+
+User-weighted average
+
+\begin{equation*}
+  \hat{r}_{ui} = \sum_{m \in M} w_{um} \cdot p_m(u,i)
+\end{equation*}
+
+
+Higher-order
+
+\begin{equation*}
+  \hat{r}_{ui} = f_{u}[ P_{M}(u,i) ]
+\end{equation*}
+
+
+
 
 
 \section{Implementation}      
