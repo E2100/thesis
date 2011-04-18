@@ -25,8 +25,12 @@ class Perform
     Recommender.new(@task)
   end
 
-  def evaluator
-    Evaluator.new(@task)
+  def rmse_evaluator
+    RMSEEvaluator.new(@task)
+  end
+
+  def rank_evaluator
+    RankEvaluator.new(@task)
   end
 
 end
