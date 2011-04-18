@@ -65,19 +65,19 @@ private
       end
       #next if u > 100
       user_ratings(u).each do |i,r|
-        begin
           single_errors(u,i).each do |name,error|
-            raise PredictionError if error.nan?
-            e[name] += error
-            n[name] += 1.0
-            #if name == :meta
-            #  puts @recommenders[name].recommender.meta[u].rmse
-            #end
+            begin
+              raise PredictionError if error.nan?
+              e[name] += error
+              n[name] += 1.0
+              #if name == :meta
+              #  puts @recommenders[name].recommender.meta[u].rmse
+              #end
+            rescue PredictionError
+            end
           end
           #puts '-'*100
           #report_errors(u,i,e,n)
-        rescue PredictionError
-        end
       end
     end
     {}.tap do |errors|
