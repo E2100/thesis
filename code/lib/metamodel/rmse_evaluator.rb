@@ -1,5 +1,5 @@
 module MetaModel
-class Evaluator
+class RMSEEvaluator
   
   def initialize(task)
     @task  = task
