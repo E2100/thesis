@@ -10,7 +10,8 @@ class Recommender
     begin
       recommender.estimate_preference(userid,itemid)
     rescue NativeException
-      raise PredictionError
+      #raise PredictionError
+      Float::NAN
     end
   end
   
@@ -30,7 +31,12 @@ class Recommender
 private
 
   def model
-    Model.new(@task[:dataset])
+    if @task[:bagging] < 1.0
+      # bootstrap aggregation
+      Model.rand(Model.new(@task[:dataset]), @task[:bagging])
+    else
+      Model.new(@task[:dataset])
+    end
   end
   
   # recommenders
