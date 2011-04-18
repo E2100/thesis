@@ -188,6 +188,8 @@
 % Table of Contents
 % -----------------
 
+\setcounter{tocdepth}{1}
+
 %\RequirePackage{titlesec}
 %\RequirePackage{titletoc}
 %\contentsmargin{2.55em}
