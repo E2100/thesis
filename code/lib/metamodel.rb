@@ -23,10 +23,10 @@ require 'mlp_sets'
 require 'linear'
 require 'model'
 require 'recommender'
-require 'evaluator'
+require 'rmse_evaluator'
+require 'rank_evaluator'
 require 'perform'
 require 'meta'
-require 'slider'
 require 'meta_recommender'
 
 # config
