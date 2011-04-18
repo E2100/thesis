@@ -1,30 +1,133 @@
-\section{Mission}
-
-Getting past 80\%,
-Power of data,
-Hypotheses
-
-\section{Rationale}
-
-\section{Solution}
-
-\begin{equation*}
-  \mathrm{AM} = (Items, Users, Framework, Methods, Aggregation)
-\end{equation*}
+This chapter presents our approach to user modeling:
+Blending multiple predictors on a per-user basis.
+We will present the reasoning behind or hypotheses,
+the rationale of our models,
+and explain one possible solution, in detail.
+Chapter \ref{chap:results} will experiment with this solution,
+before we discuss and draw conclusions in the final chapter.
 
 
-\subsection{Modeling}
-\subsection{Prediction}
+\section{Hypotheses}
 
-Weighted average
+When creating a user modeling system, the researcher(s) find some metric they think can be used
+to represent users. In other words,
+\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
+Each modeling method looks at some aspect of the data, e.g. social connections, similar users,
+or a feature of the items (see Chapter \ref{chap:theory}). 
+The decision of importance is made by whoever created the modeling method, not by the users themselves.
+
+Aggregate modeling methods face the same problem of misplaced subjectivity: 
+Aggregation is done on a generalized, global level,
+where each user is expected to place the same importance on each modeling method.
+What if this decision could be left up to each user?
+
+Consider the following relevance judgement methods:
+
+\begin{itemize*}
+  \item PageRank \citep{Bender2005} assumes that the relevance of a web page is 
+  represented by its authority, as computed from inbound links from other sites.
+  \item When providing personalized search results, one ranking signal may be 
+  the social connections of the current user. Items deemed relevant by the user's 
+  peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
+  \item When determining the relevance of an email, one predictor might be based
+  on how often the sender sends emails to the current user.
+  \item When recommending movies, one predictor may be based on the ratings
+  of users with similar profile details. Another predictor might be 
+  dependent on some feature, e.g. production year of well liked movies.
+  \item Recommendations based on the Pearson Coefficient \cite[p11]{Segaran2007}
+  assumes that the statistical correlation between user ratings defines their 
+  similarity.
+\end{itemize*}
+
+Are these metrics subjective? While one user might appreciate a social
+influence in their search results, another user might not.
+While one user might find frequency of communication maps well to relevance,
+another might not. 
+One user might feel the similarity of movie titles are a good predictor,
+while another might be more influenced by production year.
+The exact differences are not important --- what is important is that they exist.
+
+As the number of items, users and data sources grow, the problem becomes more apparent.
+Creating one or a collection of modeling methods that accuratly distills the general
+taste or judgement of all these elements should be regarded with skepticism.
+Likewise, as the number of modeling methods increase, finding an optimal combination
+becomes a gargantuan problem, requiring deep and often unattainably correct domain knowledge.
+
+We propose a more individual approach: \emph{personalized predictor aggregation}.
+By introducing an extra level of abstraction, we can in essence leave the method of aggregation
+up to each user. By selecting how the different modeling methods will be applied based
+on their respective individual performance, we change the problem faced by the system:
+The question is no longer which modeling methods we should choose or how they should be combined,
+but rather finding and adding \emph{any} modeling method a user might find helpful.
+
+If each method is \emph{only used} based on how well it performs for each user,
+any possibly applicable user modeling method suddenly becomes a worthy addition.
+We believe this is a much simpler problem: 
+instead of trying to generalize individuality,
+it should be embraced, by allowing users to implicitly and automatically select which methods they prefer.
+
+In light of these assumptions, we will try to answer the following hypotheses:
+
+$H_{0}$: The accuracy of user-item relevance predictions can be improved
+by blending multiple modeling methods on a per-user basis.
+
+$H_{1}$: The result set from an information retrieval query
+can be personalized by blending multiple modeling methods on a per-user basis.
+
+
+
+\section{Modeling}
+
+A system for aggregate user modeling (AUM) can be described as a quintuple:
+
+\begin{eqnarray*}
+  \mathrm{AUM} &=& (Items, Users, Ratings, Framework, Methods, Aggregation)\\
+               &=& (I,U,R,F,M,A).
+\end{eqnarray*}
+
+We have a set of $Items$ and a set of $Users$.
+There is also a set of $Ratings$: each user $u \in U$ can \emph{rate} an item $i \in I$.
+We use the term "rating" loosely --- other applicable and equivalent terms include \emph{relevance}, \emph{utility},
+\emph{connection strength} or \emph{ranking}. In other words, this is a measure of what a user thinks of an item
+in the current domain language. However, since "rating" will match the case study we present later in this chapter,
+that is what we shall use.
+
+As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
+user models. Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
+As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
+that each consider differents aspects of the available data: the users, items and ratings, as well as 
+other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
+
+The $Aggregation$ part of this quintuple refers to how the predictions from the different methods are combined
+into one blended prediction. 
+This paper presents a per-user, individual approach to this aggregation. However, there are many, simpler ways of computing the
+combined prediction. For example, a weighted average could be constructed as simply as 
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} w_m \cdot p_m(u,i) 
   \quad \text{where}
   \quad 0 \leq w \leq 1, 
-  \quad |W| = 1
+  \quad \sum_{i} w_i = 1.
 \end{equation*}
 
+Here, $\hat{r}_{ui}$ is the predicted rating from user $u$ of item $i$.
+$w_m$ is the weight of method $m$ and $p_m(u,i)$ is the predicted rating from method $m$.
+Of course, the weights of each method have to be estimated in advance.
+By creating a training and a testing set from already known ratings, we can estimate the weights
+that minimize the error over the testing set. 
+This can for example be done through \emph{regression} or the \emph{least squares method}.
+(TODO: Refs)
+
+
+
+
+\clearpage
+
+\begin{equation*}
+  \mathrm{AM} = (Items, Users, Framework, Methods, Aggregation)
+\end{equation*}
+
+\section{Prediction}
 
 User-weighted average
 
