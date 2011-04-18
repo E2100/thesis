@@ -77,7 +77,7 @@ def perform
 
   # evaluate
   evaluator_task = M::Task.new({
-    mission: :evaluator,
+    mission: :rmse_evaluator,
     recommenders: recommenders,
   })
   ev  = M::Perform.perform(evaluator_task)
