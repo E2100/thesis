@@ -12,7 +12,7 @@ class MetaRecommender
   def create_metas
     @model.users.each do |u|
       #next if u > 1
-      @meta[u] = Meta.new(meta_task(u), meta_model)
+      @meta[u] = Meta.new(meta_task(u), @model)
       #@meta[u] = Slider.new(meta_task(u), meta_model)
       #@meta[u] = Linear.new(meta_task(u), meta_model)
     end
@@ -34,10 +34,6 @@ class MetaRecommender
       recommenders: others,
       nn_in: others.size
     }))
-  end
-
-  def meta_model
-    @meta_model ||= Model.new(@task[:metaset])
   end
 
 end
