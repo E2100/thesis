@@ -11,6 +11,7 @@ class Recommender
       recommender.estimate_preference(userid,itemid)
     rescue NativeException
       #raise PredictionError
+      #0.0
       Float::NAN
     end
   end
