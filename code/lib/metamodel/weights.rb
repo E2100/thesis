@@ -1,72 +1,69 @@
-require 'java'
-require 'pp'
-require 'mahout'
-
 module MetaModel
-  extend self
-
-  def sets
-    [
-      [0.768309712409973,
-       0.80978262424469,
-       0.733904242515564,
-       0.700951218605041,
-       0.692455470561981],
-      [0.768309712409973,
-       0.80978262424469,
-       0.733904242515564,
-       0.700951218605041,
-       0.692455470561981]
-    ]
-  end
-
-  def w0
-    [ 1.0/5.0 ] * 5
-  end
-
-  def correct
-    [
-      0.75,
-      0.75
-    ]
-  end
-
-  def errors
-    errors = []
-    sets.each_with_index do |set,i|
-      c = correct[i]
-      errors << []
-      set.each do |val|
-        errors.last << (c-val)**2
-      end
-    end
-    errors
-  end
-
-  def error(sets,correct,weights)
-    tot = 0.0
-    sets.each_with_index do |set,i|
-      set.each_with_index do |val,j|
-        tot += ((weights[i] * val) - correct) ** 2
-      end
-    end
-    tot
-  end
+class Weights
   
-  def test
-    #o = ConjugateGradientOptimizer.new
-    #pp o.optimize(sets, errors)
-    pp sets
-    puts '-'*100
-    pp errors
-    #pp error(sets,correct.first, w0)
+  def initialize(task, model)
+    @task  = task
+    @model = model
+    w
+  end
+
+  def prediction(itemid)
+    s = 0.0
+    ws = w.clone
+    recommenders.each do |name,rec|
+      p = rec.prediction(user,itemid)
+      if p.nan?
+        ws = dissipate(ws,name)
+      else
+        s += ws[name] * p
+      end
+    end
+    s
+  end
+
+private
+  
+  def user
+    @task[:userid]
+  end
+
+  def recommenders
+    @task[:recommenders]
+  end
+
+  def n
+    recommenders.size
+  end
+
+  def w
+    @w ||= {}.tap do |weights|
+      recommenders.each do |name,rec|
+        weights[name] = 1.0 / n.to_f
+      end
+    end
+  end
+
+  def dissipate(ws,key)
+    x = ws[key]
+    ws.delete(key)
+    ws.each do |k,v|
+      ws[k] = v + (x / ws.size.to_f)
+    end
+    ws
+  end
+
+  def recommendations(itemid)
+    {}.tap do |results|
+      recommenders.each do |name,rec|
+        begin
+          p = rec.prediction(@task[:userid],itemid)
+          results[name] = p.nan? ? 0.0 : p
+        rescue PredictionError
+          results[name] = 0.0
+        end
+      end
+    end
   end
 
 end
-
-MetaModel.test
-
-
-
-
-
+end

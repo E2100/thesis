@@ -13,14 +13,13 @@ class MetaRecommender
     @model.users.each do |u|
       #next if u > 1
       @meta[u] = Meta.new(meta_task(u), @model)
-      #@meta[u] = Slider.new(meta_task(u), meta_model)
-      #@meta[u] = Linear.new(meta_task(u), meta_model)
+      #@meta[u] = Weights.new(meta_task(u), @model)
     end
   end 
 
   def estimate_preference(userid,itemid)
     p = @meta[userid].prediction(itemid)
-    #p = Scale.constrain Scale.to_stars(p)
+    p = Scale.constrain(p)
     raise PredictionError if p.nan?
     p
   end

@@ -26,6 +26,7 @@ require 'recommender'
 require 'rmse_evaluator'
 require 'rank_evaluator'
 require 'perform'
+require 'weights'
 require 'meta'
 require 'meta_recommender'
 
