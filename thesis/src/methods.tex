@@ -6,6 +6,83 @@ and explain one possible solution, in detail.
 Chapter \ref{chap:results} will experiment with this solution,
 before we discuss and draw conclusions in the final chapter.
 
+\section{Hypotheses}
+
+\subsection{Disjoint Patterns}
+
+\subsection{Subjectivity}
+
+\subsection{Personalized Aggregation}
+
+\subsection{Hypotheses}
+
+In light of these assumptions, we will try to answer the following hypotheses:
+
+$H_{0}$: The accuracy of user-item relevance predictions can be improved
+by blending multiple modeling methods on a per-user basis.
+
+$H_{1}$: The result set from an information retrieval query
+can be personalized by blending multiple modeling methods on a per-user basis.
+
+
+
+
+\section{Meta Modeling}
+
+\subsection{Modeling Methods}
+
+A system for aggregate user modeling (AUM) can be described as a quintuple:
+
+\begin{eqnarray*}
+  \mathrm{AUM} &=& (Items, Users, Ratings, Framework, Methods, Aggregation)\\
+               &=& (I,U,R,F,M,A).
+\end{eqnarray*}
+
+We have a set of $Items$ and a set of $Users$.
+There is also a set of $Ratings$: each user $u \in U$ can \emph{rate} an item $i \in I$.
+We use the term "rating" loosely --- other applicable and equivalent terms include \emph{relevance}, \emph{utility},
+\emph{connection strength} or \emph{ranking}. In other words, this is a measure of what a user thinks of an item
+in the current domain language. However, since "rating" will match the case study we present later in this chapter,
+that is what we shall use.
+
+As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
+user models. Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
+As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
+that each consider differents aspects of the available data: the users, items and ratings, as well as 
+other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
+
+The $Aggregation$ part of this quintuple refers to how the predictions from the different methods are combined
+into one blended prediction. 
+
+\subsection{Information Retrieval Signals}
+
+\subsection{Multilayer Perceptron}
+
+\subsection{Application}
+
+
+
+\section{Prediction Aggregation}
+
+\subsection{Modeling Phase}
+
+\subsection{Prediction Phase}
+
+\subsection{Implementation}
+
+
+
+\section{Rank Aggregation}
+
+\subsection{Modeling Phase}
+
+\subsection{Prediction Phase}
+
+\subsection{Implementation}
+
+
+
+\clearpage
 
 \section{Hypotheses}
 
@@ -65,15 +142,6 @@ any possibly applicable user modeling method suddenly becomes a worthy addition.
 We believe this is a much simpler problem: 
 instead of trying to generalize individuality,
 it should be embraced, by allowing users to implicitly and automatically select which methods they prefer.
-
-In light of these assumptions, we will try to answer the following hypotheses:
-
-$H_{0}$: The accuracy of user-item relevance predictions can be improved
-by blending multiple modeling methods on a per-user basis.
-
-$H_{1}$: The result set from an information retrieval query
-can be personalized by blending multiple modeling methods on a per-user basis.
-
 
 
 \section{Modeling}
