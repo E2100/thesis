@@ -103,18 +103,41 @@ it should be embraced, by allowing users to implicitly and automatically select 
 
 \section{Hypotheses}
 
-In light of these assumptions, we will try to answer the following hypotheses:
+Based on the assumption of latent subjectivity, this paper will test three hypotheses.
 
-$H_{0}$: The accuracy of user-item relevance predictions can be improved
-by blending multiple modeling methods on a per-user basis.
+\begin{blockquote}
+  $H_{0}$: The accuracy of user-item relevance predictions can be improved
+  by blending multiple modeling methods on a per-user basis.
+\end{blockquote}
 
+It stands to reason that if a recommender system is indeed impaired
+by the subjective selections of modeling methods,
+a per-user blend of these methods should outperform each of the individual approaches.
+
+
+\begin{blockquote}
 $H_{1}$: A per-user aggregation method can outperform global and generalized 
 blending methods.
+\end{blockquote}
 
+If our assumption that model aggregation inherits the subjective nature of its chosen parts,
+a per-user aggregation without such misplaced subjectivity should outperform a
+generalized blending.
+
+\begin{blockquote}
 $H_{2}$: The result set from an information retrieval query
 can be personalized by blending multiple modeling methods on a per-user basis.
+\end{blockquote}
 
-
+As described in Section \ref{subsec:signals},
+every measure that influence the final ranking of results from a search engine
+can be seen as individual signals. Each signal, be it an IR score,
+something like PageRank or the result of a user modeling method,
+contributes to the final ranking.
+As the aggregation of these signals are the same problem faced
+when aggregating recommender systems,
+a per-user approach to blending signals should be able to
+produce a set of personalized search results.
 
 
 \section{Meta Modeling}
