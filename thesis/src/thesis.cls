@@ -148,6 +148,8 @@
 % Divisors
 % -----------------
 
+\setsecnumdepth{subsection}
+
 % Chapters (based on memoir/dash)
 \makechapterstyle{thesis}{%
   \chapterstyle{default}
