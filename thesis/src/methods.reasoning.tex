@@ -1,0 +1,93 @@
+\section{Latent Subjectivity}
+
+As seen in Chapter \ref{chap:theory}, 
+there are lots of ways of predicting unknown relevance scores. 
+In fact, judging by the number of different approaches,
+the only limiting factor seems to be the different 
+patterns and relations researchers discover in the available data.
+Different methods leverage the data in different ways
+to achieve their goals of accurate predictions.
+
+As seen in Section \ref{sec:aggregate},
+aggregate modeling is used to combine different, complimenting
+methods into one coherent system.
+By leveraging what we shall call \emph{disjoint patterns}
+in the data, several less than optimal predictors
+can be combined in a way that outperforms the best
+of the combined predictors.
+
+However, there exists an underlying subjectivity to 
+relevance prediction that is seldom discussed.
+When a researcher or developer elects to use some modeling method
+in order to represent users of their system,
+a concious selection of applicable measures is made.
+Consider the following relevance judgements:
+
+\begin{itemize*}
+  \item PageRank \citep{Bender2005} assumes that the relevance of a web page is 
+  represented by its authority, as computed from inbound links from other sites.
+  \item When providing personalized search results, one ranking signal may be 
+  the social connections of the current user. Items deemed relevant by the user's 
+  peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
+  \item When determining the relevance of an email, one predictor might be based
+  on how often the sender sends emails to the current user.
+  \item When recommending movies, one predictor may be based on the ratings
+  of users with similar profile details. Another predictor might be 
+  dependent on some feature, e.g. production year of well liked movies.
+  \item Recommendations based on the Pearson Coefficient \cite[p11]{Segaran2007}
+  assumes that the statistical correlation between user ratings defines their 
+  similarity.
+\end{itemize*}
+
+Are these metrics subjective? 
+While the methods themselves do not discriminate, their selection
+reflects how whoever created the system assumes how each user
+can and \emph{should} be modeled. This \emph{latent subjectivity} is not desirable.
+For example, While one user might appreciate a social
+influence in their search results, another user might not.
+While one user might find frequency of communication maps well to relevance,
+another might not. 
+One user might feel the similarity of movie titles are a good predictor,
+while another might be more influenced by production year.
+The exact differences are not important --- what is important is that they exist.
+
+Another way of explaining latent subjectivity is that 
+\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
+In other words, each modeling method use some aspect of available data to make predictions,
+and the importance of each of these methods is determined by whoever creates the system,
+or by the on average best error-minimizing combination, not by each individual user.
+Aggregate modeling methods face the same problem of misplaced subjectivity: 
+Aggregation is done on a generalized, global level,
+where each user is expected to place the same importance on each modeling method.
+While the aggregation is of course selected to minimize some error over a testing set,
+the subjective nature remains: The compiled aggregation is a generalization,
+treating all users the same --- hardly a goal of user modeling.
+
+We propose a method where these descisions are left to each user,
+providing an extra level of abstraction and personalization.
+This leaves the subjective nature of modeling method selection where it should be:
+In the hands of each individual user.
+
+If each method is \emph{only used} based on how well it performs for each user,
+any possibly applicable user modeling method suddenly becomes a worthy addition.
+Consider the following two questions:
+
+\begin{enumerate*}
+  \item What combination of which methods will accurately predict unknown scores?
+  \item Which methods could possibly help predict a score for a user?
+\end{enumerate*}
+
+The first question is what has to be considered in traditional modeling aggregation:
+First a set of applicable methods leveraging disjoint patterns must be selected. 
+Then, an optimal and generalized combination of these must be found,
+most often through minimizing the average error across all users.
+
+The second question is quite different. 
+Instead of looking for an optimal set of methods and an optimal combination,
+we look for the set of \emph{any applicable method} that \emph{some users} might find helpful.
+We believe this is a much simpler problem: 
+instead of trying to generalize individuality,
+it should be embraced, by allowing users to implicitly and automatically select which methods they prefer,
+from a large set of possible predictors.
+
+

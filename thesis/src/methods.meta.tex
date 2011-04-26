@@ -1,0 +1,90 @@
+\section{User Meta Modeling}
+
+We define \emph{Meta Modeling} (MM) as the act of using a modeling method to adapt other modeling methods.
+Similarily, \emph{User Meta Modeling} (UMM) is then the act of performing user modeling to adapt other user modeling methods.
+More specifically, as we wish to combine methods in UM on a personalized level, we need two levels of user modeling:
+
+\textbf{Level 1} (L1) are the conventional, single-approach user modeling methods described in Section \ref{sec:recommender}.
+Each of these methods predict unknown ratings between users and items.
+This prediction is made based on some pattern of the available data,
+e.g. user rating correlations or social connections.  
+
+\textbf{Level 2} (L2) is the aggregator modeling method. This method performs aggregation of results from methods in Level 1,
+just as the methods described in Section \ref{sec:aggregate}, but on a personalized level. 
+This level combined the predicted ratings from Level 1 into a single prediction, based on the current user.
+We shall develop one method applicable to Level 2: A user modeling method that combines multiple predictors into a single
+predictions, based on the observed performance of each predictor in relation to the user in question.
+
+Formally, a system for UMM can be described as a 6-tuple:
+
+\begin{eqnarray*}
+  \mathrm{UMM} &=& (Items, Users, Ratings, Framework, Methods, Aggregation)\\
+               &=& (I,U,R,F,M,A).
+\end{eqnarray*}
+
+We have a set of $Items$ and a set of $Users$.
+There is also a set of $Ratings$: each user $u \in U$ can \emph{rate} an item $i \in I$.
+As before, we use the term "rating" loosely --- other applicable and equivalent terms include \emph{relevance}, \emph{utility},
+\emph{connection strength} or \emph{ranking}. In other words, this is a measure of what a user thinks of an item
+in the current domain language. However, since "rating" will match the case study we present later in this chapter,
+that is what we shall use.
+
+As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
+user models. 
+This corresponds to Level 1. 
+Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
+As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
+that each consider differents aspects of the available data: the users, items and ratings, as well as 
+other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
+
+The $Aggregation$ part of this quintuple refers to how the predictions from the different methods are combined
+into one blended prediction. 
+This corresponds to Level 2.
+To achieve the best possible compounded result, we wish to use methods that look at disjoint patterns, 
+i.e. complementary predictive parts of the data.
+As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
+ability of the various predictors to expose different aspects of the data, than on 
+the individual accuracy of each predictor.
+
+
+
+\subsection{Level 1: Modeling Methods}
+
+\begin{equation*}
+ R_{u,i} =
+ \begin{pmatrix}
+  r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
+  r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  r_{u,1} & r_{u,2} & \cdots & r_{u,i}
+ \end{pmatrix}
+\end{equation*}
+
+Here, $\hat{r}_{ui}$ is the predicted rating from user $u$ of item $i$.
+$w_m$ is the weight of method $m$ and $p_m(u,i)$ is the predicted rating from method $m$.
+Of course, the weights of each method have to be estimated in advance.
+By creating a training and a testing set from already known ratings, we can estimate the weights
+that minimize the error over the testing set. 
+This can for example be done through \emph{regression} or the \emph{least squares method}.
+(TODO: Refs)
+
+User-weighted average
+
+\begin{equation*}
+  \hat{r}_{ui} = \sum_{m \in M} w_{um} \cdot p_m(u,i)
+\end{equation*}
+
+
+Higher-order
+
+\begin{equation*}
+  \hat{r}_{ui} = f_{u}[ P_{M}(u,i) ]
+\end{equation*}
+
+
+\subsection{Level 2: Multilayer Perceptron}
+
+\subsection{Application}
+
+
+
