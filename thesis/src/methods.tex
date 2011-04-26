@@ -1,27 +1,117 @@
-This chapter presents our approach to user modeling:
-Blending multiple predictors on a per-user basis.
-We will present the reasoning behind or hypotheses,
-the rationale of our models,
-and explain one possible solution, in detail.
-Chapter \ref{chap:results} will experiment with this solution,
-before we discuss and draw conclusions in the final chapter.
+In this chapter we will build our approach to user modeling:
+blending multiple predictors on per-user basis.
+We will first explain the reasoning behind our hypotheses,
+before we present a method for personalized aggregation.
+
+This \emph{meta model} is then used to perform prediction aggregation in a recommendation scenario,
+and rank aggregation in an information retrieval scenario.
+%Chapter \ref{chap:results} will experiment with these solutions,
+%before we discuss and draw conclusions in the final chapter.
+
+
+\section{Latent Subjectivity}
+
+As seen in Chapter \ref{chap:theory}, 
+there are lots of ways of predicting unknown relevance scores. 
+In fact, judging by the number of different approaches,
+the only limiting factor seems to be the different 
+patterns and relations researchers discover in the available data.
+Different methods leverage the data in different ways
+to achieve their goals of accurate predictions
+
+As seen in Section \ref{sec:aggregate},
+aggregate modeling is used to combine different, complimenting
+methods into one coherent system.
+By leveraging what we shall call \emph{disjoint patterns}
+in the data, several less than optimal predictors
+can be combined in a way that outperforms the best
+of the combined predictors.
+
+However, there exists an underlying subjectivity to 
+relevance prediction that is seldom discussed.
+When a researcher or developer elects to use some modeling method
+in order to represent users of their system,
+a concious selection of applicable measures is made.
+Consider the following relevance judgements:
+
+\begin{itemize*}
+  \item PageRank \citep{Bender2005} assumes that the relevance of a web page is 
+  represented by its authority, as computed from inbound links from other sites.
+  \item When providing personalized search results, one ranking signal may be 
+  the social connections of the current user. Items deemed relevant by the user's 
+  peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
+  \item When determining the relevance of an email, one predictor might be based
+  on how often the sender sends emails to the current user.
+  \item When recommending movies, one predictor may be based on the ratings
+  of users with similar profile details. Another predictor might be 
+  dependent on some feature, e.g. production year of well liked movies.
+  \item Recommendations based on the Pearson Coefficient \cite[p11]{Segaran2007}
+  assumes that the statistical correlation between user ratings defines their 
+  similarity.
+\end{itemize*}
+
+Are these metrics subjective? 
+While the methods themselves do not discriminate, their selection
+reflects how whoever created the system assumes how each user
+can and \emph{should} be modeled. This \emph{latent subjectivity} is not desirable.
+For example, While one user might appreciate a social
+influence in their search results, another user might not.
+While one user might find frequency of communication maps well to relevance,
+another might not. 
+One user might feel the similarity of movie titles are a good predictor,
+while another might be more influenced by production year.
+The exact differences are not important --- what is important is that they exist.
+
+Another way of explaining latent subjectivity is that 
+\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
+In other words, each modeling method use some aspect of available data to make predictions,
+and the selective importance of each of these methods is made by whoever creates the system,
+not by the users themselves.
+Aggregate modeling methods face the same problem of misplaced subjectivity: 
+Aggregation is done on a generalized, global level,
+where each user is expected to place the same importance on each modeling method.
+While the aggregation is of course selected to minimize some error over a testing set,
+the subjective nature remains: The compiled aggregation is a generalization,
+treating all users the same --- hardly a goal of user modeling.
+
+We propose a method where these descisions are left to each user,
+providing an extra level of abstraction and personalization.
+This leaves the subjective nature of modeling method selection where it should be:
+In the hands of each individual user.
+
+If each method is \emph{only used} based on how well it performs for each user,
+any possibly applicable user modeling method suddenly becomes a worthy addition.
+Consider the following two questions:
+
+\begin{enumerate*}
+  \item What combination of which methods will accurately predict unknown scores?
+  \item Which methods could possibly help predict a score for a user?
+\end{enumerate*}
+
+The first question is what has to be considered in traditional modeling aggregation:
+First a set of applicable methods leveraging disjoint patterns must be selected. 
+Then, an optimal and generalized combination of these must be found,
+most often through painstaking trial and error.
+
+The second question is quite different. 
+Instead of looking for an optimal set of methods and an optimal combination,
+we look for the set of \emph{any applicable method} that \emph{some users} might find helpful.
+We believe this is a much simpler problem: 
+instead of trying to generalize individuality,
+it should be embraced, by allowing users to implicitly and automatically select which methods they prefer.
+
 
 \section{Hypotheses}
-
-\subsection{Disjoint Patterns}
-
-\subsection{Subjectivity}
-
-\subsection{Personalized Aggregation}
-
-\subsection{Hypotheses}
 
 In light of these assumptions, we will try to answer the following hypotheses:
 
 $H_{0}$: The accuracy of user-item relevance predictions can be improved
 by blending multiple modeling methods on a per-user basis.
 
-$H_{1}$: The result set from an information retrieval query
+$H_{1}$: A per-user aggregation method can outperform global and generalized 
+blending methods.
+
+$H_{2}$: The result set from an information retrieval query
 can be personalized by blending multiple modeling methods on a per-user basis.
 
 
@@ -32,6 +122,16 @@ can be personalized by blending multiple modeling methods on a per-user basis.
 \subsection{Modeling Methods}
 
 A system for aggregate user modeling (AUM) can be described as a quintuple:
+
+\begin{equation*}
+ R_{u,i} =
+ \begin{pmatrix}
+  r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
+  r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  r_{u,1} & r_{u,2} & \cdots & r_{u,i}
+ \end{pmatrix}
+\end{equation*}
 
 \begin{eqnarray*}
   \mathrm{AUM} &=& (Items, Users, Ratings, Framework, Methods, Aggregation)\\
@@ -82,67 +182,8 @@ into one blended prediction.
 
 
 
+\begin{comment}
 \clearpage
-
-\section{Hypotheses}
-
-When creating a user modeling system, the researcher(s) find some metric they think can be used
-to represent users. In other words,
-\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
-Each modeling method looks at some aspect of the data, e.g. social connections, similar users,
-or a feature of the items (see Chapter \ref{chap:theory}). 
-The decision of importance is made by whoever created the modeling method, not by the users themselves.
-
-Aggregate modeling methods face the same problem of misplaced subjectivity: 
-Aggregation is done on a generalized, global level,
-where each user is expected to place the same importance on each modeling method.
-What if this decision could be left up to each user?
-
-Consider the following relevance judgement methods:
-
-\begin{itemize*}
-  \item PageRank \citep{Bender2005} assumes that the relevance of a web page is 
-  represented by its authority, as computed from inbound links from other sites.
-  \item When providing personalized search results, one ranking signal may be 
-  the social connections of the current user. Items deemed relevant by the user's 
-  peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
-  \item When determining the relevance of an email, one predictor might be based
-  on how often the sender sends emails to the current user.
-  \item When recommending movies, one predictor may be based on the ratings
-  of users with similar profile details. Another predictor might be 
-  dependent on some feature, e.g. production year of well liked movies.
-  \item Recommendations based on the Pearson Coefficient \cite[p11]{Segaran2007}
-  assumes that the statistical correlation between user ratings defines their 
-  similarity.
-\end{itemize*}
-
-Are these metrics subjective? While one user might appreciate a social
-influence in their search results, another user might not.
-While one user might find frequency of communication maps well to relevance,
-another might not. 
-One user might feel the similarity of movie titles are a good predictor,
-while another might be more influenced by production year.
-The exact differences are not important --- what is important is that they exist.
-
-As the number of items, users and data sources grow, the problem becomes more apparent.
-Creating one or a collection of modeling methods that accuratly distills the general
-taste or judgement of all these elements should be regarded with skepticism.
-Likewise, as the number of modeling methods increase, finding an optimal combination
-becomes a gargantuan problem, requiring deep and often unattainably correct domain knowledge.
-
-We propose a more individual approach: \emph{personalized predictor aggregation}.
-By introducing an extra level of abstraction, we can in essence leave the method of aggregation
-up to each user. By selecting how the different modeling methods will be applied based
-on their respective individual performance, we change the problem faced by the system:
-The question is no longer which modeling methods we should choose or how they should be combined,
-but rather finding and adding \emph{any} modeling method a user might find helpful.
-
-If each method is \emph{only used} based on how well it performs for each user,
-any possibly applicable user modeling method suddenly becomes a worthy addition.
-We believe this is a much simpler problem: 
-instead of trying to generalize individuality,
-it should be embraced, by allowing users to implicitly and automatically select which methods they prefer.
-
 
 \section{Modeling}
 
@@ -216,5 +257,6 @@ Higher-order
 
 \section{Implementation}      
 
+\end{comment}
 
 
