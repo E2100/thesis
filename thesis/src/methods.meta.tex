@@ -1,20 +1,10 @@
 \section{User Meta Modeling}
 
-We define \emph{Meta Modeling} (MM) as the act of using a modeling method to adapt other modeling methods.
-Similarily, \emph{User Meta Modeling} (UMM) is then the act of performing user modeling to adapt other user modeling methods.
-More specifically, as we wish to combine methods in UM on a personalized level, we need two levels of user modeling:
-
-\textbf{Level 1} (L1) are the conventional, single-approach user modeling methods described in Section \ref{sec:recommender}.
-Each of these methods predict unknown ratings between users and items.
-This prediction is made based on some pattern of the available data,
-e.g. user rating correlations or social connections.  
-
-\textbf{Level 2} (L2) is the aggregator modeling method. This method performs aggregation of results from methods in Level 1,
-just as the methods described in Section \ref{sec:aggregate}, but on a personalized level. 
-This level combined the predicted ratings from Level 1 into a single prediction, based on the current user.
-We shall develop one method applicable to Level 2: A user modeling method that combines multiple predictors into a single
-predictions, based on the observed performance of each predictor in relation to the user in question.
-
+So, how do we perform personalized method aggregation?
+Let us first define a few terms.
+We define \emph{Meta Modeling} (MM) as using one modeling method to adapt other modeling methods.
+More specifically, \emph{User Meta Modeling} (UMM) means adapting user modeling methods with another user modeling method.
+This leaves us with two distinct levels of user modeling methods: the \emph{methods level} and the \emph{aggregation level}.
 Formally, a system for UMM can be described as a 6-tuple:
 
 \begin{eqnarray*}
@@ -27,28 +17,11 @@ There is also a set of $Ratings$: each user $u \in U$ can \emph{rate} an item $i
 As before, we use the term "rating" loosely --- other applicable and equivalent terms include \emph{relevance}, \emph{utility},
 \emph{connection strength} or \emph{ranking}. In other words, this is a measure of what a user thinks of an item
 in the current domain language. However, since "rating" will match the case study we present later in this chapter,
-that is what we shall use.
+that is what we shall use. 
 
-As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
-user models. 
-This corresponds to Level 1. 
-Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
-As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
-that each consider differents aspects of the available data: the users, items and ratings, as well as 
-other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
-
-The $Aggregation$ part of this quintuple refers to how the predictions from the different methods are combined
-into one blended prediction. 
-This corresponds to Level 2.
-To achieve the best possible compounded result, we wish to use methods that look at disjoint patterns, 
-i.e. complementary predictive parts of the data.
-As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
-ability of the various predictors to expose different aspects of the data, than on 
-the individual accuracy of each predictor.
-
-
-...
-
+The $Framework$ variable specifies how this data is represented.
+The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
+We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit rating:
 
 \begin{equation*}
  R_{u,i} =
@@ -60,19 +33,92 @@ the individual accuracy of each predictor.
  \end{pmatrix}
 \end{equation*}
 
-Here, $\hat{r}_{ui}$ is the predicted rating from user $u$ of item $i$.
-$w_m$ is the weight of method $m$ and $p_m(u,i)$ is the predicted rating from method $m$.
-Of course, the weights of each method have to be estimated in advance.
-By creating a training and a testing set from already known ratings, we can estimate the weights
-that minimize the error over the testing set. 
-This can for example be done through \emph{regression} or the \emph{least squares method}.
-(TODO: Refs)
+As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
+user models. 
+This corresponds to the \emph{methods layer}.
+Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
+As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
+that each consider differents aspects of the available data: the users, items and ratings, as well as 
+other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
+Examples include Slope One, SVD and Nearest Neighbor weighted predictions.
+These methods predict unkown connections between users and items based on some pattern in the data,
+for example user correlations or social connections.
 
-User-weighted average
+The $Aggregation$ part of our 6-tuple refers to how the predictions from the different methods are combined
+into one blended prediction. 
+This corresponds to the \emph{aggregation level}.
+To achieve the best possible compounded result, we wish to use methods that look at disjoint patterns, 
+i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
+As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
+ability of the various predictors to expose different aspects of the data, than on 
+the individual accuracy of each predictor.
+As described in Section \ref{sec:aggregate}, multiple prediction results are normally 
+combined into a final singular result,
+based on a generalized combination found by minimizing some error across all users.
+To perform UMM, we need the $Aggregation$ to be a user modeling method,
+that adapts each $Method$ with respect to each user.
+Let us now look at how this can be achieved.
+
+Another way of describing (and implementing) the two modeling levels is through application
+of the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
+When performing \emph{prediction aggregation}, this estimation can be expressed as
+
+\begin{equation*}
+  \hat{r}_{ui} = \mathrm{reduce}(u, \mathrm{map}(M,u,i)).
+\end{equation*}
+
+First, each modeling method is applied through the $\mathrm{map}$ function, with the current user and rating for which
+a rating should be estimated. This produces a set of scalar prediction values. These values are then
+combined through the $\mathrm{reduce}$ method, which takes the predictions and current user as input.
+In our case, this is the personalized aggregation method. 
+If we wish to do rank aggregation, the equation is a bit different:
+
+\begin{equation*}
+  \tau_{u} = \mathrm{reduce}(u, \mathrm{map}(M,u)).
+\end{equation*}
+
+Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
+Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
+Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ now is helpful, as this will later
+guide our implementation of these operations in a proper MapReduce framework
+for parallell computation (as explained in \citet[p75]{Manning2008}).
+
+The simplest generalized way of prediction aggregation is a simple avereage over all predictions made
+by the different methods:
+
+\begin{equation*}
+  \hat{r}_{ui} = \frac{1}{N} \sum_{m \in M} p_m(u,i).
+\end{equation*}
+
+$\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
+$N$ is the number of methods in $M$, and $p_m(u,i)$ is the predicted rating from method $m$.
+However, in most cases we wish to weight each method differently.
+
+\begin{equation*}
+  \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p_m(u,i) \quad \text{where} \quad 0 \leq w \leq 1, \quad \sum_{i \in M} (w_i) = 1.
+\end{equation*}
+
+$w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
+As described in \ref{sec:aggregate}, these weights can be estimated using a host of machine learning methods.
+The known rating data is separated into a training- and testing set, which is used to estimate optimal weights
+by minimizing some error across the testing set.
+Note that the training set is also split... Bagging...
+However, as discussed in Section \ref{sec:reasoning},
+this is still a generalized, averaged result across every user. 
+The system assumes that the best average result is the best result for each individual user.
+
+So, we wish the weights to be user-specific. The simplest approach is to create secondary user models for aggregation.
+Intuitively, a user-specific weight vector could fill the role of this user model.
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} w_{um} \cdot p_m(u,i)
 \end{equation*}
+
+$w_{um}$ is the user specific weight for method $m$. In other words, $w_{u}$ is the user model vector.
+Each user then has a pesonal set of weights describing how much they prefer each modeling method.
+These weights can be estimated much in the same way as generalized weights, 
+with the same training and testing set, just on a per-user basis.
+
 
 
 Higher-order
