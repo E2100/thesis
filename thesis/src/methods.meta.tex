@@ -99,7 +99,7 @@ by the different methods:
 
 $\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p_m(u,i)$ is the predicted rating from method $m$.
-However, in most cases we wish to weight each method differently.
+However, in most cases we wish to weight each method differently:
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p_m(u,i) \quad \text{where} \quad 0 \leq w \leq 1, \quad \sum_{i \in M} (w_i) = 1.
@@ -108,8 +108,8 @@ However, in most cases we wish to weight each method differently.
 $w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, these weights can be estimated using a host of machine learning methods.
 The known rating data is separated into a training- and testing set, which is used to estimate optimal weights
-by minimizing some error across the testing set.
-Note that the training set is also split... Bagging...
+by minimizing some error across the testing set 
+(note that the training set is also split in some way into two sets to create the singular modeling methods).
 However, as discussed in Section \ref{sec:reasoning},
 this is still a generalized, averaged result across every user. 
 The system assumes that the best average result is the best result for each individual user.
@@ -126,13 +126,47 @@ Each user then has a pesonal set of weights describing how much they prefer each
 These weights can be estimated much in the same way as generalized weights, 
 with the same training and testing set, just on a per-user basis.
 
+However, a personalized linear combination of modeling methods is not enough.
+Because of the disjoint nature of the differing modeling methods, 
+they essentially each find some reason that an item should receive a certain score.
+Consider the different patterns recommender systems and information retrieval measures might leverage:
 
+\begin{itemize*}
+  \item Ratings from other users weighted by user similarity.
+  \item The similarity of items through the use of an IR method.
+  \item Clustering items and users through global effects, finding general trends.
+  \item Ratings based on local averages, generosity and other individual features.
+  \item Comparing user preference terms with items.
+\end{itemize*}
 
-Higher-order
+While a linear combination of such disjoint patterns may achieve accurate scores,
+a nonlinear combination should be able to discover less apparent user preferences.
+For example, in any case where the agreement of two or more methods are more telling than their contribution
+to a linear combination, a nonlinear combination can catch such features of the user's preferences.
+
+Consider the task of sorting incoming emails based on user preferences: 
+a user might consider a new mail important if the sender is a social connection
+and the last communication from this person happened a long time ago. 
+In this case, the agreement between two scoring methods is more important
+than any other prediction.
+
+Another case is when one method is especially important for some 
+range of its possible predictions. For example, if one method deals with catching possible spam,
+a confident capture from this method would probably be more important than 
+what any of the other predictions.
+
+In short, we want an aggregation method capable of capturing nonlinear preferences
+when it comes to combining user modeling methods.
+Let us express this as an equation:
 
 \begin{equation*}
-  \hat{r}_{ui} = f_{u}[ P_{M}(u,i) ]
+  \hat{r}_{ui} = f_{u}(M(u,i))
 \end{equation*}
+
+The user model is the nonlinear function $f_u$ that takes the results of each modeling method $M(u,i)$,
+and combines them into a combined prediction.
+
+
 
 
 \subsection{Multilayer Perceptron}
