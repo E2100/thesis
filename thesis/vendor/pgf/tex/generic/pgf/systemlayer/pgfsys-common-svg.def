@@ -7,7 +7,7 @@
 %
 % See the file doc/generic/pgf/licenses/LICENSE for more details.
 
-\ProvidesFileRCS $Header: /cvsroot/pgf/pgf/generic/pgf/systemlayer/pgfsys-common-svg.def,v 1.21 2009/03/20 10:31:30 tantau Exp $
+\ProvidesFileRCS $Header: /cvsroot-fuse/pgf/pgf/generic/pgf/systemlayer/pgfsys-common-svg.def,v 1.21 2009/03/20 10:31:30 tantau Exp $
 
 
 % Driver commands for svg

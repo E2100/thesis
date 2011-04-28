@@ -7,7 +7,7 @@
 %
 % See the file doc/generic/pgf/licenses/LICENSE for more details.
 
-\ProvidesFileRCS $Header: /cvsroot/pgf/pgf/generic/pgf/systemlayer/pgfsys-dvi.def,v 1.5 2007/06/07 07:41:11 tantau Exp $
+\ProvidesFileRCS $Header: /cvsroot-fuse/pgf/pgf/generic/pgf/systemlayer/pgfsys-dvi.def,v 1.5 2007/06/07 07:41:11 tantau Exp $
 
 % Driver commands for pure, ultra-portable dvi, in the tradition of
 % old-style LaTeX pictures.

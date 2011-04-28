@@ -7,7 +7,7 @@
 %
 % See the file doc/generic/pgf/licenses/LICENSE for more details.
 
-\ProvidesFileRCS $Header: /cvsroot/pgf/pgf/generic/pgf/modules/pgfmoduleshapes.code.tex,v 1.13 2010/09/09 13:52:57 cjorssen Exp $
+\ProvidesFileRCS $Header: /cvsroot-fuse/pgf/pgf/generic/pgf/modules/pgfmoduleshapes.code.tex,v 1.16 2011/04/13 19:56:44 matthiasschulz Exp $
 
 
 
@@ -60,7 +60,7 @@
       \ifx\pgf@positionnodelater@macro\relax%
       \else%
         % Rename node
-        \edef\pgf@node@name{not yet positioned@\pgf@node@name}%
+        \edef\pgf@node@name{not yet positionedPGFGDINTERNAL\pgf@node@name}%
         % Interrupt bounding box!
         \pgfinterruptboundingbox%
           % Put everything in our box:
@@ -232,7 +232,7 @@
 %
 % This command works in concert with \pgfpositionnodelater, see the
 % description there. When \pgfpositionnodenow is called, the macros
-% \pgfpositionnodelaterbox and so one should be set to the values they
+% \pgfpositionnodelaterbox and so on should be set to the values they
 % had when the macro given to \pgfpositionnodelater was called. Then,
 % the box described by these macros will be inserted into the picture
 % at the position given #1. More precisely, the original node will
@@ -259,8 +259,8 @@
   }%
 }
 
-\def\pgfpositionnodenow@rename not yet positioned@#1\relax{%
-  \pgfnoderename{#1}{not yet positioned@#1}
+\def\pgfpositionnodenow@rename not yet positionedPGFGDINTERNAL#1\relax{%
+  \pgfnoderename{#1}{not yet positionedPGFGDINTERNAL#1}
   \pgf@nodecallback{#1}%
 }
 
@@ -978,7 +978,20 @@
     \expandafter\gdef\csname pgf@lbb@miny@#1\endcsname{16000pt}%
     \pgf@size@hookedtrue%
     \expandafter\def\expandafter\pgf@path@size@hook\expandafter{\pgf@path@size@hook\pgf@lbb@do{#1}}
-  }%
+  },
+  /pgf/freeze local bounding box/.code={%
+    {%
+      \csname pgf@sh@np@#1\endcsname%
+      \southwest%
+      \pgf@xa=\pgf@x%
+      \pgf@ya=\pgf@y%
+      \northeast%
+      \expandafter\xdef\csname pgf@sh@np@#1\endcsname{%
+        \noexpand\def\noexpand\southwest{\noexpand\pgfqpoint{\the\pgf@xa}{\the\pgf@ya}}%
+        \noexpand\def\noexpand\northeast{\noexpand\pgfqpoint{\the\pgf@x}{\the\pgf@y}}%
+      }%
+    }%  
+  }
 }
 \def\pgf@lbb@do#1{%
   \ifdim\pgf@size@hook@x<\csname pgf@lbb@minx@#1\endcsname\expandafter\xdef\csname pgf@lbb@minx@#1\endcsname{\the\pgf@size@hook@x}\fi%

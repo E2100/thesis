@@ -7,7 +7,7 @@
 %
 % See the file doc/generic/pgf/licenses/LICENSE for more details.
 
-\ProvidesFileRCS $Header: /cvsroot/pgf/pgf/generic/pgf/systemlayer/pgfsys-vtex.def,v 1.8 2007/12/12 16:57:17 tantau Exp $
+\ProvidesFileRCS $Header: /cvsroot-fuse/pgf/pgf/generic/pgf/systemlayer/pgfsys-vtex.def,v 1.8 2007/12/12 16:57:17 tantau Exp $
 
 
 % Driver commands for vtex

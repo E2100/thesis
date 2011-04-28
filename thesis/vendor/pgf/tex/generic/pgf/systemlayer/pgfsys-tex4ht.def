@@ -7,7 +7,7 @@
 %
 % See the file doc/generic/pgf/licenses/LICENSE for more details.
 
-\ProvidesFileRCS $Header: /cvsroot/pgf/pgf/generic/pgf/systemlayer/pgfsys-tex4ht.def,v 1.23 2010/08/18 12:14:47 ludewich Exp $
+\ProvidesFileRCS $Header: /cvsroot-fuse/pgf/pgf/generic/pgf/systemlayer/pgfsys-tex4ht.def,v 1.23 2010/08/18 12:14:47 ludewich Exp $
 
 
 \RequirePackage{xcolor}
