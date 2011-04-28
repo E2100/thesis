@@ -90,6 +90,7 @@
 \captionsetup{font={small,it},labelfont=it}
 
 \RequirePackage{tikz}
+\RequirePackage{pgf}
 \usetikzlibrary{arrows,shapes,positioning}
 
 
