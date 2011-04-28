@@ -223,14 +223,24 @@
 % References
 % -----------------
 
-\RequirePackage{multicol}
 \renewcommand*{\bibname}{References}
 \renewenvironment{thebibliography}[1]{%
-  \setlength{\bibitemsep}{-\parsep + 0.5em}
+  \setlength{\bibitemsep}{-\parsep - 0.5em}
+  \setlength\bibindent{0em}
   \setSpacing{1}
-  \setlength{\parindent}{1em}
+  \setlength{\parindent}{-1em}
+  \sloppy
+  \clubpenalty4000
+  \widowpenalty4000
   \bibsection
   \begin{bibitemlist}{#1}}{\end{bibitemlist}\postbibhook}
+
+\renewcommand*{\biblistextra}{% 
+  \vspace{1em}
+  \setlength{\leftmargin}{1.5em}% 
+  \setlength{\itemindent}{-1.5em}% 
+  \addtolength{\itemindent}{\labelsep}}
+
 
 % -----------------
 % Sourcecode
