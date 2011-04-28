@@ -45,8 +45,8 @@ Examples include Slope One, SVD and Nearest Neighbor weighted predictions
 These methods predict unkown connections between users and items based on some pattern in the data,
 for example user correlations or social connections.
 
-The $Aggregation$ part of our 6-tuple refers to how the predictions from the different methods are combined
-into one blended prediction. 
+The $Aggregation$ part of our 6-tuple refers to how the predictions from the different methods are blended
+into one prediction. 
 This corresponds to the \emph{aggregation level}.
 To achieve the best possible compounded result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
@@ -72,26 +72,31 @@ In our case, this is the personalized aggregation method.
 If we wish to do rank aggregation (i.e. sorted lists), the equation is a bit different:
 
 \begin{equation*}
-  \tau_{u,n} = \mathrm{reduce}_{n}(u, \mathrm{map}(M_{n},u)).
+  \tau_{u,n} = \mathrm{reduce}(u, \mathrm{map}(M,u,n)).
 \end{equation*}
 
 Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
+
 Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ now is helpful, as this will later
 guide our implementation of these operations in a proper MapReduce framework
 for parallell computation (as explained in \citet[p75]{Manning2008}).
+The $\mathrm{map}$ function may apply each modeling method in parallell, 
+as these are independent computations.
+The modified $\mathrm{reduce}$ function, which takes the resulting predictions $\mathrm{map}$ and the current
+user as inputs, serve as our personalized aggregator.
+Let us now describe how to make this function.
 
 
 \subsection{Personalized Aggregation}
 
 To perform UMM, we need the $Aggregation$ (or $\mathrm{reduce}$) method to be an actual user modeling method,
 that adapts the blending with respect to each user.
-Let us now look at how this can be achieved.
 Until now we have talked about both prediction aggregation (scores) and rank aggregation (sorted lists).
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
 
 The simplest generalized way of prediction aggregation is a simple avereage over all predictions made
-by the different methods:
+by the different methods (e.g. \citet[p3]{Aslam2001}):
 
 \begin{equation*}
   \hat{r}_{ui} = \frac{1}{N} \sum_{m \in M} p_m(u,i).
@@ -99,13 +104,14 @@ by the different methods:
 
 $\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p_m(u,i)$ is the predicted rating from method $m$.
-However, in most cases we wish to weight each method differently:
+However, in most cases we wish to weight each method differently (e.g. \cite{Claypool1999} ):
 
 \begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p_m(u,i) \quad \text{where} \quad 0 \leq w \leq 1, \quad \sum_{i \in M} (w_i) = 1.
+  \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p_m(u,i) 
+  \quad \text{where} \quad 0 \leq w_{m} \leq 1, \quad \sum_{i \in M} (w_i) = 1.
 \end{equation*}
 
-$w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
+Here, $w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, these weights can be estimated using a host of machine learning methods.
 The known rating data is separated into a training- and testing set, which is used to estimate optimal weights
 by minimizing some error across the testing set 
@@ -114,14 +120,16 @@ However, as discussed in Section \ref{sec:reasoning},
 this is still a generalized, averaged result across every user. 
 The system assumes that the best average result is the best result for each individual user.
 
-So, we wish the weights to be user-specific. The simplest approach is to create secondary user models for aggregation.
-Intuitively, a user-specific weight vector could fill the role of this user model.
+So, in order to leverage as many data patterns as possible and to remove the latent subjectivity,
+we wish the weights to be user-specific. The simplest approach is to create secondary user models for aggregation.
+Intuitively, a user-specific weight vector could fill the role of this user model:
 
 \begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} w_{um} \cdot p_m(u,i)
+  \hat{r}_{ui} = \sum_{m \in M} w_{um} \cdot p_m(u,i),
+  \quad \text{where} \quad 0 \leq w_{um} \leq 1, \quad \forall u \in U: \sum_{i \in M} (w_{ui}) = 1.
 \end{equation*}
 
-$w_{um}$ is the user specific weight for method $m$. In other words, $w_{u}$ is the user model vector.
+where $w_{um}$ is the user specific weight for method $m$. In other words, $w_{u}$ is the user model vector.
 Each user then has a pesonal set of weights describing how much they prefer each modeling method.
 These weights can be estimated much in the same way as generalized weights, 
 with the same training and testing set, just on a per-user basis.
@@ -164,15 +172,156 @@ Let us express this as an equation:
 \end{equation*}
 
 The user model is the nonlinear function $f_u$ that takes the results of each modeling method $M(u,i)$,
-and combines them into a combined prediction.
-
-
-
+and combines them to one prediction.
+In other words, to achieve a nonlinear personalized aggregation, we need to train one function per user,
+that takes a set of scalar scores and produces one scalar output.
+One way of doing this is using a simple neural network, as we shall now explain.
 
 \subsection{Multilayer Perceptron}
+
+A \emph{multilayer perceptron} (MP) is a simple 
+feedforward artificial neural network,
+that maps a set of scalar inputs to a set of outputs,
+and is capable of distinguishing data that is not linearly separable
+\cite[p578]{Russell1995}.
+This fits our needs for a personalized aggregation function.
+By training a separate MP for each user, based on known ratings from this user,
+we can create individual nonlinear functions for mapping multiple 
+predictions to one output.
+
+An MP has multiple layers: an input layer, one or more hidden layers, and an output layer.
+Each layer has a set of nodes.
+Every node in every layer is connected to all nodes in the next layer
+with weighted edges (see Figure \ref{fig:neural}), called synapeses.
+During network activation, values propagate from the input layer, through intermediary nodes and edges,
+to the output layer. 
+
+The input layer nodes corresponds to each input we wish to process,
+and their value is set to the current raw input values.
+For example, if the inputs are recommender system methods,
+each input node corresponds to the prediction from one method.
+Nodes in the hidden and output layer use a nonlinear activation function 
+to capture patterns in the input data.
+Depending on the input layer values, nodes in the first hidden layer
+are either activated or not, and propagates some value to the 
+following layer. This continues until we reach the output layer,
+where the node(s) produce some final output value(s).
+
+\input{figure.perceptron}
+
+A node's \emph{activation value} is its actual output value when the network is activated,
+determined by an \emph{activation function}.
+The use of hidden layers and nonlinear activation functions is what allows an MP
+to separate nonlinear patterns. 
+Every activation function relies on the weighted sum of the neuron's inputs $a_i$
+\cite[p178]{Floreano2008}:
+
+\begin{equation*}
+  a_i = \sum_{j=1}^{N} w_{ij} x_j,
+\end{equation*}
+
+where $i$ and $j$ are nodes, $N$ is the number of input nodes to node $i$,
+$w_{ij}$ is the weight of the synapse between the two nodes,
+and $x_{j}$ is the activation value of node $j$.
+There are many possible activation functions,
+each applicable to some domains and types of data.
+Two common choices are the following two sigmoid functions
+\cite[p179-180]{Floreano2008}:
+
+\begin{equation*}
+  \Phi(a_i) = tanh(a_i) \quad \text{and} \quad \Phi(a_i) = \frac{1}{1 + e^{-a_i}}.
+\end{equation*}
+
+The first function is the hyperbolic tangent which falls in the range $[-1,1]$,
+while the second is an equivalent function in the range $[0,1]$.
+Other possible activation functions include
+gaussian distribution functions, ramp and step functions, and trapezoidal
+functions.
+
+The \emph{backpropagation algorithm} for supervised learning \cite[p578]{Russell1995}
+is used to train an MP.
+This iterative algorithm uses a set of training examples to adjust the weights in 
+the network. Each training example is a set of input values with a corresponding correct output value.
+Backpropagation works in two phases:
+
+(1) The first phase begins by activating the network with an example from the training set,
+which produces an actual output value based on the current network configuration.
+The error between this actual output and the desired output from our example
+is propagated back through the network, which generates deltas (differences)
+between the actual neuron outputs and desired neuron outputs.
+
+(2) The second phase adjusts the weights of the network edges based on the computed error deltas.
+This output delta is multiplied with the input activation value to get the gradient of the weight,
+signifying how much the weight is wrong and in which direction.
+The weight is adjusted in the opposite direction of the gradient by subtracting some ratio
+of the gradient from the weight. 
+This ratio is called the \emph{learning rate},
+and can be adjusted to change the speed and quality of learning in the network.
+
+When the network is trained, and if it has found \emph{stable patterns} in the training set,
+we can feed it new input values to produce an unknown output value.
+More specifically, this is a type of \emph{learned generalization} \cite[p177]{Floreano2008}.
+The network learns the generalized connections between input and output,
+allowing us to identify how input predictions should be aggregated.
+
+
 \subsection{Modeling Phase}
+
+We shall now use a multilayer perceptron to create a personalized aggregation method.
+Before we can start blending predictions, we have to create the individualized neural networks.
+This requires training the user modeling methods, and the network itself.
+We also have to test the resulting models.
+Naturally, this makes partitioning the data a bit of a challenge, as we have two successive levels of user models to train.
+We basically need three types of datasets: 
+
+\begin{enumerate*}
+  \item Training sets to create the standard modeling methods.
+  \item Training sets to create the personalized neural networks.
+  \item A testing set to test our final system.
+\end{enumerate*}
+
+Constructing these subsets of the available data is a common task in ensemble learning.
+We shall use an approach known as  \emph{bootstrap aggregating} (also known as \emph{bagging}),
+introduced by \cite{Breiman1996a}.
+Originally, bagging is an ensemble learning classification methods, where multiple classifiers are 
+trained by uniformly sampling a subset of the available training data. 
+Each model is then trained on one of these subsets, and the models are aggregated by averaging their individual predictions.
+
+Formally, given a training set $D$ with $n$ items, bagging creates $m$ new training sets of size $n' \leq n$ by sampling
+items from $D$ uniformly and with replacement. 
+In statistics, these types of samples are called \emph{bootstrap samples}.
+If $n'$ is comparable in size to $n$, there will be some items
+that are repeated in the new training sets.
+
+Bagging suits our needs perfectly, for a few reasons: First, the method helps create disjoint predictors, 
+since each predictor is only trained (or specialized for) a subset of the available data.
+Second, it allows us to easily train the underlying modeling methods without any complex partitioning of the data.
+Our partitioning strategy is now clear:
+
+\begin{enumerate*}
+  \item Split the entire dataset into a training and testing set.
+  \item Train modeling methods through bootstrap aggregation of the training set.
+  \item Train personalized network from each user's ratings from the training set.
+  \item Test the resulting personalized aggregation model with the testing set.
+\end{enumerate*}
+
+
+
+
+
+
+
+Offline training scenario, model-based user modeling
+
+Storage
+
+
+
+
 \subsection{Prediction Phase}
 
-
+After having created personalized network for each user, it is time to put these networks to good use.
+This is the prediction phase, where the different predictions for an unknown rating is fed into the network.
+The output of the network is the personalized aggregate score of the item in question.
 
 
