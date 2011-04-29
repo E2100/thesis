@@ -246,7 +246,7 @@
 % Sourcecode
 % -----------------
 
-% Settings
+% Listings
 \RequirePackage{listings}
 \RequirePackage{courier}
 \lstset{
@@ -264,11 +264,13 @@
   showspaces=false,
   showtabs=false,
   xleftmargin=0pt,
+  xrightmargin=0pt,
   framexleftmargin=0pt,
-  framexrightmargin=0pt,
+  framexrightmargin=3pt,
   framextopmargin=3pt,
   framexbottommargin=3pt,
-  rulecolor=\color{gray},
+  rulecolor=\color{black},
+  framerule=1pt,
   backgroundcolor=\color{white},
   showstringspaces=false,
   abovecaptionskip=5pt,
@@ -277,11 +279,11 @@
   aboveskip=20pt,
   belowskip=5pt
 }
-\lstloadlanguages{XML}
+\lstloadlanguages{XML,Ruby}
 
 % Captions
 \RequirePackage{caption}
-\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0,0,0,0}{\parbox{0.8\textwidth}{\hspace{0pt}#1#2#3}}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0,0,0,0}{\parbox{\textwidth}{\hspace{0pt}#1#2#3}}}
 \captionsetup[lstlisting]{
   format=listing, font={it}, labelfont={it}, textfont={it}, 
   singlelinecheck=false, margin=0pt, font={footnotesize}}
