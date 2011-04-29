@@ -179,6 +179,14 @@ One way of doing this is using a simple neural network, as we shall now explain.
 
 \subsection{Multilayer Perceptron}
 
+An \emph{artificial neural network} (ANN) is a computational model in AI,
+inspired by aspects of biological neural networks.
+They are represented as graphs, consisting of a set of nodes (representing artificial neurons) and
+edges (representing synapeses).
+ANNs can be used as statistical data modeling tools, capable of learning complex
+relationships between input and output data
+(see \citet[p567]{Russell1995} or \citet[p163]{Floreano2008}).
+
 A \emph{multilayer perceptron} (MP) is a simple 
 feedforward artificial neural network,
 that maps a set of scalar inputs to a set of outputs,
@@ -192,7 +200,7 @@ predictions to one output.
 An MP has multiple layers: an input layer, one or more hidden layers, and an output layer.
 Each layer has a set of nodes.
 Every node in every layer is connected to all nodes in the next layer
-with weighted edges (see Figure \ref{fig:neural}), called synapeses.
+with weighted edges (see Figure \ref{fig:neural}).
 During network activation, values propagate from the input layer, through intermediary nodes and edges,
 to the output layer. 
 
@@ -221,7 +229,7 @@ Every activation function relies on the weighted sum of the neuron's inputs $a_i
 \end{equation*}
 
 where $i$ and $j$ are nodes, $N$ is the number of input nodes to node $i$,
-$w_{ij}$ is the weight of the synapse between the two nodes,
+$w_{ij}$ is the weight of the connection between the two nodes,
 and $x_{j}$ is the activation value of node $j$.
 There are many possible activation functions,
 each applicable to some domains and types of data.
@@ -281,7 +289,7 @@ We basically need three types of datasets:
 \end{enumerate*}
 
 Constructing these subsets of the available data is a common task in ensemble learning.
-We shall use an approach known as  \emph{bootstrap aggregating} (also known as \emph{bagging}),
+We shall use an approach known as  \emph{bootstrap aggregating} (\emph{bagging}),
 introduced by \cite{Breiman1996}.
 Originally, bagging is an ensemble learning classification methods, where multiple classifiers are 
 trained by uniformly sampling a subset of the available training data. 
@@ -305,23 +313,80 @@ Our partitioning strategy is now clear:
   \item Test the resulting personalized aggregation model with the testing set.
 \end{enumerate*}
 
+Each modeling method is trained in ways specific to their implementation. 
+Model-based approaches create pre-built strutures and provide offline training,
+while heuristic methods simply store the data for future computation.
+Either way, it is up to each modeling method what it does with the supplied training data.
 
+Training the neural networks for each user is done through the backpropagation algorithm:
+Each user has a set of known ratings that serve as training examples.
+For each of these examples, the inputs are the predictions made by the modeling methods.
+The desired output is the actual rating given by the user.
+This requires that the underlying models are not all trained with the data point
+specifying this exact rating, or that the methods disregard this datapoint during
+the network training phase. Training our entire system then follows
+the algorithm outlined in Listing \ref{code:training}.
 
+\begin{figure*}
+  \lstinputlisting[
+    label=code:training,
+    caption={The algorithm that performs training of a 
+    user meta modeling system. Returns the trained methods and networks.
+    This is an offline, pre-prediction training approach.}
+  ]{../code/training}
+\end{figure*}
 
+The neural networks are heuristic in that they are pre-computed before any predictions are made.
+After training, each of these user-specific network models must be stored in our system.
+Creating and saving an individual network for each user might seem like a daunting task,
+but two characteristics makes this a perfectly valid approach:
 
+\begin{itemize}
+  \item 
+    The training is performed offline, and can be done at any time.
+    While the initial computational demand might be high,
+    the training is performed before any predictions are made.
+    Prediction performance is much more important than training performance
+    in this scenario as it is during prediction we wish to quickly 
+    present results to the user.
+  \item
+    Storing a neural net is as simple as storing the trained connection weights.
+    The overall network structure and activtion functions remain the same for each user.
+    As demonstrated, an MP is a simple network with few nodes, resulting
+    in a simple weight matrix that has to be stored for each user.
+    The size of this matrix corresponds to the number of input methods
+    and the number of hidden layers.
+    This results in compact user meta models that can easily be stored.
+\end{itemize}
 
-
-Offline training scenario, model-based user modeling
-
-Storage
-
-
+There is also the question of when each network should be trained.
+After all, as a user continues to explicitly rate more items,
+or as more items arrive in the system, the output from underlying methods
+will change, and the network must be updated to reflect this new reality.
+This problem, called \emph{concept drift} is a common occurence in machine learning methods.
+An optimal strategy would consider retraining the network after some preset number
+of new ratings or items have been added. As the network emply offline training,
+this strategy can work in the background, continously producing new or updated networks
+while predictions rely on the previous generation of completed user models.
 
 
 \subsection{Prediction Phase}
 
 After having created personalized network for each user, it is time to put these networks to good use.
 This is the prediction phase, where the different predictions for an unknown rating is fed into the network.
-The output of the network is the personalized aggregate score of the item in question.
+The output of the network is the personalized aggregate score of the item in question
+(see Figure \ref{fig:metanetwork}).
+
+\input{figure.metanetwork}
+
+The prediction algorithm is given in Listing \ref{code:prediction}.
+
+\begin{figure*}
+  \lstinputlisting[
+    label=code:prediction,
+    caption={The algorithm that performs prediction,
+    i.e. estimating the unknown rating from user $u$ to item $i$.}
+  ]{../code/prediction}
+\end{figure*}
 
 
