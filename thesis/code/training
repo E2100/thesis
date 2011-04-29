@@ -1,0 +1,19 @@
+Algorithm: Training
+  Input:
+    - R: The ratings matrix
+    - U: The set of users
+    - M: The set of modeling methods
+  Do
+    1. For each method in M:
+       1. Take new bootstrap sample from R
+       2. Train method with this sample
+    2. For each user in U:
+       1. Select all known user ratings from R
+       2. Collect predictions from trained methods for these items
+       3. Create training examples from method outputs and known ratings
+       4. Train a new MP with these examples
+    3. Return
+       1. The trained methods
+       2. The trained networks
+  End
+
