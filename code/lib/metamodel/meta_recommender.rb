@@ -19,9 +19,8 @@ class MetaRecommender
 
   def estimate_preference(userid,itemid)
     p = @meta[userid].prediction(itemid)
-    p = Scale.constrain(p)
-    raise PredictionError if p.nan?
-    p
+    return p if p.nan?
+    Scale.constrain(p)
   end
 
   def meta_task(userid)
