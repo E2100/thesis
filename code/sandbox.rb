@@ -1,34 +1,45 @@
-require 'lib/metamodel'
-M = MetaModel
+require 'pp'
 
-# create standard recommenders
-recommender_tasks = {
-  #knn_item:  M::Task.new({recommender: :knn_item}),
-  #random:  M::Task.new({recommender: :random}),
-  #cluster:  M::Task.new({recommender: :tree_cluster})
+def errors_to_weights(errors)
+  weights = {}
+  
+  # normalize errors
+  sorted = errors.sort { |a,b| a.last <=> b.last }
+  xmax   = sorted.last.last
+  xmin   = sorted.first.last
+  ymax   = 1.0
+  ymin   = 0.0
+  sorted.map! do |x| 
+    [x.first, normalize(x.last,xmin,xmax,ymin,ymax)]
+  end  
 
-  #svd1: M::Task.new({recommender: :svd}),
-  #svd2: M::Task.new({recommender: :svd, factorizer: :em}),
-  slope_one: M::Task.new({recommender: :slope_one}),
-  item_average: M::Task.new({recommender: :item_average}),
-  #average: M::Task.new({recommender: :item_user_average}),
-  #generic_user: M::Task.new({recommender: :generic_user}),
-  #generic_item: M::Task.new({recommender: :generic_item}) 
-}
-recommenders = M::Perform.perform_all(recommender_tasks)
+  # turn errors to weights
+  sorted.each do |method, error|
+    weights[method] = 1.0 - error
+  end
 
-meta_task = M::Task.new({
-  userid: 1,
-  recommender: :meta,
-  recommenders: recommenders.clone
+  # normalize weights
+  sum = weights.values.inject(:+)
+  weights.each do |method, weight|
+    weights[method] = weight == 0.0 ? 0.0 : weight / sum 
+  end
+  weights
+end
+
+def normalize(x,xmin,xmax,ymin,ymax)
+  xrange = xmax-xmin
+  yrange = ymax-ymin
+  ymin + (x-xmin) * (yrange.to_f / xrange) 
+end
+
+
+r = errors_to_weights({
+  emax: 3.0,
+  b: 2.0,
+  emid: 1.0,
+  d: 0.5,
+  emin: 0.0
 })
+pp r
 
-m = M::Perform.perform(meta_task)
-
-puts m.prediction(1,1)
-puts m.prediction(1,2)
-puts m.prediction(1,3)
-puts m.prediction(1,4)
-puts m.prediction(1,5)
-
-
+pp r.values.inject(:+)
