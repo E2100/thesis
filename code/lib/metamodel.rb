@@ -10,6 +10,9 @@ require 'java'
 require 'pp'
 require 'csv'
 
+# core ext
+require 'ext/array'
+
 # app libs
 require 'lucene'
 require 'mahout'
@@ -20,13 +23,11 @@ require 'scale'
 require 'task'
 require 'mlp'
 require 'mlp_sets'
-require 'linear'
 require 'model'
 require 'recommender'
 require 'rmse_evaluator'
 require 'rank_evaluator'
 require 'perform'
-require 'weights'
 require 'meta'
 require 'meta_recommender'
 require 'meta_basic_recommender'
