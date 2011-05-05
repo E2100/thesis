@@ -2,12 +2,11 @@ Algorithm: Prediction
   Input:
     - u: A user
     - i: An item
-    - n: The network for the current user
-    - R: The ratings matrix
     - M: The set of trained modeling methods
+    - S: The set of MetaSVD methods
   Do
     1. Collect predictions from each method in M for (u,i)
-    2. Set the network inputs to the method outputs
-    3. Run the network with these inputs
-    4. Return the network output
+    2. Estimate errors for each method for (u,i)
+    3. Create a weighted combination of the predictions and weights
+    4. Return the combined prediction
   End

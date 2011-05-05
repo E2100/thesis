@@ -91,6 +91,7 @@
 
 \RequirePackage{tikz}
 \RequirePackage{pgf}
+\RequirePackage{pgfplots}
 \usetikzlibrary{arrows,shapes,positioning}
 
 

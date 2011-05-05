@@ -136,33 +136,6 @@ Each user then has a pesonal set of weights describing how much they prefer each
 These weights can be estimated much in the same way as generalized weights, 
 with the same training and testing set, just on a per-user basis.
 
-TODO: Per user, per-item error estimations
-
-\begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} w_{uim} \cdot p_m(u,i),
-\end{equation*}
-
-Becomes true meta modeling:
-
-\begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \cdot p_m(u,i),
-\end{equation*}
-
-Predict errors:
-
-\begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} (1 - p_{e}(m,u,i)) \cdot p_m(u,i)
-  \quad \text{where} \quad 
-  0 \leq p_{e}(m,u,i) \leq 1.
-\end{equation*}
-
-
-
-
-
-
-\begin{comment}
-
 However, a personalized linear combination of modeling methods is not enough.
 Because of the disjoint nature of the differing modeling methods, 
 they essentially each find some reason that an item should receive a certain score.
@@ -206,5 +179,99 @@ In other words, to achieve a nonlinear personalized aggregation, we need to trai
 that takes a set of scalar scores and produces one scalar output.
 One way of doing this is using a simple neural network, as we shall now explain.
 
-\end{comment}
+\subsection{Multilayer Perceptron}
+
+An \emph{artificial neural network} (ANN) is a computational model in AI,
+inspired by aspects of biological neural networks.
+They are represented as graphs, consisting of a set of nodes (representing artificial neurons) and
+edges (representing synapeses).
+ANNs can be used as statistical data modeling tools, capable of learning complex
+relationships between input and output data
+(see \citet[p567]{Russell1995} or \citet[p163]{Floreano2008}).
+
+A \emph{multilayer perceptron} (MP) is a simple 
+feedforward artificial neural network,
+that maps a set of scalar inputs to a set of outputs,
+and is capable of distinguishing data that is not linearly separable
+\cite[p578]{Russell1995}.
+This fits our needs for a personalized aggregation function.
+By training a separate MP for each user, based on known ratings from this user,
+we can create individual nonlinear functions for mapping multiple 
+predictions to one output.
+
+An MP has multiple layers: an input layer, one or more hidden layers, and an output layer.
+Each layer has a set of nodes.
+Every node in every layer is connected to all nodes in the next layer
+with weighted edges (see Figure \ref{fig:neural}).
+During network activation, values propagate from the input layer, through intermediary nodes and edges,
+to the output layer. 
+
+The input layer nodes corresponds to each input we wish to process,
+and their value is set to the current raw input values.
+For example, if the inputs are recommender system methods,
+each input node corresponds to the prediction from one method.
+Nodes in the hidden and output layer use a nonlinear activation function 
+to capture patterns in the input data.
+Depending on the input layer values, nodes in the first hidden layer
+are either activated or not, and propagates some value to the 
+following layer. This continues until we reach the output layer,
+where the node(s) produce some final output value(s).
+
+\input{figure.perceptron}
+
+A node's \emph{activation value} is its actual output value when the network is activated,
+determined by an \emph{activation function}.
+The use of hidden layers and nonlinear activation functions is what allows an MP
+to separate nonlinear patterns. 
+Every activation function relies on the weighted sum of the neuron's inputs $a_i$
+\cite[p178]{Floreano2008}:
+
+\begin{equation*}
+  a_i = \sum_{j=1}^{N} w_{ij} x_j,
+\end{equation*}
+
+where $i$ and $j$ are nodes, $N$ is the number of input nodes to node $i$,
+$w_{ij}$ is the weight of the connection between the two nodes,
+and $x_{j}$ is the activation value of node $j$.
+There are many possible activation functions,
+each applicable to some domains and types of data.
+Two common choices are the following two sigmoid functions
+\cite[p179-180]{Floreano2008}:
+
+\begin{equation*}
+  \Phi(a_i) = \mathrm{tanh}(a_i) \quad \text{and} \quad \Phi(a_i) = \frac{1}{1 + \mathrm{e}^{-a_i}}.
+\end{equation*}
+
+The first function is the hyperbolic tangent which falls in the range $[-1,1]$,
+while the second is an equivalent function in the range $[0,1]$.
+Other possible activation functions include
+gaussian distribution functions, ramp and step functions, and trapezoidal
+functions.
+
+The \emph{backpropagation algorithm} for supervised learning \cite[p578]{Russell1995}
+is used to train an MP.
+This iterative algorithm uses a set of training examples to adjust the weights in 
+the network. Each training example is a set of input values with a corresponding correct output value.
+Backpropagation works in two phases:
+
+(1) The first phase begins by activating the network with an example from the training set,
+which produces an actual output value based on the current network configuration.
+The error between this actual output and the desired output from our example
+is propagated back through the network, which generates deltas (differences)
+between the actual neuron outputs and desired neuron outputs.
+
+(2) The second phase adjusts the weights of the network edges based on the computed error deltas.
+This output delta is multiplied with the input activation value to get the gradient of the weight,
+signifying how much the weight is wrong and in which direction.
+The weight is adjusted in the opposite direction of the gradient by subtracting some ratio
+of the gradient from the weight. 
+This ratio is called the \emph{learning rate},
+and can be adjusted to change the speed and quality of learning in the network.
+
+When the network is trained, and if it has found \emph{stable patterns} in the training set,
+we can feed it new input values to produce an unknown output value.
+More specifically, this is a type of \emph{learned generalization} \cite[p177]{Floreano2008}.
+The network learns the generalized connections between input and output,
+allowing us to identify how input predictions should be aggregated.
+
 

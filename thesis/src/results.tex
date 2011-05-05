@@ -8,38 +8,55 @@
 
 Test H1
 
-\begin{table}[t]
-  \begin{tabular*}{\textwidth}{ l l l l l l l l l l l }
+\begin{table}
+  \begin{tabular*}{\textwidth}{ l p{3cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
     \toprule
       \emph{T} & \emph{Method} & 
-      \emph{D1} & \emph{D2} & \emph{D3} & \emph{D4} & \emph{D5} & 
-      \emph{Min} & \emph{Max} & \emph{Avg} & \emph{StdDev}\\
+      \emph{D1} & \emph{D2} & \emph{D3} & \emph{D4} & \emph{D5}\\ 
     \midrule
-    S & SVD1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & SVD2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & SVD3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & SVD4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & Slope One & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & Generic User & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & Generic Item & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    S & Avg Rating & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    \midrule
-    A & Median  & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    A & Average & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
-    A & MLP net & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+    S & svd1          & 1.23893	  & 1.12604	  & 1.13272	  & 1.10454	  & 1.11849	 \\
+    S & svd2          & 1.26306	  & 1.14160   & 1.12608	  & 1.14587	  & 1.12608	 \\
+    S & svd3          & 1.00610	  & 0.98251	  & 0.98302	  & 0.98152	  & 0.97976	 \\
+    S & svd4          & 1.00405	  & 0.98300	  & 0.98492	  & 0.98501	  & 0.97987	 \\
+    S & slope\_one    & 1.19194	  & 1.05403	  & 1.04763	  & 1.04541	  & 1.03930  \\
+    S & item\_average & 1.07133	  & 0.96927	  & 0.96629	  & 0.96833	  & 0.97252	 \\
+    S & average       & 1.06987	  & 0.95573	  & 0.95271	  & 0.94154	  & 0.94924	 \\
+    S & cosine   	    & 1.11012	  & 0.94636	  & 0.94121	  & 0.94134	  & 0.93826	 \\
+    S & knn       	  & 1.48504	  & 1.14353	  & 1.18720   & 1.21565	  & 1.20226	 \\
+    \midrule                                                                    
+    A & median    	  & 0.98695	  & 0.88868	  & 0.88570   & 0.88578	  & 0.88551	 \\
+    A & average    	  & 0.99008	  & 0.85363	  & 0.85257	  & 0.85252	  & 0.85199	 \\
+    A & meta\_svd     & 0.93244	  & 0.80158	  & 0.79931	  & 0.82381	  & 0.81927	 \\
     \bottomrule
   \end{tabular*}
   \caption[Results]{RMSE, H2}
   \label{table:results:h2}
 \end{table}
 
-
-
-
-
-
-
-
+\begin{table}
+  \begin{tabular*}{\textwidth}{ l p{3cm} p{2cm} p{2cm} p{2cm} p{2cm} }
+    \toprule
+      \emph{T} & \emph{method} & 
+      \emph{min} & \emph{max} & \emph{mean} & $\sigma$\\
+    \midrule
+    S & svd1          & 1.10454	& 1.23893	& 1.144144	& 0.219795 \\
+    S & svd2          & 1.12608	& 1.26306	& 1.160538	& 0.227779 \\
+    S & svd3          & 0.97976	& 1.00610	& 0.986582	& 0.099107 \\
+    S & svd4          & 0.97987	& 1.00405	& 0.987370	& 0.092443 \\
+    S & slope\_one    & 1.03930	& 1.19194	& 1.075662	& 0.241515 \\
+    S & item\_average & 0.96629	& 1.07133	& 0.989548	& 0.202337 \\
+    S & average       & 0.94154	& 1.06987	& 0.973818	& 0.219679 \\
+    S & cosine   	    & 0.93826	& 1.11012	& 0.975458	& 0.259579 \\
+    S & knn       	  & 1.14353	& 1.48504	& 1.246736	& 0.348708 \\
+    \midrule            
+    A & median    	  & 0.88551	& 0.98695	& 0.906524	& 0.200574 \\
+    A & average    	  & 0.85199	& 0.99008	& 0.880158	& 0.234443 \\
+    A & meta\_svd     & 0.79931	& 0.93244	& 0.835282	& 0.222514 \\
+    \bottomrule
+  \end{tabular*}
+  \caption[Results]{RMSE, H2}
+  \label{table:results:h2:sum}
+\end{table}
 
 
 
