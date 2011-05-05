@@ -29,6 +29,8 @@ require 'perform'
 require 'weights'
 require 'meta'
 require 'meta_recommender'
+require 'meta_basic_recommender'
+require 'meta_svd_recommender'
 
 # config
 module MetaModel
