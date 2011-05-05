@@ -43,7 +43,7 @@ class Model
   end
  
   def self.rand(model,p)
-    t = Config::Data + '/tmp' 
+    t = Config::Data + '/tmp/model' 
     d = File.open(model.path).read.split("\n")
     n = d.size
     m = (n * p).to_i
@@ -56,7 +56,7 @@ class Model
     File.open(t, 'w') do |f|
       f.write(r.join("\n"))
     end
-    Model.new('/tmp')
+    Model.new('/tmp/model')
   end
 
 end
