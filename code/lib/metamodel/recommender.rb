@@ -84,7 +84,15 @@ private
     MetaRecommender.new(@task, model)
   end
   
+  def meta_basic
+    MetaBasicRecommender.new(@task, model)
+  end 
+
+  def meta_svd
+    MetaSVDRecommender.new(@task, model)
+  end
   
+
   # neighborhoods
 
   def knn
