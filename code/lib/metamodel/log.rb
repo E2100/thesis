@@ -16,7 +16,7 @@ module Log
 
   def evaluation(x)
     puts timestamp + "Evaluation results:"
-    puts x.to_s
+    pp x.sort { |a,b| a.last <=> b.last }
     puts
   end
 
