@@ -14,6 +14,12 @@ module Log
     puts
   end
 
+  def head(*msg)
+    puts
+    puts msg.join(' ')
+    puts '-'*100
+  end
+
   def evaluation(x)
     puts timestamp + "Evaluation results:"
     pp x.sort { |a,b| a.last <=> b.last }
