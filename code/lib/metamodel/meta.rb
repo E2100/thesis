@@ -16,7 +16,11 @@ class Meta
     recs = recommendations(itemid)
     ord  = ordered(recs)
     input  = ord.map { |e| Scale.from_stars(e) }
-    Scale.to_stars @net.output(input)
+    begin
+      Scale.to_stars @net.output(input)
+    rescue
+      Float::NAN
+    end
   end
   
 private
