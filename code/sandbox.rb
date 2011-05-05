@@ -1,45 +1,36 @@
-require 'pp'
+class Array
 
-def errors_to_weights(errors)
-  weights = {}
+  def sum
+    self.inject(:+).to_f
+  end
+
+  def mean
+    self.sum / self.size.to_f
+  end
   
-  # normalize errors
-  sorted = errors.sort { |a,b| a.last <=> b.last }
-  xmax   = sorted.last.last
-  xmin   = sorted.first.last
-  ymax   = 1.0
-  ymin   = 0.0
-  sorted.map! do |x| 
-    [x.first, normalize(x.last,xmin,xmax,ymin,ymax)]
-  end  
-
-  # turn errors to weights
-  sorted.each do |method, error|
-    weights[method] = 1.0 - error
+  def min
+    self.sort.first
   end
 
-  # normalize weights
-  sum = weights.values.inject(:+)
-  weights.each do |method, weight|
-    weights[method] = weight == 0.0 ? 0.0 : weight / sum 
+  def max
+    self.sort.last
   end
-  weights
+  
+  def variance
+    m = mean
+    s = 0.0
+    each { |x| s += (x-m) ** 2 } 
+    s / size
+  end
+
+  def stddev
+    Math.sqrt(variance)
+  end
+
 end
 
-def normalize(x,xmin,xmax,ymin,ymax)
-  xrange = xmax-xmin
-  yrange = ymax-ymin
-  ymin + (x-xmin) * (yrange.to_f / xrange) 
-end
+d = [2,3,2,2,3,4,5,5,4,3,4,1,2]
 
-
-r = errors_to_weights({
-  emax: 3.0,
-  b: 2.0,
-  emid: 1.0,
-  d: 0.5,
-  emin: 0.0
-})
-pp r
-
-pp r.values.inject(:+)
+puts d.sum
+puts d.variance
+puts d.stddev
