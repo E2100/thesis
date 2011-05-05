@@ -6,7 +6,6 @@ class Array; def variance; mean = self.mean; Math.sqrt(inject( nil ) { |var,x| v
 module MetaModel
 
 # Multilayer Perceptron
-# http://en.wikipedia.org/wiki/Multilayer_perceptron  
 class MLP
    
   def initialize(task)
@@ -56,23 +55,11 @@ class MLP
     #  return
     #end
 
-    #mx = ( n * 1.1 ).to_i
-    #lr = 1.0/(n * 3.0) 
-    #mm = 1.0 / (n * 1.5)
-    #mx = Scale.constrain(mx, 10, 100)
-    #lr = Scale.constrain(lr, 0.01, 1.0)
-    #mm = Scale.constrain(mm, 0.0, 10.0)
-    
-    mx = @task[:nn_max_iterations] #* (training_elements.size + 1)
-    lr = @task[:nn_learning_rate] #1.0 / n.to_f
-    me = @task[:nn_max_error] #1.0 / n.to_f
+    mx = @task[:nn_max_iterations] 
+    lr = @task[:nn_learning_rate]
+    me = @task[:nn_max_error]
     mm = @task[:nn_momentum]
-    
-    #puts "learning rate: #{lr}"
-    #puts "max error:     #{me}"
 
-    #pp @net.methods
-    #exit
     @net.learning_rule = MomentumBackpropagation.new
     @net.learning_rule.batch_mode      = false
     @net.learning_rule.max_iterations  = mx
@@ -94,7 +81,7 @@ class MLP
   def output(input)
     raise PredictionError if @off
     #return input[4]
-    #raise PredictionError if @net.learning_rule.total_network_error > 0.03
+    #return Float::NAN if @net.learning_rule.total_network_error > 0.02
     raise ArgumentError, "NaN as ANN input" if input.any? { |x| x.nan? }
     input = input.to_java(Java::double)
     @net.set_input(input) 
@@ -140,11 +127,11 @@ class MLP
       er = (Scale.to_stars(o)-Scale.to_stars(d)) ** 2
       next if er.nan?
       err += er
-      #puts "input:  #{i.map {|x| x.round(1)}}, \t o/c: #{o.round(2)} | #{d}, \t diff: #{(o-d).abs.round(3)}"
+      puts "input:  #{i.map {|x| x.round(1)}}, \t o/c: #{o.round(2)} | #{d}, \t diff: #{(o-d).abs.round(3)}"
     end
     rmse = Math.sqrt(err / elements.size.to_f)
-    #puts "neterr: #{@net.learning_rule.total_network_error}"
-    #puts "rmse: #{rmse}"
+    puts "neterr: #{@net.learning_rule.total_network_error}"
+    puts "rmse: #{rmse}"
     return rmse
   end
   
