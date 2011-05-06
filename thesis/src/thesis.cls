@@ -307,14 +307,6 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
-% Memoir vs algorithmic fix
-\renewcommand{\listofalgorithms}{\begingroup
-  \tocfile{List of Algorithms}{loa}
-\endgroup}
-\makeatletter
-  \let\l@algorithm\l@figure
-\makeatother
-
 
 % -----------------
 % Environments
