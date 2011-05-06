@@ -1,16 +1,15 @@
 \section{Latent Subjectivity}
 \label{sec:reasoning}
 
-As described in Chapter \ref{chap:theory}, 
-there are lots of ways of predicting unknown relevance scores. 
+As we saw in Chapter \ref{chap:theory}, 
+there are lots of ways of predicting the
+relevance of an item to a user. 
 In fact, judging by the number of different approaches,
 the only limiting factor seems to be the different 
 patterns researchers discover in available data.
-Different methods leverage data in different ways
-to achieve their goals of accurate predictions.
 As described in Section \ref{sec:aggregate},
-aggregate modeling is used to combine different, complimenting
-methods into one coherent system.
+aggregate modeling is a common way of combining different, complimenting
+methods into one prediction system.
 By leveraging so called \emph{disjoint patterns}
 in the data, several less than optimal predictors
 can be combined, so that the combination outperforms each part.
@@ -18,7 +17,7 @@ can be combined, so that the combination outperforms each part.
 However, both simple predictions and aggregate predictions have a fundamental problem.
 There exists an underlying, misplaced subjectivity to relevance prediction that is seldom discussed.
 When a method is developed or selected for use in a prediction system,
-a concious descision of applicable measures is made.
+a concious descision of which approach to use is made.
 The researcher or developer select which method (or methods in the case of aggregation),
 they think should be able to model users of the system.
 Consider the following relevance judgements:
@@ -40,7 +39,7 @@ Consider the following relevance judgements:
 \end{itemize*}
 
 Are these metrics subjective? 
-While the methods themselves do not discriminate, their selection
+While the methods themselves may perform well, their selection
 reflects how whoever created the system assumes how each user
 can and \emph{should} be modeled. This underlying, \emph{latent subjectivity} is not desirable.
 
@@ -57,6 +56,7 @@ Another way of explaining latent subjectivity is that
 In other words, each modeling method use some aspect of available data to make predictions,
 and the importance of each of these methods is determined by whoever creates the system,
 or by the on average best error-minimizing combination, not by each individual user.
+
 Aggregate modeling methods face the same problem of misplaced subjectivity: 
 Aggregation is done on a generalized, global level,
 where each user is expected to place the same importance on each modeling method.
@@ -116,3 +116,5 @@ latent subjectivity. The user is in control of which methods best fit their need
 each method's priority is influenced by how well it performs for the current item.
 We will now express our goals as a three hypotheses.
 
+
+\clearpage
