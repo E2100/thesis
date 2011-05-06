@@ -1,29 +1,26 @@
 \section{Hypotheses}
 
-So far we have taken a look at approaches to recommendations and personalized search:
-Traditionally, a single method that considers some pattern in the data is used.
-Modern techniques blend different methods to achieve a combined accuracy 
-that outranks the performance of each individual method.
-
-However, based on the notion of latent subjectivity in method selection and aggregation,
-we desire an even more personalized technique. 
-To this end, this paper will test three hypotheses (H1-H3), in an effort to establish
-whether per-user aggregation is a viable technique. First:
+To minimize any latent subjectivity, we would like a method
+for prediction aggregation that works on a per-user and per-item level (\emph{per-element}).
+By automatically adapting each modeling method based on which user and which item is currently being
+considered, we should be able to produce an improved result.
+This paper will consider three hypotheses (H1-H3) 
+to establish whether adaptive aggregation through stacked user modeling is a viable technique:
 
 {
   \itshape
-  $\mathbf{H1}$: The accuracy of user-item relevance predictions can be improved
-  by blending multiple modeling methods on a per-user basis.
+  $\mathbf{H1}$: The accuracy of relevance predictions can be improved
+  by blending multiple modeling methods on a per-user and per-item basis.
 }
 
 It stands to reason that if a recommender system is indeed impaired
 by the subjective selections of modeling methods,
-a per-user blend of these methods should outperform each of the individual approaches.
+an adaptive blend of these methods should outperform each of the individual approaches.
 Second:
 
 {
   \itshape
-  $\mathbf{H2}$: A per-user aggregation method can outperform global and generalized 
+  $\mathbf{H2}$: An adaptive aggregation method can outperform global and generalized 
   blending methods.
 }
 
@@ -35,7 +32,8 @@ Third:
 {
   \itshape
   $\mathbf{H3}$: The result set from an information retrieval query
-  can be personalized by blending multiple modeling methods on a per-user basis.
+  can be personalized by stacked user modeling, where the retrieval scores are considered 
+  standard input signals.
 }
 
 As described in Section \ref{subsec:signals},
@@ -43,10 +41,10 @@ every measure that influence the final ranking of results from a search engine
 can be seen as individual signals. Each signal, be it an IR score,
 something like PageRank or the result of a user modeling method,
 contributes to the final ranking.
-As the aggregation of these signals are the same problem faced
-when aggregating recommender systems,
-a per-user approach to blending signals should be able to
-produce a set of personalized search results.
+
+Naturally, this fits well into our notion of stacked modeling methods:
+Each input signal becomes an input to the top-level method,
+which performs adaption based on the currently retrieved item and current user.
 In other words, techniques from information retrieval and user modeling
-should be combined on a per-user basis to provide individually adapted results.
+should be combined on a per-element basis to provide individually adapted results.
 
