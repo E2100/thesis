@@ -16,14 +16,11 @@ class MetaSVDRecommender
 
     weights = errors_to_weights(es)
     result = 0.0
-    puts weights
-    @recommenders.each do |name, rec|
-      p = rec.prediction(userid, itemid)
+    weights.each do |name, w|
+      p = @recommenders[name].prediction(userid, itemid)
       return Float::NAN if p.nan?
       result += weights[name] * p
-    end
-    puts "result: #{result}"
-    puts '-'*10
+    end 
     result
   end
 
@@ -88,17 +85,17 @@ private
     data  = m.data
     SVDRecommender.new(
       data,
-      #ExpectationMaximizationSVDFactorizer.new(
-      #  data, 
-      #  20, #@task[:factorizer_features],
-      #  20 #@task[:factorizer_iterations]
-      #)) 
-      ALSWRFactorizer.new(
-        data,
-        10,  #@task[:factorizer_features],
-        0.01, #@task[:factorizer_lambda],
-        10   #@task[:factorizer_iterations]
-      ))
+      ExpectationMaximizationSVDFactorizer.new(
+        data, 
+        20, #@task[:factorizer_features],
+        20 #@task[:factorizer_iterations]
+      )) 
+      #ALSWRFactorizer.new(
+      #  data,
+      #  10,  #@task[:factorizer_features],
+      #  0.01, #@task[:factorizer_lambda],
+      #  10   #@task[:factorizer_iterations]
+      #))
   end
 
   def create_error_models
@@ -123,7 +120,7 @@ private
       end
     end
     Log.out('Writing error model tmp for', method)
-    path = '/tmp.' + method.to_s 
+    path = '/tmp/meta_svd.' + method.to_s 
     File.open(Config::Data + path, 'w') do |f|
       f.write(errors.map { |e| e.join(",") }.join("\n"))
     end
