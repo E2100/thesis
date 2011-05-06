@@ -295,6 +295,26 @@
   \lstset{language={#1},label={#2},caption={#3}}
 }{}
 
+% Pseudocode
+\RequirePackage{algorithm}
+%\RequirePackage[boxed]{algorithm}
+\RequirePackage{algorithmic}
+\algsetup{
+  indent=2em,
+  linenosize=\small,
+  linenodelimiter=. 
+}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+% Memoir vs algorithmic fix
+\renewcommand{\listofalgorithms}{\begingroup
+  \tocfile{List of Algorithms}{loa}
+\endgroup}
+\makeatletter
+  \let\l@algorithm\l@figure
+\makeatother
+
 
 % -----------------
 % Environments
