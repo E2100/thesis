@@ -1,27 +1,26 @@
 \section{Latent Subjectivity}
 \label{sec:reasoning}
 
-As seen in Chapter \ref{chap:theory}, 
+As described in Chapter \ref{chap:theory}, 
 there are lots of ways of predicting unknown relevance scores. 
 In fact, judging by the number of different approaches,
 the only limiting factor seems to be the different 
-patterns and relations researchers discover in the available data.
-Different methods leverage the data in different ways
+patterns researchers discover in available data.
+Different methods leverage data in different ways
 to achieve their goals of accurate predictions.
-
-As seen in Section \ref{sec:aggregate},
+As described in Section \ref{sec:aggregate},
 aggregate modeling is used to combine different, complimenting
 methods into one coherent system.
-By leveraging what we shall call \emph{disjoint patterns}
+By leveraging so called \emph{disjoint patterns}
 in the data, several less than optimal predictors
-can be combined in a way that outperforms the best
-of the combined predictors.
+can be combined, so that the combination outperforms each part.
 
-However, there exists an underlying subjectivity to 
-relevance prediction that is seldom discussed.
-When a researcher or developer elects to use some modeling method
-in order to represent users of their system,
-a concious selection of applicable measures is made.
+However, both simple predictions and aggregate predictions have a fundamental problem.
+There exists an underlying, misplaced subjectivity to relevance prediction that is seldom discussed.
+When a method is developed or selected for use in a prediction system,
+a concious descision of applicable measures is made.
+The researcher or developer select which method (or methods in the case of aggregation),
+they think should be able to model users of the system.
 Consider the following relevance judgements:
 
 \begin{itemize*}
@@ -30,8 +29,8 @@ Consider the following relevance judgements:
   \item When providing personalized search results, one ranking signal may be 
   the social connections of the current user. Items deemed relevant by the user's 
   peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
-  \item When determining the relevance of an email, one predictor might be based
-  on how often the sender sends emails to the current user.
+  %\item When determining the relevance of an email, one predictor might be based
+  %on how often the sender sends emails to the current user.
   \item When recommending movies, one predictor may be based on the ratings
   of users with similar profile details. Another predictor might be 
   dependent on some feature, e.g. production year of well liked movies.
@@ -43,7 +42,8 @@ Consider the following relevance judgements:
 Are these metrics subjective? 
 While the methods themselves do not discriminate, their selection
 reflects how whoever created the system assumes how each user
-can and \emph{should} be modeled. This \emph{latent subjectivity} is not desirable.
+can and \emph{should} be modeled. This underlying, \emph{latent subjectivity} is not desirable.
+
 For example, While one user might appreciate a social
 influence in their search results, another user might not.
 While one user might find frequency of communication maps well to relevance,
@@ -90,4 +90,29 @@ instead of trying to generalize individuality,
 it should be embraced, by allowing users to implicitly and automatically select which methods they prefer,
 from a large set of possible predictors.
 
+The issue of latent subjectivity can also cause problems when considering the scope of items.
+Should we really use the same metrics for judging every item's relevance score?
+Needless to say, items are often quite different from another,
+along a myriad of dimensions. Consider the World Wide Web:
+If each webpage is an item, the number of metrics we can use to judge
+the relevance of an item is immense.
+If items are indeed as different as the users themselves, it stands to reason that the same 
+modeling method will not perform as well for every item.
+We are left with the same two questions as before:
+
+\begin{enumerate*}
+  \item What combination of which methods will accurately model every item?
+  \item Which methods could possibly help predict a score for an item?
+\end{enumerate*}
+
+As before, an approach where we only need to consider the second question is desireable.
+Regardless, both traditional, single-approach modeling methods, and modern aggregation approaches
+often treat every item the same. No matter its intrinsic qualities, an item will be judged
+by the same methods as every other item. 
+
+This chapter will develop a way to aggregate a host of modeling methods on a per-user and per-item basis.
+By adapting the aggregation to the current item and user, we sidestep the issue of
+latent subjectivity. The user is in control of which methods best fit their needs, and
+each method's priority is influenced by how well it performs for the current item.
+We will now express our goals as a three hypotheses.
 
