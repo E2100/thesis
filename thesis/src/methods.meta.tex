@@ -6,11 +6,11 @@ Let us first define a few terms.
 We defined \emph{meta modeling} as using one modeling method to adapt other modeling methods.
 \emph{User Meta Modeling} would then mean adapting user modeling methods with another user modeling method.
 More specifically, we define \emph{stacked user modeling} (SUM) as adapting a set of many user modeling method
-with a single, top-level user modeling method.
+with a set of secondary, higher-level modeling methods.
 Formally, a system for stacked user modeling can be described as a 6-tuple:
 
 \begin{eqnarray*}
-  \mathrm{SUM} &=& (Items, Users, Ratings, Framework, Methods, Aggregation)\\
+  \mathrm{SUM} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
                &=& (I,U,R,F,M,A).
 \end{eqnarray*}
 
@@ -45,11 +45,12 @@ Examples include Slope One, SVD and Nearest Neighbor weighted predictions
 (see Section \ref{subsec:recommender:examples}).
 These methods predict unkown connections between users and items based on some pattern in the data,
 for example user correlations or social connections.
-
-The $Aggregation$ part of our 6-tuple refers to how the predictions from the different methods are blended
-into one prediction. 
-To achieve the best possible compounded result, we wish to use methods that look at disjoint patterns, 
+To achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
+
+The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
+In traditional user modeling aggregation this is a single function for combining the different predictions,
+for example a set of weights, one for each method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of each predictor.
@@ -57,7 +58,7 @@ As described in Section \ref{sec:aggregate}, multiple prediction results are nor
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
-In stacked user modeling, the aggregation part is another user modeling method.
+In stacked user modeling, the $Adapters$ are themselves user modeling methods.
 This will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
 (see Figure \ref{fig:stackedusermodeling}):
@@ -68,10 +69,10 @@ In other words, we have two distinct layers of user modeling
     When presented with an item and a user, these methods produce a predicted rating based on an algorithm.
     For example, k-nearest neighbor methods use the ratings of similar users to predict ratings.
   \item
-    \emph{The adaptive layer} is another user modeling method, that works a bit different.
-    When given a user and an item, this method estimates how well each method
-    from the first level will perform for this prediction.
-    These estimations are then used to create a combined prediction score.
+    \emph{The adaptive layer} is another set of modeling methods, that works a bit different.
+    These methods take an item and a user and estimates how well its underlying method
+    will perform this prediction.
+    These estimations are then used to create a combined prediction score by the aggregation layer.
     
 \end{enumerate}
 
@@ -79,7 +80,8 @@ In other words, we have two distinct layers of user modeling
 
 While they may look similar, level 2 is not the same as the method aggregation approaches we have seen in Section \ref{sec:aggregate}.
 Standard aggregation methods simply combine multiple predictions into one scalar score, regardless of the current item and user.
-However, in our approach, this layer is a fully fledged modeling method in itself, not a simple function or a set of generalized weights.
+However, in our approach, this layer are a set of fully fledged modeling method in itself, not a simple function or a set of generalized weights.
+In addition, we train a separate adaptive function for each method in level 1.
 By using a complete modeling method, adaptive aggregation can be achieved, as we shall soon see.
 
 Another way of describing (and implementing) the two modeling levels is through application
@@ -115,7 +117,7 @@ Let us now describe how to make this function.
 
 \subsection{Adaptive Aggregation}
 
-To perform adaptive aggregation, we need the $Aggregation$ (or $\mathrm{reduce}$) method to be an actual user modeling method,
+To perform adaptive aggregation, we need the $Adapters$ to be actual user modeling methods,
 that adapts the blending with respect to each user and item.
 Until now we have talked about both prediction aggregation (scores) and rank aggregation (sorted lists).
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
@@ -157,7 +159,14 @@ we wish the weights to be model-, user- and item-specific. In other words,
 We have reduced our mission to finding $p_{w}(m,u,i)$,
 that is, predicting weights for each combination of a method, a user and an item.
 How can we estimate these weights?
-Consider the following \emph{error matrix}:
+While we could probably estimate weights based on known ratings,
+a much more straight-forward approach is to \emph{model the actual errors of a method}.
+By modeling the errors of a method, we can in turn predict the error
+of a method for an item and a user. 
+If we know the probable errors of each prediction from a set of models,
+we can weight the resulting prediction accordingly.
+This will become clear later, but for now,
+consider the following \emph{error matrix}:
 
 \begin{equation*}
  E_{u,i} =
@@ -185,10 +194,10 @@ Whenever we wish to train a new modeling method,
   \item Split the ratings data into two sets for training and error estimation.
   \item Train the modeling method in its specific way with the first training set.
   \item Use the error estimation data set to create the error matrix.
-  \item Train a meta modeling method based on the error matrix.
+  \item Train a meta modeling method (error model) based on the error matrix.
 \end{enumerate*}
 
-When we have an error matrix for each modeling method, 
+When we have an error model for each modeling method, 
 we can use these errors to estimate each weight.
 Whenever we wish to create an adaptive aggregate prediction,
 \emph{the prediction phase},
@@ -205,21 +214,26 @@ The next section will explain these steps in detail.
 For now, we have our approach to stacked user modeling:
 
 \begin{equation*}
-  \hat{r}_{ui} = \sum_{m \in M} (1 - p_{e}(m,u,i)) \cdot p_r(m,u,i),
+  \hat{r}_{ui} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \cdot p(m_{r},u,i),
 \end{equation*}
 
-with the following conditions:
+where $p$ returns a prediction from a model for a specific user and item,
+$m_{r}$ is a standard modeling method, 
+and $m_{e}$ is its corresponding error modeling method.
+For this equation to work as expected, the weights must be normalized:
 
 \begin{equation*}
   0 \leq p_{e}(m,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p_{e}(m,u,i)) = 1.
 \end{equation*}
 
-
-
-
 Notice that the \emph{only} difference between $p_e$ and $p_r$ is how they are created.
 $p_r$ is trained with the standard ratings matrix, and $p_e$ is trained using the error matrix.
-In other words, through this approach we may use any recommender system for both 
-the standard methods in level 1 and for the adaptive aggregation in level 2.
-
+This means we can use \emph{any} standard modeling method to perform adaptive aggregation.
+Hence, the name \emph{stacked user modeling}. Each modeling method
+is stacked under another modeling method.
+The result is predictions that not only consider the current user and item,
+but also consider how each method will perform in each circumstance.
+We will now see how this approach can be used in practice:
+First we shall do prediction aggregation in a recommendation scenario,
+then rank aggregation in an information retrieval scenario.
 
