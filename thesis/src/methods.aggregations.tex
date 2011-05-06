@@ -2,41 +2,89 @@
 
 \subsection{Modeling Phase}
 
-\begin{figure*}
-  \lstinputlisting[
-    label=code:training,
-    caption={The algorithm that performs training of a 
-    user meta modeling system. Returns the trained models and meta models.
-    This is an offline, pre-prediction training approach.}
-  ]{../code/training}
-\end{figure*}
+\begin{algorithm}
+  \begin{algorithmic}[1]
+  \REQUIRE ratings: The ratings matrix
+  \REQUIRE models: The set of modeling methods
+  \ENSURE
+    \STATE $trained\_models \gets \emptyset$
+    \STATE $meta\_models \gets \emptyset$
+    \FORALL{$m \in models$}
+      \STATE $sample \gets \mathrm{BootstrapSample}(ratings)$
+      \STATE $trained\_models_m \gets \mathrm{TrainModel}(m, sample)$
+      \STATE $meta\_models_m \gets \mathrm{TrainMetaModel}(m, ratings)$
+    \ENDFOR 
+  \RETURN $(trained\_models, meta\_models)$
+  \end{algorithmic}
+  \caption[Training]{Training
+    %The algorithm that performs training of a 
+    %user meta modeling system. Returns the trained models and meta models.
+    %This is an offline, pre-prediction training approach.
+  }
+  \label{code:training}
+\end{algorithm}
 
-\begin{figure*}
-  \lstinputlisting[
-    label=code:meta_training,
-    caption={Meta Training.}
-  ]{../code/meta_training}
-\end{figure*}
+
+
+\begin{algorithm}
+  \begin{algorithmic}[1]
+  \REQUIRE ratings: The ratings matrix
+  \REQUIRE model: A modeling method
+  \ENSURE
+    \STATE $errors \gets []$
+    \FORALL{$user,item,rating \in ratings$}
+        \STATE $errors_{user,item} \gets | ratings_{user,item} - \mathrm{Predict}(model, user, item) |$
+    \ENDFOR 
+    \STATE $meta\_model \gets \mathrm{NewMetaModel}()$
+    \STATE $meta\_model \gets \mathrm{TrainModel}(meta\_model, errors)$
+  \RETURN $meta\_model$
+  \end{algorithmic}
+  \caption[Training Meta Models]{Training Meta Models}
+  \label{code:trainmetamodel}
+\end{algorithm}
+
+
+
+
+
+%begin{figure*}
+  %lstinputlisting[
+    %abel=code:meta_training,
+    %aption={Meta Training.}
+  %{../code/meta_training}
+%end{figure*}
 
 
 \subsection{Prediction Phase}
 
-\begin{figure*}
-  \lstinputlisting[
-    label=code:prediction,
-    caption={The algorithm that performs prediction,
-    i.e. estimating the unknown rating from user $u$ to item $i$.}
-  ]{../code/prediction}
-\end{figure*}
-
-\begin{figure*}
-  \lstinputlisting[
-    label=code:weights,
-    caption={Estimating weights.}
-  ]{../code/weights}
-\end{figure*}
-
-
+\begin{algorithm}
+  \begin{algorithmic}[1]
+  \REQUIRE user, item: A user and an item
+  \REQUIRE ratings: The ratings matrix
+  \REQUIRE models: The set of trained modeling methods 
+  \REQUIRE meta\_models: The set of trained meta models
+  \ENSURE
+    \STATE $predictions \gets \emptyset$
+    \STATE $errors  \gets \emptyset$
+    \FORALL{$m \in Models$}
+      \STATE $predictions \gets \mathrm{Predict}(models_m, user, item)$
+      \STATE $errors  \gets \mathrm{Predict}(meta\_models_m, user, item)$
+    \ENDFOR 
+    \STATE $errors \gets \mathrm{Normalize}(errors)$
+    \STATE $prediction \gets 0$
+    \FORALL{$m \in Models$}
+      \STATE $weight_m \gets 1 - error_m$
+      \STATE $prediction \gets prediction + weight_m \cdot ratings_m$
+    \ENDFOR
+ 
+  \RETURN $prediction$
+  \end{algorithmic}
+  \caption[Prediction]{Prediction
+    %The algorithm that performs prediction,
+    %i.e. estimating the unknown rating from user $u$ to item $i$.
+  }
+  \label{code:prediction}
+\end{algorithm}
 
 
 
