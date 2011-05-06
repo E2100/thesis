@@ -34,9 +34,9 @@ private
   def model
     if @task[:bagging] < 1.0
       # bootstrap aggregation
-      Model.rand(Model.new(@task[:dataset]), @task[:bagging])
+      @model_boot ||= Model.rand(Model.new(@task[:dataset]), @task[:bagging])
     else
-      Model.new(@task[:dataset])
+      @model_data ||= Model.new(@task[:dataset])
     end
   end
   
