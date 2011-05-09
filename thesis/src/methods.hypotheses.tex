@@ -42,9 +42,11 @@ can be seen as individual signals. Each signal, be it an IR score,
 something like PageRank or the result of a user modeling method,
 contributes to the final ranking.
 
-Naturally, this fits well into our notion of stacked modeling methods:
-Each input signal becomes an input to the top-level method,
-which performs adaption based on the currently retrieved item and current user.
-In other words, techniques from information retrieval and user modeling
-should be combined on a per-element basis to provide individually adapted results.
+This fits well into our thinking that multiple modeling methods
+will leverage multiple patterns in the data.
+The information retrieval ranking function
+becomes another metric, just like the user modeling methods,
+allowing us to do IR and personalization with the same algorithm.
+
+\clearpage
 
