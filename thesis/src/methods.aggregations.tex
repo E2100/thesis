@@ -7,14 +7,14 @@
   \REQUIRE ratings: The ratings matrix
   \REQUIRE models: The set of modeling methods
   \ENSURE
-    \STATE $trained\_models \gets \emptyset$
-    \STATE $meta\_models \gets \emptyset$
+    \STATE $rating\_models \gets \emptyset$
+    \STATE $error\_models \gets \emptyset$
     \FORALL{$m \in models$}
       \STATE $sample \gets \mathrm{BootstrapSample}(ratings)$
-      \STATE $trained\_models_m \gets \mathrm{TrainModel}(m, sample)$
-      \STATE $meta\_models_m \gets \mathrm{TrainMetaModel}(m, ratings)$
+      \STATE $rating\_models_m \gets \mathrm{TrainModel}(m, sample)$
+      \STATE $error\_models_m  \gets \mathrm{TrainModel}(rating\_models_m, ratings)$
     \ENDFOR 
-  \RETURN $(trained\_models, meta\_models)$
+  \RETURN $(rating\_models, error\_models)$
   \end{algorithmic}
   \caption[Training]{Training
     %The algorithm that performs training of a 
@@ -35,12 +35,12 @@
     \FORALL{$user,item,rating \in ratings$}
         \STATE $errors_{user,item} \gets | ratings_{user,item} - \mathrm{Predict}(model, user, item) |$
     \ENDFOR 
-    \STATE $meta\_model \gets \mathrm{NewMetaModel}()$
-    \STATE $meta\_model \gets \mathrm{TrainModel}(meta\_model, errors)$
-  \RETURN $meta\_model$
+    \STATE $error\_model \gets \mathrm{NewModel}()$
+    \STATE $error\_model \gets \mathrm{TrainModel}(model, errors)$
+  \RETURN $error\_model$
   \end{algorithmic}
-  \caption[Training Meta Models]{Training Meta Models}
-  \label{code:trainmetamodel}
+  \caption[Training Error Model]{Train Error Model}
+  \label{code:trainerrormodel}
 \end{algorithm}
 
 
@@ -61,14 +61,14 @@
   \begin{algorithmic}[1]
   \REQUIRE user, item: A user and an item
   \REQUIRE ratings: The ratings matrix
-  \REQUIRE models: The set of trained modeling methods 
-  \REQUIRE meta\_models: The set of trained meta models
+  \REQUIRE rating\_models: The set of trained modeling methods 
+  \REQUIRE error\_models: The set of trained meta models
   \ENSURE
     \STATE $predictions \gets \emptyset$
     \STATE $errors  \gets \emptyset$
-    \FORALL{$m \in Models$}
-      \STATE $predictions \gets \mathrm{Predict}(models_m, user, item)$
-      \STATE $errors  \gets \mathrm{Predict}(meta\_models_m, user, item)$
+    \FORALL{$m \in rating\_models$}
+      \STATE $predictions \gets \mathrm{Predict}(rating\_models_m, user, item)$
+      \STATE $errors  \gets \mathrm{Predict}(error\_models_m, user, item)$
     \ENDFOR 
     \STATE $errors \gets \mathrm{Normalize}(errors)$
     \STATE $prediction \gets 0$
