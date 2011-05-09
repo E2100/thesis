@@ -60,9 +60,8 @@ Information overload happens throughout the interaction process, which is import
 
 \subsection{Online Overload}
 
-The Web is a common source of information overload. 
-As we will use the web as an example throughout this paper, 
-this section describes why the Web is so conducive to information overload.
+The Web is a common source of information overload, 
+and presents a good example of when and how the problem occurs.
 
 Online information overload is especially pervasive when considering \emph{content aggregating websites}, 
 i.e. sites that collate information from multiple other sites and sources. 
@@ -70,7 +69,6 @@ Online information retrieval (i.e. search engines), fall into this category, as 
 online newspapers, feed readers and portal websites.
 As mentioned, the wealth and scope of data are natural culprits of online overload, 
 as well as the varying qualities of websites publishing the information. 
-However, lessons from graph theory can also help us see why information overload occurs on the Web.
 
 Graph theory presents applicable models of the Web that characterize how people navigate between websites, 
 and show how content aggregators form important hubs in the network. 
@@ -130,18 +128,6 @@ where $k_i$ is the number of links pointing to node $i$.
   \prod_{i} k_i  = \frac{k_i}{\sum_{j}^N k_j}
 \end{equation} 
 
-\vspace{1em}
-\noindent
-Another important topological observation of the Web is how fragmented it is. 
-\citet[p166]{Barabasi2003} describes the Internet as a number of continents:
-
-The first continent is the \emph{central core}, where most important hubs reside. On this continent, most sites are easily reachable through each other.
-The second is the \emph{in-continent}, and is defined by the group of websites that often link to sites in the central core, but seldom receive reciprocal links from central hubs.
-The third is the \emph{out-continent}, which are comprised of sites that are often linked to from the central hub, but seldom link back.
-Finally, the Internet has many \emph{islands}, or dark nets, which are not accessible through links from other continents. 
-The islands of the Web is why search engines allows web masters to manually add their sites to the search engine index --- not all sites are discoverable by following simple links. Some of the Web is topographically close, but a lot of it is not.
-
-Returning to our main topic, the \emph{hubs} often represent the previously mentioned \emph{content aggregating websites}. 
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 
 link attachment of newly created nodes. 
 Factor in the existence of multiple sub-graphs, or continents, and we can intuitively see that navigating the Web is not as 
@@ -149,10 +135,9 @@ easy as it might appear from simple models.
 
 What does seem clear is that these content aggregating hubs are prime candidates for overwhelming their users with information. 
 The fundamental observed structure of the Web creates the need for information brokers that link the net together, 
-and the need for techniques to display a lot of data. 
+and the need for techniques to display a lot of data --- adapted to each user and each item. 
 
 So far we have established that information overload is a pervasive problem, especially on the web.
 The question now becomes how to best solve this issue. 
 This is where user modeling comes in.
-
 
