@@ -1,4 +1,4 @@
-\section{Adaptive Prediction Aggregation}
+\section{Stacked Prediction Aggregation}
 
 Adaptive prediction aggregation means combining the results
 from multiple scalar predictors based on the current user and item
@@ -199,7 +199,7 @@ the training can be performed in the background, while new
 and speedy predictions are always at the users hands.
 
 
-\section{Adaptive Rank Aggregation}
+\section{Stacked Rank Aggregation}
 \label{sec:methods:rank}
 
 Now that we have seen how to adaptively aggregate scalar scores, it is time to see how
@@ -346,7 +346,7 @@ We run the query and items through the IR model to get the constrained set of it
 Each of the recommender methods is then run for each of the items in the results list.
 As before, the first for-loop can easily be peformed in parallel.
 Each call to $\mathrm{Predict}$ is independent of the other operations,
-and allowing us to perform it as a $\mathrm{map}$ operation.
+allowing us to perform it as a $\mathrm{map}$ operation.
 
 As before, the error estimations are normalized before converting them to weights.
 Since we are dealing with two dimensions of errors, for each item and each method,
@@ -377,6 +377,3 @@ The next section will describe our system that implements these algorithms.
 This system is used in the next chapter to evaluate the strength of the algorithms in this chapter,
 in order to test our hypotheses.
 
-
-\section{Implementation}
-\label{sec:implementation}
