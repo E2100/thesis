@@ -1,0 +1,53 @@
+\begin{figure}[t]
+  \center
+  \def\layersep{3cm}
+  \begin{tikzpicture}[shorten >=1pt,->,draw=black!50, node distance=\layersep]
+
+    \tikzstyle{every pin edge}=[<-,shorten <=2pt]
+    \tikzstyle{neuron}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
+    \tikzstyle{input neuron}=[neuron, fill=green!50];
+    \tikzstyle{output neuron}=[neuron, fill=red!50];
+    \tikzstyle{hidden neuron}=[neuron, fill=blue!50];
+    \tikzstyle{annot} = [text width=10em, text centered]
+    
+    \node[output neuron, pin=left:IR] (IR) at (0,-3) {};
+    
+    \node[input neuron] (M-1) at (\layersep, -1) {};
+    \node[input neuron] (M-2) at (\layersep, -2) {};
+    \node[input neuron] (M-3) at (\layersep, -3) {};
+    \node[input neuron] (M-4) at (\layersep, -4) {};
+    \node[input neuron] (M-5) at (\layersep, -5) {};
+    
+    \node[hidden neuron] (E-1) at (\layersep*2, -1) {};
+    \node[hidden neuron] (E-2) at (\layersep*2, -2) {};
+    \node[hidden neuron] (E-3) at (\layersep*2, -3) {};
+    \node[hidden neuron] (E-4) at (\layersep*2, -4) {};
+    \node[hidden neuron] (E-5) at (\layersep*2, -5) {};
+    
+    \node[output neuron,pin={[pin edge={->}]right:R}, right of=E-3] (O) {};
+    
+    \foreach \source in {1,...,5}
+         \path (M-\source) edge (E-\source);
+     
+    \foreach \source in {1,...,5}
+         \path (IR) edge (M-\source);
+ 
+    \foreach \source in {1,...,5}
+         \path (E-\source) edge (O);
+    
+    \node[annot, above of=M-1, node distance=1cm] (hl) {\emph{Methods layer}};
+    \node[annot, right of=hl] {\emph{Adaptive layer}};
+
+  \end{tikzpicture}
+
+  \vspace{1em}
+  \caption[Adaptive Rank Aggregation]{
+    Adaptive Rank Aggregation: 
+    An IR method returns a results list of possibly related items, each with a ranking score.
+    The methods layer estimates ratings for each item in the results list.
+    The adaptive layer predicts how accurate ach of these ratings are likely to be.
+    Finally, the ranking scores, ratings and accuracy estimations are combined,
+    into one result list, R.
+  }
+  \label{fig:adaptiverank}
+\end{figure}
