@@ -1,73 +1,148 @@
 \section{Adaptive Prediction Aggregation}
 
+Adaptive prediction aggregation means combining the results
+from multiple scalar predictors based on the current user and item.
+As mentioned, we have two levels of predictors:
+The first level is a set of traditional recommender systems
+that produce estimations of unknown ratings between users and items.
+The second level is another set of recommender systems 
+that predict how accurate each of the first level recommenders will be.
+
+In this section, we shall explain how such a system may be created.
+Most importantly, there are two distinct phases to stacked user modeling:
+
+\begin{enumerate*}
+  \item The modeling phase creates the user models for both levels.
+  \item The prediction phase uses the created models to estimate ratings.
+\end{enumerate*}
+
+We shall first explain the modeling phase, then the prediction phase,
+when dealing with prediction aggregation.
+The next section will explain a similar situation where
+we wish to do \emph{adaptive rank aggregation}: 
+combining ordered lists of results, depending on the current user and item.
+
+
 \subsection{Modeling Phase}
+
+Listing \ref{code:training} gives the basic algorithm for training
+our models. The input to this method is the standard ratings matrix,
+and a set of untrained modeling methods (in this case,
+untrained recommender systems).
 
 \begin{algorithm}
   \begin{algorithmic}[1]
   \REQUIRE ratings: The ratings matrix
-  \REQUIRE models: The set of modeling methods
+  \REQUIRE methods: The set of modeling methods
   \ENSURE
     \STATE $rating\_models \gets \emptyset$
     \STATE $error\_models \gets \emptyset$
-    \FORALL{$m \in models$}
+    \FORALL{$methods \in methods$}
       \STATE $sample \gets \mathrm{BootstrapSample}(ratings)$
-      \STATE $rating\_models_m \gets \mathrm{TrainModel}(m, sample)$
+      \STATE $rating\_models_m \gets \mathrm{TrainModel}(method, sample)$
       \STATE $error\_models_m  \gets \mathrm{TrainModel}(rating\_models_m, ratings)$
     \ENDFOR 
   \RETURN $(rating\_models, error\_models)$
   \end{algorithmic}
   \caption[Training]{Training
-    %The algorithm that performs training of a 
-    %user meta modeling system. Returns the trained models and meta models.
-    %This is an offline, pre-prediction training approach.
   }
   \label{code:training}
 \end{algorithm}
 
+An important question is how we should split the ratings data.
+In this scenario, we need to split the data for a number of purposes.
+The following sets must be created during training:
 
+\begin{enumerate*}
+  \item Training sets to create the standard recommenders.
+  \item Training sets to create the error estimation models.
+  \item A testing set to test our final system.
+\end{enumerate*}
+
+Constructing these subsets of the available data is a common task in ensemble learning
+\cite[p7]{Polikar2006}.
+As seen in Listing \ref{code:training}, we use an approach called 
+\emph{bootstrap aggregation}, also known as \emph{bagging}
+(introduced by \cite{Breiman1996}).
+Originally, bagging is used by ensemble learning classification methods, where multiple classifiers are 
+trained by uniformly sampling a subset of the available training data. 
+Each model is then trained on one of these subsets, and the models are aggregated by averaging their individual predictions.
+
+Formally, given a training set $D$ with $n$ items, bagging creates $m$ new training sets of size $n' \leq n$ by sampling
+items from $D$ uniformly and with replacement. 
+In statistics, these types of samples are called \emph{bootstrap samples}.
+If $n'$ is comparable in size to $n$, there will be some items
+that are repeated in the new training sets.
+
+Bagging suits our needs perfectly, for a few reasons: First, the method helps create disjoint predictors, 
+since each predictor is only trained (or specialized for) a subset of the available data.
+Second, it allows us to easily train the underlying modeling methods without any complex partitioning of the data.
+Our partitioning strategy is now clear:
+
+\begin{enumerate*}
+  \item Split the entire dataset into a training and testing set.
+  \item Train modeling methods through bootstrap aggregation of the training set.
+  \item Train error models from the complete training set.
+  \item Test the resulting system with the initial testing set.
+\end{enumerate*}
+
+Each modeling method is trained in ways specific to their implementation. 
+Model-based approaches create pre-built strutures and provide offline training,
+while heuristic methods simply store the data for future computation.
+Either way, it is up to each modeling method what it does with the supplied training data.
+The result of this algorithm is a set of trained rating models and error models.
 
 \begin{algorithm}
   \begin{algorithmic}[1]
   \REQUIRE ratings: The ratings matrix
-  \REQUIRE model: A modeling method
+  \REQUIRE rating\_model: A standard user model
   \ENSURE
-    \STATE $errors \gets []$
+    \STATE $errors \gets [[]]$
     \FORALL{$user,item,rating \in ratings$}
-        \STATE $errors_{user,item} \gets | ratings_{user,item} - \mathrm{Predict}(model, user, item) |$
+        \STATE $errors_{user,item} \gets | ratings_{user,item} - \mathrm{Predict}(rating\_model, user, item) |$
     \ENDFOR 
-    \STATE $error\_model \gets \mathrm{NewModel}()$
-    \STATE $error\_model \gets \mathrm{TrainModel}(model, errors)$
+    \STATE $error\_method \gets \mathrm{NewModelingMethod}(SVD)$
+    \STATE $error\_model  \gets \mathrm{TrainModel}(error\_method, errors)$
   \RETURN $error\_model$
   \end{algorithmic}
   \caption[Training Error Model]{Train Error Model}
   \label{code:trainerrormodel}
 \end{algorithm}
 
+Listing \ref{code:trainerrormodel} shows an algorithm for training the error models.
+The input is the entire ratings matrix, and a trained recommender model
+that this error model should represent.
+We first create the aforementioned error matrix by estimating
+predictions for each known combination in the ratings data.
+The $\mathrm{NewModelingMethod}$ call simply creates a new, untrained
+recommender model of some prespecified $type$
+(in this case, a new SVD-based model, but any recommender method will do).
+A new model is then trained based on the created error matrix,
+and returned as our new $error\_model$.
 
-
-
-
-%begin{figure*}
-  %lstinputlisting[
-    %abel=code:meta_training,
-    %aption={Meta Training.}
-  %{../code/meta_training}
-%end{figure*}
+When the computations of the algorithm in Listing \ref{code:training} is complete,
+we have a set of trained recommender systems, and a set of trained error models.
+Each recommender model has a corresponding error model,
+forming a set of stacks, that we shall use when performing predictions.
 
 
 \subsection{Prediction Phase}
 
+In the prediction phase of adaptive prediction aggregation,
+we wish to use our stacks of trained models to produce adaptive
+combinations of multiple predictions and accuracy estimations.
+Listing \ref{code:prediction} gives the basic algorithm.
+
 \begin{algorithm}
   \begin{algorithmic}[1]
   \REQUIRE user, item: A user and an item
-  \REQUIRE ratings: The ratings matrix
   \REQUIRE rating\_models: The set of trained modeling methods 
-  \REQUIRE error\_models: The set of trained meta models
+  \REQUIRE error\_models: The set of trained error models
   \ENSURE
-    \STATE $predictions \gets \emptyset$
+    \STATE $ratings \gets \emptyset$
     \STATE $errors  \gets \emptyset$
     \FORALL{$m \in rating\_models$}
-      \STATE $predictions \gets \mathrm{Predict}(rating\_models_m, user, item)$
+      \STATE $ratings \gets \mathrm{Predict}(rating\_models_m, user, item)$
       \STATE $errors  \gets \mathrm{Predict}(error\_models_m, user, item)$
     \ENDFOR 
     \STATE $errors \gets \mathrm{Normalize}(errors)$
@@ -80,13 +155,36 @@
   \RETURN $prediction$
   \end{algorithmic}
   \caption[Prediction]{Prediction
-    %The algorithm that performs prediction,
-    %i.e. estimating the unknown rating from user $u$ to item $i$.
   }
   \label{code:prediction}
 \end{algorithm}
 
+The first input is the user and item for which we wish to predict a rating.
+We assume that this rating is unknown --- predicting ratings for known combinations
+would mean recommending items the user has already seen and considered
+(however, if we are dealing with a task such as personalized search,
+these known ratings are of course important, as we shall see in the next section).
 
+The other inputs are the trained rating models, and the corresponding error models.
+The algorithm begins by creating empty sets for predicted ratings and errors.
+Next, each modeling method is used to predict ratings, and their error models to predict errors.
+Note that each step in the first for-loop is independent of each other, and both steps
+inside the for loop is also independent. This is then an algorithm well suited for
+parallelization.
+In a MapReduce framework, this for loop would be run as a $\mathrm{map}$ operation,
+where the input user and item is mapped over the sets of modeling methods
+(we will get back to this in Section \ref{sec:implementation}).
+
+After the predictions have been collected, the errors are normalized,
+i.e. converted to the range $[0,1]$ and changed to sum to $1$.
+This is vital before last stage of the prediction algorithm,
+which weighs each prediction from the different rating models.
+This step corresponds to the previously explained $\mathrm{reduce}$ operation,
+that combines multiple scores into one final result.
+The weight of each method is computed as $1 - error$, where $error$ 
+is the normalized error for this method, for the current user and item.
+Each rating prediction is then weighted, and combined to form the final,
+adaptively aggregated prediction.
 
 
 \section{Adaptive Rank Aggregation}
@@ -97,3 +195,4 @@
 \subsection{Prediction Phase}
 
 \section{Implementation}
+\label{sec:implementation}
