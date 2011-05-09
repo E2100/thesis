@@ -1,27 +1,48 @@
 \section{Stacked User Modeling}
 \label{sec:usermetamodeling}
 
-How can we perform adaptive method aggregation?
-Let us first define a few terms.
-We defined \emph{meta modeling} as using one modeling method to adapt other modeling methods.
-\emph{User Meta Modeling} would then mean adapting user modeling methods with another user modeling method.
-More specifically, we define \emph{stacked user modeling} (SUM) as adapting a set of many user modeling method
-with a set of secondary, higher-level modeling methods.
-Formally, a system for stacked user modeling can be described as a 6-tuple:
+\emph{Stacked User Modeling} (SUM) is a way of combining recommender systems
+in an effort to answer two related questions.
+Given that we wish to predict the relevance of an item to a user,
+using many disjoint patterns in the data,
+
+\begin{enumerate*}
+  \item What rating does each method predict?
+  \item How accurate will each of these predictions be?
+\end{enumerate*}
+
+User modeling methods and recommender systems traditionally only care about the first question:
+a single method is used to predict an unknown rating.
+Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
+However, we wish to make the aggregation \emph{adaptive},
+so that the aggregation itself depends on which user and which item we are considering.
+
+Formally, we define stacked user modeling as \emph{adapting a set of user modeling methods
+with another complementary set of user modeling methods} 
+(see Figure \ref{fig:stackedusermodeling}).
+The first set creates standard prediction scores, and answers the first question.
+The second set predicts how accurate each method will be for the current user and item,
+answering the second question.
+The interesting bit is that SUM can use recommender systems for both these tasks, as we shall soon see.
+A system for stacked user modeling is specified by a 6-tuple:
 
 \begin{eqnarray*}
   \mathrm{SUM} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
                &=& (I,U,R,F,M,A).
 \end{eqnarray*}
 
-We have a set of $Items$ and a set of $Users$.
-There is also a set of $Ratings$: each user $u \in U$ can \emph{rate} an item $i \in I$.
-As before, we use the term "rating" loosely --- other applicable and equivalent terms include \emph{relevance}, \emph{utility},
-\emph{connection strength} or \emph{ranking}. In other words, this is a measure of what a user thinks of an item
-in the current domain language. However, since "rating" will match the case study we present later in this chapter,
+\input{figure.stack}
+
+As always, we have sets of $Users$ and $Items$, 
+and a set of $Ratings$: each user $u \in U$ can produce a \emph{rating} $r \in R$ of an item $i \in I$.
+These ratings can be explicitly provided by users, for example by rating movies,
+or they can be mined from existing data, for example by mining query logs.
+As before, we use the term "rating" loosely --- equivalent terms include \emph{relevance}, \emph{utility},
+\emph{score} or \emph{connection strength}. In other words, this is a measure of what a user thinks of an item
+in the current domain language. However, since \emph{rating} will match the case study we present later in this chapter,
 that is what we shall use. 
 
-The $Framework$ variable specifies how this data is represented.
+The $Framework$ variable specifies how the data is represented.
 The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
 We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit rating:
 
@@ -35,22 +56,23 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
  \end{pmatrix}
 \end{equation*}
 
-As we are dealing with multiple approaches to user modeling, we have a set of $Methods$ that each create their own
+As we are dealing with multiple approaches to user modeling, we also have a set of modeling $Methods$, that each create their own
 user models. 
-Each model $m \in M$ are used to compute predictions, i.e. estimations of unknown ratings.
-As demonstrated in Chapter \ref{chap:theory}, there are many different forms of user modeling,
-that each consider differents aspects of the available data: the users, items and ratings, as well as 
-other sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
-Examples include Slope One, SVD and Nearest Neighbor weighted predictions
+Each model $m \in M$ are used to compute predictions.
+In our case, these methods are recommendation systems.
+As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms,
+that consider differents aspects of available data: users, items and ratings, as well as 
+sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
+Examples of such recommender systems include Slope One predictions, SVD factorization and Nearest Neighbor weighted predictions
 (see Section \ref{subsec:recommender:examples}).
 These methods predict unkown connections between users and items based on some pattern in the data,
-for example user correlations or social connections.
-To achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
+for example user profile similarity, rating correlations or social connections.
+As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
 The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
-In traditional user modeling aggregation this is a single function for combining the different predictions,
-for example a set of weights, one for each method.
+In traditional prediction aggregation this is a single function for combining the different predictions,
+for example by precomputing a set of weights, one for each method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of each predictor.
@@ -59,6 +81,7 @@ combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
 In stacked user modeling, the $Adapters$ are themselves user modeling methods.
+These methods predict how accurate each of their corresponding recommender methods will be.
 This will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
 (see Figure \ref{fig:stackedusermodeling}):
@@ -66,36 +89,27 @@ In other words, we have two distinct layers of user modeling
 \begin{enumerate}
   \item
     \emph{The methods layer} consists of traditional user modeling methods, that use a single measure to produce predictions.
-    When presented with an item and a user, these methods produce a predicted rating based on an algorithm.
-    For example, k-nearest neighbor methods use the ratings of similar users to predict ratings.
+    When presented with an item and a user, these methods produce a predicted rating $\hat{r}_{ui}$ based on an algorithm.
   \item
-    \emph{The adaptive layer} is another set of modeling methods, that works a bit different.
-    These methods take an item and a user and estimates how well its underlying method
-    will perform this prediction.
+    \emph{The adaptive layer} is another set of corresponding modeling methods, that work a bit different.
+    These methods take an item and a user and estimates how well its underlying method will perform this prediction.
     These estimations are then used to create a combined prediction score by the aggregation layer.
-    
+    Each of these adaptive methods do not have to employ the same algorithm as their corresponding methods,
+    they are only similar in that both are recommender systems.
 \end{enumerate}
-
-\input{figure.stack}
-
-While they may look similar, level 2 is not the same as the method aggregation approaches we have seen in Section \ref{sec:aggregate}.
-Standard aggregation methods simply combine multiple predictions into one scalar score, regardless of the current item and user.
-However, in our approach, this layer are a set of fully fledged modeling method in itself, not a simple function or a set of generalized weights.
-In addition, we train a separate adaptive function for each method in level 1.
-By using a complete modeling method, adaptive aggregation can be achieved, as we shall soon see.
 
 Another way of describing (and implementing) the two modeling levels is through application
 of the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
 When performing \emph{prediction aggregation} (scores), this estimation can be expressed as
 
 \begin{equation*}
-  \hat{r}_{ui} = \mathrm{reduce}(u, \mathrm{map}(M,u,i)).
+  \hat{r}_{ui} = \mathrm{reduce}(u, i, \mathrm{map}(M, u, i)).
 \end{equation*}
 
-First, each modeling method is applied through the $\mathrm{map}$ function, with the current user and rating for which
-a rating should be estimated. This produces a set of scalar prediction values. These values are then
-combined through the $\mathrm{reduce}$ method, which takes the predictions and current user as input.
-In our case, this is the adaptive aggregation method. 
+First, each modeling method is applied through the $\mathrm{map}$ function, with the current user and item for which
+a rating should be estimated. This operation returns a set of scalar prediction values. These values are then
+combined in the $\mathrm{reduce}$ method, which takes the predictions and current user as input.
+In our case, this is the set of adaptive recommender methods. 
 If we wish to do rank aggregation (i.e. sorted lists), the equation is a bit different:
 
 \begin{equation*}
@@ -111,27 +125,24 @@ for parallell computation (as explained in \citet[p75]{Manning2008}).
 The $\mathrm{map}$ function may apply each modeling method in parallell, 
 as these are independent computations.
 The modified $\mathrm{reduce}$ function, which takes the resulting predictions $\mathrm{map}$ and the current
-user as inputs, serve as our adaptive aggregator.
-Let us now describe how to make this function.
+user as inputs, serve as our adaptive layer.
 
 
 \subsection{Adaptive Aggregation}
 
-To perform adaptive aggregation, we need the $Adapters$ to be actual user modeling methods,
-that adapts the blending with respect to each user and item.
+To perform adaptive aggregation, we need the $Adapters$ to be actual recommender systems.
 Until now we have talked about both prediction aggregation (scores) and rank aggregation (sorted lists).
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
-
-The simplest generalized way of prediction aggregation is a simple avereage over all predictions made
+The simplest generalized way of prediction aggregation is to take the avereage of all predictions made
 by the different methods (e.g. \citet[p3]{Aslam2001}):
 
 \begin{equation*}
   \hat{r}_{ui} = \frac{1}{N} \sum_{m \in M} p(m,u,i).
 \end{equation*}
 
-$\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
+Here, $\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from method $m$.
-However, in most cases we wish to weight each method differently (e.g. \cite{Claypool1999} ):
+However, most recommender aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p(m,u,i) 
@@ -139,16 +150,18 @@ However, in most cases we wish to weight each method differently (e.g. \cite{Cla
 \end{equation*}
 
 Here, $w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
-As described in \ref{sec:aggregate}, these weights can be estimated using a host of machine learning methods.
-The known rating data is separated into a training- and testing set, which is used to estimate optimal weights
-by minimizing some error across the testing set 
-(note that the training set is also split in some way into two sets to create the singular modeling methods).
+As described in \ref{sec:aggregate}, these weights can be estimated through different machine learning methods.
+Most often, the ratings data is divided into two sets:
+A training set for training the recommender systems, and a testing set for finding the weights
+that produce the optimal combination of predictors.
 However, as discussed in Section \ref{sec:reasoning},
-this is still a generalized, averaged result across every user. 
+this is still a generalized result, averaged across every user. 
 The system assumes that the best average result is the best result for each individual user.
 
 In order to leverage as many data patterns as possible, and remove the latent subjectivity,
-we wish the weights to be model-, user- and item-specific. In other words,
+we need \emph{adaptive weights} that are computed spcifically for each combination of a user and an item.
+However, just as we do not know the rating of every combination, we do not know the optimal weight.
+In other words, these adaptive weights have to be estimated, just as the ratings themselves:
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \cdot p_{r}(m,u,i)
@@ -156,17 +169,15 @@ we wish the weights to be model-, user- and item-specific. In other words,
   \sum_{m \in M} (p_{w}(m,u,i)) = 1.
 \end{equation*}
 
-We have reduced our mission to finding $p_{w}(m,u,i)$,
-that is, predicting weights for each combination of a method, a user and an item.
-How can we estimate these weights?
-While we could probably estimate weights based on known ratings,
-a much more straight-forward approach is to \emph{model the actual errors of a method}.
-By modeling the errors of a method, we can in turn predict the error
-of a method for an item and a user. 
-If we know the probable errors of each prediction from a set of models,
-we can weight the resulting prediction accordingly.
-This will become clear later, but for now,
-consider the following \emph{error matrix}:
+We have now reduced our mission to creating a method that can estimate the adaptive weights: $p_{w}(m,u,i)$.
+As mentioned, we wish to use the same algorithms for both of these predictions.
+For recommender systems to be applicable here, we need to create a matrix (or graph)
+that stores known estimations of how accurate some of the predictions will be.
+
+The key insight is that \emph{the accuracy of a method is the inverse of its predicted error}.
+By modeling the errors of a method through standard recommender systems,
+we can in turn predict errors for untested combinations.
+Consider the following \emph{error matrix}:
 
 \begin{equation*}
  E_{u,i} =
@@ -178,12 +189,12 @@ consider the following \emph{error matrix}:
  \end{pmatrix}
 \end{equation*}
 
-Creating an error matrix for each modeling method is quite simple.
-By splitting the data used to train the methods in two,
+Creating an error matrix for each modeling method is quite simple:
+by splitting the ratings data in two,
 the first set can be used for the actual training, and the second
-can be used to populate the error matrix.
-Each method then gets an error matrix where some cells have values.
-Each value corresponds to the prediction error for a combination of a user and an item.
+can be used to populate each error matrix.
+Each standard modeling method gets an error matrix where some cells have values:
+each value corresponds to the prediction error for a combination of a user and an item.
 Notice how similar this matrix is to the previously introduced ratings matrix.
 This similarity is what will allow us using the exact same modeling methods
 to perform adaptive aggregation.
@@ -207,7 +218,7 @@ we apply the following algorithm:
   \item Collect predictions from each modeling method for $(u,i)$.
   \item Collect estimated errors for each method for $(u,i)$.
   \item Normalize the errors so that the error vector sums to $1$.
-  \item Compute a weighted combination where each weight is $1 - e_m$.
+  \item Compute a weighted combination where each weight is $1 - e_{m,u,i}$.
 \end{enumerate*}
 
 The next section will explain these steps in detail.
@@ -218,22 +229,25 @@ For now, we have our approach to stacked user modeling:
 \end{equation*}
 
 where $p$ returns a prediction from a model for a specific user and item,
-$m_{r}$ is a standard modeling method, 
-and $m_{e}$ is its corresponding error modeling method.
+$m_{r}$ is a standard recommender model, 
+and $m_{e}$ is its corresponding error model.
 For this equation to work as expected, the weights must be normalized:
 
 \begin{equation*}
   0 \leq p_{e}(m,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p_{e}(m,u,i)) = 1.
 \end{equation*}
 
-Notice that the \emph{only} difference between $p_e$ and $p_r$ is how they are created.
-$p_r$ is trained with the standard ratings matrix, and $p_e$ is trained using the error matrix.
+Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
+$m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using the error matrix.
 This means we can use \emph{any} standard modeling method to perform adaptive aggregation.
-Hence, the name \emph{stacked user modeling}. Each modeling method
-is stacked under another modeling method.
-The result is predictions that not only consider the current user and item,
-but also consider how each method will perform in each circumstance.
-We will now see how this approach can be used in practice:
-First we shall do prediction aggregation in a recommendation scenario,
-then rank aggregation in an information retrieval scenario.
+Hence, the name \emph{stacked user modeling}: 
+each standard modeling method is stacked under another accuracy estimating modeling method.
 
+The result of this is a system that does not only aggregate a number of predictions for each unknown
+combination of users and items,
+but that also combines these methods based on how accurate each prediction is likely to be.
+Now that we have our model, it is time to see how it can be implemented.
+First, we shall do prediction aggregation in a recommendation scenario,
+and then rank aggregation in an information retrieval scenario.
+
+\clearpage
