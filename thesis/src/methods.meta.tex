@@ -4,7 +4,7 @@
 \emph{Stacked User Modeling} (SUM) is a way of combining recommender systems
 in an effort to answer two related questions.
 Given that we wish to predict the relevance of an item to a user,
-using many disjoint patterns in the data,
+using many methods that consider disjoint data patterns,
 
 \begin{enumerate*}
   \item What rating does each method predict?
@@ -34,7 +34,7 @@ A system for stacked user modeling is specified by a 6-tuple:
 \input{figure.stack}
 
 As always, we have sets of $Users$ and $Items$, 
-and a set of $Ratings$: each user $u \in U$ can produce a \emph{rating} $r \in R$ of an item $i \in I$.
+and a set of $Ratings$: each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 These ratings can be explicitly provided by users, for example by rating movies,
 or they can be mined from existing data, for example by mining query logs.
 As before, we use the term "rating" loosely --- equivalent terms include \emph{relevance}, \emph{utility},
