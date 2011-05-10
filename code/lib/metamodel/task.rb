@@ -80,7 +80,8 @@ class Task
     {
       userid: 0,
       recommenders: {},
-      meta_method: :average
+      meta_method: :average,
+      number_of_results: 10
     }
   end
   
