@@ -92,7 +92,7 @@
 \RequirePackage{tikz}
 \RequirePackage{pgf}
 \RequirePackage{pgfplots}
-\usetikzlibrary{arrows,shapes,positioning}
+\usetikzlibrary{arrows,shapes,positioning,plotmarks}
 
 
 % -----------------
