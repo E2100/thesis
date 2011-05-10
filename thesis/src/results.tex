@@ -1,10 +1,108 @@
 \label{chap:results}
 
+This chapter will perfom experiments to find out whether or not
+\emph{stacked user modeling} is a viable technique.
+We will first explain which evaluation metrics will be used,
+and the datasets we will use to test the technique.
+Then, we will test each of hypotheses given in Section \ref{sec:hypotheses}.
+The next chapter will discuss the implications of these results.
+
+
 \section{Evaluation Metrics}
+
+To evaluate how our model performs, we need a measure
+for computing the total error across a large number of predictions.
+The canonical measure for estimating the error of a 
+predictions from a recommender system
+is the \emph{Root mean squared error} (RMSE) measure
+(e.g. \citet[p17]{Herlocker2004}, \citet[p13]{Adomavicius2005} and \citet[p6]{Bell2007}).
+We shall use this measure to estimate the performance
+of our adaptive prediction aggregation algorithms.
+The RMSE of a set of estimations $\hat{R}$, 
+compared to a set of known ratings $R$, is defined as
+
+\begin{equation*}
+  RMSE(\hat{R},R) = \sqrt{E((\hat{R} - R)^2)}
+  = \sqrt{\frac{
+      \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
+    }{
+      n
+    }},
+\end{equation*}
+
+where $n$ is the total number of predictions.
+The RMSE combines a set of errors into one single combined error.
+A beneficial feature of the RMSE is that the resulting error 
+will be on the same scale as the estimations. In other words,
+if we are predicting values on the scale $1-5$, the computed error
+will be on this scale as well. In this case, an error of $1$
+would then say that we are on average $1$ point away from the true 
+ratings on our $1-5$ scale.
+
+While the RMSE works well for evaluating scalar predictions,
+we need another measure for considering a predicted sorting 
+from rank estimation methods.
+Here, we are not interested in the predicted scores,
+but rather in which position each item appears in a sorted list of results.
+This is for instance needed when measuring the performance of a
+personalized search engine.
+Because of this, we are interested in examining how 
+personalization with stacked user modeling affects the rankings
+from an IR method.
+
 
 \section{Datasets}
 
+To test our model, we need an applicable dataset with users, items and ratings.
+We chose the MovieLens dataset\footnote{
+See http://www.grouplens.org/node/73 --- accessed 10.05.2011} of movie ratings.
+This dataset is often used to test the performance of recommender systems,
+for example in \citet[p9]{Alshamri2008}, \citet[p4]{Lemire2005}, \citet[p1]{Adomavicius2005}
+and \citet[p2]{Herlocker2004}.
+The dataset consits of a set of users, a set of movies, and a set of movie ratings
+on the scale $1$ through $5$, and is available in two sizes:
+
+\begin{itemize*}
+  \item A set of 100,000 ratings from 943 users on 1,682 movies.
+  \item A set of 100,000,209 ratings from 6,040 users of 3,900 movies.
+\end{itemize*}
+
+Each dataset also comes with meta-data on each user, such as
+gender, age and occupation. There is also meta-data on each movie,
+such as its title, release date and genre. 
+For prediction aggregation, we are only interested in the ratings matrix
+extracted from this dataset, while the titles of each movie will be used
+to experiment with personalized search.
+
+
+
 \section{Prediction Aggregation}
+
+\begin{table}
+  \begin{tabular*}{\textwidth}{ l l }
+    \toprule
+    \emph{method} & \emph{description} \\
+    \midrule
+    svd1          & SVD recommender, ALSWR factorizer and 10 factorizer features. \\
+    svd2          & SVD recommender, ALSWR factorizer and 20 factorizer features. \\
+    svd3          & SVD recommender, EM factorizer and 10 factorizer features. \\
+    svd4          & SVD recommender, EM factorizer and 20 factorizer features. \\
+    slope\_one    & Standard Slope One rating difference recommender. \\
+    item\_avg     & Baseline recommender based on the average ratings of items. \\
+    average       & Baseline recommender based on the average ratings of items and users. \\
+    cosine   	    & Weighted ratings based on cosine similarity between items. \\
+    knn       	  & Collaborative predictions weighted by user similarity through the PCC. \\
+    \midrule
+    median    	  & Aggregation: The median rating from the above methods. \\
+    avg       	  & Aggregation: The average rating from the above methods. \\
+    stacked       & Adaptive aggregation: Secondary, SVD-based accuracy predictions. \\
+    \bottomrule
+  \end{tabular*}
+  \caption[Stacked Modeling Methods]{
+    Stacked modeling methods: A short description of each of the recommender methods
+    used in our experiment. See Section \ref{sec:recommender} for more information.}
+  \label{table:results:methods}
+\end{table}
 
 \begin{table}
   \begin{tabular*}{\textwidth}{ l p{3cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
@@ -17,14 +115,14 @@
     S & svd3          & 1.0061	  & 0.9825	  & 0.9830	  & 0.9815	  & 0.9797	 \\
     S & svd4          & 1.0040	  & 0.9830	  & 0.9849	  & 0.9850	  & 0.9798	 \\
     S & slope\_one    & 1.1919	  & 1.0540	  & 1.0476	  & 1.0454	  & 1.0393   \\
-    S & item\_average & 1.0713	  & 0.9692	  & 0.9662	  & 0.9683	  & 0.9725	 \\
+    S & item\_avg     & 1.0713	  & 0.9692	  & 0.9662	  & 0.9683	  & 0.9725	 \\
     S & average       & 1.0698	  & 0.9557	  & 0.9527	  & 0.9415	  & 0.9492	 \\
     S & cosine   	    & 1.1101	  & 0.9463	  & 0.9412	  & 0.9413	  & 0.9382	 \\
     S & knn       	  & 1.4850	  & 1.1435	  & 1.1872    & 1.2156	  & 1.2022	 \\
     \midrule                                                                    
     A & median    	  & 0.9869	  & 0.8886	  & 0.8857    & 0.8857	  & 0.8855	 \\
-    A & average    	  & 0.9900	  & 0.8536	  & 0.8525	  & 0.8525	  & 0.8519	 \\
-    A & meta\_svd     & \textbf{0.9324}	  & \textbf{0.8015}	  & \textbf{0.7993}  & \textbf{0.8238} & \textbf{0.8192} \\
+    A & avg       	  & 0.9900	  & 0.8536	  & 0.8525	  & 0.8525	  & 0.8519	 \\
+    A & stacked       & \textbf{0.9324}	  & \textbf{0.8015}	  & \textbf{0.7993}  & \textbf{0.8238} & \textbf{0.8192} \\
     \bottomrule
   \end{tabular*}
   \caption[Results]{RMSE, H1, H2}
@@ -40,16 +138,16 @@
     S & svd1          & 1.1045	& 1.2389	& 1.1441	& 0.2197 \\
     S & svd2          & 1.1260	& 1.2630	& 1.1605	& 0.2277 \\
     S & svd3          & 0.9797	& 1.0061	& 0.9865	& 0.0991 \\
-    S & svd4          & 0.9798	& 1.0040	& 0.9873	& 0.0924 \\
+    S & svd4          & 0.9798	& 1.0040	& 0.9873	& \textbf{0.0924} \\
     S & slope\_one    & 1.0393	& 1.1919	& 1.0756	& 0.2415 \\
     S & item\_average & 0.9662	& 1.0713	& 0.9895	& 0.2023 \\
     S & average       & 0.9415	& 1.0698	& 0.9738	& 0.2196 \\
     S & cosine   	    & 0.9382	& 1.1101	& 0.9754	& 0.2595 \\
     S & knn       	  & 1.1435	& 1.4850	& 1.2467	& 0.3487 \\
     \midrule            
-    A & median    	  & 0.8855	& 0.9865	& 0.9065	& \textbf{0.2005} \\
+    A & median    	  & 0.8855	& 0.9865	& 0.9065	& 0.2005 \\
     A & average    	  & 0.8519	& 0.9900	& 0.8801	& 0.2344 \\
-    A & meta\_svd     & \textbf{0.7993}	& \textbf{0.9324}	& \textbf{0.8352}	& 0.2225 \\
+    A & stacked       & \textbf{0.7993}	& \textbf{0.9324}	& \textbf{0.8352}	& 0.2225 \\
     \bottomrule
   \end{tabular*}
   \caption[Results]{RMSE stats, H1, H2}
