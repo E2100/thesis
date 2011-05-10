@@ -174,9 +174,12 @@ As mentioned, we wish to use the same algorithms for both of these predictions.
 For recommender systems to be applicable here, we need to create a matrix (or graph)
 that stores known estimations of how accurate some of the predictions will be.
 
+\input{figure.errors}
+
 The key insight is that \emph{the accuracy of a method is the inverse of its predicted error}.
 By modeling the errors of a method through standard recommender systems,
-we can in turn predict errors for untested combinations.
+we can in turn predict errors for untested combinations
+(see Figure \ref{fig:adaptiveweights}).
 Consider the following \emph{error matrix}:
 
 \begin{equation*}
