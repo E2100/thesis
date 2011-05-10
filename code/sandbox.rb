@@ -1,36 +1,26 @@
-class Array
+require 'pp'
 
-  def sum
-    self.inject(:+).to_f
-  end
+f = File.open('data/movielens/movielens-100k/meta/u.item').read
 
-  def mean
-    self.sum / self.size.to_f
-  end
-  
-  def min
-    self.sort.first
-  end
-
-  def max
-    self.sort.last
-  end
-  
-  def variance
-    m = mean
-    s = 0.0
-    each { |x| s += (x-m) ** 2 } 
-    s / size
-  end
-
-  def stddev
-    Math.sqrt(variance)
-  end
-
+titles = f.split("\n").map do |line|
+  line.gsub!(/[0-9]+,/,"")
+  line.gsub(/ \([0-9]+\)/,"")
 end
 
-d = [2,3,2,2,3,4,5,5,4,3,4,1,2]
+words = titles.join(' ').split(' ').map do |word|
+  word.gsub(/\(|\)|-|[0-9]+/, "").downcase
+end
+words.delete_if { |w| w.size < 3 }
 
-puts d.sum
-puts d.variance
-puts d.stddev
+freqs = {}
+words.each do |word|
+  if freqs.key?(word)
+    freqs[word] += 1
+  else
+    freqs[word] = 1
+  end
+end
+
+s = freqs.sort { |a,b| b.last <=> a.last }
+
+pp s.first(100)
