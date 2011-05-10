@@ -86,7 +86,8 @@ which are again split into training and testing sets:
   D = \{ d_1 = \{base_1, test_1\}, d_2 = \{base_2, test_2\}, ..., d_5 = \{base_5, test_5\} \}
 \end{equation*}
 
-We shall perform cross-validation across all these sets in our experiments.
+Each $base_x$ and $test_x$ are disjoint 80\% / 20\% splits of the data in each subset.
+We shall perform five-fold cross-validation across all these sets in our experiments.
 This way we can be more certain that our results are reliable,
 and not because of local effect in parts of the data.
 
@@ -102,23 +103,23 @@ types of recommenders, and Appendix \ref{appendix:implementation}
 for information on how these were implemented in the following experiments.
 
 \begin{table}[t]
-  \begin{tabular*}{\textwidth}{ l l }
+  \begin{tabular*}{\textwidth}{ l l l }
     \toprule
-    \emph{method} & \emph{description} \\
+    \emph{method} &  \emph{algorithm} & \emph{description} \\
     \midrule
-    svd1          & SVD recommender, ALSWR factorizer and 10 factorizer features. \\
-    svd2          & SVD recommender, ALSWR factorizer and 20 factorizer features. \\
-    svd3          & SVD recommender, EM factorizer and 10 factorizer features. \\
-    svd4          & SVD recommender, EM factorizer and 20 factorizer features. \\
-    slope\_one    & Standard Slope One rating difference recommender. \\
-    item\_avg     & Baseline recommender based on the average ratings of items. \\
-    average       & Baseline recommender based on the average ratings of items and users. \\
-    cosine   	    & Weighted ratings based on cosine similarity between items. \\
-    knn       	  & Collaborative predictions weighted by user similarity through the PCC. \\
+    svd1          & SVD                   & ALSWR factorizer, 10 features. \\
+    svd2          & SVD                   & ALSWR factorizer, 20 features. \\
+    svd3          & SVD                   & EM factorizer, 10 features. \\
+    svd4          & SVD                   & EM factorizer, 20 features. \\
+    slope\_one    & Slope One             & Rating delta computations. \\
+    item\_avg     & Baseline              & Based on item averages. \\ 
+    baseline      & Baseline              & Basd on user and item averages.\\ 
+    cosine   	    & Cosine similarity     & Weigted ratings from similar items.\\ 
+    knn       	  & Pearson Corr.         & Weighted ratings from similar users.\\
     \midrule
-    median    	  & Aggregation: The median rating from the above methods. \\
-    average    	  & Aggregation: The average rating from the above methods. \\
-    stacked       & Adaptive aggregation: Accuracy predictions from error models. \\
+    median    	  & Aggregation           & Median rating from the above methods. \\
+    average    	  & Aggregation           & Average rating from the above methods. \\
+    stacked       & Adaptive agg.         & Accuracy predictions from error models. \\
     \bottomrule
   \end{tabular*}
   \caption[Stacked Modeling Methods]{
@@ -129,13 +130,30 @@ for information on how these were implemented in the following experiments.
     An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
     The number of features refers to the truncation of the factors in order to reduce the taste-space.
   }
-    
   \label{table:results:methods}
 \end{table}
 
+The important part is that each of these methods produce predictions in different ways.
+They look at different aspects of the data to arrive at each of their predicted ratings.
+As seen in Table \ref{table:results:methods}, we have two types of methods:
+The first type of methods are standard recommender systems.
+The second type are the aggregation recommenders, that combine the result
+of each of the standard recommender systems.
+In addition to our stacked user modeling method
+(denoted with the key \emph{stacked} in Table \ref{table:results:methods}),
+we have the median- and average-based aggregators.
+While not complex in nature, these methods
+will help us see how our method compares to simple, traditional
+aggregation techniques.
 
+To answer our three hypotheses, we have performed two experiments.
+The first experiment evaluates our method when used for
+adaptive prediction aggregation, comparing it to 
+the methods given in Table \ref{table:results:methods}.
+This will help us answer hypotheses H1 and H2.
+The second experiment will evaluate our performance
+in adaptive rank aggregation, in order to answer hypothesis H3.
 
-\clearpage
 
 \section{Adaptive Prediction Aggregation}
 
@@ -151,7 +169,7 @@ for information on how these were implemented in the following experiments.
     S & svd4          & 1.0040	  & 0.9830	  & 0.9849	  & 0.9850	  & 0.9798	 \\
     S & slope\_one    & 1.1919	  & 1.0540	  & 1.0476	  & 1.0454	  & 1.0393   \\
     S & item\_avg     & 1.0713	  & 0.9692	  & 0.9662	  & 0.9683	  & 0.9725	 \\
-    S & average       & 1.0698	  & 0.9557	  & 0.9527	  & 0.9415	  & 0.9492	 \\
+    S & baseline       & 1.0698	  & 0.9557	  & 0.9527	  & 0.9415	  & 0.9492	 \\
     S & cosine   	    & 1.1101	  & 0.9463	  & 0.9412	  & 0.9413	  & 0.9382	 \\
     S & knn       	  & 1.4850	  & 1.1435	  & 1.1872    & 1.2156	  & 1.2022	 \\
     \midrule                                                                    
@@ -160,8 +178,12 @@ for information on how these were implemented in the following experiments.
     A & stacked       & \textbf{0.9324}	  & \textbf{0.8015}	  & \textbf{0.7993}  & \textbf{0.8238} & \textbf{0.8192} \\
     \bottomrule
   \end{tabular*}
-  \caption[Results]{RMSE, H1, H2}
-  \label{table:results:h2}
+  \caption[Results from Experiment 1]{
+    Results from Experiment 1:
+    Each cell gives an RMSE value for a method on a subset ($d_x$) of our dataset.
+    As these are error measures, on the same scale as our predictions,
+    lower values indicate better results. Bold values indicate the best results for each dataset.}
+  \label{table:results:e1}
 \end{table}
 
 \begin{table}
@@ -176,7 +198,7 @@ for information on how these were implemented in the following experiments.
     S & svd4          & 0.9798	& 1.0040	& 0.9873	& \textbf{0.0924} \\
     S & slope\_one    & 1.0393	& 1.1919	& 1.0756	& 0.2415 \\
     S & item\_avg     & 0.9662	& 1.0713	& 0.9895	& 0.2023 \\
-    S & average       & 0.9415	& 1.0698	& 0.9738	& 0.2196 \\
+    S & baseline       & 0.9415	& 1.0698	& 0.9738	& 0.2196 \\
     S & cosine   	    & 0.9382	& 1.1101	& 0.9754	& 0.2595 \\
     S & knn       	  & 1.1435	& 1.4850	& 1.2467	& 0.3487 \\
     \midrule            
@@ -185,9 +207,20 @@ for information on how these were implemented in the following experiments.
     A & stacked       & \textbf{0.7993}	& \textbf{0.9324}	& \textbf{0.8352}	& 0.2225 \\
     \bottomrule
   \end{tabular*}
-  \caption[Results]{RMSE stats, H1, H2}
-  \label{table:results:h2:sum}
+  \caption[Statistics from Experiment 1]{
+      Statistics from Experiment 1: 
+      This table shows the minimum, maximum and mean RMSE for each of the methods in Table \ref{table:results:e1}.
+      The last column shows the standard deviation ($\sigma$) of each method.
+      As before, lower values indicate better results, and bold values
+      represent the best values in each column.
+    }
+  \label{table:results:e1:sum}
 \end{table}
+
+\input{plot.rmse}
+
+\input{plot.datasets}
+
 
 H1
 
