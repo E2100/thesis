@@ -51,7 +51,7 @@ personalization with stacked user modeling affects the rankings
 from an IR method.
 
 
-\section{Datasets}
+\section{Datasets \& Recommenders}
 
 To test our model, we need an applicable dataset with users, items and ratings.
 We chose the MovieLens dataset\footnote{
@@ -74,11 +74,33 @@ For prediction aggregation, we are only interested in the ratings matrix
 extracted from this dataset, while the titles of each movie will be used
 to experiment with personalized search.
 
+To achieve reliable evaluation results, the dataset should be split into
+multiple disjoint subsets, so that we can do cross-validation.
+This entails running the same exeperiments across all the subsets,
+and averaging the results.
+The MovieLens dataset comes with a preset number of splits for just this kind of testing.
+In the set with 100,000 ratings, the data is also split into five disjoint subsets,
+which are again split into training and testing sets:
 
+\begin{equation*}
+  D = \{ d_1 = \{base_1, test_1\}, d_2 = \{base_2, test_2\}, ..., d_5 = \{base_5, test_5\} \}
+\end{equation*}
 
-\section{Prediction Aggregation}
+We shall perform cross-validation across all these sets in our experiments.
+This way we can be more certain that our results are reliable,
+and not because of some local effect in some of the data.
 
-\begin{table}
+In addition to this dataset, we need a number of recommenders.
+As we have seen, standard recommenders will be used for both the basic predictions,
+and for the accuracy estimations for each basic prediction.
+Naturally, we need a number of different recommenders that consider
+disjoint patterns in the data. Table \ref{table:results:methods}
+gives a short overview of the recommender systems we shall employ.
+See Section \ref{sec:recommender} for more information on the different
+types of recommenders, and Appendix \ref{appendix:implementation}
+for information on how these were implemented in the following experiments.
+
+\begin{table}[t]
   \begin{tabular*}{\textwidth}{ l l }
     \toprule
     \emph{method} & \emph{description} \\
@@ -100,9 +122,18 @@ to experiment with personalized search.
   \end{tabular*}
   \caption[Stacked Modeling Methods]{
     Stacked modeling methods: A short description of each of the recommender methods
-    used in our experiment. See Section \ref{sec:recommender} for more information.}
+    used in our experiment. See Section \ref{sec:recommender} for more information.
+    For the SVD methods, the factorizers refers to algoriithms used to factorize the ratings matrix.
+    An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
+    An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.}
   \label{table:results:methods}
 \end{table}
+
+
+
+\clearpage
+
+\section{Prediction Aggregation}
 
 \begin{table}
   \begin{tabular*}{\textwidth}{ l p{3cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
