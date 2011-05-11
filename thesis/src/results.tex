@@ -61,11 +61,8 @@ for example in \citet[p9]{Alshamri2008}, \citet[p4]{Lemire2005}, \citet[p1]{Adom
 and \citet[p2]{Herlocker2004}.
 The dataset consits of a set of users, a set of movies, and a set of movie ratings
 on the scale $1$ through $5$, and is available in two sizes:
-
-\begin{itemize*}
-  \item A set of 100,000 ratings from 943 users on 1,682 movies.
-  \item A set of 100,000,209 ratings from 6,040 users of 3,900 movies.
-\end{itemize*}
+a set of 100,000 ratings from 943 users on 1,682 movies,
+and a set of 100,000,209 ratings from 6,040 users of 3,900 movies.
 
 Each collection comes with meta-data on each user, such as
 gender, age and occupation. There is also meta-data on each movie,
@@ -153,9 +150,33 @@ the methods given in Table \ref{table:results:methods}.
 This will help us answer hypotheses H1 and H2.
 The second experiment will evaluate our performance
 in adaptive rank aggregation, in order to answer hypothesis H3.
+For more information on how the algorithms
+in this experiment were implemented, see Appendix \ref{appendix:implementation}.
 
-
+\clearpage
 \section{Adaptive Prediction Aggregation}
+
+Our first hypothesis, H1, states that:
+{
+  \itshape
+  the accuracy of relevance predictions can be improved
+  by blending multiple modeling methods on a per-user and per-item basis.
+}
+The second hypothesis, H2, states:
+{
+  \itshape
+  an adaptive aggregation method can outperform global and generalized 
+  blending methods.
+}
+
+In order to verify these hypotheses, we performed adaptive prediction aggregation
+through stacked user modeling on the five datasets described in the previous section.
+Table \ref{table:results:e1} gives the results from this experiment.
+Each cell corresponds to the RMSE values for each dataset,
+for each recommender and aggregation approach.
+The bottom entry in this table refers to our stacked user modeling method.
+As seen in this table, stacked user modeling achieved
+lower RMSE values than any of the other applied methods.
 
 \begin{table}
   \begin{tabular*}{\textwidth}{ l p{3cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
@@ -182,9 +203,22 @@ in adaptive rank aggregation, in order to answer hypothesis H3.
     Results from Experiment 1:
     Each cell gives an RMSE value for a method on a subset ($d_x$) of our dataset.
     As these are error measures, on the same scale as our predictions,
-    lower values indicate better results. Bold values indicate the best results for each dataset.}
+    lower values indicate better results. Bold values indicate the best result in each column.
+    The first column refers to the type of predictions, either singular (S) or aggregation (A).}
   \label{table:results:e1}
 \end{table}
+
+Statistics from the results in Table \ref{table:results:e1} 
+are given in Table \ref{table:results:e1:sum}.
+These values are the minimum, maximum and mean values
+for each of the methods. We also include
+the standard deviation ($\sigma$) for each method,
+across our datasets.
+This table confirms the results from the full results table:
+Our stacked user modeling approach improves the mean performance
+of our system.
+The mean performance, along with the standard deviation
+are shown in Figure \ref{plot:rmse}.
 
 \begin{table}
   \begin{tabular*}{\textwidth}{ l p{3cm} p{2cm} p{2cm} p{2cm} p{2cm} }
@@ -212,19 +246,74 @@ in adaptive rank aggregation, in order to answer hypothesis H3.
       This table shows the minimum, maximum and mean RMSE for each of the methods in Table \ref{table:results:e1}.
       The last column shows the standard deviation ($\sigma$) of each method.
       As before, lower values indicate better results, and bold values
-      represent the best values in each column.
+      represent the best result in each column.
     }
   \label{table:results:e1:sum}
 \end{table}
 
-\input{plot.rmse}
 
+\input{plot.rmse}
 \input{plot.datasets}
 
+Let us take a look at the standard deviation measures from the different methods.
+As seen in Figure \ref{plot:rmse}, 
+most of the methods, including the stacked models,
+exhibit quite a lot of variation in their results.
+If these variations occured as a result of unstable
+predictions of the same dataset, this would be a substantial problem,
+resulting in unreliable predictions.
+However, as seen in Figure \ref{plot:datasets},
+the standard deviation is mostly caused by the differing
+performance across the varying datasets.
+As we see, the performance of each of the aggregation methods,
+as well as the best performing standard recommender,
+follow each other closely. At the same time,
+performance varies across the different datasets,
+which results in high values for $\sigma$.
 
-H1
+What does this mean for hypotheses H1 and H2?
+Expressed in terms of this experiment,
+H1 posits that stacked user modeling should outperform each of the standard modeling methods
+in Table \ref{table:results:e1}.
+The adaptive methods blend the results of multiple predictors by estimating the accuracy
+on a per-item and per-user basis, satisfying the formulation of H1.
 
-H2
+By outperform we mean that our model should have a lower
+mean RMSE score than the other singular methods. As we can see in Table \ref{table:results:e1:sum},
+\emph{H1 is confirmed for these methods and this dataset}.
+While we can not generalize too much on this basis, 
+by the fact that this dataset is a common testing ground for recommender systems,
+that RMSE is the de facto measure for determining performance,
+and because of our 5-fold cross-validation, the results allow us 
+to confirm hypothesis H1 in these conditions, and likely for other, similar scenarios.
+We shall discuss this in Chapter \ref{chap:discussion}.
+
+Similarly, expressed in the same terms, H2 posits that 
+our stacked user modeling should outperform the aggregation approaches
+given in Table \ref{table:results:e1}.
+The \emph{median} and \emph{average} aggregation methods
+serve as globalized and generalized aggragation methods,
+Stacked user modeling is adaptive in that each prediction is 
+aggregated based on the current user and item,
+satisfying the language of H2.
+
+As we can see in Table \ref{table:results:e1:sum},
+\emph{H2 is confirmed for these methods and this dataset}.
+However, as our collection of aggregation methods is a lot simpler
+than our collection of recommender systems, the strength of this combination
+is notably weaker than that of H1.
+Still, the fact that stacked user modeling outperforms these simple aggregation
+approaches is a positive result warranting further experiments.
+This will also be discussed in Chapter \ref{chap:discussion}.
+
+It would seem then that, based on our experiments, available data
+and assumptions of evaluation measures, both H1 and H2 are confirmed.
+Our adaptive aggregation approach outperforms both standard recommender
+methods and simple generalized aggregation methods.
+Notably, our approach is more complex than the methods it outperforms,
+so the question whether the methods performance is worth its extra complexity becomes important.
+We shall discuss this, and other implications of these results in the next chapter.
+For now, let us proceed to the second experiment and hypothesis H3.
 
 
 \section{Adaptive Rank Aggregation}
