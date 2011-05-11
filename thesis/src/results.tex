@@ -55,14 +55,14 @@ from an IR method.
 
 To test our model, we need an applicable dataset with users, items and ratings.
 We chose the MovieLens dataset\footnote{
-See http://www.grouplens.org/node/73 --- accessed 10.05.2011} of movie ratings.
+See http://www.grouplens.org/node/73 --- accessed 10.05.2011}.
 This dataset is often used to test the performance of recommender systems,
 for example in \citet[p9]{Alshamri2008}, \citet[p4]{Lemire2005}, \citet[p1]{Adomavicius2005}
 and \citet[p2]{Herlocker2004}.
 The dataset consits of a set of users, a set of movies, and a set of movie ratings
 on the scale $1$ through $5$, and is available in two sizes:
 a set of 100,000 ratings from 943 users on 1,682 movies,
-and a set of 100,000,209 ratings from 6,040 users of 3,900 movies.
+and a set of 1,000,209 ratings from 6,040 users of 3,900 movies.
 
 Each collection comes with meta-data on each user, such as
 gender, age and occupation. There is also meta-data on each movie,
@@ -76,7 +76,7 @@ multiple disjoint subsets, so that we can do cross-validation.
 This entails running the same experiments across all the subsets,
 and averaging the results.
 The MovieLens dataset comes with a preset number of splits for this kind of testing.
-In the set with 100,000 ratings, the data is also split into five disjoint subsets,
+In the set with 100,000 ratings, the data is split into five disjoint subsets,
 which are again split into training and testing sets:
 
 \begin{equation*}
@@ -134,14 +134,41 @@ The important part is that each of these methods produce predictions in differen
 They look at different aspects of the data to arrive at each of their predicted ratings.
 As seen in Table \ref{table:results:methods}, we have two types of methods:
 The first type of methods are standard recommender systems.
-The second type are the aggregation recommenders, that combine the result
-of each of the standard recommender systems.
+The different recommender algorithms were chosen because they 
+look at data in complimentary ways. 
+The SVD methods look for global patterns in the data 
+by reducing the ratings-space into a concept-space.
+By reducing this space, the algorithm is able to find
+latent relations, such as groups of movies that has the same
+rating pattern, or groups of users that often rate in a similar manner.
+
+The Slope One and baseline algorithms look at average
+ratings for items and from users, and use these to predict ratings.
+The cosine similarity algorithm looks for items that are rated
+similarly by the same users, and infers item similarity from this measure.
+New ratings are then predicted by taking known ratings of other items,
+weighted by their item's similarity to the new item.
+
+The KNN algorithm employs yet another approach. This algorithm,
+similar in strategy to the cosine similarity algorithm,
+looks for users with similar rating patterns.
+Predictions are created by collecting ratings from similar users
+of the item in question, weighted by their respective similarity.
+
+The second type of recommenders are the aggregation methods, 
+that combine the result of each of the standard recommender systems.
 In addition to our stacked user modeling method
 (denoted with the key \emph{stacked} in Table \ref{table:results:methods}),
 we have the median- and average-based aggregators.
+The median aggregator choses the median value of the predictions
+produced by the standard recommenders.
+Similarly, the average aggregator takes the mean of the
+standard predictions.
 While not complex in nature, these methods
 will help us see how our method compares to simple, traditional
 aggregation techniques.
+The choices of recommenders will be further discussed
+in Chapter \ref{chap:discussion}.
 
 To answer our three hypotheses, we have performed two experiments.
 The first experiment evaluates our method when used for
@@ -153,7 +180,8 @@ in adaptive rank aggregation, in order to answer hypothesis H3.
 For more information on how the algorithms
 in this experiment were implemented, see Appendix \ref{appendix:implementation}.
 
-\clearpage
+
+
 \section{Adaptive Prediction Aggregation}
 
 Our first hypothesis, H1, states that:
