@@ -3,6 +3,26 @@
 \chapter{Implementation}
 \label{appendix:implementation}
 
+\begin{figure}[t]
+  \begin{center}
+  \begin{framed}\centering
+    \includegraphics[
+      width=1.0\textwidth]{../graphics/diagram-task}
+    \vspace{1em}
+    \caption[Task Structure Diagram]{
+      Task structure diagram:
+      A task (instantiated config) is passed to the perform module.
+      This module creates a number of modules:
+      recommenders, aggregators, evaluators and information retrieval models.
+      Each module takes a set of inputs (bottom row), 
+      which are specificed by the current task.
+      These modules are then used as needed by each experiment.
+    }
+  \label{fig:uml}
+  \end{framed}
+  \end{center}
+\end{figure}
+
 This section describes how the system outlined above was implemented,
 in order to perform the experiments of the next chapter.
 This is a short description of the most important features and considerations
@@ -86,6 +106,8 @@ tests them against the dataset specified in the task,
 and returns the results of the evaluation.
 
 
+
+
 \section{Modeling and Prediction}
 
 The modeling phase consists of running our modeling algorithms and storing the resulting models.
@@ -106,8 +128,6 @@ and measures their accuracy across the dataset specified by the current task.
 As mentioned, none of these aspects have any bearing on the viability of stacked user modeling.
 However, as this does provide an example of how to implement such a system. 
 See Appendix \ref{appendix:resources} for links to other resources. 
-
-
 
 \chapter{Resources}
 \label{appendix:resources}
