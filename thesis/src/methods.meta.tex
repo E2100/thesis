@@ -31,7 +31,7 @@ A system for stacked user modeling is specified by a 6-tuple:
                &=& (I,U,R,F,M,A).
 \end{eqnarray*}
 
-\input{figure.stack}
+\input{figure.stack.comparison}
 
 As always, we have sets of $Users$ and $Items$, 
 and a set of $Ratings$: each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
@@ -70,6 +70,7 @@ for example user profile similarity, rating correlations or social connections.
 As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
+
 The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
 In traditional prediction aggregation this is a single function for combining the different predictions,
 for example by precomputing a set of weights, one for each method.
@@ -80,11 +81,14 @@ As described in Section \ref{sec:aggregate}, multiple prediction results are nor
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
-In stacked user modeling, the $Adapters$ are themselves user modeling methods.
+In stacked user modeling, the $Adapters$ are themselves user modeling methods 
+(see Figure \ref{fig:stack:comparison}).
 These methods predict how accurate each of their corresponding recommender methods will be.
 This will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
 (see Figure \ref{fig:stackedusermodeling}):
+
+\input{figure.stack}
 
 \begin{enumerate}
   \item
