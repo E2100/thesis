@@ -17,7 +17,7 @@ class Ranker
     {}.tap do |preds|
       recommenders.each do |name, recommender|
         p = recommender.prediction(userid, itemid)
-        preds[name] = p unless p.nan? 
+        preds[name] = p unless p.nan? or p.nil? 
       end
     end
   end
