@@ -24,21 +24,27 @@ class RankEvaluator
   end
 
   def predicted_ranking
-    p = @ranker.prediction(10, @task[:query]) 
+    p = @ranker.prediction(@task[:userid], @task[:query]) 
     list = []
     p.each do |item|
       pp item
       list << [item.last[:score], item.last ]
     end
-    list.sort.reverse
+    list
   end
 
   def list_by(preds, key)
     list = []
     preds.each do |item|
-      list << [item.last[key], item.last[:id], item.last[:title][0,10]]
+      next if item.last[key].nil?
+      list << [item.last[key], item.last[:id], item.last[:title]]
     end
-    list.sort.reverse
+    puts
+    puts "LIST, #{key}"
+    puts '-'*100
+    pp list
+    puts 
+    list.sort { |a,b| b.first <=> a.first }
   end
 
   def evaluate
