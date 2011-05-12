@@ -1,6 +1,6 @@
 require 'pp'
 
-f = File.open('data/movielens/movielens-100k/meta/u.item').read
+f = File.open('data/movielens/movielens-1mm/movies.dat').read
 
 titles = f.split("\n").map do |line|
   line.gsub!(/[0-9]+,/,"")
