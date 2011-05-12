@@ -323,7 +323,7 @@ which is not our concern in this chapter.
     \STATE $errors \gets \mathrm{Normalize}(errors)$
 
     \FORALL{$item, ir\_score \in results$}
-      \STATE $prediction \gets ir\_score$
+      \STATE $prediction \gets w_{IR} \cdot ir\_score$
       \FORALL{$m \in rating\_models$}
         \STATE $weight_{item} \gets 1 - error_{m,item}$
         \STATE $prediction \gets prediction + weight_m \cdot ratings_{m,item}$
@@ -359,6 +359,15 @@ Because we do not care of the final score we set the initial predictions to be t
 The recommender systems simply add or substract from this initial score.
 This means that the resulting predictions will not be in the same range as the known ratings,
 but since we are only interested in the order of the items, not the actual rating, this poses no problem.
+
+An important coefficient is the $w_{IR}$ (IR weight),
+which determines how much the IR method should decide of the final ranking.
+This is first and formost adjusted to ensure that the IR scores
+are on a similar scale as the predicted ratings.
+At the same time, this weight determines how 
+much the IR score influences the final placement of an item in the results list.
+In the next chapter, we shall see how the choice this parameter 
+influences the ranked results lists.
 
 After computing the predictions for each item in the results list, 
 we sort the list by the item predictions, and return the list.
