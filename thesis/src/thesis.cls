@@ -145,6 +145,9 @@
   \makeevenfoot{plain}{}{\color{gray}\thepage}{}
   \makeoddfoot{plain}{}{\color{gray}\thepage}{}
 
+% Float positioning
+\RequirePackage{afterpage}
+
 
 % -----------------
 % Divisors
