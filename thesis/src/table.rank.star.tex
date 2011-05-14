@@ -1,0 +1,71 @@
+\begin{table}[h]
+  \centering 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
+    \multicolumn{3}{l}{Results and their IR ranking score for the query \emph{star trek}:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title}\\
+    \midrule
+    1 & 4.2288 & Star Trek: Generations                 \\
+    2 & 3.7002 & Star Trek: First Contact               \\
+    3 & 3.7002 & Star Trek: The Wrath of Khan           \\
+    4 & 3.7002 & Star Trek: The Motion Picture          \\
+    5 & 3.1716 & Star Trek VI: The Undiscovered Country \\
+    6 & 3.1716 & Star Trek III: The Search for Spock    \\
+    7 & 3.1716 & Star Trek IV: The Voyage Home          \\
+    8 & 3.1716 & Star Trek V: The Final Frontier        \\
+    9 & 0.9670 & Star Wars                              \\
+    10& 0.9670 & Lone Star                              \\
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{1em} 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
+    \multicolumn{4}{l}{Predicted ratings from the stacked user modeling method for each item:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$\\
+    \midrule
+    1 & 4.8232 & Star Wars                              & \color{green} $\uparrow$ 9 \\
+    2 & 4.6016 & Lone Star                              & \color{green} $\uparrow$ 8 \\
+    3 & 4.2192 & Star Trek: The Wrath of Khan           & \color{black} $=$ \\
+    4 & 4.0324 & Star Trek: First Contact               & \color{red} $\downarrow$ 2 \\
+    5 & 3.8667 & Star Trek: Generations                 & \color{red} $\downarrow$ 4 \\
+    6 & 3.7100 & Star Trek IV: The Voyage Home          & \color{green} $\uparrow$ 1 \\
+    7 & 3.5604 & Star Trek VI: The Undiscovered Country & \color{red} $\downarrow$ 2 \\
+    8 & 3.4420 & Star Trek: The Motion Picture          & \color{red} $\downarrow$ 4 \\
+    9 & 3.4242 & Star Trek III: The Search for Spock    & \color{red} $\downarrow$ 3 \\
+    10& 2.5249 & Star Trek V: The Final Frontier        & \color{red} $\downarrow$ 2 \\
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{1em} 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
+    \multicolumn{4}{l}{Final results list with IR and stacked predictions combined:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$ \\
+    \midrule
+    1 & 5.5507  &    Star Trek: The Wrath of Khan            & \color{green} $\uparrow$ 2 \\
+    2 & 5.5205  &    Star Trek: First Contact                & \color{black} $=$ \\
+    3 & 5.3157  &    Star Trek: Generations                  & \color{red} $\downarrow$ 2 \\
+    4 & 5.1187  &    Star Wars                               & \color{green} $\uparrow$ 5 \\
+    5 & 4.9744  &    Star Trek IV: The Voyage Home           & \color{green} $\uparrow$ 2 \\
+    6 & 4.7596  &    Star Trek III: The Search for Spock     & \color{black} $=$ \\
+    7 & 4.7595  &    Star Trek: The Motion Picture           & \color{red} $\downarrow$ 3 \\
+    8 & 4.7553  &    Star Trek VI: The Undiscovered Country  & \color{red} $\downarrow$ 3 \\
+    9 & 4.6376  &    Lone Star                               & \color{green} $\uparrow$ 1 \\
+    10& 4.0934  &    Star Trek V: The Final Frontier         & \color{red} $\downarrow$ 2 \\
+    \bottomrule
+  \end{tabular*}
+  \vspace{1em}
+  \caption[Adaptive Rank Rescoring]{
+    These three table show adaptive rank rescoring for the query "star trek".
+    In this example, an IR weight of $0.3$ was used, instructing the algorithm to
+    put about the same confidence in the IR score and recommender scores.
+    In other words, each score is considered an input signal, and each 
+    signal is weighted the same.
+  }
+  \label{table:rank:startrek}
+\end{table}
+

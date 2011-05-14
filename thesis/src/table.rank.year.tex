@@ -1,0 +1,53 @@
+\begin{table}[t]
+  \centering 
+  \begin{minipage}{0.49\textwidth}
+    \centering 
+
+  \begin{tabular*}{\textwidth}{ r l l }
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title}\\
+    \midrule
+    1 &  2.7742  &  Fallen (1998)      \\
+    2 &  2.7742  &  Sphere (1998)      \\
+    3 &  2.7742  &  Phantoms (1998)    \\
+    4 &  2.7742  &  Vermin (1998)      \\
+    5 &  2.7742  &  Twilight (1998)    \\
+    6 &  2.7742  &  Firestorm (1998)   \\
+    7 &  2.7742  &  Palmetto (1998)    \\
+    8 &  2.7742  &  The Mighty (1998)  \\
+    9 &  2.7742  &  Senseless (1998)   \\
+    10&  2.7742  &  Everest (1998)     \\
+    \bottomrule
+  \end{tabular*}
+\end{minipage} 
+\hfill 
+\begin{minipage}{0.49\textwidth}
+  \begin{tabular*}{\textwidth}{ r l l l }
+    \toprule
+    \emph{\#} & \emph{rating} & \emph{title}\\
+    \midrule
+    1 &  3.8694  &  Apt Pupil (1998)            \\
+    2 &  3.4805  &  The Wedding Singer (1998)   \\
+    3 &  3.1314  &  Fallen (1998)               \\
+    4 &  3.1225  &  Tainted (1998)              \\
+    5 &  2.9442  &  Blues Brothers 2000 (1998)  \\
+    6 &  2.9046  &  Sphere (1998)               \\
+    7 &  2.8842  &  Desperate Measures (1998)   \\
+    8 &  2.8798  &  Firestorm (1998)            \\
+    9 &  2.8633  &  Vermin (1998)               \\
+    10&  2.8511  &  The Prophecy II (1998)      \\
+    \bottomrule
+  \end{tabular*}
+  \end{minipage} 
+  \vspace{1em}
+  \caption[Ranking Many Results]{
+    Ranking many results: 
+    In this example, the user search for the query "1998", to get movies from that year.
+    The top 10 of these are shown in the left table. As this query matches a lot of 
+    movies, the IR method returns a large number of results. By setting the IR weight to $0$,
+    and letting the stacked user models do the ranking, the top 10 results change completely,
+    while still being good matches for the current query.
+  }
+  \label{table:rank:year}
+\end{table}
+\afterpage{\clearpage}

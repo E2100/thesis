@@ -1,0 +1,73 @@
+\begin{table}[h]
+  \centering 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
+    \multicolumn{3}{l}{Results and their IR ranking score for the query \emph{"new york" or washington}:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title}\\
+    \midrule
+    1 & 2.8419  &  New York Cop (1996)                    \\
+    2 & 2.8419  &  King of New York (1990)                \\
+    3 & 2.8419  &  Autumn in New York (2000)              \\
+    4 & 2.8419  &  Couch in New York                      \\
+    5 & 2.4866  &  Escape from New York (1981)            \\
+    6 & 2.4866  &  All the Vermeers in New York (1990)    \\
+    7 & 2.1314  &  Home Alone 2: Lost in New York (1992)  \\
+    8 & 1.0076  &  Saint of Fort Washington               \\
+    9 & 1.0076  &  Washington Square (1997)               \\
+    10& 0.8816  &  Mr. Smith Goes to Washington (1939)    \\
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{1em} 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
+    \multicolumn{4}{l}{Predicted ratings from the stacked user modeling method for each item:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$\\
+    \midrule
+    1 & 3.7255  &  Mr. Smith Goes to Washington (1939)    & \color{green} $\uparrow$ 9 \\
+    2 & 3.1430  &  Escape from New York (1981)            & \color{green} $\uparrow$ 3 \\
+    3 & 3.0003  &  King of New York (1990)                & \color{red} $\downarrow$ 1 \\
+    4 & 2.9498  &  Washington Square (1997)               & \color{green} $\uparrow$ 5 \\
+    5 & 2.7258  &  Saint of Fort Washington               & \color{green} $\uparrow$ 3 \\
+    6 & 2.6862  &  Couch in New York                      & \color{red} $\downarrow$ 2 \\
+    7 & 2.6380  &  All the Vermeers in New York (1990)    & \color{red} $\downarrow$ 1 \\
+    8 & 2.1601  &  Home Alone 2: Lost in New York (1992)  & \color{red} $\downarrow$ 1 \\
+    9 & 1.7241  &  Autumn in New York (2000)              & \color{red} $\downarrow$ 6 \\
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{1em} 
+
+  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
+    \multicolumn{4}{l}{Final results list with IR and stacked predictions combined:}\\
+    \toprule
+    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$ \\
+    \midrule
+    1 & 5.8422  &  King of New York (1990)                & \color{green} $\uparrow$ 1 \\
+    2 & 5.6297  &  Escape from New York (1981)            & \color{green} $\uparrow$ 3 \\
+    3 & 5.5281  &  Couch in New York                      & \color{green} $\uparrow$ 1 \\
+    4 & 5.1247  &  All the Vermeers in New York (1990)    & \color{green} $\uparrow$ 2 \\
+    5 & 4.6072  &  Mr. Smith Goes to Washington (1939)    & \color{green} $\uparrow$ 5 \\
+    6 & 4.5661  &  Autumn in New York (2000)              & \color{red} $\downarrow$ 3 \\
+    7 & 4.2915  &  Home Alone 2: Lost in New York (1992)  & \color{black} $=$ \\
+    8 & 3.9575  &  Washington Square (1997)               & \color{green} $\uparrow$ 1 \\
+    9 & 3.7334  &  Saint of Fort Washington               & \color{red} $\downarrow$ 1 \\
+    10& 2.8419  &  New York Cop (1996)                    & \color{red} $\downarrow$ 9 \\
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{1em}
+  \caption[Complex IR Query]{
+    Complex IR query: This example has a quite complex IR query ([\emph{"new york" or washington}]).
+    The top-most table shows the results returned by our IR model, defining the item-space for the following tables.
+    The scores are the returned IR ranking scores.
+    The middle table shows the predicted ratings for each of the items in the results set.
+    $\Delta_{IR}$ shows how much each item has moved compared to the initial IR results.
+    The bottom table shows the final scores and positions when the IR scores and predicted ratings are combined.
+    Only the top 10 results are shown.
+  }
+  \label{table:rank:washington}
+\end{table}
+

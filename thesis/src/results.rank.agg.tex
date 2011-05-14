@@ -1,77 +1,7 @@
 \section{Adaptive Rank Aggregation}
 
-\begin{table}[h]
-  \centering 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
-    \multicolumn{3}{l}{Results and their IR ranking score for the query \emph{"new york" or washington}:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title}\\
-    \midrule
-    1 & 2.8419  &  New York Cop (1996)                    \\
-    2 & 2.8419  &  King of New York (1990)                \\
-    3 & 2.8419  &  Autumn in New York (2000)              \\
-    4 & 2.8419  &  Couch in New York                      \\
-    5 & 2.4866  &  Escape from New York (1981)            \\
-    6 & 2.4866  &  All the Vermeers in New York (1990)    \\
-    7 & 2.1314  &  Home Alone 2: Lost in New York (1992)  \\
-    8 & 1.0076  &  Saint of Fort Washington               \\
-    9 & 1.0076  &  Washington Square (1997)               \\
-    10& 0.8816  &  Mr. Smith Goes to Washington (1939)    \\
-    \bottomrule
-  \end{tabular*}
-
-  \vspace{1em} 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
-    \multicolumn{4}{l}{Predicted ratings from the stacked user modeling method for each item:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$\\
-    \midrule
-    1 & 3.7255  &  Mr. Smith Goes to Washington (1939)    & \color{green} $\uparrow$ 9 \\
-    2 & 3.1430  &  Escape from New York (1981)            & \color{green} $\uparrow$ 3 \\
-    3 & 3.0003  &  King of New York (1990)                & \color{red} $\downarrow$ 1 \\
-    4 & 2.9498  &  Washington Square (1997)               & \color{green} $\uparrow$ 5 \\
-    5 & 2.7258  &  Saint of Fort Washington               & \color{green} $\uparrow$ 3 \\
-    6 & 2.6862  &  Couch in New York                      & \color{red} $\downarrow$ 2 \\
-    7 & 2.6380  &  All the Vermeers in New York (1990)    & \color{red} $\downarrow$ 1 \\
-    8 & 2.1601  &  Home Alone 2: Lost in New York (1992)  & \color{red} $\downarrow$ 1 \\
-    9 & 1.7241  &  Autumn in New York (2000)              & \color{red} $\downarrow$ 6 \\
-    \bottomrule
-  \end{tabular*}
-
-  \vspace{1em} 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
-    \multicolumn{4}{l}{Final results list with IR and stacked predictions combined:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$ \\
-    \midrule
-    1 & 5.8422  &  King of New York (1990)                & \color{green} $\uparrow$ 1 \\
-    2 & 5.6297  &  Escape from New York (1981)            & \color{green} $\uparrow$ 3 \\
-    3 & 5.5281  &  Couch in New York                      & \color{green} $\uparrow$ 1 \\
-    4 & 5.1247  &  All the Vermeers in New York (1990)    & \color{green} $\uparrow$ 2 \\
-    5 & 4.6072  &  Mr. Smith Goes to Washington (1939)    & \color{green} $\uparrow$ 5 \\
-    6 & 4.5661  &  Autumn in New York (2000)              & \color{red} $\downarrow$ 3 \\
-    7 & 4.2915  &  Home Alone 2: Lost in New York (1992)  & \color{black} $=$ \\
-    8 & 3.9575  &  Washington Square (1997)               & \color{green} $\uparrow$ 1 \\
-    9 & 3.7334  &  Saint of Fort Washington               & \color{red} $\downarrow$ 1 \\
-    10& 2.8419  &  New York Cop (1996)                    & \color{red} $\downarrow$ 9 \\
-    \bottomrule
-  \end{tabular*}
-
-  \vspace{1em}
-  \caption[Complex IR Query]{
-    Complex IR query: This example has a quite complex IR query ([\emph{"new york" or washington}]).
-    The top-most table shows the results returned by our IR model, defining the item-space for the following tables.
-    The scores are the returned IR ranking scores.
-    The middle table shows the predicted ratings for each of the items in the results set.
-    $\Delta_{IR}$ shows how much each item has moved compared to the initial IR results.
-    The bottom table shows the final scores and positions when the IR scores and predicted ratings are combined.
-    Only the top 10 results are shown.
-  }
-  \label{table:rank:washington}
-\end{table}
+\input{table.rank.washington}
+\afterpage{\clearpage}
 
 While the previous experiment was a quantitative exploration of RMSE values,
 this experiment will focus on qualitative traits of rank aggregation.
@@ -106,10 +36,12 @@ happens under the hood. First, the information retrieval score
 is itself treated as an input signal, just as the user modeling methods.
 Second, by using stacked user modeling, the user is in control of which
 methods that actually determine how the final results are ranked.
-We shall take a look at four use cases to see how our algorithm
-performs in a number of scenarios. We have experimented with how
-different combinations of the IR model and the recommender systems
-influence the final ranking.
+We shall take a look at four use cases with to see how our algorithm
+performs in a number of scenarios. Each case presents 
+a query and shows how a certain IR weight influences the final ranking.
+
+\input{table.rank.star}
+\afterpage{\clearpage}
 
 (1) Let us first consider a simple use case:
 a user wishes to find movies about two separate topics, ranked by 
@@ -155,132 +87,6 @@ list can get the best of both worlds:
 the top ranked items are the ones that both match the query \emph{and}
 are probable good fits for the current user.
 
-\begin{table}[h]
-  \centering 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
-    \multicolumn{3}{l}{Results and their IR ranking score for the query \emph{star trek}:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title}\\
-    \midrule
-    1 & 4.2288 & Star Trek: Generations                 \\
-    2 & 3.7002 & Star Trek: First Contact               \\
-    3 & 3.7002 & Star Trek: The Wrath of Khan           \\
-    4 & 3.7002 & Star Trek: The Motion Picture          \\
-    5 & 3.1716 & Star Trek VI: The Undiscovered Country \\
-    6 & 3.1716 & Star Trek III: The Search for Spock    \\
-    7 & 3.1716 & Star Trek IV: The Voyage Home          \\
-    8 & 3.1716 & Star Trek V: The Final Frontier        \\
-    9 & 0.9670 & Star Wars                              \\
-    10& 0.9670 & Lone Star                              \\
-    \bottomrule
-  \end{tabular*}
-
-  \vspace{1em} 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
-    \multicolumn{4}{l}{Predicted ratings from the stacked user modeling method for each item:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$\\
-    \midrule
-    1 & 4.8232 & Star Wars                              & \color{green} $\uparrow$ 9 \\
-    2 & 4.6016 & Lone Star                              & \color{green} $\uparrow$ 8 \\
-    3 & 4.2192 & Star Trek: The Wrath of Khan           & \color{black} $=$ \\
-    4 & 4.0324 & Star Trek: First Contact               & \color{red} $\downarrow$ 2 \\
-    5 & 3.8667 & Star Trek: Generations                 & \color{red} $\downarrow$ 4 \\
-    6 & 3.7100 & Star Trek IV: The Voyage Home          & \color{green} $\uparrow$ 1 \\
-    7 & 3.5604 & Star Trek VI: The Undiscovered Country & \color{red} $\downarrow$ 2 \\
-    8 & 3.4420 & Star Trek: The Motion Picture          & \color{red} $\downarrow$ 4 \\
-    9 & 3.4242 & Star Trek III: The Search for Spock    & \color{red} $\downarrow$ 3 \\
-    10& 2.5249 & Star Trek V: The Final Frontier        & \color{red} $\downarrow$ 2 \\
-    \bottomrule
-  \end{tabular*}
-
-  \vspace{1em} 
-
-  \begin{tabular*}{0.9\textwidth}{ r l p{8.5cm} l }
-    \multicolumn{4}{l}{Final results list with IR and stacked predictions combined:}\\
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title} & $\Delta_{IR}$ \\
-    \midrule
-    1 & 5.5507  &    Star Trek: The Wrath of Khan            & \color{green} $\uparrow$ 2 \\
-    2 & 5.5205  &    Star Trek: First Contact                & \color{black} $=$ \\
-    3 & 5.3157  &    Star Trek: Generations                  & \color{red} $\downarrow$ 2 \\
-    4 & 5.1187  &    Star Wars                               & \color{green} $\uparrow$ 5 \\
-    5 & 4.9744  &    Star Trek IV: The Voyage Home           & \color{green} $\uparrow$ 2 \\
-    6 & 4.7596  &    Star Trek III: The Search for Spock     & \color{black} $=$ \\
-    7 & 4.7595  &    Star Trek: The Motion Picture           & \color{red} $\downarrow$ 3 \\
-    8 & 4.7553  &    Star Trek VI: The Undiscovered Country  & \color{red} $\downarrow$ 3 \\
-    9 & 4.6376  &    Lone Star                               & \color{green} $\uparrow$ 1 \\
-    10& 4.0934  &    Star Trek V: The Final Frontier         & \color{red} $\downarrow$ 2 \\
-    \bottomrule
-  \end{tabular*}
-  \vspace{1em}
-  \caption[Adaptive Rank Rescoring]{
-    These three table show adaptive rank rescoring for the query "star trek".
-    In this example, an IR weight of $0.3$ was used, instructing the algorithm to
-    put about the same confidence in the IR score and recommender scores.
-    In other words, each score is considered an input signal, and each 
-    signal is weighted the same.
-  }
-  \label{table:rank:startrek}
-\end{table}
-
-
-
-\begin{table}[t]
-  \centering 
-  \begin{minipage}{0.49\textwidth}
-    \centering 
-
-  \begin{tabular*}{\textwidth}{ r l l }
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title}\\
-    \midrule
-    1 & 3.0149  &  An American in Paris       \\
-    2 & 3.0149  &  Paris Is Burning           \\
-    3 & 3.0149  &  Paris - Texas              \\
-    4 & 3.0149  &  Paris Was a Woman          \\
-    5 & 3.0149  &  Forget Paris               \\
-    6 & 3.0149  &  Window to Paris            \\
-    7 & 3.0149  &  Jefferson in Paris         \\
-    8 & 3.0149  &  Paris - France             \\
-    9 & 2.6648  &  Rendezvous in Paris        \\
-    10& 2.2611  &  Last Time I Saw Paris  \\
-    \bottomrule
-  \end{tabular*}
-\end{minipage} 
-\hfill 
-\begin{minipage}{0.49\textwidth}
-  \begin{tabular*}{\textwidth}{ r l l l }
-    \toprule
-    \emph{\#} & \emph{rating} & \emph{title} & $\Delta$\\
-    \midrule
-    1 & 3.5277 &  An American in Paris        & \color{black} $=$ \\
-    2 & 3.3416 &  Forget Paris                & \color{green} $\uparrow$ 3 \\
-    3 & 3.2037 &  Paris - Texas               & \color{black} $=$ \\
-    4 & 3.1870 &  Window to Paris             & \color{green} $\uparrow$ 2 \\
-    5 & 3.1409 &  Paris Is Burning            & \color{red} $\downarrow$ 3 \\
-    6 & 3.1059 &  Last Time I Saw Paris       & \color{green} $\uparrow$ 4 \\
-    7 & 2.7940 &  Rendezvous in Paris         & \color{green} $\uparrow$ 2 \\
-    8 & 2.2964 &  Paris - France              & \color{black} $=$ \\
-    9 & 1.7984 &  Jefferson in Paris          & \color{red} $\downarrow$ 2 \\
-    10& 0.9420 &  Paris Was a Woman           & \color{red} $\downarrow$ 6 \\
-    \bottomrule
-  \end{tabular*}
-  \end{minipage} 
-  \vspace{1em}
-  \caption[Completely Adaptive Ranking]{
-    Completely adaptive ranking: With the IR weight set to $0$,
-    the stacked recommender is alone responsible for sorting the results.
-    In this example, the IR model returns a list of items for the query "paris",
-    and the stacked user models sorts the results according to the user's preferences.
-    The top 10 results are shown.
-  }
-  \label{table:rank:paris}
-\end{table}
-
-
 (3) What happens when the IR weight is set to $0$?
 In this use case, the predicted ratings alone sort the final list.
 Consider the following use case:
@@ -309,62 +115,32 @@ and issues the query [\emph{1998}].
 Naturally, the IR algorithm returns a whole lot of items, and each can
 be said to be perfect answers to the algorithm -- each movie
 was made in 1998.
+
 In this case, setting the IR weight to $0$ allows us to rank the results
 purely by predicted preference, which makes sense when the IR algorithm
 can not rank the results in any meaningful way.
+Note that the items in the left and right table are non-overlapping.
+This is because only the first 10 results are shown.
+The IR model returns a large number of items,
+all with the same ranking score.
+The recommender systems do the final ranking, and actually
+push every item in the top 10 IR ranking 
+below the top 10 final results.
 
-\begin{table}[t]
-  \centering 
-  \begin{minipage}{0.49\textwidth}
-    \centering 
+\input{table.rank.paris}
+\input{table.rank.year}
 
-  \begin{tabular*}{\textwidth}{ r l l }
-    \toprule
-    \emph{\#} & \emph{score} & \emph{title}\\
-    \midrule
-    1 &  2.7742  &  Fallen (1998)      \\
-    2 &  2.7742  &  Sphere (1998)      \\
-    3 &  2.7742  &  Phantoms (1998)    \\
-    4 &  2.7742  &  Vermin (1998)      \\
-    5 &  2.7742  &  Twilight (1998)    \\
-    6 &  2.7742  &  Firestorm (1998)   \\
-    7 &  2.7742  &  Palmetto (1998)    \\
-    8 &  2.7742  &  The Mighty (1998)  \\
-    9 &  2.7742  &  Senseless (1998)   \\
-    10&  2.7742  &  Everest (1998)     \\
-    \bottomrule
-  \end{tabular*}
-\end{minipage} 
-\hfill 
-\begin{minipage}{0.49\textwidth}
-  \begin{tabular*}{\textwidth}{ r l l l }
-    \toprule
-    \emph{\#} & \emph{rating} & \emph{title}\\
-    \midrule
-    1 &  3.8694  &  Apt Pupil (1998)            \\
-    2 &  3.4805  &  The Wedding Singer (1998)   \\
-    3 &  3.1314  &  Fallen (1998)               \\
-    4 &  3.1225  &  Tainted (1998)              \\
-    5 &  2.9442  &  Blues Brothers 2000 (1998)  \\
-    6 &  2.9046  &  Sphere (1998)               \\
-    7 &  2.8842  &  Desperate Measures (1998)   \\
-    8 &  2.8798  &  Firestorm (1998)            \\
-    9 &  2.8633  &  Vermin (1998)               \\
-    10&  2.8511  &  The Prophecy II (1998)      \\
-    \bottomrule
-  \end{tabular*}
-  \end{minipage} 
-  \vspace{1em}
-  \caption[Ranking Many Results]{
-    Ranking many results: 
-    In this example, the user search for the query "1998", to get movies from that year.
-    The top 10 of these are shown in the left table. As this query matches a lot of 
-    movies, the IR method returns a large number of results. By setting the IR weight to $0$,
-    and letting the stacked user models do the ranking, the top 10 results change completely,
-    while still being good matches for the current query.
-  }
-  \label{table:rank:year}
-\end{table}
+As we have seen in this section, stacked user modeling can provide personalized search
+in multiple ways. 
+Because of this, hypotheses H3 is confirmed for these use cases with our dataset.
+By varying the IR weight we can create quite a range of systems:
+On the one hand, an IR weight of 0 will let the recommenders do all the ranking.
+On the other hand, by increasing the IR weight, the recommenders will carefully
+adapt parts of the IR results list by moving some of the items.
 
+We have not considered which IR weight or other parameters would result in the best performing
+personalized search system.
+However, we have proved that stacked user modeling can be used for this purpose in a number of ways.
+confirming hypothesis H3.
 
 
