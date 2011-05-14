@@ -1,0 +1,54 @@
+\section{Evaluation Strategies}
+
+To evaluate how our model performs, we need a measure
+for computing the total error across a large number of predictions.
+The canonical measure for estimating the error of a 
+predictions from a recommender system
+is the \emph{Root mean squared error} (RMSE) measure
+(e.g. \citet[p17]{Herlocker2004}, \citet[p13]{Adomavicius2005} and \citet[p6]{Bell2007}).
+We shall use this measure to estimate the performance
+of our adaptive prediction aggregation algorithms.
+The RMSE of a set of estimations $\hat{R}$, 
+compared to a set of known ratings $R$, is defined as
+
+\begin{equation*}
+  RMSE(\hat{R},R) = \sqrt{E((\hat{R} - R)^2)}
+  = \sqrt{\frac{
+      \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
+    }{
+      n
+    }},
+\end{equation*}
+
+where $n$ is the total number of predictions.
+The RMSE combines a set of errors into one single combined error.
+A beneficial feature of the RMSE is that the resulting error 
+will be on the same scale as the estimations. In other words,
+if we are predicting values on the scale $1-5$, the computed error
+will be on this scale as well. In this case, an error of $1$
+would then say that we are on average $1$ point away from the true 
+ratings on our $1-5$ scale.
+
+While the RMSE works well for evaluating scalar predictions,
+we need another measure for considering a predicted sorting 
+from rank estimation methods.
+Here, we are not interested in the predicted scores,
+but rather in which position each item appears in a sorted list of results.
+This is for instance needed when measuring the performance of a
+personalized search engine.
+Because of this, we are interested in examining how 
+personalization with stacked user modeling affects the rankings
+from an IR method.
+
+To answer our three hypotheses, we have performed two experiments.
+The first experiment evaluates our method when used for
+adaptive prediction aggregation, comparing it to 
+the methods given in Table \ref{table:results:methods}.
+This will help us answer hypotheses H1 and H2.
+The second experiment will evaluate our performance
+in adaptive rank aggregation, in order to answer hypothesis H3.
+For more information on how the algorithms
+in this experiment were implemented, see Appendix \ref{appendix:implementation}.
+
+
+

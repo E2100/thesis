@@ -1,0 +1,44 @@
+\section{Datasets}
+
+To test our model, we need an applicable dataset with users, items and ratings.
+We chose the MovieLens dataset\footnote{
+See http://www.grouplens.org/node/73 --- accessed 10.05.2011}.
+This dataset is often used to test the performance of recommender systems,
+for example in \citet[p9]{Alshamri2008}, \citet[p4]{Lemire2005}, \citet[p1]{Adomavicius2005}
+and \citet[p2]{Herlocker2004}.
+The dataset consits of a set of users, a set of movies, and a set of movie ratings
+on the scale $1$ through $5$, and is available in two sizes:
+a set of 100,000 ratings from 943 users on 1,682 movies,
+and a set of 1,000,209 ratings from 6,040 users of 3,900 movies.
+
+Each collection comes with meta-data on each user, such as
+gender, age and occupation. There is also meta-data on each movie,
+such as its title, release date and genre. 
+For prediction aggregation, we are only interested in the ratings matrix
+extracted from this dataset.
+The titles of each movie will be used to experiment with personalized search.
+
+To achieve reliable evaluation results, the dataset should be split into
+multiple disjoint subsets, so that we can do cross-validation.
+This entails running the same experiments across all the subsets,
+and averaging the results.
+The MovieLens dataset comes with a preset number of splits for this kind of testing.
+In the set with 100,000 ratings, the data is split into five disjoint subsets,
+which are again split into training and testing sets:
+
+\begin{equation*}
+  D = \{ d_1 = \{base_1, test_1\}, d_2 = \{base_2, test_2\}, ..., d_5 = \{base_5, test_5\} \}
+\end{equation*}
+
+Each $base_x$ and $test_x$ are disjoint 80\% / 20\% splits of the data in each subset.
+We shall perform five-fold cross-validation across all these sets in our experiments.
+This way we can be more certain that our results are reliable,
+and not because of local effect in parts of the data.
+As previously explained, each $base$ set is further split using bootstrap aggregation,
+into random subsets for training each stanard recommender model.
+The entire base set is then used to train the aggregation models.
+Each corresponding $test$ set is then used to evaluate the performance
+of each basic model, and each of the aggregators.
+
+
+

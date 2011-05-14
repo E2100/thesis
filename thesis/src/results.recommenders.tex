@@ -1,0 +1,119 @@
+\section{Recommenders}
+
+In addition to the dataset, we need a number of recommender systems
+that can predict unknown ratings between users and items.
+As we have seen, standard recommenders will be used for both the basic predictions,
+and for the accuracy estimations for each basic prediction.
+
+Naturally, we need a number of different recommenders, preferably ones that consider
+disjoint patterns in the data. Table \ref{table:results:methods}
+gives a short overview of the recommender systems we shall employ.
+See Section \ref{sec:recommender} for more information on the different
+types of recommenders, and Appendix \ref{appendix:implementation}
+for information on how these were implemented in the following experiments.
+
+\subsection{Basic Recommenders}
+
+\begin{table}[t]
+  \begin{tabular*}{\textwidth}{ l l l l }
+    \toprule
+    ~ & \emph{method} &  \emph{algorithm} & \emph{description} \\
+    \midrule
+    S & svd1          & SVD                   & ALSWR factorizer, 10 features. \\
+    S & svd2          & SVD                   & ALSWR factorizer, 20 features. \\
+    S & svd3          & SVD                   & EM factorizer, 10 features. \\
+    S & svd4          & SVD                   & EM factorizer, 20 features. \\
+    S & slope\_one    & Slope One             & Rating delta computations. \\
+    S & item\_avg     & Baseline              & Based on item averages. \\ 
+    S & baseline      & Baseline              & Basd on user and item averages.\\ 
+    S & cosine   	    & Cosine similarity     & Weigted ratings from similar items.\\ 
+    S & knn       	  & Pearson Corr.         & Weighted ratings from similar users.\\
+    \midrule
+    A & median    	  & Aggregation           & Median rating from the above methods. \\
+    A & average    	  & Aggregation           & Average rating from the above methods. \\
+    A & stacked       & Adaptive agg.         & Accuracy predictions from error models. \\
+    \bottomrule
+  \end{tabular*}
+  \caption[Stacked Modeling Methods]{
+    Stacked modeling methods: A short description of each of the recommender methods
+    used in our experiment. See Section \ref{sec:recommender} for more information.
+    For the SVD methods, the factorizers refers to algoriithms used to factorize the ratings matrix.
+    An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
+    An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
+    The number of features refers to the truncation of the factors in order to reduce the taste-space.
+  }
+  \label{table:results:methods}
+\end{table}
+
+As seen in Table \ref{table:results:methods}, we have two types of recommenders:
+First, we have the basic recommenders, denoted by \emph{S} in the table.
+These recommenders each look at the data in different ways to arrive at predicted ratings.
+We chose this wide range of recommenders for just this reason:
+as previously explained, the performance of aggregate recommenders
+are more dependent on the disimilarity of the basic recommenders
+than their individual performance.
+
+Let us briefly explain how each basic recommender works.
+The SVD methods look for global patterns in the data 
+by reducing the ratings-space into a concept-space.
+By reducing this space, the algorithm is able to find
+latent relations, such as groups of movies that has the same
+rating pattern, or groups of users that often rate in a similar manner.
+
+The Slope One and baseline algorithms look at average
+ratings for items and from users, and use these to predict ratings.
+The cosine similarity algorithm looks for items that are rated
+similarly by the same users, and infers item similarity from this measure.
+New ratings are then predicted by taking known ratings of other items,
+weighted by their item's similarity to the new item.
+
+The KNN algorithm employs yet another approach. This algorithm,
+similar in strategy to the cosine similarity algorithm,
+looks for users with similar rating patterns.
+The similarity is measured with the Pearson Correlation Coefficient.
+Predictions are created by collecting ratings from similar users
+of the item in question, weighted by their respective similarity.
+See Section \ref{sec:recommender} for more 
+detailed information on how these recommenders work. 
+
+\subsection{Stacked Recommenders}
+
+The second type of recommenders are the aggregation methods, 
+that combine the result of each of the basic recommender systems.
+In addition to our stacked user modeling method
+(denoted with the key \emph{stacked} in Table \ref{table:results:methods}),
+we have the median- and average-based aggregators.
+The median aggregator choses the median value of the predictions
+produced by the standard recommenders.
+Similarly, the average aggregator takes the mean of the
+standard predictions.
+While not complex in nature, these methods
+will help us see how our method compares to simple, traditional
+aggregation techniques.
+
+As explained in Section \ref{sec:usermetamodeling},
+any basic recommender system can be used for the stacked user modeling method.
+The only difference is how this method is trained:
+while the basic methods are trained using the ratings matrix,
+the stacked methods are trained using the error model,
+as seen in Listing \ref{code:training}.
+In other words, we have as many possibilities for choosing
+the stacked recommenders as the basic recommenders.
+
+For our experiment, we went with SVD recommenders
+for each of the stacked models.
+That is, each basic recommender method gets a secondary 
+accuracy predicting recommender, which in this case is a 
+standard SVD recommender.
+The SVD recommender is a natural choice in this case,
+since we wish to uncover latent patterns of accuracy
+for each model.
+Examples of these patterns include groups of items
+or users a specific recommender works well for.
+
+The choices of recommenders will be further discussed
+in Chapter \ref{chap:discussion}.
+For now, let us see how we determined the performance of each method.
+
+
+
