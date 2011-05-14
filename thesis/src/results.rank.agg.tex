@@ -1,12 +1,6 @@
 \section{Adaptive Rank Aggregation}
 
-While the previous experiment was a quantitative exploration of RMSE values,
-this experiment will focus on qualitative traits of rank aggregation.
-
-
-Test H3
-
-\begin{table}[t]
+\begin{table}[h]
   \centering 
 
   \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
@@ -67,18 +61,101 @@ Test H3
   \end{tabular*}
 
   \vspace{1em}
-  \caption[Dual Query]{
-    IRW: 1.0
+  \caption[Complex IR Query]{
+    Complex IR query: This example has a quite complex IR query ([\emph{"new york" or washington}]).
+    The top-most table shows the results returned by our IR model, defining the item-space for the following tables.
+    The scores are the returned IR ranking scores.
+    The middle table shows the predicted ratings for each of the items in the results set.
+    $\Delta_{IR}$ shows how much each item has moved compared to the initial IR results.
+    The bottom table shows the final scores and positions when the IR scores and predicted ratings are combined.
+    Only the top 10 results are shown.
   }
   \label{table:rank:washington}
 \end{table}
 
+While the previous experiment was a quantitative exploration of RMSE values,
+this experiment will focus on qualitative traits of rank aggregation.
+We use the same MovieLens dataset as in the previous experiment,
+and perform information retrieval queries on the movie titles
+and meta-data in this dataset.
+In other words, we have a database of movies the user wishes to search through,
+where the results are ranked both by how well they match the free text query,
+and according to the predicted rating of each movie for the current user.
+
+Hypothesis H3 states that 
+{
+  \itshape
+  the result set from an information retrieval query
+  can be personalized by stacked user modeling, 
+  where the retrieval scores are considered standard input signals.
+}
+In other words, we wish to check if the prediction algorithm
+in Listing \ref{code:rank:prediction} performs personalized search
+in a meaningful way.
+
+While there are many ways of determining the accuracy of a personalized search
+algorithm, such as the mean average precision of the results list
+(the mean of the precision average over a set of queries),
+these are sibjective measures based on relevance judgements from each user.
+Our hypothesis only states that our algorithm should be usable for such 
+a system, which is what we shall explore in this section.
+
+Of course, any recommender system can be used for personalized search.
+The interesting bit in regards to stacked user modeling is what 
+happens under the hood. First, the information retrieval score 
+is itself treated as an input signal, just as the user modeling methods.
+Second, by using stacked user modeling, the user is in control of which
+methods that actually determine how the final results are ranked.
+We shall take a look at four use cases to see how our algorithm
+performs in a number of scenarios. We have experimented with how
+different combinations of the IR model and the recommender systems
+influence the final ranking.
+
+(1) Let us first consider a simple use case:
+a user wishes to find movies about two separate topics, ranked by 
+query match and predicted ratings.
+This is a realistic use case, for example if a user is interested
+in a few topics and wants to see the movie within these caterogies
+he or she will probably like the most.
+The IR algorithm takes care of finding the items within the categories,
+while the stacked recommenders finds the most enjoyable movies,
+according to the metrics most prefered by this user in the past.
+
+Table \ref{table:rank:washington} shows this use case and how our algorithm performs.
+The results are for the query [\emph{"new york" or washington}].
+The first table shows the IR scores for the first 10 results,
+and their rank (position in the list) according to these scores.
+The second table shows the predicted rankings for each of these items.
+Finally, the third table shows the ranking after the IR scores
+and predicted ratings have been combined.
+The final column shows how each item have moved in relation to the 
+IR results list.
+
+In this run of the algorithm, the IR weight ($w_{IR}$) was set to $1.0$,
+instructing the algorithm place about the same importance on the IR score
+and the predicted ratings. As we can see in the last section of 
+Table \ref{table:rank:washington} the final result list is a blend
+of the IR rankings and prediction rankings.
+In other words, we have achieved personalized search: the results
+from the IR method are re-ranked according to personal preferences.
 
 
+(2) Let us consider another use case:
+A user wishes to see a movie in a certain series of movies,
+but does not know which one. In this case, the IR method can find all movies within this series,
+while the recommender systems ranks the result list according to the user's preferences.
 
+Table \ref{table:rank:startrek} shows the intermediary and final ranking
+for the query [\emph{star trek}], which refers to a movie serie.
+The IR method returns all items that match this query,
+and the recommenders predict the rating for each of these items.
+However, since the IR method only ranks results based on how well they match the query,
+and the recommenders only care about the predicted rating, the combined result
+list can get the best of both worlds:
+the top ranked items are the ones that both match the query \emph{and}
+are probable good fits for the current user.
 
-
-\begin{table}[t]
+\begin{table}[h]
   \centering 
 
   \begin{tabular*}{0.9\textwidth}{ r l p{8cm} }
@@ -141,13 +218,10 @@ Test H3
   \vspace{1em}
   \caption[Adaptive Rank Rescoring]{
     These three table show adaptive rank rescoring for the query "star trek".
-    The top-most table shows the results returned by our IR model, defining the item-space for the following tables.
-    The scores are the returned IR ranking scores.
-    The middle table shows the predicted ratings for each of the items in the results set.
-    $\Delta_{IR}$ shows how much each item has moved compared to the initial IR results.
-    The bottom table shows the final scores and positions when the IR scores and predicted ratings are combined.
-    In this example, an IR weight of $0.3$ was used.
-    The top 10 results are shown.
+    In this example, an IR weight of $0.3$ was used, instructing the algorithm to
+    put about the same confidence in the IR score and recommender scores.
+    In other words, each score is considered an input signal, and each 
+    signal is weighted the same.
   }
   \label{table:rank:startrek}
 \end{table}
@@ -207,6 +281,37 @@ Test H3
 \end{table}
 
 
+(3) What happens when the IR weight is set to $0$?
+In this use case, the predicted ratings alone sort the final list.
+Consider the following use case:
+A user wishes to see a movie related to a certain topic, e.g. a city.
+Table \ref{table:rank:paris} shows two results lists for the query [\emph{paris}].
+On the left are the standard ranking as returned by the IR model for this query,
+along with their respective scores.
+On the right we see the same results, re-ranked by user preferences.
+
+For simple one-word queries, ignoring the IR score seems to give us the desired effect.
+When we can be sure that each item returned by a search have the same textual relevance
+(IR score), the IR method does not have any more information on which to rank
+the results. The ranking then becomes the task of the recommender systems.
+By employing stacked user modeling, the results are not only ranked by 
+one or more recommenders as chosen by the system, but by those of the recommenders
+best suited to the current user. At the same time, each of these recommenders
+are used differently for each item in the list, based on how well they have
+performed for each item in the past.
+
+(4) As we can see, ignoring the IR score gives us quite a different algorithm.
+Now, the search part is only performed to constrain the item-space worked
+on by the recommender systems.
+Another example of this is shown in Table \ref{table:rank:year}.
+In this scenario, the user wishes to see a movie from a certain year,
+and issues the query [\emph{1998}].
+Naturally, the IR algorithm returns a whole lot of items, and each can
+be said to be perfect answers to the algorithm -- each movie
+was made in 1998.
+In this case, setting the IR weight to $0$ allows us to rank the results
+purely by predicted preference, which makes sense when the IR algorithm
+can not rank the results in any meaningful way.
 
 \begin{table}[t]
   \centering 
