@@ -35,11 +35,12 @@ A system for stacked user modeling is specified by a 6-tuple:
 
 As always, we have sets of $Users$ and $Items$, 
 and a set of $Ratings$: each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
-These ratings can be explicitly provided by users, for example by rating movies,
+Items can be just about anything: documents, websites, movies, events, or indeed, other users.
+The ratings can be explicitly provided by users, for example by rating movies,
 or they can be mined from existing data, for example by mining query logs.
 As before, we use the term "rating" loosely --- equivalent terms include \emph{relevance}, \emph{utility},
 \emph{score} or \emph{connection strength}. In other words, this is a measure of what a user thinks of an item
-in the current domain language. However, since \emph{rating} will match the case study we present later in this chapter,
+in the current domain language. However, since \emph{rating} will match the case study we present in the next chapter,
 that is what we shall use. 
 
 The $Framework$ variable specifies how the data is represented.
@@ -53,15 +54,16 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
   r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
   \vdots  & \vdots  & \ddots & \vdots  \\
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
- \end{pmatrix}
+ \end{pmatrix}.
 \end{equation*}
 
-As we are dealing with multiple approaches to user modeling, we also have a set of modeling $Methods$, that each create their own
-user models. 
-Each model $m \in M$ are used to compute predictions.
+As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
+each with their own way of estimating unknown ratings. 
+Each model $m \in M$ is used to compute independent and hopefully complimentary predictions.
 In our case, these methods are recommendation systems.
+
 As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms,
-that consider differents aspects of available data: users, items and ratings, as well as 
+that consider differents aspects in the data: users, items and ratings, as well as 
 sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
 Examples of such recommender systems include Slope One predictions, SVD factorization and Nearest Neighbor weighted predictions
 (see Section \ref{subsec:recommender:examples}).
@@ -70,9 +72,8 @@ for example user profile similarity, rating correlations or social connections.
 As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
-
 The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
-In traditional prediction aggregation this is a single function for combining the different predictions,
+In traditional prediction aggregation this is a simple linear function for combining the different predictions,
 for example by precomputing a set of weights, one for each method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
@@ -83,8 +84,8 @@ based on a generalized combination found by minimizing some error across all use
 
 In stacked user modeling, the $Adapters$ are themselves user modeling methods 
 (see Figure \ref{fig:stack:comparison}).
-These methods predict how accurate each of their corresponding recommender methods will be.
-This will allow us to do adaptive aggregation based on the current user and item.
+Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
+It is these methods that will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
 (see Figure \ref{fig:stackedusermodeling}):
 
@@ -92,15 +93,17 @@ In other words, we have two distinct layers of user modeling
 
 \begin{enumerate}
   \item
-    \emph{The methods layer} consists of traditional user modeling methods, that use a single measure to produce predictions.
-    When presented with an item and a user, these methods produce a predicted rating $\hat{r}_{ui}$ based on an algorithm.
+    \emph{The methods layer} consists of traditional user modeling methods, that use a single aspect of the data to produce predictions.
+    When presented with an item and a user, these methods produce a predicted rating $\hat{r}_{ui}$ based on their algorithms.
   \item
     \emph{The adaptive layer} is another set of corresponding modeling methods, that work a bit different.
     These methods take an item and a user and estimates how well its underlying method will perform this prediction.
-    These estimations are then used to create a combined prediction score by the aggregation layer.
+    The accuracy estimations are then combined to create a combined prediction score through aggregation.
     Each of these adaptive methods do not have to employ the same algorithm as their corresponding methods,
-    they are only similar in that both are recommender systems.
+    the layers are only similar in that both consist of recommender systems.
 \end{enumerate}
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Another way of describing (and implementing) the two modeling levels is through application
 of the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.

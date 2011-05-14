@@ -1,12 +1,22 @@
-\section{Hypotheses}
+\section{Three Hypotheses}
 \label{sec:hypotheses}
 
-To minimize any latent subjectivity, we would like a method
-for prediction aggregation that works on a per-user and per-item level (\emph{per-element}).
-By automatically adapting each modeling method based on which user and which item is currently being
-considered, we should be able to produce an improved result.
+To evaluate whether or not \emph{stacked user modeling}
+can mitigate the latent subjectivity problem,
+we need a set of hypotheses.
+To solve the subjectivity problem we need our modeling method
+to adaptively aggregate a set of predictions based on the current user and item.
+In other words, by automatically adapting how a set of disjoint recommenders
+are combined, based on each user and item, we should be able to achieve a
+result that is better than each of the stand-alone recommenders.
+This adaptive method should also outperform other, generalized aggregation approaches.
+
 This paper will consider three hypotheses (H1-H3) 
-to establish whether adaptive aggregation through stacked user modeling is a viable technique:
+to establish whether adaptive aggregation through stacked user modeling is a viable technique.
+H1 and H2 will consider the approach in regard to prediction aggregation
+in a recommendation scenario. H3 will consider using this approach for
+rank aggregation in an information retrieval scenario.
+Let us start with prediction aggregation:
 
 {
   \itshape
@@ -15,8 +25,8 @@ to establish whether adaptive aggregation through stacked user modeling is a via
 }
 
 It stands to reason that if a recommender system is indeed impaired
-by the subjective selections of modeling methods,
-an adaptive blend of these methods should outperform each of the individual approaches.
+by the subjective selection of modeling methods,
+an adaptive combination of these methods should outperform each of the individual approaches.
 Second:
 
 {
@@ -26,8 +36,8 @@ Second:
 }
 
 If our assumption that model aggregation inherits the subjective nature of its chosen parts,
-a per-user aggregation without such misplaced subjectivity should outperform a
-generalized blending.
+an adaptive aggregation without such misplaced subjectivity should outperform a
+generalized combination.
 Third:
 
 {
@@ -38,16 +48,14 @@ Third:
 }
 
 As described in Section \ref{subsec:signals},
-every measure that influence the final ranking of results from a search engine
-can be seen as individual signals. Each signal, be it an IR score,
-something like PageRank or the result of a user modeling method,
-contributes to the final ranking.
+modern search engines combines multiple ranking functions called signals into a final results list.
+Each signal, be it an IR score, a metric like PageRank, or the result of a user modeling method,
+contributes to the final item ranking.
+We shall use H3 to see whether or not stacked user modeling can be used for this type of rank aggregation,
+where a set of recommender systems constitute a set of input signals.
 
-This fits well into our thinking that multiple modeling methods
-will leverage multiple patterns in the data.
-The information retrieval ranking function
-becomes another metric, just like the user modeling methods,
-allowing us to do IR and personalization with the same algorithm.
-
-\clearpage
+By answering our three hypotheses, it should become clear whether or not our approach
+is a valid method of predicting the relevance of an item to a user.
+These hypothesess will be tested in the next chapter, but first, let us build
+the model we shall test.
 

@@ -1,4 +1,4 @@
-\section{Latent Subjectivity}
+\section{The Latent Subjectivity Problem}
 \label{sec:reasoning}
 
 As we saw in Chapter \ref{chap:theory}, 
@@ -8,55 +8,66 @@ In fact, judging by the number of different approaches,
 the only limiting factor seems to be the different 
 patterns researchers discover in available data.
 As described in Section \ref{sec:aggregate},
-aggregate modeling is a common way of combining different, complimenting
+modern approaches to recommender systems try to combine many of these methods.
+Aggregate modeling is a common way of combining different, complimenting
 methods into one prediction system.
 By leveraging so called \emph{disjoint patterns}
 in the data, several less than optimal predictors
 can be combined, so that the combination outperforms each part.
+Moderns search engines work much in the same way,
+combining multiple ranking signals into a final results list
+(see Section \ref{subsec:signals}).
 
-However, both simple predictions and aggregate predictions have a fundamental problem.
+Why then, when we have all these valid approaches, would we need yet another technique?
+We posit that both simple predictors and aggregation methods have a fundamental problem.
 There exists an underlying, misplaced subjectivity to relevance prediction that is seldom discussed.
+
 When a method is developed or selected for use in a prediction system,
 a concious descision of which approach to use is made.
-The researcher or developer select which method (or methods in the case of aggregation),
-they think should be able to model users of the system.
-Consider the following relevance judgements:
+Before any user modeling is performed, the researcher or developer selects
+one or more methods that is thought to best model every user and item in the system.
+Should it not be up to each user to decide which method best describes their preferences?
+And, considering the vast scope of items we can come by, will the selected
+methods perform similarly for every item?
 
-\begin{itemize*}
+Consider the following examples of relevance judgement:
+
+\begin{itemize}
   \item PageRank \citep{Bender2005} assumes that the relevance of a web page is 
   represented by its authority, as computed from inbound links from other sites.
-  \item When providing personalized search results, one ranking signal may be 
-  the social connections of the current user. Items deemed relevant by the user's 
-  peers will then recieve a boosted ranking (e.g. \cite{Carmel2009}).
-  %\item When determining the relevance of an email, one predictor might be based
-  %on how often the sender sends emails to the current user.
+  \item Some systems considers a user's social connections to be important
+  in ranking search results, when performing personalized search (e.g. \cite{Carmel2009}).
   \item When recommending movies, one predictor may be based on the ratings
   of users with similar profile details. Another predictor might be 
   dependent on some feature, e.g. production year of well liked movies.
   \item Recommendations based on the Pearson Coefficient \cite[p11]{Segaran2007}
-  assumes that the statistical correlation between user ratings defines their 
-  similarity.
-\end{itemize*}
+  assumes that the statistical correlation between user ratings is a good
+  mesure for user similarity.
+\end{itemize}
 
 Are these metrics subjective? 
 While the methods themselves may perform well, their selection
 reflects how whoever created the system assumes how each user
-can and \emph{should} be modeled. This underlying, \emph{latent subjectivity} is not desirable.
+can and \emph{should} be modeled. This underlying subjectivity is not desirable.
+We call this the \emph{latent subjectivity problem}.
 
-For example, While one user might appreciate a social
+Examples of this problem are not hard to come by.
+For instance, while one user might appreciate a social
 influence in their search results, another user might not.
 While one user might find frequency of communication maps well to relevance,
 another might not. 
 One user might feel the similarity of movie titles are a good predictor,
 while another might be more influenced by production year.
 The exact differences are not important --- what is important is that they exist.
+The same goes for items: while one item might best be judged by its content,
+another might be better described by previous ratings from other users.
+One item's relevance may be closely tied to when it was created,
+while other items may be timeless.
 
-Another way of explaining latent subjectivity is that 
+Another way of explaining the latent subjectivity problem is that 
 \emph{user modeling methods are dependent on the subjective assumptions of their creators}.
-In other words, each modeling method use some aspect of available data to make predictions,
-and the importance of each of these methods is determined by whoever creates the system,
-or by the on average best error-minimizing combination, not by each individual user.
-
+In other words, a modeling method use some aspect of available data to make predictions,
+and this aspect is chosen by whoever creates the system.
 Aggregate modeling methods face the same problem of misplaced subjectivity: 
 Aggregation is done on a generalized, global level,
 where each user is expected to place the same importance on each modeling method.
@@ -64,17 +75,17 @@ While the aggregation is of course selected to minimize some error over a testin
 the subjective nature remains: The compiled aggregation is a generalization,
 treating all users the same --- hardly a goal of user modeling.
 
-We propose a method where these descisions are left to each user,
+We propose a method where these descisions are left to each user and item,
 providing an extra level of abstraction and personalization.
-This leaves the subjective nature of modeling method selection where it should be:
-In the hands of each individual user.
-If each method is \emph{only used} based on how well it performs for each user,
-any possibly applicable user modeling method suddenly becomes a worthy addition.
-Consider the following two questions:
+This leaves the subjective nature of selecting ways to model users and items where it should be:
+In the hands of each individual user, and dependent on each specific item.
+If each method is \emph{only used} based on how well it performs for each element,
+any possibly applicable recommender system suddenly becomes a worthy addition to the system.
+Imagine creating a recommendation system, and consider the following two questions:
 
 \begin{enumerate*}
   \item What combination of which methods will accurately predict unknown scores?
-  \item Which methods could possibly help predict a score for a user?
+  \item Which methods could possibly help predict a score for a user or an item?
 \end{enumerate*}
 
 The first question is what has to be considered in traditional modeling aggregation:
@@ -84,26 +95,20 @@ most often through minimizing the average error across all users.
 
 The second question is quite different. 
 Instead of looking for an optimal set of methods and an optimal combination,
-we look for the set of \emph{any applicable method} that \emph{some users} might find helpful.
+we look for the set of \emph{any applicable methods} that \emph{some users} might find helpful,
+or that might work for \emph{some items}.
 We believe this is a much simpler problem: 
 instead of trying to generalize individuality,
 it should be embraced, by allowing users to implicitly and automatically select which methods they prefer,
 from a large set of possible predictors.
 
-The issue of latent subjectivity can also cause problems when considering the scope of items.
-Should we really use the same metrics for judging every item's relevance score?
+Just as each user is different, each item may have their own characteristics.
 Needless to say, items are often quite different from another,
 along a myriad of dimensions. Consider the World Wide Web:
 If each webpage is an item, the number of metrics we can use to judge
 the relevance of an item is immense.
 If items are indeed as different as the users themselves, it stands to reason that the same 
 modeling method will not perform as well for every item.
-We are left with the same two questions as before:
-
-\begin{enumerate*}
-  \item What combination of which methods will accurately model every item?
-  \item Which methods could possibly help predict a score for an item?
-\end{enumerate*}
 
 As before, an approach where we only need to consider the second question is desireable.
 Regardless, both traditional, single-approach modeling methods, and modern aggregation approaches
@@ -111,10 +116,8 @@ often treat every item the same. No matter its intrinsic qualities, an item will
 by the same methods as every other item. 
 
 This chapter will develop a way to aggregate a host of modeling methods on a per-user and per-item basis.
-By adapting the aggregation to the current item and user, we sidestep the issue of
-latent subjectivity. The user is in control of which methods best fit their needs, and
+By adapting the aggregation to the current item and user, we sidestep the latent subjectivity problem. 
+The user is in control of which methods best fit their needs, and
 each method's priority is influenced by how well it performs for the current item.
 We will now express our goals as a three hypotheses.
 
-
-\clearpage
