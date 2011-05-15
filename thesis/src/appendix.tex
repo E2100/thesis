@@ -4,18 +4,17 @@
 \label{appendix:implementation}
 
 
-This section describes how we implemented stacked user modeling.
+This section describes how we implemented stacked recommenders.
 This is a short description of the most important features and considerations
 made when implementing the system.
 While quite specific and not important to the viability of 
-\emph{stacked user modeling} in itself,
+\emph{stacked recommenders} in itself,
 this should give a short introduction to how this technique can be put into practice.
 
 \section{Libraries}
 
 \begin{figure}[t]
   \begin{center}
-  \begin{framed}\centering
     \includegraphics[
       width=1.0\textwidth]{../graphics/diagram-app-layers}
     \caption[Library Layers]{
@@ -28,7 +27,6 @@ this should give a short introduction to how this technique can be put into prac
       MapReduce framework for efficient parallel computation. 
     }
   \label{fig:library-layers}
-  \end{framed}
   \end{center}
 \end{figure}
 
@@ -59,7 +57,7 @@ Mahout is build on top of \emph{Apache Hadoop},
 a system for creating scalable and distributed data processing systems\footnote{
 See \url{http://hadoop.apache.org/} --- accessed 09/05/2011}.
 This is important to the performance of our system.
-As mentioned, a lot of the operations performed in stacked user modeling
+As mentioned, a lot of the operations performed in stacking recommenders
 are independent and lend themselves well to parallelization.
 By building on Hadoop, each of our recommenders come implemented in a 
 proper MapReduce framework for parallel computation (as explained in \citet[p75]{Manning2008}).
@@ -87,7 +85,6 @@ perform varying experiments in a short amount of time.
 
 \begin{figure}[t]
   \begin{center}
-  \begin{framed}\centering
     \includegraphics[
       width=1.0\textwidth]{../graphics/diagram-task}
     \caption[Task Structure Diagram]{
@@ -100,7 +97,6 @@ perform varying experiments in a short amount of time.
       These modules are then used as needed by each experiment.
     }
   \label{fig:uml}
-  \end{framed}
   \end{center}
 \end{figure}
 
@@ -138,14 +134,14 @@ As mentioned, this is an offline approach, so that the models can be computed an
 indepentent of making any actual predictions.
 
 As we shall soon explain, our experiments require us to measure the performance of each
-recommender, and the stacked user modeling recommender, for every combination of 
+recommender, and the stacked recommender, for every combination of 
 a user and an item.
 In order to perform these experiments, an \emph{evaluator} module was built.
 As both the standard recommenders and the adaptive recommender system presents the same 
 interface, the evaluators simply takes a set of recommenders as input, 
 and measures their accuracy across the dataset specified by the current task.
 
-As mentioned, none of these aspects have any bearing on the viability of stacked user modeling.
+As mentioned, none of these aspects have any bearing on the viability of stacked recommenders.
 However, as this does provide an example of how to implement such a system. 
 See Appendix \ref{appendix:resources} for links to other resources. 
 
