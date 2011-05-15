@@ -1,7 +1,7 @@
-\section{Stacked User Modeling}
+\section{Stacked Recommenders}
 \label{sec:usermetamodeling}
 
-\emph{Stacked User Modeling} (SUM) is a way of combining recommender systems
+\emph{Stacked Recommenders} (SR) is a way of combining recommender systems
 in an effort to answer two related questions.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
@@ -17,17 +17,17 @@ Modern aggregation techniques goes one step further, and combines many methods u
 However, we wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
 
-Formally, we define stacked user modeling as \emph{adapting a set of user modeling methods
+Formally, we define stacked recommenders as \emph{adapting a set of user modeling methods
 with another complementary set of user modeling methods} 
 (see Figure \ref{fig:stackedusermodeling}).
 The first set creates standard prediction scores, and answers the first question.
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
 The interesting bit is that SUM can use recommender systems for both these tasks, as we shall soon see.
-A system for stacked user modeling is specified by a 6-tuple:
+A system for stacked recommenders is specified by a 6-tuple:
 
 \begin{eqnarray*}
-  \mathrm{SUM} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
+  \mathrm{SR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
                &=& (I,U,R,F,M,A).
 \end{eqnarray*}
 
@@ -82,7 +82,7 @@ As described in Section \ref{sec:aggregate}, multiple prediction results are nor
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
-In stacked user modeling, the $Adapters$ are themselves user modeling methods 
+With stacked recommenders, the $Adapters$ are themselves user modeling methods 
 (see Figure \ref{fig:stack:comparison}).
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
@@ -96,9 +96,9 @@ In other words, we have two distinct layers of user modeling
     \emph{The methods layer} consists of traditional user modeling methods, that use a single aspect of the data to produce predictions.
     When presented with an item and a user, these methods produce a predicted rating $\hat{r}_{ui}$ based on their algorithms.
   \item
-    \emph{The adaptive layer} is another set of corresponding modeling methods, that work a bit different.
+    \emph{The adaptive layer} is another set of corresponding modeling methods, that work a bit differently.
     These methods take an item and a user and estimates how well its underlying method will perform this prediction.
-    The accuracy estimations are then combined to create a combined prediction score through aggregation.
+    The accuracy estimations are then combined with the predictions by aggregation.
     Each of these adaptive methods do not have to employ the same algorithm as their corresponding methods,
     the layers are only similar in that both consist of recommender systems.
 \end{enumerate}
@@ -232,7 +232,7 @@ we apply the following algorithm:
 \end{enumerate*}
 
 The next section will explain these steps in detail.
-For now, we have our approach to stacked user modeling:
+For now, we have our approach to stacking recommenders:
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \cdot p(m_{r},u,i),
@@ -250,7 +250,7 @@ For this equation to work as expected, the weights must be normalized:
 Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
 $m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using the error matrix.
 This means we can use \emph{any} standard modeling method to perform adaptive aggregation.
-Hence, the name \emph{stacked user modeling}: 
+Hence, the name \emph{stacked recommenders}: 
 each standard modeling method is stacked under another accuracy estimating modeling method.
 
 The result of this is a system that does not only aggregate a number of predictions for each unknown

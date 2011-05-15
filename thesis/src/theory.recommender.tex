@@ -184,8 +184,7 @@ See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjor
 
 (1) \emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
 The data is content-based, and used to compute heuristic predictions. 
-This is done on a per-user, individual basis and collects long term knowledge
-so far as the user is rational in most of his or her ratings.
+This is done on a per-user, individual basis and collects long term, stable knowledge.
 While simple in nature, they are often helpful as starting points for more complex systems, or as 
 benchmarks for exploring new approaches. \cite[p2]{Koren2008} computes the baselines for items and users, and
 use more involved methods to move this starting point in some direction. 
@@ -312,6 +311,8 @@ $M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users an
 $U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{*}$ (the conjugate transpose of $V$) is an $n \times n$ factor ("stretcher").
 $\Sigma$ is a $m \times n$ diagonal matrix ("aligner"). 
 
+\textbf{TODO: SVD is basically compression.}
+
 The dimensionalty of the ratings space is performed by truncating the factor matrices each to a number of rows or columns, 
 where the number is a paramenter depending on the current domain and data. By truncating the factors, 
 we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
@@ -371,7 +372,6 @@ of paths leading to the target item (see Figure \ref{fig:book-graphs}).
 
 \begin{figure}[t]
   \centering
-  \begin{framed}\centering
   \subfloat[]{\label{fig:graph-layers}
     \includegraphics[width=0.5\textwidth]{../graphics/graph-layers}}                
   \subfloat[]{\label{fig:graph-layers-detail}
@@ -382,7 +382,6 @@ of paths leading to the target item (see Figure \ref{fig:book-graphs}).
     represent similarity, while connections between books and customers represent purchases.
     Figures from \cite{Huang2002}.}
   \label{fig:book-graphs}
-\end{framed}
 \end{figure}
 
 The complexity of recommender systems based on networks are only limited by the kinds of relations we can produce.

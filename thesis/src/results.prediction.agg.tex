@@ -44,12 +44,12 @@ The second hypothesis, H2, states:
 }
 
 In order to verify these hypotheses, we performed adaptive prediction aggregation
-through stacked user modeling on the five datasets described in the previous section.
+through stacked recommenders on the five datasets described in the previous section.
 Table \ref{table:results:e1} gives the results from this experiment.
 Each cell corresponds to the RMSE values for each dataset,
 for each recommender and aggregation approach.
-The bottom entry in this table refers to our stacked user modeling method.
-As seen in this table, stacked user modeling achieved
+The bottom entry in this table refers to our stacked recommenders method.
+As seen in this table, the stacked recommender achieved
 lower RMSE values than any of the other applied methods.
 
 Statistics from the results in Table \ref{table:results:e1} 
@@ -59,7 +59,7 @@ for each of the methods. We also include
 the standard deviation ($\sigma$) for each method,
 across our datasets.
 This table confirms the results from the full results table:
-Our stacked user modeling approach improves the mean performance
+Our stacked recommenders approach improves the mean performance
 of our system.
 The mean performance, along with the standard deviation
 are shown in Figure \ref{plot:rmse}.
@@ -117,7 +117,7 @@ which results in high values for $\sigma$.
 
 What does this mean for hypotheses H1 and H2?
 Expressed in terms of this experiment,
-H1 posits that stacked user modeling should outperform each of the standard modeling methods
+H1 posits that stacked recommenders should outperform each of the standard modeling methods
 in Table \ref{table:results:e1}.
 The adaptive methods blend the results of multiple predictors by estimating the accuracy
 on a per-item and per-user basis, satisfying the formulation of H1.
@@ -133,11 +133,11 @@ to confirm hypothesis H1 in these conditions, and likely for other, similar scen
 We shall discuss this in Chapter \ref{chap:discussion}.
 
 Similarly, expressed in the same terms, H2 posits that 
-our stacked user modeling should outperform the aggregation approaches
+our stacked recommenders should outperform the aggregation approaches
 given in Table \ref{table:results:e1}.
 The \emph{median} and \emph{average} aggregation methods
 serve as globalized and generalized aggragation methods,
-Stacked user modeling is adaptive in that each prediction is 
+Stacked recommenders are adaptive in that each prediction is 
 aggregated based on the current user and item,
 satisfying the language of H2.
 
@@ -146,7 +146,7 @@ As we can see in Table \ref{table:results:e1:sum},
 However, as our collection of aggregation methods is a lot simpler
 than our collection of recommender systems, the strength of this combination
 is notably weaker than that of H1.
-Still, the fact that stacked user modeling outperforms these simple aggregation
+Still, the fact that a stacked recommender outperforms these simple aggregation
 approaches is a positive result warranting further experiments.
 This will also be discussed in Chapter \ref{chap:discussion}.
 

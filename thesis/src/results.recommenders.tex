@@ -80,7 +80,7 @@ detailed information on how these recommenders work.
 
 The second type of recommenders are the aggregation methods, 
 that combine the result of each of the basic recommender systems.
-In addition to our stacked user modeling method
+In addition to our stacked recommender method
 (denoted with the key \emph{stacked} in Table \ref{table:results:methods}),
 we have the median- and average-based aggregators.
 The median aggregator choses the median value of the predictions
@@ -92,7 +92,7 @@ will help us see how our method compares to simple, traditional
 aggregation techniques.
 
 As explained in Section \ref{sec:usermetamodeling},
-any basic recommender system can be used for the stacked user modeling method.
+any basic recommender system can be used for the stacked method.
 The only difference is how this method is trained:
 while the basic methods are trained using the ratings matrix,
 the stacked methods are trained using the error model,

@@ -16,7 +16,7 @@ Hypothesis H3 states that
 {
   \itshape
   the result set from an information retrieval query
-  can be personalized by stacked user modeling, 
+  can be personalized by stacked recommenders, 
   where the retrieval scores are considered standard input signals.
 }
 In other words, we wish to check if the prediction algorithm
@@ -31,10 +31,10 @@ Our hypothesis only states that our algorithm should be usable for such
 a system, which is what we shall explore in this section.
 
 Of course, any recommender system can be used for personalized search.
-The interesting bit in regards to stacked user modeling is what 
+The interesting bit in regards to stacked recommenders is what 
 happens under the hood. First, the information retrieval score 
 is itself treated as an input signal, just as the user modeling methods.
-Second, by using stacked user modeling, the user is in control of which
+Second, by using stacked recommenders, the user is in control of which
 methods that actually determine how the final results are ranked.
 We shall take a look at four use cases with to see how our algorithm
 performs in a number of scenarios. Each case presents 
@@ -100,7 +100,7 @@ For simple one-word queries, ignoring the IR score seems to give us the desired 
 When we can be sure that each item returned by a search have the same textual relevance
 (IR score), the IR method does not have any more information on which to rank
 the results. The ranking then becomes the task of the recommender systems.
-By employing stacked user modeling, the results are not only ranked by 
+By employing stacked recommenders, the results are not only ranked by 
 one or more recommenders as chosen by the system, but by those of the recommenders
 best suited to the current user. At the same time, each of these recommenders
 are used differently for each item in the list, based on how well they have
@@ -130,7 +130,7 @@ below the top 10 final results.
 \input{table.rank.paris}
 \input{table.rank.year}
 
-As we have seen in this section, stacked user modeling can provide personalized search
+As we have seen in this section, stacked recommenders can provide personalized search
 in multiple ways. 
 Because of this, hypotheses H3 is confirmed for these use cases with our dataset.
 By varying the IR weight we can create quite a range of systems:
@@ -140,7 +140,7 @@ adapt parts of the IR results list by moving some of the items.
 
 We have not considered which IR weight or other parameters would result in the best performing
 personalized search system.
-However, we have proved that stacked user modeling can be used for this purpose in a number of ways.
+However, we have proved that stacked recommenders can be used for this purpose in a number of ways.
 confirming hypothesis H3.
 
 
