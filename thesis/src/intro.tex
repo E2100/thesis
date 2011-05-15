@@ -1,70 +1,129 @@
-\textbf{TODO: This chapter is just a collection of notes,
-the introduction has not yet been written.}
+\label{chap:intro}
 
-In 1971, Herbert Simon said the following on the topic of information overload: 
-"What information consumes is rather obvious: it consumes the attention of its recipients. 
-Hence a wealth of information creates a poverty of attention and 
-a need to allocate that attention efficiently among the overabundance of 
-information sources that might consume it." \cite{Greenberger1971}.
+Information is a curious thing:
+having too much can be as harmful as having no information at all.
+While lacking information is an obvious problem,
+too much leads to information overload,
+where relevant content drowns in irrelevant noise.
+Our amount of available attention is limited, and each new bit
+of information consumes it further,
+diminishing the value of any actually relevant content
+\cite[p1]{Davenport2001}.
+
+However, while people struggle with excessive information,
+algorithms in artificial intelligence simply can not get enough.
+\citet[p1]{Halevy2009} calls this the \emph{unreasonable effectiveness of data}:
+perhaps surprisingly, more data often trumps more efficient algorithms.
+\citet[p3]{Banko2001} shows how traditional algorithms can be substantially
+improved by giving them a lot more data to work with.
+As much as researchers chase elegant algorithms,
+finding more data to work with may be time better spent.
+
+Few places is this difference of users and computers more apparent than in \emph{recommender systems}.
+A recommender system is a technique in user modeling to estimate the relevance of an item to a user.
+An item can be anything: documents, websites, movies, events, or indeed, other users.
+These techniques are especially prolific on the Web: 
+wherever there is personalized recommendations of news, books, movies,
+articles, social connections, search results, et cetera, recommender systems are the tools
+working behind the scenes.
+
+Modern recommender systems often embrace the unreasonable effectiveness of data,
+by combining multiple recommender methods to leverage different patterns in the data.
+By considering different aspects of users and items when predicting relevance,
+the methods provide quite complex predictions that rely on much evidence.
+These systems can use data such as search query logs, relevance judgements from similar users,
+social connections and much more, as we shall soon see.
+For example, \citet[p1]{Bell2007} took this to its logical conclusion by 
+combining an astonishing 107 different recommenders when winning the Netflix recommendation competition
+(see \citet{Linden2009}).
+
+While the name might seem constraining, recommender systems are incredibly powerful tools.
+If we can accurately predict how each user will react to each item, the information overload problem would be solved.
+Likewise, chronological sorting of items would be a figment of a simplistic past.
+User interfaces could provide optimal selection and placement of information to each user.
+
+However, despite their apparent power, in the real world, recommender systems are often confined
+to menial tasks like creating small lists of recommended items, 
+or meekly suggesting similar items to the ones being considered by a user.
+Seldom are their potential reached by creating completely adaptive
+content systems, that work hard to mitigate any signs of information overload.
+
+We posit that traditional recommender systems have a fundamental problem.
+There exists an underlying, misplaced subjectivity to relevance prediction that is seldom discussed.
+
+When a method is developed or selected for use in a recommender system,
+a concious descision of which approach to use is made.
+Before any user modeling is performed, the researcher or developer selects
+one or more methods that is thought to best model every user and item in the system.
+While the methods themselves may perform well, their selection
+reflects how whoever created the system assumes how each user
+can and \emph{should} be modeled. This underlying subjectivity is not desirable.
+We call this the \emph{latent subjectivity problem}.
+
+Examples are not hard to come by.
+For instance, while one user might appreciate social
+influence in their search results, another user might not.
+While one user might find frequency of communication maps well to relevance,
+another might not. 
+One user might feel the similarity of movie titles are a good predictor,
+while another might be more influenced by production year.
+The exact differences are not important --- what is important is that they exist.
+
+The same goes for items: while one item might best be judged by its content,
+another might be better described by previous ratings from other users.
+One item's relevance may be closely tied to when it was created,
+while other items may be timeless.
+
+Should it not be up to each user to decide which method best describes their preferences?
+And, considering the vast scope of items we can come by, will the selected
+methods perform similarly for every item?
+
+Another way of explaining the latent subjectivity problem is that 
+\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
+In other words, a modeling method use some aspect of available data to make predictions,
+and this aspect is chosen by whoever creates the system.
+
+Aggregate modeling methods face the same problem of misplaced subjectivity: 
+Aggregation is done on a generalized, global level,
+where each user and item is expected to place the same importance on each modeling method.
+While the aggregation is of course selected to minimize some error over a testing set,
+the subjective nature remains: The compiled aggregation is a generalization,
+treating all users the same --- hardly a goal of user modeling.
+
+We propose a novel method called \emph{stacked recommenders}, where these descisions are left to each user and item,
+providing an extra level of abstraction and personalization.
+This leaves the subjective nature of selecting ways to model users and items where it should be:
+In the hands of each individual user, and dependent on each specific item.
+If each method of relevance prediction is \emph{only used} based on how well it performs for each element,
+any possibly applicable recommender system suddenly becomes a worthy addition to the system.
+
+Can stacked recommenders help these powerful techniques reach their full potential?
+Will a system where each user and item decides how they should be modeled outperform traditional approaches?
+\emph{That is the topic of this research paper}.
+Our goal is to develop the \emph{stacked recommenders} technique, and determine if this is a viable approach.
 
 
-In 2009, Alon Halevy, Peter Norvig, and Fernando Pereira, wrote:
-"Perhaps when it comes to natural language processing and related fields, 
-we’re doomed to complex theories that will never have the elegance of physics equations. 
-But if that’s so, we should stop acting as if our goal is to author extremely elegant theories, 
-and instead embrace complexity and make use of the best ally we have: 
-the unreasonable effectiveness of data."
-\cite{Halevy2009}.
 
-Higher orders of training data:
-Some algs perform better than others, depending on amount of data.
-\cite{Banko2001}
+\hr
 
-Simple algorithms, lots of data, many algorithms, user-combined.
+This paper is structured as follows:
 
-Data-driven learning:
-\url{http://archive.ecml.at/projects/voll/rationale_and_help/booklets/resources/menu_booklet_ddl.htm}
+Chapter \ref{chap:theory} will present the background theory needed to develop our modeling method:
+the information overload problem, user modeling and recommender systems. We will also touch on
+how to do personalized search, which we shall use to test our approach.
 
-"Predictive accuracy is substantially improved when blending multiple predictors. 
-Our experience is that most efforts should be concentrated in deriving substantially 
-different approaches, rather than refining a single technique. 
-Consequently, our solution is an ensemble of many methods."
---- \cite{Bell2007}
-Teams with different insights, each team votes on answers.
-Breakthrough in netflix prize challenge -- race of ensembles.
+Chapter \ref{chap:methods} will build the \emph{stacked recommenders} approach from the ground up,
+based on the background theory.
+This approach will allow us to adaptively combine different recommenders
+on a per-user and per-item level, sidestepping the the latent subjectivity problem.
 
+Chapter \ref{chap:results} will develop three hypotheses and experiment with our newly built model
+to test stacked recommenders in two scenarios:
+aggregating scores for single items, and performing rank aggregation by sorting a list of items.
 
-Previously, something else was the problem
+Finally, Chapter \ref{chap:discussion} will summarize and analyse the implications of 
+the results of the previous chapter.
+We will also go through the contributions of this paper, and suggest future work.
 
-Today, biggest problems on the web
-
-Information overload
-
-Content discovery
-
-Search
-
-User modeling
-
-Often generic methods
-
-the modeling problem: model+prediction
-
-the core problem: estimating preferences
-
-getting past 80\%
-
-the efficiency of data
-
-This paper: A more personal approach
-
-Aggregated user modeling methods for 
-truly personal predictions.
-
-Hypothesis
-
-Contributions
-
-Outline
 
 
