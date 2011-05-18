@@ -2,13 +2,29 @@
 
 \chapter*{Abstract}
 
+Recommender systems are user modeling methods
+that predict the relevance of an item to a user.
+These powerful systems can use multiple aspects of known data
+to estimate what each user will think of each item.
+
 Modern recommender systems blend multiple standard recommenders
 in order to leverage disjoint patterns in the available data.
+By combining different types of recommenders,
+complex predictions that rely on much evidence can be made.
 
-This paper presents a novel method for adaptive prediction aggregation.
-Multiple recommenders are combined on a per-user and per-item basis
+However, we posit these systems have an important weakness.
+There exists an underlying, misplaced subjectivity to relevance prediction.
+Each chosen recommender system reflects how the system
+generally thinks each user and item should be modeled.
+
+This paper presents a novel method for adaptive prediction aggregation,
+called \emph{stacked recommenders}.
+Multiple recommender systems are combined on a per-user and per-item basis
 by estimating how accurate each recommender will be for the current user and item.
 This is done by creating a set of secondary error estimating recommenders.
+By estimating predictions and their accuracy based 
+on the current user and item,
+optimally adaptive predictions can be estimated.
 
 Prediction aggreation is tested in a recommendations scenario,
 and rank aggregation in a personalized search scenario.
