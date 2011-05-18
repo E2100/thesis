@@ -10,7 +10,8 @@ and suggest possible future work.
 
 \section{Implications}      
 
-Our central position is that modern aggregate recommender systems fail because of misplaced subjectivity.
+Our central position is that modern aggregate recommender systems 
+are constrained by misplaced subjectivity.
 Each system selects some measures to model its users, while this selection should be left to each user.
 This problem extends to the items recommended by each system: 
 Different modeling methods will suit each item differently.
@@ -67,8 +68,8 @@ We have made two main contributions with this paper:
 (1) The latent subjectivity problem is one we think hinders
 standard recommender systems reaching their full potential.
 As far as we know, this problem has not been described
-in the context of recommender systems so far.
-The main choice for any such system is how to compute unknown ratings.
+in the context of recommender systems.
+The main choice for any such system is how to predict unknown ratings.
 To do this, a pattern in the available ratings data must be leveraged.
 These patterns are plentiful, and which works best is dependent on
 each user and item in the system.
@@ -77,9 +78,21 @@ level, where each user and item is treated the same.
 This underlying subjectivity leads to a mismatch between the notions
 of whoever developed the systems, and the users and items of the service.
 
+The latent subjectivity problem extens to any ensemble learning systems
+(as those described in \cite{Polikar2006}) that blends multiple 
+algorithms to leverage patterns.
+Whenever we have multiple algorithms that work on a set of items
+(and possibly users), there is a question of how accurate each
+approach will be for each item.
+Averaged or generalized weighted approaches will always
+chose the combination that performs best \emph{on average},
+with little concern to the uniqueness of items (and users).
+In other words, this is a comprehensive problem
+that may be discovered amongst many machine learning techniques.
+
 (2) Stacked recommenders is our attempt to solve the latent subjectivity problem.
 As far as we know, this type of adaptive prediction aggregation has not been done before.
-Chapter \ref{chap:results} showed how an aggregation that combines predictions based
+Chapter \ref{chap:results} showed that an aggregation that combines predictions based
 on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.
 Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
@@ -88,19 +101,75 @@ by creating error models for each recommender, we can use this to predict
 its accuracy for each user/item combination.
 These predictions can then be used to weigh each combined algorithm accordingly.
 
-While these experiments show the general viability of the technique,
+As far as the latent subjectivity problem extends to any ensemble learning system,
+the adaptive aggregation part of stacked recommenders can be used to 
+create better combinations of many types of predictors.
+Whenever we have a set of algorithms producing a set of predicted values
+based on items, a set of aggregating recommenders can model the probable
+errors of these approaches, based on each individual item.
+This leads to adaptive ensembles that should outperform generalized approaches.
+Because of this, the technique build in this paper should be 
+applicable in situations other than recommender systems.
+
+While the experiments of Chapter \ref{chap:results} show the general viability of stacked reocmmenders,
 we belive there are greater opportunities in systems where there  are even more diverging
 patterns to be leveraged. The prime examples of this are systems that may or may 
 not use social connections between users, and systems which predict the 
 relevance of widely varying items.
 
 
-
-
 \section{Future Work}      
 
+We have only shown the basic viability of stacked recommenders,
+and how they can outperform traditional approaches on traditional datasets.
+This section outlines a few interesting research topics
+which should shed more light on the subject.
+
 \subsection{Different adaptive recommenders}
+
+We chose to use SVD-based recommenders for the adaptive part of our stacked approach.
+The main reason for this is that we are looking for global traits of the data
+when performing accuracy estimations. In other words, we wish to identify
+clusters of users and items for which each algorithm may or may not be suited.
+
+However, as the stacked recommenders can utilize any standard recommender system
+to model the errors of another recommender, it would be interesting to perform
+a more in-depth study of how different choices for the adaptive layer
+influence the final system.
+There are many more recommenders that also look at global patterns
+that might be well suited for this task.
+
+
 \subsection{Different domains}
+
+We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
+The primary reason was to be able to direcly evaluate our results towards those of other research papers.
+As this dataset and this error measure is widely used to evaluate recommender systems,
+it is natural for a first look at a new approach to use the same notions of accuracy.
+
+However, as mentioned above, the main strength of stacked recommenders may be
+in situations with much more diverse data sources. Social networks or systems
+with widely varying sets of items would provide an interesting use case for stacked recommenders.
+The main premise of our approach is that each user and item have differing preferences
+for each algorithm. Naturally, the more diverse the data and algorithms get,
+the more dire the need for adaptive aggregation becomes.
+Because of this, using stacked recommeners in other domains with more variation 
+in the data and combined algorithms would be an interesting topic.
+
+
+\subsection{Different fields}
+
+We have only considered the notion of latent subjectivity within the field of recommender systems.
+However, as briefly mentioned above, the technique should be applicable to many more situations.
+Whenever there is a set of prediction algorithms that use different data to produce results,
+an adaptive aggregation should be able to combine these in a more nuanced way.
+
+Ensemble learning is a big topic, used in many situations.
+By stacking recommenders on top of each method in an ensemble, 
+we get a system capable of predicting the accuracy of each method.
+Naturally, it would be interesting to see how this approach would fare
+in other fields such as document classification, document clustering,
+curve fitting \cite[p7]{Polikar2006}, and any other field of ensemble learning.
 
 
 \section{Conclusion}      
