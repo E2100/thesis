@@ -5,10 +5,13 @@ having too much can be as harmful as having no information at all.
 While lacking information is an obvious problem,
 too much leads to information overload,
 where relevant content drowns in irrelevant noise.
+
 Our amount of available attention is limited, and each new bit
 of information consumes it further,
 diminishing the value of any actually relevant content
 \cite[p1]{Davenport2001}.
+As the amount of information grows,
+our ability to make informed descisions quickly diminish.
 
 However, while people struggle with excessive information,
 algorithms in artificial intelligence simply can not get enough.
@@ -50,6 +53,7 @@ content systems, that work hard to mitigate any signs of information overload.
 
 We posit that traditional recommender systems have an important weakness.
 There exists an underlying, misplaced subjectivity to relevance prediction.
+This fundamental weakness hinders the full adoption of these systems.
 
 Consider this: 
 when a method is developed or selected for use in a recommender system,
@@ -75,9 +79,13 @@ another might be better described by previous ratings from other users.
 One item's relevance may be closely tied to when it was created,
 while other items may be timeless.
 
-Should it not be up to each user to decide which method best describes their preferences?
+Should it not be up to each user to implicitly decide which method best describes their preferences?
 And, considering the vast scope of items we can come by, will the selected
 methods perform similarly for every item?
+How much each algorithm is used should be used implicitly and automatically
+based on how well they have previously worked for the current user.
+At the same time, each algorithm should only be seriously considered
+when considering items is has worked well for in the past.
 
 Another way of explaining the latent subjectivity problem is that 
 \emph{user modeling methods are dependent on the subjective assumptions of their creators}.
@@ -93,8 +101,9 @@ treating all users the same --- hardly a goal of user modeling.
 
 We propose a novel method called \emph{stacked recommenders}, where these descisions are left to each user and item,
 providing an extra level of abstraction and personalization.
+The descisions are implict, and happens in the background, without any extra interaction required.
 This leaves the subjective nature of selecting ways to model users and items where it should be:
-In the hands of each individual user, and dependent on each specific item.
+In the hands of each individual user, and dependent on each specific item, without any extraneous effort.
 If each method of relevance prediction is \emph{only used} based on how well it performs for each element,
 any possibly applicable recommender system suddenly becomes a worthy addition to the system.
 
@@ -105,7 +114,7 @@ we will have come closer to solving the latent subjectivity problem.
 
 Can stacked recommenders help these powerful techniques reach their full potential?
 Will a system where each user and item decides how they should be modeled outperform traditional approaches?
-\emph{That is the topic of this paper}.
+\emph{That is the main research question of this paper}.
 
 
 \hr
