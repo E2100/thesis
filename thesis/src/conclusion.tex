@@ -1,7 +1,65 @@
 \label{chap:discussion}
 
+This chapter will discuss the implications of our results.
+While our hypotheses may be answered,
+it is important to clarify what we have actually found out,
+and what limits there is to this knowledge.
+We will also summarise the contributions of this paper,
+and suggest possible future work.
 
-\section{Discussion}      
+
+\section{Implications}      
+
+Our central position is that modern aggregate recommender systems fail because of misplaced subjectivity.
+Each system selects some measures to model its users, while this selection should be left to each user.
+This problem extends to the items recommended by each system: 
+Different modeling methods will suit each item differently.
+
+Stacked recommenders can help solve this problem.
+In a collection of possible recommender algorithms, each is adaptively used based 
+on how well it performs for the item and user in question.
+We think the experiments in the previous chapter shows the promise of this technique.
+However, there are lots of use cases not yet considered.
+
+It should be clear that stacked recommenders would work best in situations where
+we have a wide range of diverse algorithms that can infer the relevance of an item to a user.
+For users, social connections is a good example: whether or not social connections should influence
+recommendations or personalized search results is a contentious topic.
+Naturally, a system where each user's personal opinion determines if these connections are used is desireable.
+
+This implication extens to the items that should be recommended:
+As evident by the field of information retrieval,
+there exists many ways of considering the relevance of an item. 
+Each of these algorithms can be based on a number of attributes:
+temporality, geography, sentiment analysis, topic or key words.
+It is not a huge leap to consider that each of these algorithms may have
+varying levels of accuracy for each individual item.
+Stacked recommenders can help solve this problem by adaptively 
+combining the recommenders based on individual item performance.
+
+With stacked recommenders, both the methods layer and the adaptive layer consists of standard recommender algorithms.
+Because we use ratings matrices for the taste models and error matrices for the weight estimations,
+we can use the same algorithms for both tasks.
+Using known algorithms for this new task is beneficial:
+they are known to work, enjoy multiple implementations
+and are already understood and battle-tested in many different systems.
+
+However, as this approach is more complicated than standard recommenders,
+it is worth questioning if its gains are worth the extra complexity.
+This depends on the basic recommenders that are to be combined.
+If the system is made up by many different recommenders,
+that each user might place varying importance on,
+and that may have varying success with each item,
+stacked recommenders may provide implressive gains in accuracy.
+On the other hand, if the recommenders are simple in nature,
+and look at similar patterns in the data,
+generalized aggregation methods might be more applicable.
+
+
+
+
+
+\section{Limitations}
 
 
 \section{Contributions} 
@@ -9,8 +67,8 @@
 
 \section{Future Work}      
 
-\paragraph{Different adaptive recommenders}
-\paragraph{Different domains}
+\subsection{Different adaptive recommenders}
+\subsection{Different domains}
 
 
 \section{Conclusion}      
