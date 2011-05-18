@@ -103,21 +103,19 @@ In other words, we have two distinct layers of user modeling
     the layers are only similar in that both consist of recommender systems.
 \end{enumerate}
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-Another way of describing (and implementing) the two modeling levels is through application
-of the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
-When performing \emph{prediction aggregation} (scores), this estimation can be expressed as
+Another way of describing (and implementing) these two levels is through 
+the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
+For example, we can express prediction aggregation as 
 
 \begin{equation*}
   \hat{r}_{ui} = \mathrm{reduce}(u, i, \mathrm{map}(M, u, i)).
 \end{equation*}
 
-First, each modeling method is applied through the $\mathrm{map}$ function, with the current user and item for which
-a rating should be estimated. This operation returns a set of scalar prediction values. These values are then
-combined in the $\mathrm{reduce}$ method, which takes the predictions and current user as input.
-In our case, this is the set of adaptive recommender methods. 
-If we wish to do rank aggregation (i.e. sorted lists), the equation is a bit different:
+First, each modeling method is applied by the $\mathrm{map}$ function, with the current user, item and set of modeling methods as input.
+This operation returns a set of scalar prediction values. 
+These values are then combined by the $\mathrm{reduce}$ function, which also takes the current user and item as input.
+In other words, $\mathrm{map}$ is the methods layer, and $\mathrm{reduce}$ is the adaptive layer.
+If we wish to do rank aggregation, the equation is a bit different:
 
 \begin{equation*}
   \tau_{u,n} = \mathrm{reduce}(u, \mathrm{map}(M,u,n)).
@@ -125,14 +123,12 @@ If we wish to do rank aggregation (i.e. sorted lists), the equation is a bit dif
 
 Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
+The result is an adaptively sorted list of the top $n$ items for the current user.
 
-Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ now is helpful, as this will later
-guide our implementation of these operations in a proper MapReduce framework
+Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ is helpful 
+as this will guide our implementation into a proper MapReduce framework
 for parallell computation (as explained in \citet[p75]{Manning2008}).
-The $\mathrm{map}$ function may apply each modeling method in parallell, 
-as these are independent computations.
-The modified $\mathrm{reduce}$ function, which takes the resulting predictions $\mathrm{map}$ and the current
-user as inputs, serve as our adaptive layer.
+For optimal performance, both layers can be performed in paralell, as we shall soon see.
 
 
 \subsection{Adaptive Aggregation}
@@ -149,26 +145,24 @@ by the different methods (e.g. \citet[p3]{Aslam2001}):
 
 Here, $\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from method $m$.
-However, most recommender aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
+However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p(m,u,i) 
   \quad \text{where} \quad 0 \leq w_{m} \leq 1, \quad \sum_{i \in M} (w_i) = 1.
 \end{equation*}
 
-Here, $w_m$ is the weight applied to modeling method $m$. These weights fall in the range $[0,1]$ and sum up to $1$.
-As described in \ref{sec:aggregate}, these weights can be estimated through different machine learning methods.
-Most often, the ratings data is divided into two sets:
-A training set for training the recommender systems, and a testing set for finding the weights
-that produce the optimal combination of predictors.
+In this equation, $w_m$ is the weight applied to modeling method $m$. 
+These weights fall in the range $[0,1]$ and sum up to $1$.
+As described in \ref{sec:aggregate}, the weights can be estimated through different machine learning methods.
 However, as discussed in Section \ref{sec:reasoning},
 this is still a generalized result, averaged across every user. 
 The system assumes that the best average result is the best result for each individual user.
 
-In order to leverage as many data patterns as possible, and remove the latent subjectivity,
+In order to leverage as many patterns as possible, and remove the latent subjectivity,
 we need \emph{adaptive weights} that are computed spcifically for each combination of a user and an item.
-However, just as we do not know the rating of every combination, we do not know the optimal weight.
-In other words, these adaptive weights have to be estimated, just as the ratings themselves:
+However, if we wish each weight to be combination-specific, pre-computing each weight for each method becomes unfeasible.
+In other words, these adaptive weights have to be estimated just as the ratings themselves:
 
 \begin{equation*}
   \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \cdot p_{r}(m,u,i)
@@ -177,7 +171,7 @@ In other words, these adaptive weights have to be estimated, just as the ratings
 \end{equation*}
 
 We have now reduced our mission to creating a method that can estimate the adaptive weights: $p_{w}(m,u,i)$.
-As mentioned, we wish to use the same algorithms for both of these predictions.
+As mentioned, we wish to use standard recommender systems for both of these predictions.
 For recommender systems to be applicable here, we need to create a matrix (or graph)
 that stores known estimations of how accurate some of the predictions will be.
 
@@ -244,7 +238,7 @@ and $m_{e}$ is its corresponding error model.
 For this equation to work as expected, the weights must be normalized:
 
 \begin{equation*}
-  0 \leq p_{e}(m,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p_{e}(m,u,i)) = 1.
+  0 \leq p(m_e,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p(m_e,u,i)) = 1.
 \end{equation*}
 
 Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
@@ -252,6 +246,16 @@ $m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using th
 This means we can use \emph{any} standard modeling method to perform adaptive aggregation.
 Hence, the name \emph{stacked recommenders}: 
 each standard modeling method is stacked under another accuracy estimating modeling method.
+
+It is also important to note that the types of recommenders used for the adaptive layer
+is independent of the basic recommenders.
+Each adaptive recommender need only predicted ratings from each basic recommender,
+and does not care which algorithm it employs.
+When making predictions, the calculations in the methods layer and adaptive layer
+are independent of each other, as both use pre-computed models:
+the method layer use the ratings matrix, or their own models
+created during training, while the adaptive layers use the error matrices for each
+basic method.
 
 The result of this is a system that does not only aggregate a number of predictions for each unknown
 combination of users and items,
