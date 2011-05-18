@@ -96,13 +96,6 @@
 
 
 % -----------------
-% References
-% -----------------
-
-\RequirePackage{natbib}
-
-
-% -----------------
 % Links
 % -----------------
 
@@ -209,23 +202,21 @@
 
 
 % -----------------
-% Appendices
+% Frontmatter
 % -----------------
 
-%\renewenvironment{appendices}{
-%  \pagenumbering{roman}
-%  \setcounter{page}{1}
-%  \def\thechapter {\Alph{chapter}}
-%  \def\thesection {\thechapter.\arabic{section}}
-%  \setcounter{secnumdepth}{1}
-%  \setcounter{tocdepth}{3}
-%  \color{red}
-%}
+% Abstract
+\renewcommand{\abstractnamefont}{\normalfont\huge} 
+\renewcommand{\abstracttextfont}{\normalfont\normalsize}
+\setlength{\absleftindent}{6em}
+\setlength{\absrightindent}{6em}
 
 
 % -----------------
 % References
 % -----------------
+
+\RequirePackage{natbib}
 
 \renewcommand*{\bibname}{References}
 \renewenvironment{thebibliography}[1]{%
@@ -358,9 +349,12 @@
   \end{center}
 }
 
-
-
-
+% narrow column
+\newenvironment{narrow}{
+  \begin{adjustwidth}{8em}{8em} 
+}{
+  \end{adjustwidth}
+}
 
 
 
