@@ -1,9 +1,7 @@
 \section{Three Hypotheses}
 \label{sec:hypotheses}
 
-To evaluate whether or not \emph{stacked recommenders}
-can mitigate the latent subjectivity problem,
-we need a set of hypotheses.
+Our research goal is to develop the \emph{stacked recommenders} technique, and determine if this is a viable approach.
 To solve the subjectivity problem we need our modeling method
 to adaptively aggregate a set of predictions based on the current user and item.
 In other words, by automatically adapting how a set of disjoint recommenders
@@ -11,8 +9,7 @@ are combined, based on each user and item, we should be able to achieve a
 result that is better than each of the stand-alone recommenders.
 This adaptive method should also outperform other, generalized aggregation approaches.
 
-This paper will consider three hypotheses (H1-H3) 
-to establish whether adaptive aggregation through stacked recommenders is a viable technique.
+In order to achieve our goal, this paper will consider three hypotheses (H1-H3).
 H1 and H2 will consider the approach in regard to prediction aggregation
 in a recommendation scenario. H3 will consider using this approach for
 rank aggregation in an information retrieval scenario.
@@ -20,21 +17,19 @@ Let us start with prediction aggregation:
 
 {
   \itshape
-  $\mathbf{H1}$: The accuracy of relevance predictions can be improved
-  by blending multiple modeling methods on a per-user and per-item basis.
+  H1: The accuracy of relevance predictions can be improved
+  by adaptive recommender aggregation.
 }
-
 It stands to reason that if a recommender system is indeed impaired
 by the subjective selection of modeling methods,
-an adaptive combination of these methods should outperform each of the individual approaches.
+an adaptive combination of these methods, based on each individual user and item, 
+should outperform each of the individual approaches.
 Second:
 
 {
   \itshape
-  $\mathbf{H2}$: An adaptive aggregation method can outperform global and generalized 
-  blending methods.
+  H2: An adaptive aggregation method can achieve higher accuracy than global and generalized blending methods.
 }
-
 If our assumption that model aggregation inherits the subjective nature of its chosen parts,
 an adaptive aggregation without such misplaced subjectivity should outperform a
 generalized combination.
@@ -42,20 +37,15 @@ Third:
 
 {
   \itshape
-  $\mathbf{H3}$: The result set from an information retrieval query
-  can be personalized by stacking recommenders, where the retrieval scores are considered 
-  standard input signals.
+  H3: The result set from an information retrieval query
+  can be personalized by stacking recommenders, where the retrieval scores are considered.
 }
-
 As described in Section \ref{subsec:signals},
 modern search engines combines multiple ranking functions called signals into a final results list.
-Each signal, be it an IR score, a metric like PageRank, or the result of a user modeling method,
-contributes to the final item ranking.
 We shall use H3 to see whether or not stacked recommenders can be used for this type of rank aggregation,
 where a set of recommender systems constitute a set of input signals.
 
-By answering our three hypotheses, it should become clear whether or not our approach
-is a valid method of predicting the relevance of an item to a user.
-These hypothesess will be tested in the next chapter, but first, let us build
-the model we shall test.
+By answering these three hypotheses, it chould become clear whether or not
+our \emph{stacked recommenders} is a viable technique for improved relevance predictions
+between users and items.
 
