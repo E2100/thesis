@@ -58,11 +58,43 @@ generalized aggregation methods might be more applicable.
 
 
 
-
-\section{Limitations}
-
-
 \section{Contributions} 
+
+We have made two main contributions with this paper:
+(1) described the latent subjectitivty problem and
+(2) developed the technique of stacked recommenders.
+
+(1) The latent subjectivity problem is one we think hinders
+standard recommender systems reaching their full potential.
+As far as we know, this problem has not been described
+in the context of recommender systems so far.
+The main choice for any such system is how to compute unknown ratings.
+To do this, a pattern in the available ratings data must be leveraged.
+These patterns are plentiful, and which works best is dependent on
+each user and item in the system.
+Modern aggregation recommenders utilize many patterns, but on a generalized
+level, where each user and item is treated the same.
+This underlying subjectivity leads to a mismatch between the notions
+of whoever developed the systems, and the users and items of the service.
+
+(2) Stacked recommenders is our attempt to solve the latent subjectivity problem.
+As far as we know, this type of adaptive prediction aggregation has not been done before.
+Chapter \ref{chap:results} showed how an aggregation that combines predictions based
+on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.
+Our technique is strengthened by the fact that standard recommender algorithms
+are used for the accuracy estimations.
+This is the core insight of this paper: 
+by creating error models for each recommender, we can use this to predict
+its accuracy for each user/item combination.
+These predictions can then be used to weigh each combined algorithm accordingly.
+
+While these experiments show the general viability of the technique,
+we belive there are greater opportunities in systems where there  are even more diverging
+patterns to be leveraged. The prime examples of this are systems that may or may 
+not use social connections between users, and systems which predict the 
+relevance of widely varying items.
+
+
 
 
 \section{Future Work}      
