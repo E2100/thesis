@@ -28,8 +28,8 @@ articles, social connections, search results, et cetera, recommender systems are
 working behind the scenes.
 
 Modern recommender systems often embrace the unreasonable effectiveness of data,
-by combining multiple recommender methods to leverage different patterns in the data.
-By considering different aspects of users and items when predicting relevance,
+by combining multiple recommender methods that predict relevance in various ways.
+By considering different aspects of users and items when making predictions,
 the methods provide quite complex predictions that rely on much evidence.
 These systems can use data such as search query logs, relevance judgements from similar users,
 social connections and much more, as we shall soon see.
@@ -48,10 +48,11 @@ or meekly suggesting similar items to the ones being considered by a user.
 Seldom are their potential reached by creating completely adaptive
 content systems, that work hard to mitigate any signs of information overload.
 
-We posit that traditional recommender systems have a fundamental problem.
-There exists an underlying, misplaced subjectivity to relevance prediction that is seldom discussed.
+We posit that traditional recommender systems have an important weakness.
+There exists an underlying, misplaced subjectivity to relevance prediction.
 
-When a method is developed or selected for use in a recommender system,
+Consider this: 
+when a method is developed or selected for use in a recommender system,
 a concious descision of which approach to use is made.
 Before any user modeling is performed, the researcher or developer selects
 one or more methods that is thought to best model every user and item in the system.
@@ -99,15 +100,13 @@ any possibly applicable recommender system suddenly becomes a worthy addition to
 
 Can stacked recommenders help these powerful techniques reach their full potential?
 Will a system where each user and item decides how they should be modeled outperform traditional approaches?
-\emph{That is the topic of this research paper}.
-Our goal is to develop the \emph{stacked recommenders} technique, and determine if this is a viable approach.
-
+\emph{That is the topic of this paper}.
 
 
 \hr
 
-This paper is structured as follows:
 
+This paper is structured as follows.
 Chapter \ref{chap:theory} will present the background theory needed to develop our modeling method:
 the information overload problem, user modeling and recommender systems. We will also touch on
 how to do personalized search, which we shall use to test our approach.
@@ -116,9 +115,8 @@ Chapter \ref{chap:methods} will build the \emph{stacked recommenders} approach f
 based on the background theory.
 This approach will allow us to adaptively combine different recommenders
 on a per-user and per-item level, sidestepping the the latent subjectivity problem.
-
-Chapter \ref{chap:results} will develop three hypotheses and experiment with our newly built model
-to test stacked recommenders in two scenarios:
+Chapter \ref{chap:results} will test three hypotheses and experiment with our newly built model.
+We will try it out in two scenarios:
 aggregating scores for single items, and performing rank aggregation by sorting a list of items.
 
 Finally, Chapter \ref{chap:discussion} will summarize and analyse the implications of 
