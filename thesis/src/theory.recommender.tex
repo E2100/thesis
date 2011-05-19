@@ -311,8 +311,6 @@ $M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users an
 $U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{*}$ (the conjugate transpose of $V$) is an $n \times n$ factor ("stretcher").
 $\Sigma$ is a $m \times n$ diagonal matrix ("aligner"). 
 
-\textbf{TODO: SVD is basically compression.}
-
 The dimensionalty of the ratings space is performed by truncating the factor matrices each to a number of rows or columns, 
 where the number is a paramenter depending on the current domain and data. By truncating the factors, 
 we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
@@ -352,8 +350,9 @@ Second, ratings that in some way correlate to each other are enhanced, giving mo
 This means that the reduced factors can for instance identify features that correspond to correlations between items or users.
 These features are comparable to the mapping of terms to concepts in LSI.
 
-There are many ways of using the reduced factors.
-We can for instance use the resulting reduced factors to find similar users by their cosine similarity (see Section \ref{sec:search}).
+\textbf{TODO: SVD is basically compression.}
+
+In recommender systems, we can for instance use the resulting reduced factors to find similar users by their cosine similarity (see Section \ref{sec:search}).
 We can of course also find similarities between items, clusters of items and user and so on, all based on latent "categories"
 discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
