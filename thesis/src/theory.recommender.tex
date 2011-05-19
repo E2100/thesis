@@ -29,6 +29,35 @@ connections, and the connections of similar users, new connections can be predic
 Recommender systems are then powerful methods for user modeling, personalization and fighting information overload,
 because of their ability to infer how relevant and item (or another user) will be to the current user.
 
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{../graphics/autonomy.pdf}
+  \caption[Interface Autonomy]{
+    Interface Autonomy:
+    Interfaces range from those only customizable by the user, 
+    to intelligent systems takes the initiative on its own accord.
+  }
+  \label{fig:autonomy}
+\end{figure}
+
+An autonomous interface is one that takes initiatives on its own, regardless of whether the user has asked for it \cite[p2]{Lieberman}. 
+Creating adaptive interfaces means increasing the level of autonomy in an interface, a technique that raises many interesting issues. 
+Naturally, any application that automatically personalizes its content will be autonomous to some degree.
+
+Adaptive interfaces can be classified into increasing order of autonomy (see Figure \ref{fig:autonomy}). 
+At the order of least autonomous systems, we have \emph{customizable interfaces}. 
+These are interfaces that the user may customize themselves, but that do not take the initiative or change anything without explicit user action. 
+For example, an interface might have a settings panel where users can change the order of items in a menu.
+At the next level of autonomy, we have \emph{adaptive interfaces} that suggest to the user possible changes or actions that might be beneficial. For example, an email application could suggest which folder an email should be moved to.
+At the most autonomous level, \emph{intelligent interfaces} implicitly and automatically customize the interface or content based on passive observation of the user. 
+This could for instance entail automatic filing of emails based on content classification and data mining of previous user actions with similar messages.
+
+An application that personalizes content automatically will fall somewhere in the two last categories and present either an adaptive or intelligent interface, 
+depending on the extent and transparency of its autonomy.
+We are only interested in fully atonomous, intelligent interfaces.
+We wish to create a system that implicitly, and without any effort from each user,
+can adapt the content of an application based on previous behaviour
+Examples of implicit user modeling include \cite{Qiu2006}, \cite{Shen2005} and \cite{Carmel2009}.
+
 Formally, a recommender system can be seen as a quintuple, $\mathrm{RS} = (I, U, R, F, M)$,
 where $I$ is the set of items (e.g. products, articles or movies) and $U$ is the set of users.
 $R$ is the set of known connections, for example explicit preferences given by users for certain items, or connections in a social graph.
