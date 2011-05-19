@@ -40,9 +40,9 @@ Our implementation makes use of a number of external libraries,
 as seen in Figure \ref{fig:library-layers}
 
 To quickly get a large number of recommenders up and running,
-the system was linked with the \emph{Apache Mahout machine learning library}\footnote{
-See \url{http://mahout.apache.org} --- accessed 09/05/2011}. 
-Apache Mahout provides a number of machine learning
+the system was linked with the \emph{Apache Mahout machine learning library}
+(See Appendix \ref{appendix:resources}). 
+Mahout provides a number of machine learning
 algorithms, amongst which a set of recommender systems.
 Examples include SVD- and KNN-based recommenders,
 baseline recommenders, a Slope One recommender,
@@ -54,8 +54,8 @@ but was found to be quite mature and feature-rich
 in our experience.
 
 Mahout is build on top of \emph{Apache Hadoop},
-a system for creating scalable and distributed data processing systems\footnote{
-See \url{http://hadoop.apache.org/} --- accessed 09/05/2011}.
+a system for creating scalable and distributed data processing systems 
+(See Appendix \ref{appendix:resources}).
 This is important to the performance of our system.
 As mentioned, a lot of the operations performed in stacking recommenders
 are independent and lend themselves well to parallelization.
@@ -65,8 +65,7 @@ Each of the basic recommenders and adaptive aggregators can then be modeled at t
 making the most out of whatever hardware is present.
 
 For our IR tasks, we chose to build on another library.
-\emph{Apache Lucene}\footnote{
-See http://lucene.apache.org/ --- accessed 09/05/2011} is an open-source search engine, also built on top of Hadoop,
+\emph{Apache Lucene} (See Appendix \ref{appendix:resources}) is an open-source search engine, also built on top of Hadoop,
 gaining the same performance wins as Mahout.
 Lucene provides powerful methods for creating indexes of items, and for querying these indexes.
 
@@ -74,9 +73,7 @@ Mahout, Lucene and Hadoop are all written in the Java Programming Language,
 and runs on the Java Virtual Machine (JVM).
 To facilitate rapid prototyping, the Ruby scripting language was chosen as a "glue" language,
 for interfacing with the libraries. 
-By using the JRuby\footnote{
-See \url{http://www.jruby.org/} --- accessed 09/05/2011} 
-implementation of Ruby, Java libraries can be imported directly
+By using the JRuby implementation of Ruby, Java libraries can be imported directly
 into the language, allowing us to use Mahout and Hadoop almost as if they were written in the same language.
 The use of Ruby allowed us to quickly develop different combinations of recommenders and
 perform varying experiments in a short amount of time.
@@ -122,9 +119,7 @@ tests them against the dataset specified in the task,
 and returns the results of the evaluation.
 
 
-
-
-\section{Modeling and Prediction}
+\section{Modeling \emph{\&} Prediction}
 
 The modeling phase consists of running our modeling algorithms and storing the resulting models.
 A task is created for each of the basic recommenders, and for each of the adaptive recommenders.
@@ -133,13 +128,29 @@ specified by the current task.
 As mentioned, this is an offline approach, so that the models can be computed and recomputed,
 indepentent of making any actual predictions.
 
-As we shall soon explain, our experiments require us to measure the performance of each
+Our experiments required us to measure the performance of each
 recommender, and the stacked recommender, for every combination of 
 a user and an item.
 In order to perform these experiments, an \emph{evaluator} module was built.
 As both the standard recommenders and the adaptive recommender system presents the same 
 interface, the evaluators simply takes a set of recommenders as input, 
 and measures their accuracy across the dataset specified by the current task.
+
+This prediction phase, where each user is compared to every un-rated item,
+is not comparable to the prediction phase of a real-world system
+based on stacked recommenders. In a real world application of this technique,
+a prediction is made whenever a user's actions requires it,
+e.g. when we need to know what a user will think of an item.
+
+This is where the $\mathrm{MapReduce}$ operations previously mentioned come into play.
+Each of the basic recommenders, and each of the adaptive recommenders can be applied in parallel.
+The basic recommenders are applied through a $\mathrm{map}$ operation, where the current user and item (the input)
+is given to each modeling method. These methods return a number of scalar predictions.
+The next step is the $\mathrm{reduce}$ operation, which is the adaptive layer.
+Here, the scalar predictions are reduced to one prediction by computing weights
+based on probable accuracy.
+These computations can of course be cached, if certain combinations of users and items
+often need predictions.
 
 As mentioned, none of these aspects have any bearing on the viability of stacked recommenders.
 However, as this does provide an example of how to implement such a system. 
@@ -151,7 +162,6 @@ See Appendix \ref{appendix:resources} for links to other resources.
 \label{appendix:resources}
 
 This appendix gives pointers to additional resources mentioned throughout this paper.
-
 The code for the implementation outlined in Appendix \ref{appendix:implementation} is available online.
 The code resides in a version control at 
 \url{https://github.com/olav/thesis/tree/master/code}.
@@ -161,13 +171,12 @@ Apache Project\footnote{See \url{http://www.apache.org/} --- accessed 19/5/2011}
 The Hadoop distributed computing library\footnote{See \url{http://hadoop.apache.org/} --- accessed 19/5/2011},
 the Mahout machine learning library\footnote{See \url{http://mahout.apache.org/} --- accessed 19/5/2011},
 and the Lucene information retrieval library\footnote{See \url{http://lucene.apache.org/} --- accessed 19/5/2011}
-
 Specific versions of these libraries are bundled together with
 the source code as JAR-files, that run on the JVM.
 Note that these libraries are released under their own terms,
 namely the Apache License\footnote{
 See \url{http://www.apache.org/licenses/} --- accessed 19/5/2011}.
-The repository also includes the glue-code, written in Jruby\footnote{
+The repository also includes the glue-code, written in JRuby\footnote{
 See \url{http://www.jruby.org/} --- accessed 09/05/2011}.
 
 This paper is written in the Latex document publishing system.
@@ -190,12 +199,12 @@ For citation purposes, use the following BibTex entry:
 \begin{verbatim}
 @mastersthesis{Bjørkøy2011,
   address = {Trondheim, Norway},
-  author = {Bjørkøy, Olav},
-  school = {NTNU},
-  title = {{Stacked Recommenders: 
-            Adaptive Prediction Aggregation
-            Through Accuracy Estimation}},
-  year = {2011}
+  author  = {Bjørkøy, Olav},
+  school  = {NTNU},
+  year    = {2011},
+  title   = {{Stacked Recommenders: 
+              Adaptive Prediction Aggregation
+              Through Accuracy Estimation}}
 } 
 \end{verbatim}
 }
