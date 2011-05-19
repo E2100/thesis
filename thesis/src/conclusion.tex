@@ -125,7 +125,7 @@ and how they can outperform traditional approaches on traditional datasets.
 This section outlines a few interesting research topics
 which should shed more light on the subject.
 
-\subsection{Different adaptive recommenders}
+\subsection{Choosing Different Adaptive Recommenders}
 
 We chose to use SVD-based recommenders for the adaptive part of our stacked approach.
 The main reason for this is that we are looking for global traits of the data
@@ -139,8 +139,13 @@ influence the final system.
 There are many more recommenders that also look at global patterns
 that might be well suited for this task.
 
+Another interesting question is whether other machine learning methods can be used for the adaptive layer.
+For example, using neural networks to estimate non linear aggregation functions for each user would be an interesting approach.
+This was attempted earlier in our research, but abandoned when recommenders were found to produce
+better results in a more elegant way. 
 
-\subsection{Different domains}
+
+\subsection{Using Stacked Recommenders in Other Domains}
 
 We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
 The primary reason was to be able to direcly evaluate our results towards those of other research papers.
@@ -151,13 +156,15 @@ However, as mentioned above, the main strength of stacked recommenders may be
 in situations with much more diverse data sources. Social networks or systems
 with widely varying sets of items would provide an interesting use case for stacked recommenders.
 The main premise of our approach is that each user and item have differing preferences
-for each algorithm. Naturally, the more diverse the data and algorithms get,
+for each algorithm. 
+
+Naturally, the more diverse the data and algorithms get,
 the more dire the need for adaptive aggregation becomes.
 Because of this, using stacked recommeners in other domains with more variation 
 in the data and combined algorithms would be an interesting topic.
 
 
-\subsection{Different fields}
+\subsection{Using Stacked Recommenders in Other AI Fields}
 
 We have only considered the notion of latent subjectivity within the field of recommender systems.
 However, as briefly mentioned above, the technique should be applicable to many more situations.
@@ -169,9 +176,42 @@ By stacking recommenders on top of each method in an ensemble,
 we get a system capable of predicting the accuracy of each method.
 Naturally, it would be interesting to see how this approach would fare
 in other fields such as document classification, document clustering,
-curve fitting \cite[p7]{Polikar2006}, and any other field of ensemble learning.
+curve fitting \cite[p7]{Polikar2006}, and other fields of ensemble learning.
 
 
-\section{Conclusion}      
+\section{Conclusion}
 
+The information overload problem will always be present.
+No matter how elegant solutions one may find,
+the fact is that the overwhelming amount of available data
+quickly outgrows our ability to use it.
+We believe artificial intelligence is crucial to finding a solution.
+Only by creating intelligent systems that 
+help us filter, sort and consume information can we hope 
+to mitigate the overload.
+
+This paper has explained the \emph{latent subjectivity problem},
+and introduced the technique of \emph{stacked recommenders}
+in an attempt to solve it.
+We believe this is a real problem,
+and that our solution would be a worthy addition to
+any system where recommenders play an important role.
+Our technique implicitly, and without any extra work required from each user
+adapts how the system models users and items based on past performance.
+Our experiments show that this technique is capable of higher accuracy
+than standard recommenders and simple aggregation approaches.
+
+On a more general note, we think our notion of adaptive user model
+aggregation is key to stopping information overload.
+Generalized methods is not enough: only
+by creating truly adaptive systems that adapt their
+algorithms to ecah user and item can we achieve a 
+system powerful enough to deal with the widely
+varying users, and vast scope of items.
+
+Information is indeed a curious thing,
+and our only way of taming the never ending torrent of 
+arriving data is to embrace the wide scope of the information,
+and the people who wish to consume it.
+Adaptive user modeling takes us one step further towards this goal.
 
