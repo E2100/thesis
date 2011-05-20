@@ -41,7 +41,7 @@
 \RequirePackage[utf8x]{inputenc}
 
 % Standard fonts
-\renewcommand{\rmdefault}{ppl} % font: palatino
+%\renewcommand{\rmdefault}{ppl} % font: palatino
 
 % Commands
 \newcommand{\lowercaps}[1]{\textsc{\MakeLowercase{#1}}}
@@ -54,8 +54,8 @@
 \setSpacing{1.3}
 
 % Paragraphs
-\clubpenalty = 500
-\widowpenalty = 1000
+\clubpenalty  = 5000
+\widowpenalty = 5000
 \setlength{\parindent}{2.5em}
 \setlength{\parskip}{0.001em}
 %\setlength{\parindent}{0em}
