@@ -10,16 +10,18 @@ and suggest possible future work.
 
 \section{Implications}      
 
-Our central position is that modern aggregate recommender systems 
-are constrained by misplaced subjectivity.
-Each system selects some measures to model its users, while this selection should be left to each user.
-This problem extends to the items recommended by each system: 
-Different modeling methods will suit each item differently.
+Our central position is that modern recommender systems 
+are constrained by their misplaced subjectivity.
+Each system selects some measures to model its users, 
+based on how they think each user and item \emph{should} be modeled.
+We believe this selection should be left to each user:
+differing users and items will require adaptive recommender algorithms that
+consider the context before making predictions.
 
 Stacked recommenders can help solve this problem.
 In a collection of possible recommender algorithms, each is adaptively used based 
 on how well it performs for the item and user in question.
-We think the experiments in the previous chapter shows the promise of this technique.
+The experiments of the previous chapter shows the promise of this technique.
 However, there are lots of use cases not yet considered.
 
 It should be clear that stacked recommenders would work best in situations where
