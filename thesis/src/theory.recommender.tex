@@ -348,7 +348,7 @@ There are many more complex ways of compressing the matrix than pure truncation,
 common way of reducing the factors.
 By truncating the factors, 
 we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
-With the factors reduced to $k$ dimensions, the result looks like this:
+With the factors reduced to $r$ dimensions, the result looks like this:
 
 \begin{eqsp}
   \begin{bmatrix}
@@ -364,17 +364,17 @@ With the factors reduced to $k$ dimensions, the result looks like this:
   \begin{bmatrix}
     { }\\
     { }\\
-    U_{m,k}\\
+    U_{m,r}\\
     { }\\
     { }
   \end{bmatrix}
   %\quad
   \begin{bmatrix}
-    \Sigma_{k,k}
+    \Sigma_{r,r}
   \end{bmatrix}
   %\quad
   \begin{bmatrix}
-    { } & { } & V_{k,n}^{*} & { } & { }\\
+    { } & { } & V_{r,n}^{*} & { } & { }\\
   \end{bmatrix} 
 \end{eqsp}
 %
