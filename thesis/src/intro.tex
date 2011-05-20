@@ -8,8 +8,7 @@ where relevant content drowns in irrelevant noise.
 As the amount of information grows,
 our ability to make informed descisions quickly diminish.
 Our amount of available attention is limited, and each new bit
-of information consumes it further,
-diminishing the value of any actually relevant content
+of information consumes it further
 \cite[p1]{Davenport2001}.
 
 However, while people struggle with excessive information,
@@ -86,6 +85,8 @@ How much each algorithm is used should be used implicitly and automatically
 based on how well they have previously worked for the current user.
 At the same time, each algorithm should only be seriously considered
 when considering items is has worked well for in the past.
+Without this adaptability, it may be hard for recommender systems
+to gain traction in scenarios with widely differing users and items.
 
 Another way of explaining the latent subjectivity problem is that 
 \emph{user modeling methods are dependent on the subjective assumptions of their creators}.
@@ -96,14 +97,14 @@ Aggregate modeling methods face the same problem of misplaced subjectivity:
 Aggregation is done on a generalized, global level,
 where each user and item is expected to place the same importance on each modeling method.
 While the aggregation is of course selected to minimize some error over a testing set,
-the subjective nature remains: The compiled aggregation is a generalization,
+the subjective nature remains: the compiled aggregation is a generalization,
 treating all users the same --- hardly a goal of user modeling.
 
 We propose a novel method called \emph{stacked recommenders}, where these descisions are left to each user and item,
 providing an extra level of abstraction and personalization.
 The descisions are implict, and happens in the background, without any extra interaction required.
 This leaves the subjective nature of selecting ways to model users and items where it should be:
-In the hands of each individual user, and dependent on each specific item, without any extraneous effort.
+in the hands of each individual user, and dependent on each specific item, without any extraneous effort.
 If each method of relevance prediction is \emph{only used} based on how well it performs for each element,
 any possibly applicable recommender system suddenly becomes a worthy addition to the system.
 
@@ -112,13 +113,11 @@ If we can construct an ensemble system that leverage each algorithm
 based on how well it will perform for the current user and item,
 we will have come closer to solving the latent subjectivity problem.
 
-Can stacked recommenders help these powerful techniques reach their full potential?
-Will a system where each user and item decides how they should be modeled outperform traditional approaches?
+Can stacked recommenders help standard recommender systems reach their full potential?
+Can a system where each user and item implicitly decides how they should be modeled outperform traditional approaches?
 \emph{That is the main research question of this paper}.
 
-
 %\hr
-
 
 This paper is structured as follows.
 Chapter \ref{chap:theory} will present the background theory needed to develop our modeling method:
