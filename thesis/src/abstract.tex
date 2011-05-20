@@ -38,10 +38,10 @@ called \emph{stacked recommenders}.
 Multiple recommender systems are combined on a per-user and per-item basis
 by estimating how accurate each recommender will be for the current user and item.
 This is done by creating a set of secondary error estimating recommenders.
-The corse insight is that standard recommenders can be used
+The core insight is that standard recommenders can be used
 to estimate the accuracy of other recommenders, for each
 user/item pair.
-As far as we know, this type of adaptive recommender aggregation
+As far as we know, this type of adaptive prediction aggregation
 has not been done before.
 
 We test prediction aggregation (combining scores) in a
@@ -49,5 +49,6 @@ recommendation scenario,
 and rank aggregation (sorting results lists) in a personalized search scenario.
 Our initial results are promising, showing that stacked recommenders
 can outperform both standard recommenders and simple aggregation methods.
+We also discuss the implications and limitations of our results.
 
 \clearpage
