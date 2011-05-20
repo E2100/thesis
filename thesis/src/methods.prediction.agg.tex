@@ -143,8 +143,8 @@ Listing \ref{code:prediction} gives the basic algorithm.
     \STATE $ratings \gets \emptyset$
     \STATE $errors  \gets \emptyset$
     \FORALL{$m \in rating\_models$}
-      \STATE $ratings \gets \mathrm{Predict}(rating\_models_m, user, item)$
-      \STATE $errors  \gets \mathrm{Predict}(error\_models_m, user, item)$
+      \STATE $ratings_{m} \gets \mathrm{Predict}(rating\_models_m, user, item)$
+      \STATE $errors_{m}  \gets \mathrm{Predict}(error\_models_m, user, item)$
     \ENDFOR 
     \STATE $errors \gets \mathrm{Normalize}(errors)$
     \STATE $prediction \gets 0$
