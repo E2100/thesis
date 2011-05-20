@@ -58,6 +58,9 @@
 \widowpenalty = 1000
 \setlength{\parindent}{2.5em}
 \setlength{\parskip}{0.001em}
+%\setlength{\parindent}{0em}
+%\setlength{\parskip}{1em}
+
 
 % Compact lists
 \RequirePackage{mdwlist}
@@ -179,10 +182,10 @@
 \setsecheadstyle{\vspace{1em}\Large}
 
 % Subsections
-\setsubsecheadstyle{\large\itshape}
+\setsubsecheadstyle{\vspace{1em}\large\itshape}
 
 % Subsubsections
-\setsubsubsecheadstyle{\itshape}
+\setsubsubsecheadstyle{\vspace{1em}\itshape}
 
 
 % -----------------
