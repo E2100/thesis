@@ -83,11 +83,19 @@ These ratings can be further improved by considering different metrics, includin
 Based on these, and similar, metrics, we can achieve quite accurate implicit ratings.
 Naturally, ratings can also be gathered from other sources.
 If we have more data on each user, or know of secondary systems such as social networks
-or other systems where ratings are present, these can be used to augment the implicit ratings matrix.
+or other systems where ratings are present, these can be used to augment the implicit ratings matrix
+(e.g. \cite{Carmel2009}).
 There are also search systems where we already have explicit ratings:
 Consider, for instance, the use case of searching for movies on a movie rating site,
 or searching for people in a social network.
 In these cases, we have explicit ratings that can be used to train the recommender models.
+
+A thorough explanation of turning query logs into ratings matrices
+is beyond the scope of this paper. Extensive research already
+looks at how implicit user model information may be gleaned
+from simple query logs. Examples include \cite{Joachims2007},
+\cite{Lee2005}, \cite{Agichtein2006}, \cite{Mobasher} and
+\cite{Speretta2000}.
 
 When we have the implicit or explicit ratings matrix, the modeling phase
 consists of two parts: training the IR models and the recommender models.
