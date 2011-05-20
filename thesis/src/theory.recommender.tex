@@ -335,13 +335,18 @@ can be used to predict unknown ratings (a type of least squares data fitting).
 
 \emph{Singular Value Decomposition} (SVD) is a common method for such matrix factorization (e.g. \citet[p5]{Billsus}, \citet{Sun2005}, \citet{Bell2007}).  
 This is the same underlying technique used by \emph{latent semantic indexing} (LSI) in information retrieval \cite[p44]{Baeza-Yates1999}.
-Formally, SVD is the factorization $M = U \Sigma V^{*}$. 
+Formally, SVD is the factorization $M = U \Sigma V^{T}$. 
 $M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
-$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{*}$ (the conjugate transpose of $V$) is an $n \times n$ factor ("stretcher").
+$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{T}$ (the transpose of $V$) is an $n \times n$ factor ("stretcher").
 $\Sigma$ is a $m \times n$ diagonal matrix ("aligner"). 
 
 The dimensionalty of the ratings space is performed by truncating the factor matrices each to a number of rows or columns, 
-where the number is a paramenter depending on the current domain and data. By truncating the factors, 
+where the number is a paramenter depending on the current domain and data.
+The truncated matrix is $M_r = U_r \Sigma_r V_r^{*}$, where $U_r$ are the first $r$ columns of $U$,
+$V_r^{T}$ are the first $r$ rows of $V^{T}$ and $\Sigma_r$ is the top-left $r \times r$ sub-matrix of $\Sigma$.
+There are many more complex ways of compressing the matrix than pure truncation, but this is the most 
+common way of reducing the factors.
+By truncating the factors, 
 we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
 With the factors reduced to $k$ dimensions, the result looks like this:
 
@@ -373,15 +378,34 @@ With the factors reduced to $k$ dimensions, the result looks like this:
   \end{bmatrix} 
 \end{equation*}
 
-Two important transformations happen in this reduction. 
+Two important transformations happen in this dimensionality reduction. 
 First, ratings that do not contribute to any greater pattern are removed as "noise".
 Second, ratings that in some way correlate to each other are enhanced, giving more weight to the actual predictive parts of the data.
 This means that the reduced factors can for instance identify features that correspond to correlations between items or users.
 These features are comparable to the mapping of terms to concepts in LSI.
 
-\textbf{TODO: SVD is basically compression.}
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{../graphics/compression}
+  \caption[SVD Image Compression]{
+    SVD Image Compression:
+    A variation of using SVD to compress an image, from \cite{Ranade2007}.
+    The original image is on the left, and successive images use an increasing number of factors when performing compression.
+    Figure adaptived from \citet[p4]{Ranade2007}.
+  }
+  \label{fig:svd-image}
+\end{figure}
 
-In recommender systems, we can for instance use the resulting reduced factors to find similar users by their cosine similarity (see Section \ref{sec:search}).
+Because SVD can find the most descriptive parts of a matrix, this technique is often used for compression.
+In fact, SVD works on the same principles as many other image compression algorithms.
+The image we wish to compress is treated as an $N \times M$ matrix, which is run through an SVD factorization.
+The factors are truncated, and the result expanded to a matrix that is much simpler to represent
+than our original image matrix. As seen in Figure \ref{fig:svd-image}, how close the compressed image resembles the original image
+depends on the chosen $rank$, i.e. how many rows and columns we keep during truncation.
+A higher rank means less reduction and less compression.
+
+In recommender systems, SVD is used to compress the ratings space into a \emph{taste space},
+where collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.
+This reduction makes it easy to find similar users that share some global characteristic.
 We can of course also find similarities between items, clusters of items and user and so on, all based on latent "categories"
 discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
