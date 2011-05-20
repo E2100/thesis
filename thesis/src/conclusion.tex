@@ -45,17 +45,59 @@ Using known algorithms for this new task is beneficial:
 they are known to work, enjoy multiple implementations
 and are already understood and battle-tested in many different systems.
 
-However, as this approach is more complicated than standard recommenders,
+
+\section{Limitations}
+
+There are some important limitations to the research presented in this thesis,
+relating to the 
+(1) complexity of our method, 
+(2) our choice of data and evaluation metrics, and
+(3) the general usefulness of this approach.
+
+(1) Complexity: As our approach is more complicated than standard recommenders,
 it is worth questioning if its gains are worth the extra complexity.
 This depends on the basic recommenders that are to be combined.
 If the system is made up by many different recommenders,
 that each user might place varying importance on,
 and that may have varying success with each item,
 stacked recommenders may provide implressive gains in accuracy.
+
 On the other hand, if the recommenders are simple in nature,
 and look at similar patterns in the data,
 generalized aggregation methods might be more applicable.
+Clearly, the performance gains in our experiments
+are not substantial enough to declare anything without reservation.
+While we believe this technique has potential,
+without real-world success stories, it is hard
+to suggest that our method is particularly better
+than a simple standard recommender.
 
+(2) Evaluation: we chose traditional datasets and evaluation metrics
+to validate the stacked recommenders technique.
+While our initial results are promising, it is important to stress
+that this is only one test on one dataset. Considering the vast scope
+of appicable data, and the number of ways these results many be 
+evaluated, the results must be seen for what they are:
+initial and preliminary explorations of a new technique
+that has yet to be proved useful in the real world.
+
+(3) Usefulness:
+When considering the additional complexity of our approach,
+a natural response is whether or not current approaches
+to recommender systems are good enough.
+We believe information overload is such a nuanced problem 
+that the only solution lines in intelligent, adaptive systems.
+
+However, as most of today's recommender systems 
+perform quite simple tasks, they may be more
+than good enough for their purpose.
+The topic of recommenders and adaptive systems in general
+raise a number of questions which is outside the scope of this paper.
+Without going into detail, the issues of user privacy,
+usability and acceptance of such systems is a much discussed topic.
+These considerations must of course be considered before
+the question of whether or not adaptive recommenders
+are suited for the current system.
 
 
 
