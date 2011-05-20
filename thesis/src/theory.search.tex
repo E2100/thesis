@@ -88,7 +88,7 @@ A better idea is to use something like the TF-IDF weighting scheme \citep[p29]{B
 
 \begin{eqsp}
   w_{t,d} = tf_{t,d} \times idf_{t}
-          = \frac{ \mathrm{freq}(t,d) }{ \sum_{k \in d} freq(k,d) } \times 
+          = \frac{ \mathrm{freq}(t,d) }{ \sum_{k \in d} \mathrm{freq}(k,d) } \times 
             \log \frac{N}{n_{t}}.
 \end{eqsp}
 %
