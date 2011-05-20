@@ -11,15 +11,15 @@ of our adaptive prediction aggregation algorithms.
 The RMSE of a set of estimations $\hat{R}$, 
 compared to a set of known ratings $R$, is defined as
 
-\begin{equation*}
+\begin{eqsp}
   RMSE(\hat{R},R) = \sqrt{E((\hat{R} - R)^2)}
   = \sqrt{\frac{
       \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
     }{
       n
     }},
-\end{equation*}
-
+\end{eqsp}
+%
 where $n$ is the total number of predictions.
 The RMSE combines a set of errors into one single combined error.
 A beneficial feature of the RMSE is that the resulting error 
