@@ -51,16 +51,17 @@
 \RequirePackage{microtype}
 
 % Leading (for b5/10pt)
-\setSpacing{1.2}
+\setSpacing{1.3}
 
 % Paragraphs
 \clubpenalty = 500
 \widowpenalty = 1000
-\setlength{\parindent}{0em}
-\setlength{\parskip}{1em}
+\setlength{\parindent}{2.5em}
+\setlength{\parskip}{0.001em}
 
 % Compact lists
 \RequirePackage{mdwlist}
+%\renewcommand{\labelitemi}{$\circ$}
 
 % Smallcaps
 \newcommand{\smallcaps}[1]{\textsc{\MakeUppercase{#1}}}
@@ -163,19 +164,19 @@
     %\includegraphics[width=2em]{{\thechapter}}
   }
   \renewcommand*{\afterchapternum}{\par\nobreak
-    \vskip -1 % change on indent
+    \vskip 0 % change on indent
     \onelineskip
   }
   \renewcommand*{\printchapternonum}{\centering
                  \vphantom{\chapnumfont 1}\afterchapternum}
   \renewcommand*{\chaptitlefont}{\normalfont\huge}
   \renewcommand*{\printchaptertitle}[1]{\centering \chaptitlefont ##1}
-  \setlength{\afterchapskip}{1.0\onelineskip}
+  \setlength{\afterchapskip}{2.0\onelineskip}
 }
 \chapterstyle{thesis}
 
 % Sections
-\setsecheadstyle{\vspace{0em}\Large}
+\setsecheadstyle{\vspace{1em}\Large}
 
 % Subsections
 \setsubsecheadstyle{\large\itshape}
@@ -356,7 +357,14 @@
   \end{adjustwidth}
 }
 
-
+% spaced equations
+\newenvironment{eqsp}{
+  \vspace{1em}
+  \begin{equation*}
+}{
+  \end{equation*}
+  \vspace{1em}\\
+}
 
 
 

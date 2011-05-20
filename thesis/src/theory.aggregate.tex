@@ -77,11 +77,11 @@ by the weights estimated for each method.
 that combined with the \emph{naive Bayes} independence assumption 
 produce the following formula:
 
-\begin{equation*}
+\begin{eqsp}
   \mathrm{relevance}(d)  = \sum_{i \in Methods} \log 
     \frac{ \mathrm{Pr}(r_i(d) | rel) }{ \mathrm{Pr}(r_i(d) | irr) }.
-\end{equation*}
-
+\end{eqsp}
+%
 Here, $\mathrm{Pr}(r_i(d) | rel)$ is the probability that document $d$
 is relevant given its ranking by method $i$.
 Conversely, $\mathrm{Pr}(r_i(d) | irr)$ is the probability that the document 

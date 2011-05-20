@@ -72,10 +72,10 @@ utility (i.e. rating) to each user. In other words, $S$ is the completely specif
 where each user has either an explicit, implicit or predicted preference for each item in $I$.
 To predict the best unrated item for each user, we simply find the item with the highest expected utility:
 
-\begin{equation*}
+\begin{eqsp}
   \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} f(u,i)
-\end{equation*}
-
+\end{eqsp}
+%
 The utility function $u$ depends on the modeling method being used, the active user and the item in question. 
 The \emph{reason} for using a recommender system is that the utility $u$ is not defined for the entire $U \times I$ space, 
 i.e. the system does not explicitly know the utility of each item for each user. 
@@ -88,7 +88,7 @@ Here, one dimension represents users, the other dimension represents items,
 and each cell corresponds to an explicit rating. This matrix then becomes the framework $F$ in our 
 RS quintuple:
 
-\begin{equation*}
+\begin{eqsp}
  R_{u,i} =
  \begin{pmatrix}
   r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
@@ -96,8 +96,8 @@ RS quintuple:
   \vdots  & \vdots  & \ddots & \vdots  \\
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}
-\end{equation*}
-
+\end{eqsp}
+%
 Critically, these matrices are usually extremely sparse (i.e. most of the cells are empty). 
 Consider that while there may be a large number of users and items, each individual user
 only rates or connects to a few number of items. 
@@ -133,7 +133,7 @@ evaluation techniques such as RMSE or MAE treat ordinal data as a continous scal
 The crucial part of any RS is how it predicts unknown ratings.
 (Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.)
 Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-In our taxonomy, these dimensions are: \emph{data}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
+We use a taxonomy where these dimensions are: \emph{data}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
 
 \begin{table}[b]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
@@ -219,20 +219,20 @@ benchmarks for exploring new approaches. \cite[p2]{Koren2008} computes the basel
 use more involved methods to move this starting point in some direction. 
 The baseline for a user/item pair is given by
 
-\begin{equation*}
+\begin{eqsp}
   b_{ui} = \mu + b_u + b_i
-\end{equation*}
-
+\end{eqsp}
+%
 where $\mu$ is the average system rating, $b_u$ is the user baseline and $b_i$ is the item baseline.
 The user and item baselines correspond to how the user's and item's ratings deviate from the norm.
 This makes sense as some items may be consistently rated higher than the average, some users may be 
 highly critical in their assesments, and so on. \citeauthor{Koren2008} computes these baselines by solving the
 least squares problem
 
-\begin{equation*}
+\begin{eqsp}
   \min_{b*} = \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda ( \sum_{u} b_u^2 + \sum_{i} b_i^2 )
-\end{equation*}
-
+\end{eqsp}
+%
 which finds baselines that fit the given ratings while trying to reduce overfitting
 (by punishing greater values, as weighted by the $\lambda$ parameter). 
 By using baselines instead of simple averages, more complex predictors gain a better starting point,
@@ -244,10 +244,10 @@ For example, if item $i$ is on average rated $\delta$ points above item $j$, and
 that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delta$, for all ratings that match this pattern.
 In other words,
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \frac{\sum_{j \in K_u} \mathrm{ratings}(j) \times (r_{uj} + \mathrm{diff}(i,j))}{\sum_{j \in K_u} \mathrm{ratings}(j) },
-\end{equation*}
-
+\end{eqsp}
+%
 where $\hat{r}_{ui}$ is the estimated rating, $K_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
 and $\mathrm{diff}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
@@ -270,21 +270,21 @@ $0$ for no correlation and $-1$ for a negative correlation.
 The negative correlation can for example signify two users that have diametrically opposing tastes in movies.
 We compute PCC by dividing the covariances of the user ratings with their standard deviations:
 
-\begin{equation*}
+\begin{eqsp}
   \mathrm{pcc}(u,v) = \frac{cov(R_u, R_v)}{\sigma_{R_u} \sigma_{R_v}}.
-\end{equation*}
-
+\end{eqsp}
+%
 When expanding the terms for covariance and standard deviations, 
 and using a limited neighborhood size $n$, we get
 
-\begin{equation*}
+\begin{eqsp}
   \mathrm{pcc}_{n}(u,v) = 
     \frac{
       \sum_{i \in K}^{n} (R_{ui} - \bar{R_u}) (R_{vi} - \bar{R_v}) }{ 
         \sqrt{ \sum_{i \in K}^{n} (R_{ui} - \bar{R_u})^2 } 
         \sqrt{ \sum_{i \in K}^{n} (R_{vi} - \bar{R_v})^2 }}.
-\end{equation*}
-
+\end{eqsp}
+%
 The limited neighborhood size becomes the statistical sampling size, and is a useful
 way of placing an upper bound on the complexity of computing a neighborhood.
 $n$ does not have to be a raondom sampling --- it can also be limited by the number of ratings 
@@ -294,10 +294,10 @@ as denoted by $K$ in our the formula.
 After a neighborhood is determined, it is time to predict our desired rating.
 When using \emph{collaborative} recommenders, this means averaging the neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
 
-\begin{equation*}
+\begin{eqsp}
   \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) },
-\end{equation*}
-
+\end{eqsp}
+%
 where $\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
 This is possible the simplest way of computing a neighborhood-based prediction.
 Most systems use more complex estimations. For instance, \cite{Koren2008} 
@@ -350,7 +350,7 @@ By truncating the factors,
 we in essence create a higher-level approximation of the original matrix that can identify latent features in the data.
 With the factors reduced to $k$ dimensions, the result looks like this:
 
-\begin{equation*}
+\begin{eqsp}
   \begin{bmatrix}
     { } & { } & { }     & { } & { }\\
     { } & { } & { }     & { } & { }\\
@@ -376,8 +376,8 @@ With the factors reduced to $k$ dimensions, the result looks like this:
   \begin{bmatrix}
     { } & { } & V_{k,n}^{*} & { } & { }\\
   \end{bmatrix} 
-\end{equation*}
-
+\end{eqsp}
+%
 Two important transformations happen in this dimensionality reduction. 
 First, ratings that do not contribute to any greater pattern are removed as "noise".
 Second, ratings that in some way correlate to each other are enhanced, giving more weight to the actual predictive parts of the data.
@@ -389,8 +389,8 @@ These features are comparable to the mapping of terms to concepts in LSI.
   \caption[SVD Image Compression]{
     SVD Image Compression:
     A variation of using SVD to compress an image, from \cite{Ranade2007}.
-    The original image is on the left, and successive images use an increasing number of factors when performing compression.
-    Figure adaptived from \citet[p4]{Ranade2007}.
+    The original image is on the left, and successive images use an increasing number of factors (2, 8 and 30) when performing compression.
+    Figure adapted from \citet[p4]{Ranade2007}.
   }
   \label{fig:svd-image}
 \end{figure}
@@ -435,7 +435,7 @@ of paths leading to the target item (see Figure \ref{fig:book-graphs}).
     Figures from \cite{Huang2002}.}
   \label{fig:book-graphs}
 \end{figure}
-
+%
 The complexity of recommender systems based on networks are only limited by the kinds of relations we can produce.
 For example, recommending other users in social networks can easily utilize friend or friend-of-a-friend relations
 to find others the current user might be interested in connecting to. Indeed, any relevant similarity metric can be used to
@@ -456,10 +456,10 @@ $\mathbf{S}$ is the column-normalized adjacency-matrix of the graph, i.e. the tr
 $\mathbf{q}$ is a column vector of zeroes with a value of $1$ at the starting node (that is, $\mathbf{q}_i$ is $1$ when the RWR algorithm starts at node $x$). 
 The stationary probabilities of each node, signifying their long term visiting rate, is then given by 
 
-\begin{equation*}
+\begin{eqsp}
   \mathbf{p}^{(t+1)} = (1 - \alpha)\mathbf{S}\mathbf{p}^{(t)} + {\alpha}\mathbf{q}
-\end{equation*}
-
+\end{eqsp}
+%
 when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $\mathbf{p}_y$ where $p$ is the user model for the user represented by node $x$.
 \citeauthor{Konstas} found that this approach outperformed the PCC, as long as the social networks were an explicit part of the system in question.
 In other words, the connections between users had to be one actively created by the users to be of such quality and precision that

@@ -83,12 +83,12 @@ For example, by this definition, a document containing every conceivable query t
 would be the most relevant to any query.
 A better idea is to use something like the TF-IDF weighting scheme \citep[p29]{Baeza-Yates1999}:
 
-\begin{equation*}
+\begin{eqsp}
   w_{t,d} = tf_{t,d} \times idf_{t}
           = \frac{ \mathrm{freq}(t,d) }{ \sum_{k \in d} freq(k,d) } \times 
             \log \frac{N}{n_{t}}.
-\end{equation*}
-
+\end{eqsp}
+%
 The final weight is computed by multiplying the term frequency score (TF) $tf_{t,d}$ with the 
 inverse document frequency (IDF) $idf_{t}$. TF evaluates how well the term describes the document contents,
 while IDF punish terms that appear in many documents. 
@@ -154,10 +154,10 @@ Another intuitive justification for a site's PageRank is the \emph{random surfer
 The probability that the random surfer visits a page is its PageRank. The "randomness" is introduced 
 by a damping parameter $d$, which is the probability that a user will stop browsing and start at a new random page:
 
-\begin{equation*}
+\begin{eqsp}
   \mathrm{PageRank}(x) = \frac{1 - d}{N} + d \sum_{y \in B_x} \frac{\mathrm{PageRank}(y)}{\mathrm{Links}(y)},
-\end{equation*}
-
+\end{eqsp}
+%
 where $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is the number of outbound links from page $y$.
 The first term distributes an equal pagerank score to all pages that have no outbound links, as $N$ is the total number of pages.
 This iterative algorithm is run until convergence inside a small delta.
@@ -208,10 +208,10 @@ a learning algorithm kicks in and estimates approximately how likely the user is
 in each of the pre-set topics, creating the topic-preference vector $T$. When it is time to rank a 
 page $p$ in response to the query $q$, they compute the personalized ranking:
 
-\begin{equation*}
+\begin{eqsp}
   PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \cdot Pr(q|T(i)) \cdot TSPR_i(p)
-\end{equation*}
-
+\end{eqsp}
+%
 We will not deduce this equation here (see \citet[p5]{Qiu2006}), but let us explain it. 
 $T$ is the user-specific topic preference vector.
 $i$ is the index of a topic and $m$ the total number of topics.
@@ -257,40 +257,16 @@ The two ranks are aggregated by a simple consensus-metric, the
 \emph{weighted borda-fuse} (WBS) aggregator \cite[p3]{Xu2008}, 
 which is nothing more than a weighted combination of the rankings:
 
-\begin{equation*}
+\begin{eqsp}
   \mathrm{rank}(u,q,p) = \alpha \cdot \mathrm{rank}_{IR}(q,p) 
                  + (1-\alpha) \cdot \mathrm{rank}_{personal}(u,p)
-\end{equation*}
-
+\end{eqsp}
+%
 \citeauthor{Xu2008} tried many combinations of weights,
 topic selection and datasets, with the general conclusion
 that folksonomy-based personalized search has great potential.
 If nothing else, this example shows how easily tags can be integrated
 to provide an individual searching experience.
-
-
-%\begin{center}
-%\begin{tikzpicture}[node distance   = 4 cm]
-%  %\useasboundingbox (-1,-1) rectangle (11,11); 
-%  \tikzset{VertexStyle/.style = {shape          = circle,
-%                                 ball color     = black,
-%                                 text           = white,
-%                                 inner sep      = 2pt,
-%                                 outer sep      = 0pt,
-%                                 minimum size   = 24 pt}}
-%  \tikzset{EdgeStyle/.style   = {thick,
-%                                 double          = black,
-%                                 double distance = 1pt}}
-%  \tikzset{LabelStyle/.style =   {draw,
-%                                  fill           = white,
-%                                  text           = red}}
-%  \node[VertexStyle](A){A};
-%  \node[VertexStyle,right=of A](B){B};
-%  \draw[EdgeStyle](A) to node[LabelStyle]{2} (B);
-% 
-%  \end{tikzpicture}
-%\end{center}
-
 
 (3) \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
 By re-ranking documents according to their relation to with individuals in the current user's social network,
@@ -313,17 +289,17 @@ The user model is $U(u) = (N(u), T(u))$,
 where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile terms.
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
 
-\begin{equation*}
+\begin{eqsp}
   S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \cdot w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \cdot w(t,d)
-\end{equation*}
-
+\end{eqsp}
+%
 Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
 A parameter $\alpha$ is used to control how much each method is weighted:
 
-\begin{equation*}
+\begin{eqsp}
   S(q,d|P(u)) = \alpha \cdot R_{IR}(q,d) + (1-\alpha) \cdot S_P(q,d|U(u)) 
-\end{equation*}
-
+\end{eqsp}
+%
 This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.
 However, \citet[p10]{Carmel2009} notes that the high quality data in their enterprise setting were important
 to achieve the improved results. 

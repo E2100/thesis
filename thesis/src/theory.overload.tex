@@ -121,13 +121,13 @@ In other words, a few important nodes have a huge number of inbound and outbound
 (2) Preferential attachment: When new nodes are created, they connect to existing nodes. The probability that the new node will connect to an existing node is proportional to the number of links the existing node has. In other words, older, more established and central nodes are preferred neighbors.
 
 This is called the Barab\'{a}si-Albert model \citep{Albert1999}, 
-and the probability for a new node connecting to an existing node is given by $\prod k_i$ in Equation \ref{eq:albert:prob}, 
-where $k_i$ is the number of links pointing to node $i$. 
+and the probability for a new node connecting to an existing node is given by $\prod k_i$, 
+where $k_i$ is the number of links pointing to node $i$, in the following equation: 
 
-\begin{equation}\label{eq:albert:prob}
-  \prod_{i} k_i  = \frac{k_i}{\sum_{j}^N k_j}
-\end{equation} 
-
+\begin{eqsp}
+  \prod_{i} k_i  = \frac{k_i}{\sum_{j}^N k_j}.
+\end{eqsp} 
+%
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 
 link attachment of newly created nodes. 
 Factor in the existence of multiple sub-graphs, or continents, and we can intuitively see that navigating the Web is not as 

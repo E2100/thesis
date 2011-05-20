@@ -15,31 +15,31 @@ in a recommendation scenario. H3 will consider using this approach for
 rank aggregation in an information retrieval scenario.
 Let us start with prediction aggregation:
 
-{
-  \itshape
+\begin{blockquote}
   H1: The accuracy of relevance predictions can be improved
   by adaptive recommender aggregation.
-}
+\end{blockquote}
+%
 It stands to reason that if a recommender system is indeed impaired
 by the subjective selection of modeling methods,
 an adaptive combination of these methods, based on each individual user and item, 
 should outperform each of the individual approaches.
 Second:
 
-{
-  \itshape
+\begin{blockquote}
   H2: An adaptive aggregation method can achieve higher accuracy than global and generalized blending methods.
-}
+\end{blockquote}
+%
 If our assumption that model aggregation inherits the subjective nature of its chosen parts,
 an adaptive aggregation without such misplaced subjectivity should outperform a
 generalized combination.
 Third:
 
-{
-  \itshape
+\begin{blockquote}
   H3: The result set from an information retrieval query
   can be personalized by stacking recommenders, where the retrieval scores are considered.
-}
+\end{blockquote}
+%
 As described in Section \ref{subsec:signals},
 modern search engines combines multiple ranking functions called signals into a final results list.
 We shall use H3 to see whether or not stacked recommenders can be used for this type of rank aggregation,

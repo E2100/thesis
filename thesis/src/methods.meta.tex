@@ -30,9 +30,9 @@ A system for stacked recommenders is specified by a 6-tuple:
   \mathrm{SR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
                &=& (I,U,R,F,M,A).
 \end{eqnarray*}
+\vspace{0.2em}
 
-\input{figure.stack.comparison}
-
+\noindent
 As always, we have sets of $Users$ and $Items$, 
 and a set of $Ratings$: each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 Items can be just about anything: documents, websites, movies, events, or indeed, other users.
@@ -43,11 +43,13 @@ As before, we use the term "rating" loosely --- equivalent terms include \emph{r
 in the current domain language. However, since \emph{rating} will match the case study we present in the next chapter,
 that is what we shall use. 
 
+\input{figure.stack.comparison}
+
 The $Framework$ variable specifies how the data is represented.
 The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
 We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit rating:
 
-\begin{equation*}
+\begin{eqsp}
  R_{u,i} =
  \begin{pmatrix}
   r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
@@ -55,8 +57,8 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
   \vdots  & \vdots  & \ddots & \vdots  \\
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}.
-\end{equation*}
-
+\end{eqsp}
+%
 As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
 each with their own way of estimating unknown ratings. 
 Each model $m \in M$ is used to compute independent and hopefully complimentary predictions.
@@ -107,20 +109,20 @@ Another way of describing (and implementing) these two levels is through
 the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
 For example, we can express prediction aggregation as 
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \mathrm{reduce}(u, i, \mathrm{map}(M, u, i)).
-\end{equation*}
-
+\end{eqsp}
+%
 First, each modeling method is applied by the $\mathrm{map}$ function, with the current user, item and set of modeling methods as input.
 This operation returns a set of scalar prediction values. 
 These values are then combined by the $\mathrm{reduce}$ function, which also takes the current user and item as input.
 In other words, $\mathrm{map}$ is the methods layer, and $\mathrm{reduce}$ is the adaptive layer.
 If we wish to do rank aggregation, the equation is a bit different:
 
-\begin{equation*}
+\begin{eqsp}
   \tau_{u,n} = \mathrm{reduce}(u, \mathrm{map}(M,u,n)).
-\end{equation*}
-
+\end{eqsp}
+%
 Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
 The result is an adaptively sorted list of the top $n$ items for the current user.
@@ -139,19 +141,19 @@ For now we shall stick to scalar predictions, but will return to rank aggregatio
 The simplest generalized way of prediction aggregation is to take the avereage of all predictions made
 by the different methods (e.g. \citet[p3]{Aslam2001}):
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \frac{1}{N} \sum_{m \in M} p(m,u,i).
-\end{equation*}
-
+\end{eqsp}
+%
 Here, $\hat{r}_{ui}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from method $m$.
 However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p(m,u,i) 
   \quad \text{where} \quad 0 \leq w_{m} \leq 1, \quad \sum_{i \in M} (w_i) = 1.
-\end{equation*}
-
+\end{eqsp}
+%
 In this equation, $w_m$ is the weight applied to modeling method $m$. 
 These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, the weights can be estimated through different machine learning methods.
@@ -164,12 +166,12 @@ we need \emph{adaptive weights} that are computed spcifically for each combinati
 However, if we wish each weight to be combination-specific, pre-computing each weight for each method becomes unfeasible.
 In other words, these adaptive weights have to be estimated just as the ratings themselves:
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \cdot p_{r}(m,u,i)
   \quad \text{where} \quad
   \sum_{m \in M} (p_{w}(m,u,i)) = 1.
-\end{equation*}
-
+\end{eqsp}
+%
 We have now reduced our mission to creating a method that can estimate the adaptive weights: $p_{w}(m,u,i)$.
 As mentioned, we wish to use standard recommender systems for both of these predictions.
 For recommender systems to be applicable here, we need to create a matrix (or graph)
@@ -183,7 +185,7 @@ we can in turn predict errors for untested combinations
 (see Figure \ref{fig:adaptiveweights}).
 Consider the following \emph{error matrix}:
 
-\begin{equation*}
+\begin{eqsp}
  E_{u,i} =
  \begin{pmatrix}
     e_{1,1} & e_{1,2} & \cdots & e_{1,i} \\
@@ -191,8 +193,8 @@ Consider the following \emph{error matrix}:
     \vdots  & \vdots  & \ddots & \vdots  \\
     e_{u,1} & e_{u,2} & \cdots & e_{u,i}
  \end{pmatrix}
-\end{equation*}
-
+\end{eqsp}
+%
 Creating an error matrix for each modeling method is quite simple:
 by splitting the ratings data in two,
 the first set can be used for the actual training, and the second
@@ -228,19 +230,19 @@ we apply the following algorithm:
 The next section will explain these steps in detail.
 For now, we have our approach to stacking recommenders:
 
-\begin{equation*}
+\begin{eqsp}
   \hat{r}_{ui} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \cdot p(m_{r},u,i),
-\end{equation*}
-
+\end{eqsp}
+%
 where $p$ returns a prediction from a model for a specific user and item,
 $m_{r}$ is a standard recommender model, 
 and $m_{e}$ is its corresponding error model.
 For this equation to work as expected, the weights must be normalized:
 
-\begin{equation*}
+\begin{eqsp}
   0 \leq p(m_e,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p(m_e,u,i)) = 1.
-\end{equation*}
-
+\end{eqsp}
+%
 Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
 $m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using the error matrix.
 This means we can use \emph{any} standard modeling method to perform adaptive aggregation.
