@@ -51,7 +51,7 @@
 \RequirePackage{microtype}
 
 % Leading (for b5/10pt)
-\setSpacing{1.3}
+\setSpacing{1.2}
 
 % Paragraphs
 \clubpenalty  = 5000
@@ -345,12 +345,15 @@
 
 % Horizontal separator
 \newcommand{\hr}{
+  \vspace{1em}
   \begin{center}
     \color{black}
     \Huge
     \aldine
     \color{black}
   \end{center}
+  \normalsize
+  \vspace{1em}
 }
 
 % narrow column
