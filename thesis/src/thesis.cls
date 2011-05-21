@@ -376,11 +376,11 @@
 
 % spaced equations
 \newenvironment{eqsp}{
-  %\vspace{1em}
+  \vspace{0.5em}
   \begin{equation*}
 }{
   \end{equation*}
-  %\vspace{1em}\\
+  \vspace{0.5em}\\
 }
 
 
