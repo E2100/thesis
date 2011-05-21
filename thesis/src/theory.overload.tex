@@ -1,22 +1,29 @@
 \section{Information Overload}
 
 Information overload conveys the act of receiving \emph{too much information}. 
-The problem is apparent in situations where decisional accuracy turns from improving with more information, to being hindered by too much irrelevant data \cite[p13]{Bjorkoy2010d}. 
-Needness to say, this is a widespread phenomenon, with as many definitions as there are fields experiencing the problem. Examples include \emph{sensory overload}, \emph{cognitive overload} and \emph{information anxiety} \citep{Eppler2004}.
+The problem is apparent in situations where decisional accuracy turns from improving with more information, 
+to being hindered by too much irrelevant data \cite[p13]{Bjorkoy2010d}. 
+This is a widespread phenomenon, with as many names and definitions as there are fields experiencing the problem. 
+Examples include \emph{sensory overload}, \emph{cognitive overload} and \emph{information anxiety} \cite[p2]{Eppler2004}.
 
 Two common tasks quickly become difficult in this situation:
-Consuming content that is known by the user to be relevant can be drowned out by irrelevant noise.
-Orthogonally, discovering new, interesting yet unknown content also becomes difficult because of the sheer amount of available content.
+(1) Consuming content that is known by the user to be relevant can be drowned out by irrelevant noise.
+(2) At the same time, discovering interesting yet unknown content also becomes difficult because of the sheer amount of available information.
 Finding contemporary examples is not difficult:
 
 \begin{itemize*}
   \item Missing important news articles that get drowned out by irrelevant content.
   \item Forgetting to reply to an email as new messages keep arriving.
-  \item Discovering sub-par movies because those most relevant are never discovered.
+  \item Discovering sub-par entertainment because the most relevant is never discovered.
+  \item Reformulating search queries because the results include irrelevant items.
 \end{itemize*}
 
-The overload is often likened to a \emph{paradox of choice}, as there may be no problem acquiring the relevant information, but rather identifying this information once acquired. As put by \cite{Edmunds2000}: "The paradox --- a surfeit of information and a paucity of useful information."
-While normal cases of such overload typically result in feelings of being overwhelmed and out of control, \cite{Bawden2008} points to studies linking extreme cases to various psychological conditions related to stressful situations, lost attention span, increased distractibility and general impatience.
+Information overload is often likened to a \emph{paradox of choice}, as there may be no problem acquiring the relevant information, 
+but rather identifying this information once acquired. As put by \cite[p6]{Edmunds2000}: 
+"The paradox --- a surfeit of information and a paucity of useful information."
+While normal cases of such overload typically result in feelings of being overwhelmed and out of control, 
+\citet[p5]{Bawden2008} points to studies linking extreme cases to various psychological conditions 
+related to stressful situations, lost attention span, increased distractibility and general impatience.
 
 \cite{Kirsh2000} argues that "the psychological effort of making hard decisions about \emph{pushed} information is the first cause of cognitive overload." 
 According to \citeauthor{Kirsh2000}, there will never be a fully satisfiable solution to the problem of overabundant information, 
@@ -26,9 +33,8 @@ In other words, to solve the problems of information overload and content discov
 An insightful perspective on information overload comes from the study of attention economy. 
 In this context human attention is seen a scarce commodity, offset by how much irrelevant noise is present at any given time. 
 Attention can then be defined as "... focused mental engagement on a particular item of information. 
-Items come into our awareness, we attend to a particular item, and then we decide whether to act" 
-\citep{Davenport2001}. 
-To evade information overload is then to maximize available attention, allowing more focus on the most important items of an interface.
+Items come into our awareness, we attend to a particular item, and then we decide whether to act" \cite[p1]{Davenport2001}. 
+To evade information overload is then to maximize available attention, allowing more focus on the most important items.
 
 \begin{wrapfigure}{rt}{0.4\textwidth}
   \vspace{-20pt}
@@ -42,7 +48,8 @@ To evade information overload is then to maximize available attention, allowing 
 \end{wrapfigure}
 
 Conceptual models used in interaction design can help us see when and where information overload interferes with the user experience. 
-\cite{Norman1988} advocates a model called the seven stages of action, describing how each user goes through several states while using a system
+\cite{Norman1988} advocates a model called \emph{the seven stages of action}, 
+that describes how each user goes through several states while using a system
 (see Figure \ref{fig:seven-stages}, adapted from \citeauthor{Norman1988}). 
 First, the user forms a goal and an intention to act. The user then performs a sequence of actions on the world (the interface)
  meant to align the perceived world and the goals. After performing a set of actions, the new world state is evaluated and perceived. 
@@ -61,22 +68,22 @@ Information overload happens throughout the interaction process, which is import
 \subsection{Online Overload}
 
 The Web is a common source of information overload, 
-and presents a good example of when and how the problem occurs.
-
-Online information overload is especially pervasive when considering \emph{content aggregating websites}, 
-i.e. sites that collate information from multiple other sites and sources. 
-Online information retrieval (i.e. search engines), fall into this category, as does
+and a good example of how and why the problem occurs.
+Online information overload is especially pervasive when considering \emph{content aggregating websites}:
+sites that collate information from multiple other sites and sources. 
+Online information retrieval (search engines), fall into this category, as does
 online newspapers, feed readers and portal websites.
-As mentioned, the wealth and scope of data are natural culprits of online overload, 
-as well as the varying qualities of websites publishing the information. 
 
-Graph theory presents applicable models of the Web that characterize how people navigate between websites, 
+The wealth and scope of data on the Web are natural culprits of online overload, 
+as well as the varying qualities of websites publishing the information. 
+However, the problem is also a result of the fundamental observed structure of the Web.
+Graph theory presents applicable models that characterize how people navigate between websites, 
 and show how content aggregators form important hubs in the network. 
-These models also show a theoretical foundation for why information overload occurs.
+These models give a theoretical foundation for why information overload occurs.
 In the Web graph, nodes correspond to websites and
 directed edges between nodes are links from one page to another. The \emph{degree} of a node is defined as its number of edges.
 
-The Internet has the properties of a \emph{small-world network} \citep{Newman2000}, 
+The Internet has the properties of a \emph{small-world network} (\citep{Newman2000}, \citep[p2]{Huang2005}), 
 a type of random graph, where most nodes are not neighbors, but most nodes are reachable through a small number of edges (See Figure \ref{fig:swn}). 
 This is because of important random shortcuts differentiating the graph from a regular lattice. 
 The graph is not  random, but neither is it completely regular.
@@ -87,16 +94,17 @@ After 19 links have been traversed, about $10^{16}$ pages can be reached (which 
 
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{../graphics/graphs}
-  \caption[Complex Networks]{
+  \caption[Examples of Complex Networks]{
     Complex Networks,
     from the left: A \emph{random} network, a \emph{small-world} network and a \emph{scale-free} network 
-    (which is a type of  small-world network). Figure adapted from \cite{Huang2005}.} 
+    (which is a type of  small-world network). Figure adapted from \citep[p2]{Huang2005}.} 
   \label{fig:swn}
 \end{figure}
 
 The high degree of the Web graph would suggest that finding an optimal path to your desired page is quite difficult. 
 Yet, while it is true that finding the \emph{optimal path} is hard, finding \emph{a good path} is not that big a challenge. 
-When people browse the Web, links are not followed blindly --- we use numerous different heuristics to evaluate each link, often resulting in a quite good path to where we want to go. 
+When people browse the Web, links are not followed blindly --- 
+we use numerous heuristics to evaluate each link, often resulting in quite a good path to where we want to go. 
 So why is the Web still quite challenging to navigate?
 
 As discovered by \cite{Albert1999}, the Web also exhibits properties of a \emph{Scale-Free Network} (\smallcaps{SFN}). 
@@ -130,14 +138,13 @@ where $k_i$ is the number of links pointing to node $i$, in the following equati
 %
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 
 link attachment of newly created nodes. 
-Factor in the existence of multiple sub-graphs, or continents, and we can intuitively see that navigating the Web is not as 
+Factor in the existence of multiple sub-graphs, or continents, on the Web, 
+and we can intuitively see that navigating the Web is not as 
 easy as it might appear from simple models.
 
 What does seem clear is that these content aggregating hubs are prime candidates for overwhelming their users with information. 
 The fundamental observed structure of the Web creates the need for information brokers that link the net together, 
-and the need for techniques to display a lot of data --- adapted to each user and each item. 
-
-So far we have established that information overload is a pervasive problem, especially on the web.
-The question now becomes how to best solve this issue. 
-This is where user modeling comes in.
+and the need for techniques to display a lot of data --- adapted to each user and each item.
+In other words, we need user modeling, that can predict how relevant each item will be for each user.
+ 
 

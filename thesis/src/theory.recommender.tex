@@ -1,46 +1,52 @@
 \section{Recommender Systems}
 \label{sec:recommender}
 
-The name might seem constraining, but recommender systems are incredibly powerful methods in user modeling.
+While the name might seem constraining, recommender systems are incredibly powerful methods in user modeling.
 Whenever we wish to predict the relevance of an item to a user, recommender systems are the tools to use.
 Such systems are commonly used on the web to provide a host of predictive functionality, including:
 
 \begin{itemize*}
-  \item Recommending products like books or movies based on past purchases.
+  \item Recommending new and unseen products based on past purchases.
   \item Suggesting new social connections based on an existing social graph.
   \item Recommending items based the activity of similar or like-minded users.
   \item Ordering news articles by predicted individual relevance.
-  \item Personalizing search results based on the current user.
+  \item Personalizing search results based on the current user's preferences.
 \end{itemize*}
 
 Common to these examples are a set of users, a set of items, and a sparse set of explicit ratings or preferences.
-Items can be anything: Documents, movies, music, places, people, or indeed other users.
-A recommender system is best described by graph and graph operations, even though the underlying algorithms might not use this as the representation.
-\cite{Mirza2003} explains how any RS can be expressed as a graph traversal algorithm.
+Items can be just about anything: documents, movies, music, places, people, or indeed other users.
+The operations of a recommender system is best descriped through graph operations, 
+although the underlying algorithms might not use this as the representation at all.
+\cite{Mirza2003} explain how any RS can be expressed as a graph traversal algorithm.
 Items and users are nodes, while ratings, social connections et cetera are edges between the nodes.
 An RS performs predictive reasoning on this graph by estimating the strenghts of hypothetical connections between nodes that are not explicitly connected.
 
-For example, if a user has rated some of the movies in a movie recommendation system, 
-we use these ratings to predict how well the user will like unseen movies,
-based on a movies ratings from users similar to the one in question.
+Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.
+
+For example, if a user has rated a subset of the movies in a movie recommendation system, 
+algorithms can use these ratings to predict how well the user will like unseen movies.
+This inference can for instance be based on each movie's ratings from similar users.
 In social networks, recommender systems can be used to infer new social relations 
 based on existing connections. The principle is the same: By evaluating current explicit
 connections, and the connections of similar users, new connections can be predicted.
-Recommender systems are then powerful methods for user modeling, personalization and fighting information overload,
-because of their ability to infer how relevant and item (or another user) will be to the current user.
+In other words, recommender systems are powerful methods for user modeling, personalization and for fighting information overload.
+Their ability to infer unknown relevance between users and items makes them useful in many situations.
+
+\subsection{Interface Autonomy}
 
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{../graphics/autonomy.pdf}
-  \caption[Interface Autonomy]{
-    Interface Autonomy:
+  \caption[Levels of Interface Autonomy]{
+    Levels of Interface Autonomy:
     Interfaces range from those only customizable by the user, 
-    to intelligent systems takes the initiative on its own accord.
+    to intelligent systems takes the initiative on their own accord.
   }
   \label{fig:autonomy}
 \end{figure}
 
+Using AI to adapt an interface raises important questions with regard to usability, privacy and usefulness.
+These questions are rooted in the autonomy expressed by each interface.
 An autonomous interface is one that takes initiatives on its own, regardless of whether the user has asked for it \cite[p2]{Lieberman}. 
-Creating adaptive interfaces means increasing the level of autonomy in an interface, a technique that raises many interesting issues. 
 Naturally, any application that automatically personalizes its content will be autonomous to some degree.
 
 Adaptive interfaces can be classified into increasing order of autonomy (see Figure \ref{fig:autonomy}). 
@@ -58,35 +64,43 @@ We wish to create a system that implicitly, and without any effort from each use
 can adapt the content of an application based on previous behaviour
 Examples of implicit user modeling include \cite{Qiu2006}, \cite{Shen2005} and \cite{Carmel2009}.
 
-Formally, a recommender system can be seen as a quintuple, $\mathrm{RS} = (I, U, R, F, M)$,
-where $I$ is the set of items (e.g. products, articles or movies) and $U$ is the set of users.
-$R$ is the set of known connections, for example explicit preferences given by users for certain items, or connections in a social graph.
+
+\subsection{Aspects of Recommender Systems}
+
+Formally, a recommender system can be seen as a quintuple, 
+$\mathrm{RS} = (I, U, R, F, M)$,
+where $I$ is the set of items (e.g. products, articles or movies) and 
+$U$ is the set of users.
+$R$ is the set of known ratings or utility, for example explicit preferences given by users for certain items, or connections in a social graph.
+We have explicit ratings whenever the user provides their own ratings (e.g. product purchases),
+and implicit ratings when the system infers ratings from behaviour (e.g. query log mining).
 $F$ is a framework for representing the items, users and ratings, for example a graph or matrix. 
-$M$ is the actual user modeling method used to infer unknown ratings 
+$M$ is the actual user modeling algorithm used to infer unknown ratings 
 for predicting a user's preference for an unrated item. This is where AI comes in.
 
-In \cite{Adomavicius2005}, $M$ is seen as a utility function
-$f: U \times I \rightarrow S$. Here, $f$ is a function that maps the set
+In \citet[p2]{Adomavicius2005}, $M$ is seen as a utility (the rating, in AI terms) estimation function
+$p: U \times I \rightarrow S$. Here, $p$ (for prediction) is a function that maps the set
 of users and items into a fully ordered set of items $S$, ranked by their
-utility (i.e. rating) to each user. In other words, $S$ is the completely specified version of $R$,
+utility to each user. In other words, $S$ is the completely specified version of $R$,
 where each user has either an explicit, implicit or predicted preference for each item in $I$.
 To predict the best unrated item for each user, we simply find the item with the highest expected utility:
 
 \begin{eqsp}
-  \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} f(u,i)
+  \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} p(u,i)
 \end{eqsp}
 %
-The utility function $u$ depends on the modeling method being used, the active user and the item in question. 
-The \emph{reason} for using a recommender system is that the utility $u$ is not defined for the entire $U \times I$ space, 
+The utility function $p$ depends on the modeling method being used, the active user and the item in question. 
+The \emph{reason} for using a recommender system is that the utility (each $r$) is not defined for the entire $U \times I$ space, 
 i.e. the system does not explicitly know the utility of each item for each user. 
-The point of a recommender system is then to extrapolate $u$ to cover the entire user-item space. 
+The point of a recommender system is then to extrapolate $R$ to cover the entire user-item space. 
 In other words, to be able to rank items according to user preferences, 
-the system must be able to predict each user's reaction to items they have not yet explicitly rated themselves. 
+the system must be able to predict each user's reaction to items they have not yet explicitly or implicitly rated themselves. 
 
-Another popular way of describing, and implementing an RS is using a simple matrix. 
-Here, one dimension represents users, the other dimension represents items,
-and each cell corresponds to an explicit rating. This matrix then becomes the framework $F$ in our 
-RS quintuple:
+Another popular way of describing and implementing an RS is using a simple matrix.
+This is what we shall use in this paper. 
+In this matrix, one dimension represents users and the other represents items.
+Each populated cell corresponds to an known rating. 
+This matrix then becomes the framework $F$ in our RS quintuple:
 
 \begin{eqsp}
  R_{u,i} =
@@ -98,24 +112,29 @@ RS quintuple:
  \end{pmatrix}
 \end{eqsp}
 %
-Critically, these matrices are usually extremely sparse (i.e. most of the cells are empty). 
-Consider that while there may be a large number of users and items, each individual user
-only rates or connects to a few number of items. 
+Critically, these matrices are usually extremely sparse (most of the cells are empty). 
+While there may be a large number of users and items, each individual user
+only rates or connects to a few number of items.
+This is true for any scenario where users rate items, access items in search results,
+or connect to each other in a social network. 
 For example, in the seminal Netflix Challenge movie recommender dataset, almost 99\% of the potential
-user/item pairs have no rating \citep[p1]{Bell2007d}. In other words, the recommender system must be able
-to produce results from a matrix where only 1\% of the cells have meaningful values.
+user/item pairs have no rating \cite[p1]{Bell2007d}. In other words, 
+this recommender system had to be able to produce results from a matrix where only 1\% of the cells have meaningful values.
 
-Naturally, this is the defining characteristic of 
-many recommender systems: the ability to extract meaningful patterns from sparse data, 
-through dimensionality reduction, neighborhood estimation and other methods, as we shall see.
+This is the defining characteristic of many recommender systems: 
+their ability to extract meaningful patterns from sparse data, 
+through dimensionality reduction, neighborhood estimation and many other methods, as we shall soon see.
+Naturally, much research looks at ways to best tackle this sparsity
+(e.g. \cite{Pitsilis2009}, \citet[p3]{Claypool1999}, \citet[p19]{Ziegler2005}).
 
-Recommender systems face many challenges other than the sparsity problem.
+Recommender systems face many challenges other than this sparsity problem.
 A directly related problem is the need for large datasets. Since the data is often sparse,
 the systems will most often perform well if used on large numbers of items and users.
-As in many machine learning methods, concept drift, where the characteristics of a user or item
+As in many machine learning methods, concept drift \cite[p1]{Widmer1996}, where the characteristics of a user or item
 changes over time, is also always present.
 
-The performance of RSs is often closely tied to their computational complexity. 
+The performance of RSs is often closely tied to their computational complexity
+(as mentioned in \citet[p6]{Adomavicius2005}). 
 Real world usage of the most precise methods is often hindered by the computational power
 needed to actually put them into production.
 
@@ -124,21 +143,26 @@ input directly by users, the RS should take into account the domain specific mea
 For example, in a system for rating movies, the jump between ratings 4-5 might not have the same significance as
 the jump from 2-3. However, this is a fact seldom mentioned in the literature. Most RSs 
 employ metrics that assume a normal distribution, and even the common
-evaluation techniques such as RMSE or MAE treat ordinal data as a continous scale. 
+evaluation techniques such as RMSE or MAE treat ordinal data as a continous scale.
+We will get back to this in Chapter \ref{chap:discussion}. 
 % http://technocalifornia.blogspot.com/2011/04/recommender-systems-were-doing-it-all.html
 
 
 \subsection{Predicting Ratings}
 
 The crucial part of any RS is how it predicts unknown ratings.
-(Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.)
-Because of this, each method is best categorized based on a few dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-We use a taxonomy where these dimensions are: \emph{data}, \emph{method}, \emph{granularity}, \emph{temporality} and \emph{agents}.
+Because of this, each method is best categorized based on dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
+We use a taxonomy where these dimensions are: 
+available \emph{data}, 
+prediction \emph{method}, 
+model \emph{granularity}, 
+knowledge \emph{temporality} and 
+knowledge gathering \emph{agents}.
 
 \begin{table}[b]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
     \toprule
-    \emph{Variable} & \emph{Values} \\
+    \emph{Variable} & \emph{Possible values} \\
     \midrule
     Data & Content-based | Collaborative | Hybrid\\
     Method & Heuristic | Model-based\\
@@ -151,14 +175,20 @@ We use a taxonomy where these dimensions are: \emph{data}, \emph{method}, \emph{
   \label{table:taxonomy}
 \end{table}
 
-The \emph{data} variable represents what data the RS uses to perform predictions. 
-Content-based methods use only the items, inter-item relations, and 
-an individual user's past history as predictive of future actions \citep{Pazzani2007}.
+The \emph{data} variable represents what data an RS uses to perform predictions. 
+Content-based methods use only items, intra-item relations, and 
+an individual user's past history as predictive of future actions \cite[p1]{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
-However, such methods often require a lot of interaction before reliable models can be created \citep{Adomavicius2005}.
-The problem of having to do complex inference from little data, as is often is in content-based predictions, is often called the \emph{sparsity problem} or the \emph{cold start} problem. This is closely related to the problem of \emph{overfitting} data, where the algorithms creates models that match the training data, but not the actual underlying relationships. A lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start. 
-When using content-based predictions, the utility function $f(u,i)$ of user $u$ and item $i$ is extrapolated from $f(u,i_u)$, 
-where $i$ is an item similar to $i_u$ and $f(u,i_u)$ is known.
+However, such methods often require a lot of interaction before reliable models can be created \cite[p4]{Adomavicius2005}.
+The problem of having to do complex inference from little data, as is often is in content-based predictions, i
+similar to the \emph{sparsity problem}, is often called the \emph{cold start} or \emph{new user} problem. 
+This is closely related to the common AI problem of \emph{overfitting} data, 
+where the algorithms creates models that match the training data, 
+but not the actual underlying relationships. 
+As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start
+(e.g. \cite{Said2009}). 
+When using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
+where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p2]{Adomavicius2005}.
 
 Collaborative or social recommendations build predictive models for users based on the actions of similar users 
 \citep{Schafer2007}.
@@ -168,27 +198,30 @@ These methods are especially useful when considering new users of a service.
 A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based prediction. 
 Collaborative models must be careful not to represent the \emph{average} user, but a single individual.
 When using a collaborative method, 
-the utility $f(u,i)$ of item $i$ for user $u$ is extrapolated from $f(u_j,i)$ where $u_j$ is a user similar to $u$. 
+the utility $p(u,i)$ of item $i$ for user $u$ is extrapolated from $p(u_x,i)$ where $u_x$ is a user similar to $u$
+\cite[p4]{Adomavicius2005}. 
 
 Because of \emph{the new user problem} of content-based prediction and the \emph{average user problem} of collaborative prediction, 
-many systems use a hybrid approach \citep{Burke2007}.
+many systems use a hybrid approach (as introduced by \cite{Burke2007}).
 By combining content-based and collaborative methods, 
 systems that properly handle predictions for new users and avoid too much generalization in the models can be achieved. 
 
 The \emph{method} variable, is another way to classify recommenders. Orthogonal to what data the method uses, this variable
 concerns \emph{how} the data is used to produce recommendations.
 First we have the \emph{model-based} approach, where the recommender system builds predictive models based on the known data. 
-Unseen items can then be fed into this model to compute its estimated utility score. 
+Unseen items can then be fed into this model to compute its estimated utility score
+\cite[p5]{Adomavicius2005}. 
 For example, creating a Bayesian networks from past interaction is a model-based approach.
-The other category is the \emph{heuristic} or \emph{memory-based} approach. 
+The other category is the \emph{heuristic} or \emph{memory-based} approach \cite[p5]{Adomavicius2005}. 
 These methods use the raw data of items, users and ratings to directly estimate unknown utility values. 
 For example, recommending items similar to the ones already rated by computing the cosine similarity of their feature vectors is a heuristic approach.
 
-
 The \emph{granularity} variable tells whether this approach creates models for the canonical user, stereotypical users or individual users. 
-\cite{Rich1979} presented one of the first user modeling systems based on stereotypes, used to predict which books in a library each user would most enjoy.
+For example, \cite{Rich1979} presented one of the first user modeling systems based on stereotypes, 
+used to predict which books in a library each user would most enjoy.
 Here, a dialogue between the system and the user was performed to place the user into a set of sterotypes. 
 Each stereotype has a set of \emph{facets} which is then used to match books and users.
+This created user models of \emph{typical} granularity, as opposed to common \emph{individual} approaches.
 
 \emph{Temporality} refers to how volatile the gathered knowledge will be.
 While most RSs produce long term, relatively stable knowledge based on lasting user preference and taste, 
@@ -205,15 +238,15 @@ implicit mining of query logs and user interaction is often used to build user m
 \subsection{Examples of Recommender Systems}
 \label{subsec:recommender:examples}
 
-Because our solution will combine different recommender systems, we need a short introduction to some of the approaches we will combine.
+As our solution will combine different recommender systems, we need a short introduction to some of the approaches we will use.
 Let us take a closer look at (1) \emph{baseline ratings}, (2) \emph{neighborhood estimation}, (3) \emph{dimensionality reduction}, 
 and (4) \emph{network traversal}. This is by no means an exhaustive list, but rather
-a quick rundown of common approaches in recommender systems, that we will use in the next chapter.
+a quick rundown of common approaches in recommender systems, that we will use in the Chapter \ref{chap:methods}.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
+\cite{Segaran2007} gives a good introduction to how RSs are used in practice.
 
-(1) \emph{Baseline ratings} are the simplest family of recommender systems, based on item and user rating averages.
-The data is content-based, and used to compute heuristic predictions. 
-This is done on a per-user, individual basis and collects long term, stable knowledge.
+(1) \emph{Baseline ratings} are the simplest family of recommender systems, based on rating averages.
+The data is content-based, and used to compute heuristic predictions.
 While simple in nature, they are often helpful as starting points for more complex systems, or as 
 benchmarks for exploring new approaches. \cite[p2]{Koren2008} computes the baselines for items and users, and
 use more involved methods to move this starting point in some direction. 
@@ -223,7 +256,9 @@ The baseline for a user/item pair is given by
   b_{ui} = \mu + b_u + b_i
 \end{eqsp}
 %
-where $\mu$ is the average system rating, $b_u$ is the user baseline and $b_i$ is the item baseline.
+where $\mu$ is the average rating across all items and users, 
+$b_u$ is the user baseline and 
+$b_i$ is the item baseline.
 The user and item baselines correspond to how the user's and item's ratings deviate from the norm.
 This makes sense as some items may be consistently rated higher than the average, some users may be 
 highly critical in their assesments, and so on. \citeauthor{Koren2008} computes these baselines by solving the
@@ -234,11 +269,11 @@ least squares problem
 \end{eqsp}
 %
 which finds baselines that fit the given ratings while trying to reduce overfitting
-(by punishing greater values, as weighted by the $\lambda$ parameter). 
+by punishing greater values, as weighted by the $\lambda$ parameter. 
 By using baselines instead of simple averages, more complex predictors gain a better starting point,
-or in other words, a better average.
+or in other words, a better average rating.
 
-Another approach based on simple averages is the  \emph{Slope One} family of collaborative filtering algorithms. 
+Another approach based on simple averages is the  \emph{Slope One} family of recommender algorithms. 
 As introduced by \cite{Lemire2005}, these algorithms predict unknown ratings based on the average difference in ratings between two items. 
 For example, if item $i$ is on average rated $\delta$ points above item $j$, and the user $u$ has rated item $j$,
 that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delta$, for all ratings that match this pattern.
@@ -254,7 +289,7 @@ While simplistic, Slope One is computationally effective and produces results co
 
 (2) \emph{Neighborhood estimation} is part of many recommendation systems. 
 It is the core principle behind most collaborative filtering algorithms, that
-estimate an unknown rating by averaging the ratings of similar items or users, weighted by this similarity.
+estimate an unknown rating by averaging the ratings of similar items or users, weighted by their similarity.
 These approaches often work in two steps: First, a neighborhood if similar elements is computed.
 Second, the similarities and connections within this neighborhood is used to produce a prediction.
 
@@ -315,17 +350,20 @@ The PCC is but one of many methods used to compute neighborhoods.
 Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007},
 Spearman's or Kendall Tau rank correlation coefficients \cite[p30]{Herlocker2004} --- 
 variations on the PCC.
+Of course, user similarity does not have to rely on ratigs. 
+If the system has access to detailed user profiles, these can be used
+to estimate the similarity of users.
 Similarity metrics from information retrieval,
 such as \emph{cosine correlation} from the \emph{vector space model} (VSM) are also popular,
-often used to compute item similarities (see section \ref{sec:search}).
+used to compute item similarities (see section \ref{sec:search}).
 
 \cite{Bell2007a} shows a more sophisticated neighborhood estimation which computes global interpolation weights,
 that can be computed simultaneously for all neirest neighbors.
-Combinations of metrics are also possible. 
+Combinations of metrics are also possible: 
 \cite{Ujjin} first use a simple euclidean metric to gather a larger neighborhood, which is then refined
 by a \emph{genetic algorithm}.
 Another way of computing neighborhoods is by reducing the dimensions of the ratings matrix,
-as we will now introduce.
+as we will now describe.
 
 
 (3) \emph{Dimensionaliy reduction} is an oft-used technique when creating recommender systems.
@@ -337,11 +375,12 @@ can be used to predict unknown ratings (a type of least squares data fitting).
 This is the same underlying technique used by \emph{latent semantic indexing} (LSI) in information retrieval \cite[p44]{Baeza-Yates1999}.
 Formally, SVD is the factorization $M = U \Sigma V^{T}$. 
 $M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
-$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{T}$ (the transpose of $V$) is an $n \times n$ factor ("stretcher").
-$\Sigma$ is a $m \times n$ diagonal matrix ("aligner"). 
+$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{T}$ (the transpose of $V$) is an $n \times n$ factor (the "stretcher").
+$\Sigma$ is a $m \times n$ diagonal matrix (the "aligner"). 
+$\Sigma$ is a diagonal matrix, made up of what is called the \emph{singular values} of the original matrix.
 
-The dimensionalty of the ratings space is performed by truncating the factor matrices each to a number of rows or columns, 
-where the number is a paramenter depending on the current domain and data.
+The dimensionalty reduction can be performed by truncating the factor matrices each to a number of rows or columns, 
+where the number is a paramenter depending on the current domain and data, called the $rank$ ($r$).
 The truncated matrix is $M_r = U_r \Sigma_r V_r^{*}$, where $U_r$ are the first $r$ columns of $U$,
 $V_r^{T}$ are the first $r$ rows of $V^{T}$ and $\Sigma_r$ is the top-left $r \times r$ sub-matrix of $\Sigma$.
 There are many more complex ways of compressing the matrix than pure truncation, but this is the most 
@@ -395,16 +434,18 @@ These features are comparable to the mapping of terms to concepts in LSI.
   \label{fig:svd-image}
 \end{figure}
 
-Because SVD can find the most descriptive parts of a matrix, this technique is often used for compression.
-In fact, SVD works on the same principles as many other image compression algorithms.
+Because SVD can find the most descriptive parts of a matrix, this technique is often used for image compression.
 The image we wish to compress is treated as an $N \times M$ matrix, which is run through an SVD factorization.
 The factors are truncated, and the result expanded to a matrix that is much simpler to represent
 than our original image matrix. As seen in Figure \ref{fig:svd-image}, how close the compressed image resembles the original image
 depends on the chosen $rank$, i.e. how many rows and columns we keep during truncation.
-A higher rank means less reduction and less compression.
+A higher rank means less dimensionality rediction and less compression of the image.
 
-In recommender systems, SVD is used to compress the ratings space into a \emph{taste space},
-where collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.
+In recommender systems, SVD is used to compress the ratings space into what is sometimes called a \emph{taste space},
+where users are mapped to higher-level "taste" categories
+(e.g. \citet[p5]{Ahn2004}, \citet[p4]{Brand2003} or \citet[p2]{Liu2006}).
+In a taste space,
+the collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.
 This reduction makes it easy to find similar users that share some global characteristic.
 We can of course also find similarities between items, clusters of items and user and so on, all based on latent "categories"
 discovered by the automatic identification of patterns in the data.
@@ -415,6 +456,7 @@ which is exactly what we need to predict unknown ratings or connections.
 The connections between nodes can be any type of relation that makes sense to the RS. Examples include linking item and user nodes
 based on purchases or explicit ratings, linking user nodes from asymetrical (directed edges) symetrical (undirected edges) relations,
 or linking items based on some similarity metric.
+Recommender systems can use common graph-traversal algorithms to infer unknown connections in this graph.
 
 \cite{Huang2002} used network traversal to create a simple system for recommending books to customers.
 Here, edges between items and users correspond to ratings, and edges connecting nodes of the same type
@@ -447,7 +489,6 @@ The trust can for example be a function of how many agreeable results the connec
 In other words, users trust each others recommendations based on previous experience.
 
 \cite{Konstas} takes yet another approach that measures the similarity between two nodes through their \emph{random walks with restarts} (RWR) technique.
-
 Starting from a node $x$, the RWR algorithm randomly follows a link to a neighboring node. 
 In every step, there is a probability $\alpha$ that the algorithm will restart its random walk from the same node, $x$. 
 A user-specific column vector $\mathbf{p}^{(t)}$ stores the long term probability rates of each node, 
