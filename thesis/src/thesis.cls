@@ -120,27 +120,38 @@
 % -----------------
 
 % Page margins
-\settypeblocksize{46pc}{32pc}{*} % (height,width,ratio)
+\settypeblocksize{45pc}{32pc}{*} % (height,width,ratio)
 \setlrmargins{*}{*}{1}
-\setulmargins{5pc}{*}{*}
+\setulmargins{7pc}{*}{*}
 \checkandfixthelayout
 
-% Standard text pages
-\makepagestyle{thesis} 
-  %\nouppercaseheads
-  \createmark{chapter}{right}{nonumber}{}{}
-  %\makeevenhead{thesis}{\centering\color{gray}\rightmark}{}{}
-  %\makeoddhead{thesis}{\centering\color{gray}\rightmark}{}{}
-  \makeevenfoot{thesis}{}{\vspace{-2em}\color{gray}\thepage}{}
-  \makeoddfoot{thesis}{}{\vspace{-2em}\color{gray}\thepage}{}
-\pagestyle{thesis}
+\makepagestyle{ruled}
+\makeevenfoot{ruled}{\small\thepage}{}{}
+\makeoddfoot{ruled}{}{}{\small\thepage}
+\makeheadrule{ruled}{\textwidth}{0.2pt}
+\makeevenhead{ruled}{{\small\uppercase{\leftmark}}\vspace{1pt}}{}{}
+\makeoddhead{ruled}{}{}{{\small\uppercase{\rightmark}}\vspace{1pt}}
+\makepsmarks{ruled}{%
+\nouppercaseheads
+%\createmark{chapter}{left}{shownumber}{}{}
+%\createmark{section}{right}{shownumber}{}{}
+\createmark{chapter}{left}{shownumber}{\@chapapp\ }{. }
+\createmark{section}{right}{shownumber}{}{. }
+\createplainmark{toc}{both}{\contentsname}
+\createplainmark{lof}{both}{\listfigurename}
+\createplainmark{lot}{both}{\listtablename}
+\createplainmark{bib}{both}{\bibname}
+\createplainmark{index}{both}{\indexname}
+\createplainmark{glossary}{both}{\glossaryname}
+}
+\pagestyle{ruled}
 
 % Pages with chapter headings
 \makepagestyle{plain}
   \makeevenhead{plain}{}{}{}
   \makeoddhead{plain}{}{}{}
-  \makeevenfoot{plain}{}{\color{gray}\thepage}{}
-  \makeoddfoot{plain}{}{\color{gray}\thepage}{}
+  \makeevenfoot{plain}{\small\thepage}{}{}
+  \makeoddfoot{plain}{}{}{\small\thepage}
 
 % Float positioning
 \RequirePackage{afterpage}
@@ -365,11 +376,11 @@
 
 % spaced equations
 \newenvironment{eqsp}{
-  \vspace{1em}
+  %\vspace{1em}
   \begin{equation*}
 }{
   \end{equation*}
-  \vspace{1em}\\
+  %\vspace{1em}\\
 }
 
 
