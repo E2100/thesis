@@ -9,8 +9,7 @@
     \tikzstyle{amodel}=[rectangle,fill=red!25,minimum size=20pt,inner sep=5pt]
     \tikzstyle{blank}=[rectangle,fill=white,minimum size=20pt,inner sep=5pt]
     
-    \node[blank] (UI1) at (0,-1) {(user, item)}; 
-    \node[blank] (UI2) at (0,0) {(user, item)}; 
+    \node[blank] (UI) at (0,-0.5) {(u,i)}; 
 
     \node[blank] (EM) at (\layersep,-1) {error model};
     \node[blank] (RM) at (\layersep,0) {ratings model};
@@ -21,8 +20,8 @@
     \node[blank] (AG) at (\layersep*3,-0.5) {adaption};
     \node[blank] (W) at (\layersep*3.5,-0.5) {$\hat{pr}$}; 
     
-    \path (UI1) edge (EM);
-    \path (UI2) edge (RM);
+    \path (UI) edge (EM);
+    \path (UI) edge (RM);
     \path (EM) edge (ER);
     \path (RM) edge (RR);
     \path (ER) edge (AG);
@@ -32,8 +31,9 @@
   \end{tikzpicture}
 
   \vspace{1em}
-  \caption[Adptive Weights]{
-    Adaptive weights: The data flow through the adaption of a single recommender method.
+  \caption[Multiple Models for Adaptive Weights]{
+    Multiple models for adaptive weights: 
+    The data flow through the adaption of a single recommender method.
     The current user and item is fed into two distinct models: the ratings model, which 
     predicts unknown ratings, and the error model, which predicts how accurate 
     this rating will be for the current input. 
