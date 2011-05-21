@@ -34,11 +34,11 @@ module MetaModel
     }.merge(opts))
   end
 
-  def evaluate(recommenders)
+  def evaluate(recommenders, opts = {})
     result = Perform.perform(Task.new({
       mission: :rmse_evaluator,
       recommenders: recommenders,
-    })).evaluate
+    }.merge(opts))).evaluate
     Log.evaluation(result)
     result
   end
@@ -69,7 +69,7 @@ datasets.each do |name,path|
     testset: '/movielens/movielens-100k/test/' + path + '.test'
   }
   rs = M.recommenders(o)
-  ev = M.evaluate(rs)
+  ev = M.evaluate(rs,o)
   ev.each do |name, e|
     results[name] = {} unless results.key?(name)
     results[name][path] = e.round(5)
