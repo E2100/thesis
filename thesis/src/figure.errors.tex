@@ -7,18 +7,18 @@
     \tikzstyle{rmodel}=[rectangle,fill=green!25,minimum size=20pt,inner sep=5pt]
     \tikzstyle{emodel}=[rectangle,fill=blue!25,minimum size=20pt,inner sep=5pt]
     \tikzstyle{amodel}=[rectangle,fill=red!25,minimum size=20pt,inner sep=5pt]
-    \tikzstyle{blank}=[rectangle,fill=white,minimum size=20pt,inner sep=5pt]
+    \tikzstyle{blank}=[rectangle,right,fill=white,minimum size=20pt,inner sep=5pt]
     
     \node[blank] (UI) at (0,-0.5) {(u,i)}; 
 
     \node[blank] (EM) at (\layersep,-1) {error model};
     \node[blank] (RM) at (\layersep,0) {ratings model};
     
-    \node[blank] (ER) at (\layersep*2,-1) {predicted error};
-    \node[blank] (RR) at (\layersep*2,0) {predicted rating};
+    \node[blank] (ER) at (\layersep*2.1,-1) {predicted error};
+    \node[blank] (RR) at (\layersep*2.1,0) {predicted rating};
  
-    \node[blank] (AG) at (\layersep*3,-0.5) {adaption};
-    \node[blank] (W) at (\layersep*3.5,-0.5) {$\hat{pr}$}; 
+    \node[blank] (AG) at (\layersep*3.4,-0.5) {adaption};
+    \node[blank] (W) at (\layersep*4.3,-0.5) {$\hat{pr}$}; 
     
     \path (UI) edge (EM);
     \path (UI) edge (RM);
