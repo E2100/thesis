@@ -10,7 +10,7 @@ and suggest possible future work.
 
 \section{Implications}      
 
-Our central position is that modern recommender systems 
+Our central assumption is that modern recommender systems 
 are constrained by their misplaced subjectivity.
 Each system selects some measures to model its users, 
 based on how they think each user and item \emph{should} be modeled.
@@ -33,9 +33,9 @@ Naturally, a system where each user's personal opinion determines if these conne
 This implication extens to the items that should be recommended:
 As evident by the field of information retrieval,
 there exists many ways of considering the relevance of an item. 
-Each of these algorithms can be based on a number of attributes:
-temporality, geography, sentiment analysis, topic or key words.
-It is not a huge leap to consider that each of these algorithms may have
+Each of these algorithms can be based on a number of attributes, for example
+temporality, geography, sentiment analysis, topic or keywords.
+It is not a huge leap to assume that each of these algorithms may have
 varying levels of accuracy for each individual item.
 Stacked recommenders can help solve this problem by adaptively 
 combining the recommenders based on individual item performance.
@@ -50,11 +50,12 @@ and are already understood and battle-tested in many different systems.
 
 \section{Limitations}
 
-There are some important limitations to the research presented in this thesis,
-relating to the 
+There are some important limitations to our research
+according the 
 (1) complexity of our method, 
-(2) our choice of data and evaluation metrics, and
-(3) the general usefulness of this approach.
+(2) our choice of data and evaluation metrics, 
+(3) the general usefulness of this approach, and
+(4) common issues with recommender systems.
 
 (1) Complexity: As our approach is more complicated than standard recommenders,
 it is worth questioning if its gains are worth the extra complexity.
@@ -83,27 +84,55 @@ evaluated, the results must be seen for what they are:
 initial and preliminary explorations of a new technique
 that has yet to be proved useful in the real world.
 
-Ordinal scale of movie ratings.
-
+As mentioned in Chapter \ref{chap:theory}, the scale of known ratings is another concern.
+When we have a set of explicit ratings given by users, these are often
+given in discrete steps, and not on a continous scale.
+As known from the field of statistics, when using ordinal scales,
+the significance of each steps are not neccessarily equal.
+For instance, on a scale from 1 through 5, the difference
+between 2 and 3 might not be as significant as the differene between 4 and 5.
+This is a limitation of many recommender system, apparent by the algorithms they use:
+most do not consider the implications of ordinal data.
+Naturally, in a real-world system, this limitation has to be considered.
 
 (3) Usefulness:
 When considering the additional complexity of our approach,
 a natural response is whether or not current approaches
 to recommender systems are good enough.
-We believe information overload is such a nuanced problem 
+We do not think so: information overload is such a nuanced problem 
 that the only solution lines in intelligent, adaptive systems.
-
 However, as most of today's recommender systems 
 perform quite simple tasks, they may be more
 than good enough for their purpose.
+
+This will always be a tradeoff, between complexity and required accuracy.
+As in many other cases, each of the systems described in this paper
+have their use cases. In the end, the requirements of each system
+must decide which method best suit their needs.
+
+(5) Common issues:
 The topic of recommenders and adaptive systems in general
 raise a number of questions which is outside the scope of this paper.
-Without going into detail, the issues of user privacy,
-usability and acceptance of such systems is a much discussed topic.
-These considerations must of course be considered before
-the question of whether or not adaptive recommenders
-are suited for the current system.
+A big issue related to user privacy. 
+Whenever we have a system that tries to learn the tastes, habits and
+traits of its users, how each user will react to this must be considered.
+This is often a tradeoff between adaptability and transparency.
+The most adaptive systems will not always be able to explain to the users
+what is going on and what it knows about each person,
+especially when dealing with emergent behavior based on 
+numerical user models.
 
+Another important issue is the usability of autonomous interfaces.
+Whenever recommenders are used for more than simple lists of items,
+there is a question of how easy the resulting system will be to use.
+As mentioned in Chapter \ref{chap:theory},
+unpredictability is the enemy of usability.
+Creating an autonomous system that is also
+predictable is a serious challenge, and a common tradeoff.
+
+While a thorough discussion of privacy and usability is 
+outside our scope, they are both important limitations to considered
+when using a recommender system.
 
 
 \section{Contributions} 
