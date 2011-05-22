@@ -5,10 +5,14 @@ The problem is apparent in situations where decisional accuracy turns from impro
 to being hindered by too much irrelevant data \cite[p13]{Bjorkoy2010d}. 
 This is a widespread phenomenon, with as many names and definitions as there are fields experiencing the problem. 
 Examples include \emph{sensory overload}, \emph{cognitive overload} and \emph{information anxiety} \cite[p2]{Eppler2004}.
-
 Two common tasks quickly become difficult in this situation:
-(1) Consuming content that is known by the user to be relevant can be drowned out by irrelevant noise.
-(2) At the same time, discovering interesting yet unknown content also becomes difficult because of the sheer amount of available information.
+
+\begin{enumerate*}
+  \item Consuming relevant content is hindered by too much irrelevant noise.
+  \item Discovering new content is difficult because of too much information.
+\end{enumerate*}
+
+\noindent
 Finding contemporary examples is not difficult:
 
 \begin{itemize*}
@@ -36,10 +40,10 @@ Attention can then be defined as "... focused mental engagement on a particular 
 Items come into our awareness, we attend to a particular item, and then we decide whether to act" \cite[p1]{Davenport2001}. 
 To evade information overload is then to maximize available attention, allowing more focus on the most important items.
 
-\begin{wrapfigure}{rt}{0.4\textwidth}
+\begin{wrapfigure}{rt}{0.5\textwidth}
   \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.4\textwidth]{../graphics/seven-stages.pdf}
+    \includegraphics[width=0.5\textwidth]{../graphics/seven-stages.pdf}
     \vspace{-20pt}
     \caption[The Seven Stages of Action]{Stages of Action}
   \end{center}
@@ -101,6 +105,7 @@ After 19 links have been traversed, about $10^{16}$ pages can be reached (which 
   \label{fig:swn}
 \end{figure}
 
+
 The high degree of the Web graph would suggest that finding an optimal path to your desired page is quite difficult. 
 Yet, while it is true that finding the \emph{optimal path} is hard, finding \emph{a good path} is not that big a challenge. 
 When people browse the Web, links are not followed blindly --- 
@@ -127,7 +132,6 @@ In other words, a few important nodes have a huge number of inbound and outbound
 \citet[p86]{Barabasi2003} proposed that hubs emerge in a scale-free networks because of two factors:
 (1) Growth: Nodes are added to the network one by one, for example when new websites are added to the Internet.
 (2) Preferential attachment: When new nodes are created, they connect to existing nodes. The probability that the new node will connect to an existing node is proportional to the number of links the existing node has. In other words, older, more established and central nodes are preferred neighbors.
-
 This is called the Barab\'{a}si-Albert model \citep{Albert1999}, 
 and the probability for a new node connecting to an existing node is given by $\prod k_i$, 
 where $k_i$ is the number of links pointing to node $i$, in the following equation: 
@@ -137,11 +141,7 @@ where $k_i$ is the number of links pointing to node $i$, in the following equati
 \end{eqsp} 
 %
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 
-link attachment of newly created nodes. 
-Factor in the existence of multiple sub-graphs, or continents, on the Web, 
-and we can intuitively see that navigating the Web is not as 
-easy as it might appear from simple models.
-
+link attachment of newly created nodes, that make navigating the Web less easy as it might appear.
 What does seem clear is that these content aggregating hubs are prime candidates for overwhelming their users with information. 
 The fundamental observed structure of the Web creates the need for information brokers that link the net together, 
 and the need for techniques to display a lot of data --- adapted to each user and each item.
