@@ -16,8 +16,7 @@ Hypothesis H3 states that
 {
   \itshape
   the result set from an information retrieval query
-  can be personalized by stacked recommenders, 
-  where the retrieval scores are considered standard input signals.
+  can be adaptively personalized by stacking recommenders.
 }
 In other words, we wish to check if the prediction algorithm
 in Listing \ref{code:rank:prediction} performs personalized search
@@ -140,7 +139,22 @@ adapt parts of the IR results list by moving some of the items.
 
 We have not considered which IR weight or other parameters would result in the best performing
 personalized search system.
-However, we have proved that stacked recommenders can be used for this purpose in a number of ways.
-confirming hypothesis H3.
+However, this is completely dependent on the type of system and types of queries.
+By varying the IR weight, a number of different systems that work for different use cases
+can be constructed. For systems with simple one-word queries, setting the weight
+to $0$ leaves ranking to the recommenders.
+For systems with more complex queries, an IR weight of $1.0$ 
+orders items both by IR score and predicted rating.
+Naturally, this weight is a defining characteristic of any 
+personalized search based on stacked recommenders.
 
+The performance of personalized search is hard to judge without
+extensive query logs with click-through information.
+While we had no access to such data, 
+we have been able to show that stacked recommenders
+work well for personalized search.
+This positive result for Experiment 3 confirms hypothesis H3,
+at least for this dataset, this IR system and our chosen recommender algorithms.
+
+The next chapter will discuss the implications and limitation of our results.
 
