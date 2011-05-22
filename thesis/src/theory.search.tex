@@ -91,14 +91,14 @@ A better idea is to use something like the TF-IDF weighting scheme \citep[p29]{B
 
 \begin{eqsp}
   w_{t,d} = tf_{t,d} \times idf_{t}
-          = \frac{ \mathrm{freq}(t,d) }{ \sum_{k \in d} \mathrm{freq}(k,d) } \times 
+          = \frac{ f(t,d) }{ \sum_{k \in d} f(k,d) } \times 
             \log \frac{N}{n_{t}}.
 \end{eqsp}
 %
 The final weight is computed by multiplying the term frequency score (TF) $tf_{t,d}$ with the 
 inverse document frequency (IDF) $idf_{t}$. TF evaluates how well the term describes the document contents,
 while IDF punish terms that appear in many documents. 
-$freq_{t,d}$ gives the frequency of a term in a document. $N$ is the total number of documents,
+$f(t,d)$ gives the frequency of a term in a document. $N$ is the total number of documents,
 and $n_{t}$ the number of documents in which $t$ appears. The effect of the IDF factor is dampened by taking its
 log-value. Together, TF and IDF ranks documents higher by words that discriminate well within the document corpus,
 and ignores words that appear in so many documents that they have little to no predictive capacity.

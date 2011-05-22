@@ -280,11 +280,11 @@ that is, we know $r_{uj}$, the predicted rating of $i$ is simply $r_{uj} + \delt
 In other words,
 
 \begin{eqsp}
-  \hat{r}_{ui} = \frac{\sum_{j \in K_u} \mathrm{ratings}(j) \times (r_{uj} + \mathrm{diff}(i,j))}{\sum_{j \in K_u} \mathrm{ratings}(j) },
+  \hat{r}_{ui} = \frac{\sum_{j \in K_u} \mathrm{ratings}(j) \times (r_{uj} + \mathrm{\hat{\delta}}(i,j))}{\sum_{j \in K_u} \mathrm{ratings}(j) },
 \end{eqsp}
 %
 where $\hat{r}_{ui}$ is the estimated rating, $K_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
-and $\mathrm{diff}(i,j)$ is the average difference in ratings for items $i$ and $j$.
+and $\mathrm{\hat{\delta}}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
 
 (2) \emph{Neighborhood estimation} is part of many recommendation systems. 
