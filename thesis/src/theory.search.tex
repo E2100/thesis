@@ -202,7 +202,7 @@ we will explore a few different approaches to personalized search:
 (3) \emph{social network search ranking}.
 
 (1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
-to be "generate more accurate rankings than with a single, generic PageRank vector". 
+to "generate more accurate rankings than with a single, generic PageRank vector". 
 In essence, they create topic-specific PageRank vectors for a number of pre-set topics,
 creating many rankings per page, one for each topic.
 This new PageRank is computed based on an existing set of websites that belong to each topic.
@@ -216,7 +216,7 @@ in each of the pre-set topics, creating the topic-preference vector $T$. When it
 page $p$ in response to the query $q$, they compute the personalized ranking:
 
 \begin{eqsp}
-  PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \cdot Pr(q|T(i)) \cdot TSPR_i(p)
+  PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \times Pr(q|T(i)) \times TSPR_i(p)
 \end{eqsp}
 %
 We will not deduce this equation here (see \citet[p5]{Qiu2006}), but let us explain it. 
@@ -265,8 +265,8 @@ The two ranks are aggregated by a simple consensus-metric, the
 which is nothing more than a weighted combination of the rankings:
 
 \begin{eqsp}
-  \mathrm{rank}(u,q,p) = \alpha \cdot \mathrm{rank}_{IR}(q,p) 
-                 + (1-\alpha) \cdot \mathrm{rank}_{personal}(u,p)
+  \mathrm{rank}(u,q,p) = \alpha \times \mathrm{rank}_{IR}(q,p) 
+                 + (1-\alpha) \times \mathrm{rank}_{personal}(u,p)
 \end{eqsp}
 %
 \citeauthor{Xu2008} tried many combinations of weights,
@@ -297,14 +297,14 @@ where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile ter
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
 
 \begin{eqsp}
-  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \cdot w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \cdot w(t,d)
+  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \times w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \times w(t,d)
 \end{eqsp}
 %
 Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
 A parameter $\alpha$ is used to control how much each method is weighted:
 
 \begin{eqsp}
-  S(q,d|P(u)) = \alpha \cdot R_{IR}(q,d) + (1-\alpha) \cdot S_P(q,d|U(u)) 
+  S(q,d|P(u)) = \alpha \times R_{IR}(q,d) + (1-\alpha) \times S_P(q,d|U(u)) 
 \end{eqsp}
 %
 This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.

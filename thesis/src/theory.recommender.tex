@@ -491,17 +491,17 @@ In other words, users trust each others recommendations based on previous experi
 \cite{Konstas} takes yet another approach that measures the similarity between two nodes through their \emph{random walks with restarts} (RWR) technique.
 Starting from a node $x$, the RWR algorithm randomly follows a link to a neighboring node. 
 In every step, there is a probability $\alpha$ that the algorithm will restart its random walk from the same node, $x$. 
-A user-specific column vector $\mathbf{p}^{(t)}$ stores the long term probability rates of each node, 
-where $\mathbf{p}^{(t)}_i$ represents the probability that the random walk at step $t$ is at node $i$. 
-$\mathbf{S}$ is the column-normalized adjacency-matrix of the graph, i.e. the transition probability table. 
-$\mathbf{q}$ is a column vector of zeroes with a value of $1$ at the starting node (that is, $\mathbf{q}_i$ is $1$ when the RWR algorithm starts at node $x$). 
+A user-specific column vector $P^{(t)}$ stores the long term probability rates of each node, 
+where $P^{(t)}_i$ represents the probability that the random walk at step $t$ is at node $i$. 
+$S$ is the column-normalized adjacency-matrix of the graph, i.e. the transition probability table. 
+$Q$ is a column vector of zeroes with a value of $1$ at the starting node (that is, $Q_i$ is $1$ when the RWR algorithm starts at node $x$). 
 The stationary probabilities of each node, signifying their long term visiting rate, is then given by 
 
 \begin{eqsp}
-  \mathbf{p}^{(t+1)} = (1 - \alpha)\mathbf{S}\mathbf{p}^{(t)} + {\alpha}\mathbf{q}
+  P^{(t+1)} = (1 - \alpha)SP^{(t)} + {\alpha}Q
 \end{eqsp}
 %
-when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $\mathbf{p}_y$ where $p$ is the user model for the user represented by node $x$.
+when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $P_y$ where $p$ is the user model for the user represented by node $x$.
 \citeauthor{Konstas} found that this approach outperformed the PCC, as long as the social networks were an explicit part of the system in question.
 In other words, the connections between users had to be one actively created by the users to be of such quality and precision that
 accurate predictions could be made.
