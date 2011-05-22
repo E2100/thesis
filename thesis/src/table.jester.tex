@@ -1,72 +1,82 @@
-done: 4,5
-
-  Results
-  ----------------------------------------------------------------------------------------------------
-  svd1         	  4: 1.08168	  5: 1.09346	min: 1.08168	max: 1.09346	avg: 1.08757	stddev: 0.076746
-  svd3         	  4: 0.9479	    5: 0.94826	min: 0.9479	  max: 0.94826	avg: 0.94808	stddev: 0.013416
-  svd4         	  4: 0.94892	  5: 0.9459	  min: 0.9459	  max: 0.94892	avg: 0.94741	stddev: 0.038859
-  knn3         	  4: 1.02418	  5: 1.0243	  min: 1.02418	max: 1.0243	  avg: 1.02424	stddev: 0.007746
-  knn4         	  4: 1.02304	  5: 1.0244	  min: 1.02304	max: 1.0244	  avg: 1.02372	stddev: 0.026077
-  slope_one    	  4: 1.11074	  5: 1.11703	min: 1.11074	max: 1.11703	avg: 1.113885	stddev: 0.05608
-  baseline     	  4: 1.10294	  5: 1.10662	min: 1.10294	max: 1.10662	avg: 1.10478	stddev: 0.042895
-  cosine       	  4: 1.08539	  5: 1.07813	min: 1.07813	max: 1.08539	avg: 1.08176	stddev: 0.060249
-  m_average    	  4: 0.91857	  5: 0.91733	min: 0.91733	max: 0.91857	avg: 0.91795	stddev: 0.0249
-  m_median     	  4: 0.92481	  5: 0.9225	  min: 0.9225	  max: 0.92481	avg: 0.923655	stddev: 0.033985
-  svd2         	  4: 1.08591	  5: 1.08837	min: 1.08591	max: 1.08837	avg: 1.08714	stddev: 0.035071
-  knn1         	  4: 1.18459	  5: 1.1921	  min: 1.18459	max: 1.1921	  avg: 1.188345	stddev: 0.061278
-  knn2         	  4: 1.16415	  5: 1.18468	min: 1.16415	max: 1.18468	avg: 1.174415	stddev: 0.101316
-  m_svd        	  4: 0.96698	  5: 0.79647	min: 0.79647	max: 0.96698	avg: 0.881725	stddev: 0.291985
-
-  avgs:
-  [[:m_svd, 0.881725],
-   [:m_average, 0.91795],
-   [:m_median, 0.923655],
-   [:svd4, 0.94741],
-   [:svd3, 0.94808],
-   [:knn4, 1.02372],
-   [:knn3, 1.02424],
-   [:cosine, 1.08176],
-   [:svd2, 1.08714],
-   [:svd1, 1.08757],
-   [:baseline, 1.10478],
-   [:slope_one, 1.113885],
-   [:knn2, 1.174415],
-   [:knn1, 1.188345]]
+\begin{comment}
+Results
+----------------------------------------------------------------------------------------------------
+svd1           	  1: 1.08646	  2: 1.08064	  3: 1.06874	  4: 1.08549	  5: 1.09342	min: 1.06874	max: 1.09342	avg: 1.08295	stddev: 0.090517
+svd2           	  1: 1.08477	  2: 1.08047	  3: 1.07465	  4: 1.08333	  5: 1.09468	min: 1.07465	max: 1.09468	avg: 1.08358	stddev: 0.080894
+svd3           	  1: 0.94898	  2: 0.94379	  3: 0.94273	  4: 0.94601	  5: 0.94606	min: 0.94273	max: 0.94898	avg: 0.945514	stddev: 0.046452
+svd4           	  1: 0.94885	  2: 0.94713	  3: 0.94295	  4: 0.94728	  5: 0.94749	min: 0.94295	max: 0.94885	avg: 0.94674	stddev: 0.044622
+slope_one      	  1: 1.10473	  2: 1.10434	  3: 1.09581	  4: 1.1046	    5: 1.12169	min: 1.09581	max: 1.12169	avg: 1.106234	stddev: 0.091863
+m_average      	  1: 0.92188	  2: 0.91772	  3: 0.91243	  4: 0.92083	  5: 0.92382	min: 0.91243	max: 0.92382	avg: 0.919336	stddev: 0.06307
+m_median       	  1: 0.92495	  2: 0.9216	    3: 0.91579	  4: 0.92413	  5: 0.92728	min: 0.91579	max: 0.92728	avg: 0.92275	stddev: 0.06265
+baseline       	  1: 1.09625	  2: 1.0908	    3: 1.08705	  4: 1.09873	  5: 1.10003	min: 1.08705	max: 1.10003	avg: 1.094572	stddev: 0.070095
+cosine         	  1: 1.08272	  2: 1.07158	  3: 1.06881	  4: 1.07494	  5: 1.08237	min: 1.06881	max: 1.08272	avg: 1.076084	stddev: 0.074983
+knn1           	  1: 1.17533	  2: 1.18388	  3: 1.15591	  4: 1.16709	  5: 1.18813	min: 1.15591	max: 1.18813	avg: 1.174068	stddev: 0.107752
+m_svd          	  1: 0.91292	  2: 0.90925	  3: 0.90047	  4: 0.90439	  5: 0.91862	min: 0.90047	max: 0.91862	avg: 0.90913	stddev: 0.079715  
+\end{comment}
 
 
 
-done 1:
+\begin{table}[p]
+  \centering
 
-  Results
-  ----------------------------------------------------------------------------------------------------
-  svd1           	  1: 1.08626	min: 1.08626	max: 1.08626	avg: 1.08626	stddev: 0.0
-  svd2           	  1: 1.08119	min: 1.08119	max: 1.08119	avg: 1.08119	stddev: 0.0
-  svd3           	  1: 0.94702	min: 0.94702	max: 0.94702	avg: 0.94702	stddev: 0.0
-  svd4           	  1: 0.95061	min: 0.95061	max: 0.95061	avg: 0.95061	stddev: 0.0
-  knn3           	  1: 1.02663	min: 1.02663	max: 1.02663	avg: 1.02663	stddev: 0.0
-  knn4           	  1: 1.02323	min: 1.02323	max: 1.02323	avg: 1.02323	stddev: 0.0
-  slope_one      	  1: 1.11015	min: 1.11015	max: 1.11015	avg: 1.11015	stddev: 0.0
-  cosine         	  1: 1.07766	min: 1.07766	max: 1.07766	avg: 1.07766	stddev: 0.0
-  m_average      	  1: 0.91888	min: 0.91888	max: 0.91888	avg: 0.91888	stddev: 0.0
-  m_median       	  1: 0.92529	min: 0.92529	max: 0.92529	avg: 0.92529	stddev: 0.0
-  knn2           	  1: 1.1896	min: 1.1896	max: 1.1896	avg: 1.1896	stddev: 0.0
-  baseline       	  1: 1.09193	min: 1.09193	max: 1.09193	avg: 1.09193	stddev: 0.0
-  knn1           	  1: 1.1808	min: 1.1808	max: 1.1808	avg: 1.1808	stddev: 0.0
-  m_svd          	  1: 0.93866	min: 0.93866	max: 0.93866	avg: 0.93866	stddev: 0.0
+  \textbf{Results from Experiment 2:}
 
-  avgs:
-  [[:m_average, 0.91888],
-   [:m_median, 0.92529],
-   [:m_svd, 0.93866],
-   [:svd3, 0.94702],
-   [:svd4, 0.95061],
-   [:knn4, 1.02323],
-   [:knn3, 1.02663],
-   [:cosine, 1.07766],
-   [:svd2, 1.08119],
-   [:svd1, 1.08626],
-   [:baseline, 1.09193],
-   [:slope_one, 1.11015],
-   [:knn1, 1.1808],
-   [:knn2, 1.1896]]
+  \vspace{2em}
+
+  \begin{tabular*}{\textwidth}{ l p{3cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
+    \toprule
+      ~ & \emph{method} & 
+      $d_1$ & $d_2$ & $d_3$ & $d_4$ & $d_5$ \\ 
+    \midrule
+    S & svd1       &   1.0864  &  1.0806  &  1.0687  &  1.0854  &  1.0934  \\
+    S & svd2       &   1.0847  &  1.0804  &  1.0746  &  1.0833  &  1.0946  \\
+    S & svd3       &   0.9489  &  0.9437  &  0.9427  &  0.9460  &  0.9460  \\
+    S & svd4       &   0.9488  &  0.9471  &  0.9429  &  0.9472  &  0.9474  \\
+    S & slope\_one &   1.1047  &  1.1043  &  1.0958  &  1.1046  &  1.1216  \\
+    S & baseline   &   1.0962  &  1.0908  &  1.0870  &  1.0987  &  1.1000  \\
+    S & cosine     &   1.0827  &  1.0715  &  1.0688  &  1.0749  &  1.0823  \\
+    S & knn        &   1.1753  &  1.1838  &  1.1559  &  1.1670  &  1.1881  \\
+    \midrule
+    A & median     &   0.9249  &  0.9216  &  0.9157  &  0.9241  &  0.9272  \\    
+    A & average    &   0.9218  &  0.9177  &  0.9124  &  0.9208  &  0.9238  \\
+    A & stacked    &   \textbf{0.9129}  &  \textbf{0.9092}  &  \textbf{0.9004}  &  \textbf{0.9043}  &  0.\textbf{9186}  \\    
+    \bottomrule
+  \end{tabular*}
+
+  \vspace{2em}
+
+  \begin{tabular*}{\textwidth}{ l p{3cm} p{2cm} p{2cm} p{2cm} p{2cm} }
+    \toprule
+      ~ & \emph{method} & 
+      \emph{min} & \emph{max} & \emph{mean} & $\sigma$\\
+    \midrule
+    S & svd1       &   1.0687  &  1.0934  &  1.0829  &  0.0905  \\
+    S & svd2       &   1.0746  &  1.0946  &  1.0835  &  0.0808  \\
+    S & svd3       &   0.9427  &  0.9489  &  0.9455  &  0.0464  \\
+    S & svd4       &   0.9429  &  0.9488  &  0.9467  &  \textbf{0.0446}  \\
+    S & slope\_one &   1.0958  &  1.1216  &  1.1062  &  0.0918  \\
+    S & baseline   &   1.0870  &  1.1000  &  1.0945  &  0.0700  \\
+    S & cosine     &   1.0688  &  1.0827  &  1.0760  &  0.0749  \\
+    S & knn        &   1.1559  &  1.1881  &  1.1740  &  0.1077  \\
+    \midrule
+    A & median     &   0.9157  &  0.9272  &  0.9227  &  0.0626  \\    
+    A & average    &   0.9124  &  0.9238  &  0.9193  &  0.0630  \\
+    A & svd        &   \textbf{0.9004}  &  \textbf{0.9186}  &  \textbf{0.9091}  &  0.0797  \\
+    \bottomrule
+  \end{tabular*}
+  \vspace{2em}
+
+  \caption[Results from Experiment 2]{
+    Results from experiment 2 (Jester):
+    Each cell gives an RMSE value, on the scale 1-5.
+    The first table gives errors for each subset of the data ($d_x$).
+    Lower values indicate better results.
+    Bold values indicate the best result in each column.
+    S refers to singular methods, and A to aggregation methods.
+    $\sigma$ refers to the standard deviation of each method across the subsets.
+    Note that, unlike in Experiment 1, the item\_avg recommender
+    was found to produce poor results, and was left out of this run.
+  }
+  \label{table:results:e2}
+\end{table}
 
