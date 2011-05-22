@@ -6,7 +6,7 @@ While lacking information is an obvious problem,
 too much leads to information overload,
 where relevant content drowns in irrelevant noise.
 This is a common problem: whenever we have enough information,
-any extra irrelevant data only leads to confusion.
+any extra data only leads to confusion.
 Our ability to make informed decisions is often the first thing to go
 \cite[p1]{Davenport2001}.
 
@@ -14,25 +14,29 @@ However, while people struggle with excessive information,
 algorithms in \emph{artificial intelligence} (AI) can not get enough.
 \citet[p1]{Halevy2009} calls this the "unreasonable effectiveness of data":
 perhaps surprisingly, more data often trumps more efficient algorithms.
-\citet[p3]{Banko2001} shows how common algorithms in AI can improve substantially by giving them a lot more data to work with.
+For example, \citet[p3]{Banko2001} show how common algorithms in AI 
+can be substantially improved by giving them a lot more data to work with.
 As much as researchers chase elegant algorithms, finding more data to work with may be time better spent.
 
 Few places is this difference of users and computers more apparent than in \emph{recommender systems}.
 A recommender system is a technique in user modeling to estimate the relevance of an item to a user
 (see Figure \ref{fig:simple-rs}).
 An item can be just about anthing: documents, websites, movies, events or other users.
+These systems use data such as search query logs, 
+ratings from similar users, social connections and much more
+to predict unknown relevance, as we shall soon see.
 Recommender systems are especially prolific on the Web: 
 wherever there is personalized recommendations of news, books, movies,
 articles, social connections, search results, et cetera, recommender systems are working behind the scenes.
 
-Modern recommendation approaches often embrace this unreasonable effectiveness of data,
+Modern recommendation approaches often embrace the 
+unreasonable effectiveness of data,
 by combining multiple recommender systems, that each predict relevance in various ways.
 By considering different aspects of users and items when making predictions,
 the methods provide quite complex predictions that rely on much evidence.
-These systems use data such as search query logs, relevance judgements from similar users,
-social connections and much more, as we shall soon see.
 For example, \citet[p1]{Bell2007} took this to its logical conclusion by 
-combining 107 different recommender systems when winning the Netflix movie recommendation competition
+combining 107 different recommender systems when winning the 
+Netflix movie recommender challenge
 (see \citet{Linden2009}).
 
 While the name might seem constraining, recommender systems are incredibly powerful tools.
@@ -53,12 +57,12 @@ We posit that traditional recommender systems have an important weakness.
 There exists an underlying, misplaced subjectivity to relevance prediction.
 We believe this fundamental weakness hinders the full adoption of these systems.
 There is a mismatch between how recommender systems perform predictions,
-and how each user and item wants this prediction to be made.
+and how each user and item wants these predictions to be made.
 
 \input{figure.rs}
 
 Consider this: 
-when an algorithm is developed or selected for use in a recommender system,
+when an algorithm is selected for use in a recommender system,
 there is a concious descision of which predictive data pattern to use.
 Before any user modeling is performed, the researcher or developer selects
 one or more methods that is thought to best model every user and item in the system.
@@ -98,7 +102,7 @@ Should it not be up to each user to implicitly decide which method best describe
 And, considering the vast scope of items we can come by, will the selected
 methods really perform optimally for every item?
 We believe the priority of each algorithm should be implicitly and automatically
-based on how well they have previously worked for the current user and item.
+based on how well they have previously worked for each user and item.
 Without this adaptability, it may be hard for recommender systems
 to gain traction in scenarios with widely differing users and items.
 The scope of users and items is simply too great for any one or generalized combination
@@ -112,15 +116,14 @@ in the hands of each individual user, and dependent on each specific item, witho
 If each method of relevance prediction is \emph{only used} based on how well it performs for each element,
 any possibly applicable recommender system suddenly becomes a worthy addition to the system.
 
-As far as we know, this kind of adaptive prediction aggregation has not been done before.
-Can stacked recommenders help standard recommender systems reach their full potential?
+As far as we know, such adaptive prediction aggregation has not been done before.
 Can a system where each user and item implicitly decides how they should be modeled outperform traditional approaches?
-\emph{That is the main research question of this paper}.
+\emph{That is the main research question of this thesis}.
 
 \hr
 
 \noindent
-This paper is structured as follows.
+This thesis is structured as follows.
 Chapter \ref{chap:theory} will present background theory and previous work for
 the information overload problem, user modeling, recommender systems and personalized search. 
 Chapter \ref{chap:methods} will build the \emph{stacked recommenders} approach from the ground up,
