@@ -21,7 +21,7 @@
     \node[txt] (E-N) at (\layersep*2, -2) {$\vdots$};
     \node[hidden node] (E-2) at (\layersep*2, -3) {$a_n$};
     
-    \node[output node,pin={[pin edge={->}]right:$\hat{\tau}$}, right of=E-N] (O) {A};
+    \node[output node,pin={[pin edge={->}]right:$\hat{\tau}$}, right of=E-N] (O) {$\Sigma$};
     
     \foreach \source in {1,...,2}
          \path (M-\source) edge (E-\source);
