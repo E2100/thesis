@@ -1,40 +1,62 @@
 \begin{figure}[t]
   \center
-  \def\layersep{3cm}
-  \begin{tikzpicture}[shorten >=1pt,->,draw=black!50, node distance=\layersep]
+  \def\layersep{1.8cm}
+  \begin{tikzpicture}[shorten >=1pt,->,draw=black, node distance=\layersep]
 
     \tikzstyle{every pin edge}=[<-,shorten <=2pt]
     \tikzstyle{node}=[circle,fill=black!25,minimum size=20pt,inner sep=0pt]
     \tikzstyle{input node}=[node, fill=green!25];
     \tikzstyle{output node}=[node, fill=red!25];
     \tikzstyle{hidden node}=[node, fill=blue!25];
-    \tikzstyle{txt}=[node, fill=white, minimum size=5pt];
     \tikzstyle{annot} = [text width=10em, text centered]
+    \tikzstyle{txt}=[node,fill=white];
     
-    \node[output node, pin=left:Query] (IR) at (0,-2) {$ir$};
-    
-    \node[input node] (M-1) at (\layersep, -1) {$m_1$};
-    \node[txt] (M-N) at (\layersep, -2) {$\vdots$};
-    \node[input node] (M-2) at (\layersep, -3) {$m_n$};
-    
-    \node[hidden node] (E-1) at (\layersep*2, -1) {$a_1$};
-    \node[txt] (E-N) at (\layersep*2, -2) {$\vdots$};
-    \node[hidden node] (E-2) at (\layersep*2, -3) {$a_n$};
-    
-    \node[output node,pin={[pin edge={->}]right:$\hat{\tau}$}, right of=E-N] (O) {$\Sigma$};
-    
-    \foreach \source in {1,...,2}
-         \path (M-\source) edge (E-\source);
-     
-    \foreach \source in {1,...,2}
-         \path (IR) edge (M-\source);
- 
-    \foreach \source in {1,...,2}
-         \path (E-\source) edge (O);
-    
-    \node[annot, above of=M-1, node distance=1cm] (hl) {\emph{methods layer}};
-    \node[annot, right of=hl] {\emph{adaptive layer}};
 
+    \node[txt] (IR) at (0,-2) {$\mathrm{IR}(q)$};
+    \node[txt] (UI) at (\layersep,-2) {$\tau_{IR}$};  
+
+    \node[input node] (I-1) at (\layersep*2,-1) {$m_1$};
+    \node[txt]        (I-D) at (\layersep*2,-2) {$\vdots$};
+    \node[input node] (I-N) at (\layersep*2,-3) {$m_n$};
+    
+    \node[txt] (P-1) at (\layersep*3, -1) {$\tau_1$};
+    \node[txt] (P-D) at (\layersep*3, -2) {$\vdots$};
+    \node[txt] (P-N) at (\layersep*3, -3) {$\tau_n$};
+
+    \node[hidden node] (H-1) at (\layersep*4, -1) {$a_1$};    
+    \node[txt]         (H-D) at (\layersep*4, -2) {$\vdots$};    
+    \node[hidden node] (H-N) at (\layersep*4, -3) {$a_n$};    
+
+    \node[txt] (R-1) at (\layersep*5, -1) {$\tau_1^\prime$};
+    \node[txt] (R-D) at (\layersep*5, -2) {$\vdots$};
+    \node[txt] (R-N) at (\layersep*5, -3) {$\tau_n^\prime$};
+    
+    % hidden helper node
+    \node[txt] (HH)  at (\layersep*6,-1) {};
+    % Draw the output layer node
+    \node[output node,pin={[pin edge={->}]right:$\hat{\tau}$}] at (\layersep*6,-2) (O) {$\Sigma$};
+    
+    \path (IR) edge (UI);
+       
+    \path (UI) edge (I-1);
+    \path (UI) edge (I-N);
+
+    \path (I-1) edge (P-1);
+    \path (I-N) edge (P-N);
+
+    \path (P-1) edge (H-1);
+    \path (P-N) edge (H-N);
+
+    \path (H-1) edge (R-1);
+    \path (H-N) edge (R-N);
+
+    \path (R-1) edge (O);
+    \path (R-N) edge (O);
+
+    % Annotate the layers
+    \node[annot,above of=I-1, node distance=1cm] {\emph{methods layer}};
+    \node[annot,above of=H-1, node distance=1cm] {\emph{adaptive layer}};
+    \node[annot,above of=HH,  node distance=1cm] {\emph{aggregation}};
   \end{tikzpicture}
 
   \vspace{1em}
