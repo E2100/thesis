@@ -150,7 +150,7 @@ Listing \ref{code:prediction} gives the basic algorithm.
     \STATE $prediction \gets 0$
     \FORALL{$m \in rating\_models$}
       \STATE $weight_m \gets 1 - error_m$
-      \STATE $prediction \gets prediction + weight_m \cdot ratings_m$
+      \STATE $prediction \gets prediction + weight_m \times ratings_m$
     \ENDFOR
  
   \RETURN $prediction$

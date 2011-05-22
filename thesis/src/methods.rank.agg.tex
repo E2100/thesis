@@ -130,10 +130,10 @@ which is not our concern in this chapter.
     \STATE $errors \gets \mathrm{Normalize}(errors)$
 
     \FORALL{$item, ir\_score \in results$}
-      \STATE $prediction \gets w_{IR} \cdot ir\_score$
+      \STATE $prediction \gets w_{IR} \times ir\_score$
       \FORALL{$m \in rating\_models$}
         \STATE $weight_{item} \gets 1 - error_{m,item}$
-        \STATE $prediction \gets prediction + weight_m \cdot ratings_{m,item}$
+        \STATE $prediction \gets prediction + weight_m \times ratings_{m,item}$
       \ENDFOR
       \STATE $item_{prediction} \gets prediction$
     \ENDFOR

@@ -17,22 +17,20 @@ Modern aggregation techniques goes one step further, and combines many methods u
 However, we wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
 
-Formally, we define stacked recommenders as \emph{adapting a set of user modeling methods
-with another complementary set of user modeling methods} 
+Formally, we define stacked recommenders as \emph{adapting a set of recommender systems
+with another complementary set of recommender systems} 
 (see Figure \ref{fig:stackedusermodeling}).
 The first set creates standard prediction scores, and answers the first question.
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
-The interesting bit is that SUM can use recommender systems for both these tasks, as we shall soon see.
+The interesting bit is that SR can use recommender systems for both these tasks, as we shall soon see.
 A system for stacked recommenders is specified by a 6-tuple:
 
 \begin{eqnarray*}
   \mathrm{SR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
               &=& (I,U,R,F,M,A).
 \end{eqnarray*}
-\vspace{0.2em}
-
-\noindent
+%
 As always, we have sets of $Users$ and $Items$, 
 and a set of $Ratings$: each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 Items can be just about anything: documents, websites, movies, events, or indeed, other users.
@@ -47,7 +45,7 @@ that is what we shall use.
 
 The $Framework$ variable specifies how the data is represented.
 The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
-We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit rating:
+We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit or implicit rating:
 
 \begin{eqsp}
  R_{u,i} =
@@ -62,7 +60,7 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
 As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
 each with their own way of estimating unknown ratings. 
 Each model $m \in M$ is used to compute independent and hopefully complimentary predictions.
-In our case, these methods are recommendation systems.
+In our case, these methods are recommender systems.
 
 As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms,
 that consider differents aspects in the data: users, items and ratings, as well as 
@@ -86,6 +84,8 @@ based on a generalized combination found by minimizing some error across all use
 
 With stacked recommenders, the $Adapters$ are themselves user modeling methods 
 (see Figure \ref{fig:stack:comparison}).
+However, instead of modeling users, we wish to model each recommender system.
+More specifically, we wish to model the \emph{accuracy} of each recommender system.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
@@ -126,6 +126,9 @@ If we wish to do rank aggregation, the equation is a bit different:
 Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
 The result is an adaptively sorted list of the top $n$ items for the current user.
+A common use case for rank aggregation is personalized search:
+an IR algorithm restricts the item space, which is then adapted by recommender systems,
+as we shall soon see.
 
 Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ is helpful 
 as this will guide our implementation into a proper MapReduce framework
@@ -150,7 +153,7 @@ $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from
 However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{eqsp}
-  \hat{r}_{ui} = \sum_{m \in M} w_{m} \cdot p(m,u,i) 
+  \hat{r}_{ui} = \sum_{m \in M} w_{m} \times p(m,u,i) 
   \quad \text{where} \quad 0 \leq w_{m} \leq 1, \quad \sum_{i \in M} (w_i) = 1.
 \end{eqsp}
 %
@@ -167,7 +170,7 @@ However, if we wish each weight to be combination-specific, pre-computing each w
 In other words, these adaptive weights have to be estimated just as the ratings themselves:
 
 \begin{eqsp}
-  \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \cdot p_{r}(m,u,i)
+  \hat{r}_{ui} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
   \quad \text{where} \quad
   \sum_{m \in M} (p_{w}(m,u,i)) = 1.
 \end{eqsp}
@@ -231,7 +234,7 @@ The next section will explain these steps in detail.
 For now, we have our approach to stacking recommenders:
 
 \begin{eqsp}
-  \hat{r}_{ui} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \cdot p(m_{r},u,i),
+  \hat{r}_{ui} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \times p(m_{r},u,i),
 \end{eqsp}
 %
 where $p$ returns a prediction from a model for a specific user and item,
