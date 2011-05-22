@@ -126,8 +126,8 @@
 \checkandfixthelayout
 
 \makepagestyle{ruled}
-%\makeevenfoot{ruled}{\small\thepage}{}{}
-%\makeoddfoot{ruled}{}{}{\small\thepage}
+\makeevenfoot{ruled}{}{}{}
+\makeoddfoot{ruled}{}{}{}
 %\makeheadrule{ruled}{\textwidth}{0.2pt}
 \makeevenhead{ruled}{{\small\thepage \ \ \ \MakeUppercase{\leftmark}}\vspace{1pt}}{}{}
 \makeoddhead{ruled}{}{}{{\small\MakeUppercase{\rightmark}} \ \ \ \thepage\vspace{1pt}}
@@ -193,10 +193,10 @@
 \setsecheadstyle{\vspace{1em}\Large}
 
 % Subsections
-\setsubsecheadstyle{\vspace{1em}\large\itshape}
+\setsubsecheadstyle{\large\itshape}
 
 % Subsubsections
-\setsubsubsecheadstyle{\vspace{1em}\itshape}
+\setsubsubsecheadstyle{\itshape}
 
 
 % -----------------
