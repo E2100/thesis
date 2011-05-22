@@ -10,10 +10,11 @@ module MetaModel
       svd2:       Task.new({recommender: :svd, factorizer: :alswr, factorizer_features: 20}.merge(opts)),
       svd3:       Task.new({recommender: :svd, factorizer: :em, factorizer_features: 10}.merge(opts)),
       svd4:       Task.new({recommender: :svd, factorizer: :em, factorizer_features: 20}.merge(opts)),
-      knn1:       Task.new({recommender: :generic_user}.merge(opts)),
+      knn:        Task.new({recommender: :generic_user}.merge(opts)),
       #knn2:       Task.new({recommender: :generic_user, user_similarity: :spearman}.merge(opts)),
       #knn3:       Task.new({recommender: :generic_user, user_similarity: :log}.merge(opts)),
       #knn4:       Task.new({recommender: :generic_user, user_similarity: :cosine}.merge(opts)),
+      item_avg:   Task.new({recommender: :item_average}.merge(opts)),
       slope_one:  Task.new({recommender: :slope_one}.merge(opts)),
       baseline:   Task.new({recommender: :item_user_average}.merge(opts)),
       cosine:     Task.new({recommender: :generic_item}.merge(opts)) 
