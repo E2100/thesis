@@ -6,7 +6,7 @@
 
 \begin{axis}[
       symbolic x coords={
-        knn,svd2,svd1,slopeone,itemavg,svd4,svd3,cosine,average,a-median,a-average,a-stacked},
+        knn,svd2,svd1,slopeone,itemavg,svd4,svd3,cosine,baseline,a:median,a:average,a:stacked},
       xtick=data,
       x tick label style={rotate=45,anchor=east,yshift=-0.5em,xshift=-0.2em},
       bar width=20pt
@@ -21,18 +21,18 @@
       (svd4, 0.9873) +- (0,0.0462)
       (svd3, 0.9865) +- (0,0.04955)
       (cosine, 0.9754) +- (0,0.12975)
-      (average, 0.9738) +- (0,0.1098)
+      (baseline, 0.9738) +- (0,0.1098)
     %};
     %\addplot [ybar,fill=blue!50] coordinates {
-      (a-median, 0.9065) +- (0,0.10025)
-      (a-average, 0.8801) +- (0,0.1172)
-      (a-stacked, 0.8352) +- (0,0.11125)
+      (a:median, 0.9065) +- (0,0.10025)
+      (a:average, 0.8801) +- (0,0.1172)
+      (a:stacked, 0.8352) +- (0,0.11125)
     };
 \end{axis}
 
 \end{tikzpicture}
 \caption[Average RMSE Plot]{
-  Average RMSE plot: This plot shows the average RMSE for each method, and each aggregation method (denoted "a-").
+  Average RMSE plot: This plot shows the average RMSE for each method, and each aggregation method (denoted "a:").
   The actual numbers are given in Table \ref{table:results:e1:sum}.
   The error bars indicate the standard deviation of each method.
   See also Figure \ref{plot:datasets}.
