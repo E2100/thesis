@@ -201,8 +201,7 @@ and how they can outperform traditional approaches on traditional datasets.
 This section outlines a few interesting research topics
 which should shed more light on the subject.
 
-\subsection{Choosing Different Adaptive Recommenders}
-
+\paragraph{Choosing Different Adaptive Recommenders}
 We chose to use SVD-based recommenders for the adaptive part of our stacked approach.
 The main reason for this is that we are looking for global traits of the data
 when performing accuracy estimations. In other words, we wish to identify
@@ -221,8 +220,7 @@ This was attempted earlier in our research, but abandoned when recommenders were
 better results in a more elegant way. 
 
 
-\subsection{Using Stacked Recommenders in Other Domains}
-
+\paragraph{Using Stacked Recommenders in Other Domains}
 We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
 The primary reason was to be able to direcly evaluate our results towards those of other research papers.
 As this dataset and this error measure is widely used to evaluate recommender systems,
@@ -240,8 +238,30 @@ Because of this, using stacked recommeners in other domains with more variation
 in the data and combined algorithms would be an interesting topic.
 
 
-\subsection{Using Stacked Recommenders in Other AI Fields}
+\paragraph{Multiple IR Models as Signals}
+As mentioned in Chapter \ref{chap:results},
+we only tried rank aggregation in a scenario with one IR model.
+However, other systems may use multiple IR models
+that return a set of ranked items in response to a query.
+In the case of personalized search with multiple IR models
+and RSs, we would have a large set of differing
+input signals:
+one from each IR model and one from each RS.
 
+In this case, stacked recommenders could be used to adapt
+both the RSs and IR models.
+In the same way different RSs have varying performance
+for individual users and items, the same should hold
+for different IR models.
+By using stacked recommenders we would be able
+to adaptively restrict the item space based on the 
+current user.
+While outside the scope of this paper,
+using multiple IR models would add another adaptive
+aspect to the final results list in personalized search.
+
+
+\paragraph{Using Stacked Recommenders in Other AI Fields}
 We have only considered the notion of latent subjectivity within the field of recommender systems.
 However, as briefly mentioned above, the technique should be applicable to many more situations.
 Whenever there is a set of prediction algorithms that use different data to produce results,
@@ -269,25 +289,41 @@ to mitigate the overload.
 This paper has explained the \emph{latent subjectivity problem},
 and introduced the technique of \emph{stacked recommenders}
 in an attempt to solve it.
-We believe this is a real problem,
-and that our solution would be a worthy addition to
-any system where recommenders play an important role.
+We belive this solution is one possible way to minimize the overload problem.
 Our technique implicitly, and without any extra work required from each user
 adapts how the system models users and items based on past performance.
 Our experiments show that this technique is capable of higher accuracy
 than standard recommenders and simple aggregation approaches.
 
-On a more general note, we think our notion of adaptive user model
-aggregation is key to stopping information overload.
+Of course, we have only tested our method on a limited 
+number of use cases, with a few specific datasets.
+This is an important limitation.
+Until a method is successfully applied in a real world
+situation, claiming progress is premature.
+However, we believe more research into 
+truly and internally adaptive user modeling systems
+would be a worthwhile effort.
+
+On a more general note, we think our notion of adaptive model
+aggregation is key to stopping information overload,
+regardless of how it is done.
 Generalized methods is not enough: only
 by creating truly adaptive systems that adapt their
 algorithms to ecah user and item can we achieve a 
 system powerful enough to deal with the widely
 varying users, and vast scope of items.
 
+We believe many AI methods fail to gain wide acceptance by users
+because they lack this extra level of personalization.
+As stated through the latent subjectivity problem,
+systems should not only tell users what has been predicted,
+but also allow flexible and adaptive usage of its internal algorithms.
+After all, a system that insists on being adaptive
+in one particular way is not really adaptive at all.
+
 Information is indeed a curious thing,
 and our only way of taming the never ending torrent of 
-arriving data is to embrace the wide scope of the information,
-and the people who wish to consume it.
-Adaptive user modeling takes us one step further towards this goal.
+arriving data is to embrace the wide scope of the information
+and of the people who wish to consume it.
+Adaptive prediction aggregation takes us one step further towards this goal.
 
