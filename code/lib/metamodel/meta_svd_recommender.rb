@@ -82,17 +82,17 @@ private
     data  = @error_models[method].data
     SVDRecommender.new(
       data,
-      #ExpectationMaximizationSVDFactorizer.new(
-      #  data, 
-      #  5, #@task[:factorizer_features],
-      #  5 #@task[:factorizer_iterations]
-      #)) 
-      ALSWRFactorizer.new(
-        data,
-        30,  #@task[:factorizer_features],
-        0.01, #@task[:factorizer_lambda],
-        30   #@task[:factorizer_iterations]
-      ))
+      ExpectationMaximizationSVDFactorizer.new(
+        data, 
+        20, #@task[:factorizer_features],
+        20 #@task[:factorizer_iterations]
+      )) 
+      #ALSWRFactorizer.new(
+      #  data,
+      #  30,  #@task[:factorizer_features],
+      #  0.01, #@task[:factorizer_lambda],
+      #  30   #@task[:factorizer_iterations]
+      #))
   end
 
   def create_error_models
