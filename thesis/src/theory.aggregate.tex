@@ -2,7 +2,7 @@
 \label{sec:aggregate}
 
 So far we have seen a lot of modeling methods, both for recommender systems (RS) and for personalized search (PS).
-\emph{Aggregate modeling} (AM) is the act of merging two or more modeling methods in some way.
+\emph{Aggregate modeling} is the act of merging two or more modeling methods in some way.
 A proper aggregation method creates a combined result that is better than either of the individual methods.
 In other words, the sum is greater than the parts.
 We have already seen a few examples of aggregate modeling:
@@ -17,20 +17,21 @@ We have already seen a few examples of aggregate modeling:
 
 Clearly, aggregation is an important part of both RS and PS.
 The reasoning behind combining different approaches is that no one methods
-can capture all the predictive nature of the available data.
+can capture all the predictive nature of available data.
 For example, 
 \cite{Bell2007b} created a recommender systems where the neighborhood- and SVD-based approaches complement each other.
 While the neighborhoods correspond to "local effects" where similar users influence each other's preictions,
-the dimensionality reduction finds "regional effects", major structural patterns in the data.
-As they say: 
-"Both the local and the regional approaches, and in particular their combination through a unifying model, 
+the dimensionality reduction finds "regional effects", major structural patterns in the data: 
+"both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
-commercial Netflix Cinematch recommender system ..."
+commercial Netflix Cinematch recommender system [...]"
 \cite[p1]{Bell2007b}
 
-An interesting question is whether or not all hybrid recommenders are aggregators. 
+An interesting question is whether or not all hybrid recommenders,
+that combine content-based and collaborative methods, are aggregators. 
 This is mostly a question of semantics and implementation.
-\citet[p4]{Burke2007} defines a hybrid system as "any recommender system that combines multiple recommendation techniques together to produce its output."
+\citet[p4]{Burke2007} liberally defines a hybrid system as 
+"any recommender system that combines multiple recommendation techniques together to produce its output."
 Some hybrid methods combine stand-alone methods, and are definitely aggregations.
 Other methods merge the methods themselves into one implementation that uses the data in different ways.
 \citeauthor{Burke2007} describes a few types of hybrid recommenders:
@@ -46,7 +47,7 @@ Other methods merge the methods themselves into one implementation that uses the
 However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
 to create a result better than any single methods would provide.
 
-There are two main approaches to model aggretation \cite[p1]{Liu2007}: 
+There are two main use cases for model aggretation \cite[p1]{Liu2007}: 
 
 \begin{enumerate}
   \item Rank (or \emph{order-based}) aggregation (RA) lets each method
