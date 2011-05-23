@@ -4,7 +4,7 @@ This chapter will discuss the implications of our results.
 While our hypotheses may be answered,
 it is important to clarify what we have actually found out,
 and what limits there is to this knowledge.
-We will also summarise the contributions of this paper,
+We will also summarise the contributions of this thesis,
 and suggest possible future work.
 
 
@@ -40,6 +40,29 @@ varying levels of accuracy for each individual item.
 Stacked recommenders can help solve this problem by adaptively 
 combining the recommenders based on individual item performance.
 
+Hypothesis H1 was confirmed by showing that stacked recommenders
+can outperform standard single-approach recommenders.
+We achieved lower total RMSE scores across each of our datasets,
+which would imply that stacked recommenders
+reliably performs better than our tested standard recommenders.
+
+Hypothesis H2 was confirmed by showing that stacked recommenders
+can outperform simple, generalized aggragation approaches.
+While our standard aggregators were simple,
+this result is promising.
+However, the real test would be to use our approach
+in a situation with even more differing recommender systems.
+
+Hypothesis H3 was confirmed by showing that our approach
+can be used to provide personalized search.
+While we did not strictly evaluate the quantitative performance
+of this approach, our results show that different
+prioritations of the IR scores can cope with many different use cases.
+The key insight is that the IR score can be seen as a signal
+on the same level as the stacked recommenders,
+gaining the power of query matching and relevance matching
+in the same results set.
+
 With stacked recommenders, both the methods layer and the adaptive layer consists of standard recommender algorithms.
 Because we use ratings matrices for the taste models and error matrices for the weight estimations,
 we can use the same algorithms for both tasks.
@@ -50,7 +73,7 @@ and are already understood and battle-tested in many different systems.
 
 \section{Limitations}
 
-There are some important limitations to our research
+There are some important general limitations to our research
 related to the 
 (1) complexity of our method, 
 (2) our choice of data and evaluation metrics, 
@@ -106,13 +129,13 @@ perform quite simple tasks, they may be more
 than good enough for their purpose.
 
 This will always be a tradeoff, between complexity and required accuracy.
-As in many other cases, each of the systems described in this paper
+As in many other cases, each of the systems described in this thesis
 have their use cases. In the end, the requirements of each system
 must decide which method best suit their needs.
 
 (5) Common issues:
 The topic of recommenders and adaptive systems in general
-raise a number of questions which is outside the scope of this paper.
+raise a number of questions which is outside the scope of this thesis.
 For example, user privacy is a big issue.
 Whenever we have a system that tries to learn the tastes, habits and
 traits of its users, how each user will react to this must be considered.
@@ -134,10 +157,42 @@ While a thorough discussion of privacy and usability is
 outside our scope, they are both important limitations to considered
 when using a recommender system.
 
+In addition to the general limitation, each of our experiments
+carries a few drawbacks.
+
+Hypothesis H1 was only tested against a limited number of standard recommenders.
+The key word is standard: these recommenders were not heavily customized
+to fit the available data. As in all machine learning,
+achieving relatively good performance is quite simple.
+Any improvements above this standard requires deep domain knowledge,
+and methods customized to the problem at hand.
+In an actual system, the stacked recommenders should be tested
+against carefully selected standard recommenders,
+optimized for the current domain.
+
+Hypothesis H2 was only tested against simple aggregator methods.
+Many more complex aggregations are possible,
+for example by solving the problem of finding
+optimal generalized weights for each method.
+While our tests show the basic viability of our approach,
+more testing against complex aggregation functions
+is still required.
+
+Hypothesis H3 was only tested in a qualitative way.
+Ideally, if one has access to detailed query logs,
+user profiles and click-through information,
+a quantitative experiment should be performed.
+Such an experiment would have to be done
+to compare our approach to other ways of performing
+personalized search.
+However, we believe these initial results
+help demonstrate the probable value of our approach
+in this domain.
+
 
 \section{Contributions} 
 
-We have made two main contributions with this paper:
+We have made two main contributions with this thesis:
 (1) described the latent subjectitivty problem and
 (2) developed the technique of stacked recommenders.
 
@@ -172,7 +227,7 @@ Chapter \ref{chap:results} showed that an aggregation that combines predictions 
 on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.
 Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
-This is the core insight of this paper: 
+This is the core insight of this thesis: 
 by creating error models for each recommender, we can use this to predict
 its accuracy for each user/item combination.
 These predictions can then be used to weigh each combined algorithm accordingly.
@@ -184,7 +239,7 @@ Whenever we have a set of algorithms producing a set of predicted values
 based on items, a set of aggregating recommenders can model the probable
 errors of these approaches, based on each individual item.
 This leads to adaptive ensembles that should outperform generalized approaches.
-Because of this, the technique build in this paper should be 
+Because of this, the technique build in this thesis should be 
 applicable in situations other than recommender systems.
 
 While the experiments of Chapter \ref{chap:results} show the general viability of stacked reocmmenders,
@@ -222,7 +277,7 @@ better results in a more elegant way.
 
 \paragraph{Using Stacked Recommenders in Other Domains}
 We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
-The primary reason was to be able to direcly evaluate our results towards those of other research papers.
+The primary reason was to be able to direcly evaluate our results towards those of other research thesiss.
 As this dataset and this error measure is widely used to evaluate recommender systems,
 it is natural for a first look at a new approach to use the same notions of accuracy.
 
@@ -256,7 +311,7 @@ for different IR models.
 By using stacked recommenders we would be able
 to adaptively restrict the item space based on the 
 current user.
-While outside the scope of this paper,
+While outside the scope of this thesis,
 using multiple IR models would add another adaptive
 aspect to the final results list in personalized search.
 
@@ -275,6 +330,7 @@ in other fields such as document classification, document clustering,
 curve fitting \cite[p7]{Polikar2006}, and other fields of ensemble learning.
 
 
+\clearpage
 \section{Conclusion}
 
 The information overload problem will always be present.
@@ -286,7 +342,7 @@ Only by creating intelligent systems that
 help us filter, sort and consume information can we hope 
 to mitigate the overload.
 
-This paper has explained the \emph{latent subjectivity problem},
+This thesis has explained the \emph{latent subjectivity problem},
 and introduced the technique of \emph{stacked recommenders}
 in an attempt to solve it.
 We belive this solution is one possible way to minimize the overload problem.
