@@ -5,9 +5,11 @@
 
 While the previous experiment was a quantitative exploration of RMSE values,
 this experiment will focus on qualitative traits of rank aggregation.
-We use the same MovieLens dataset as in the previous experiment,
-and perform information retrieval queries on the movie titles
-and meta-data in this dataset.
+In particular we wish to see how our method can perform personalized search.
+
+The MovieLens dataset fit the needs of this experiment.
+Searching through movies is a scenario where the actual predicted
+rating of each movie would be a welcome signal for ranking the results.
 In other words, we have a database of movies the user wishes to search through,
 where the results are ranked both by how well they match the free text query,
 and according to the predicted rating of each movie for the current user.
@@ -18,16 +20,57 @@ Hypothesis H3 states that
   the result set from an information retrieval query
   can be adaptively personalized by stacking recommenders.
 }
-In other words, we wish to check if the prediction algorithm
+We wish to check if the prediction algorithm
 in Listing \ref{code:rank:prediction} performs personalized search
 in a meaningful way.
 
-While there are many ways of determining the accuracy of a personalized search
+\begin{comment}
+\begin{table}[b]
+  \centering
+  \begin{tabular*}{0.7\textwidth}{ l l l l }
+    \toprule
+      ~ & 
+      \emph{query} &
+      \emph{scores} &
+      \emph{IR weight} \\
+    \midrule
+    
+    1 &
+    ["new york or washington"] &
+    combined &
+    $1.0$ \\
+
+    2 &
+    [star trek] &
+    combined &
+    $0.3$ \\
+
+    3 &
+    [paris] &
+    ratings &
+    $0.0$ \\
+
+    4 &
+    [1998] &
+    ratings &
+    $0.0$ \\
+
+    \bottomrule 
+  \end{tabular*}
+  \caption[List of Ranking Experiments]{List of ranking tests in this section.}
+  \label{table:experiments:rank}
+\end{table}
+\end{comment}
+
+There are many ways of determining the accuracy of a personalized search
 algorithm, such as the mean average precision of the results list
-(the mean of the precision average over a set of queries),
-these are sibjective measures based on relevance judgements from each user.
+(the mean of the precision average over a set of queries).
+However, these are subjective measures based on relevance judgements from each user.
 Our hypothesis only states that our algorithm should be usable for such 
 a system, which is what we shall explore in this section.
+To quantitively measure the performance of personalized search,
+one would need detailed query logs, user profiles and click-through information,
+which we have no access to.
 
 Of course, any recommender system can be used for personalized search.
 The interesting bit in regards to stacked recommenders is what 
@@ -39,10 +82,16 @@ We shall take a look at four use cases with to see how our algorithm
 performs in a number of scenarios. Each case presents 
 a query and shows how a certain IR weight influences the final ranking.
 
+We will consider the following use cases:
+(1) searching multiple topics,
+(2) searching for a series of movies,
+(3) searching for one particular topic, and
+(4) searching for a particular attribute.
+
 \input{table.rank.star}
 \afterpage{\clearpage}
 
-(1) Let us first consider a simple use case:
+(1) Let us start with a simple use case:
 a user wishes to find movies about two separate topics, ranked by 
 query match and predicted ratings.
 This is a realistic use case, for example if a user is interested
