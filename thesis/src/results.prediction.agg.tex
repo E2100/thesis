@@ -17,20 +17,23 @@ The second hypothesis, H2, states:
 }
 
 In order to verify these hypotheses, we performed adaptive prediction aggregation
-through stacked recommenders on the five datasets described in the previous section.
-Table \ref{table:results:e1} gives the results from this experiment.
+through stacked recommenders on the two datasets previously described.
+5-fold cross validation was performed to further verify each result.
+
+Table \ref{table:results:e1} gives the results from Experiment 1 (MovieLens).
+Table \ref{table:results:e2} gives the results from Experiment 2 (Jester).
 Each cell corresponds to the RMSE values for each dataset,
 for each recommender and aggregation approach.
 The bottom entry in this table refers to our stacked recommenders method.
 As seen in this table, the stacked recommender achieved
 lower RMSE values than any of the other applied methods.
 
-Statistics from the results in Table \ref{table:results:e1} 
-are given in Table \ref{table:results:e1:sum}.
-These values are the minimum, maximum and mean values
+Statistics for each experiment are given in the last
+parts of Tables \ref{table:results:e1} \emph{\&} \ref{table:results:e2}. 
+The statistical values are the minimum, maximum and mean values
 for each of the methods. We also include
 the standard deviation ($\sigma$) for each method,
-across our datasets.
+across each collection of subsets.
 This table confirms the results from the full results table:
 Our stacked recommenders approach improves the mean performance
 of our system.
@@ -49,7 +52,8 @@ exhibit quite a lot of variation in their results.
 If these variations occured as a result of unstable
 predictions of the same dataset, this would be a substantial problem,
 resulting in unreliable predictions.
-However, as seen in Figure \ref{plot:datasets},
+However, as seen in Figure \ref{plot:datasets}
+(based on the results of Experiment 1),
 the standard deviation is mostly caused by the differing
 performance across the varying datasets.
 As we see, the performance of each of the aggregation methods,
@@ -61,13 +65,13 @@ which results in high values for $\sigma$.
 What does this mean for hypotheses H1 and H2?
 Expressed in terms of this experiment,
 H1 posits that stacked recommenders should outperform each of the standard modeling methods
-in Table \ref{table:results:e1}.
+in Table \ref{table:results:methods}.
 The adaptive methods blend the results of multiple predictors by estimating the accuracy
 on a per-item and per-user basis, satisfying the formulation of H1.
 
 By outperform we mean that our model should have a lower
-mean RMSE score than the other singular methods. As we can see in Table \ref{table:results:e1:sum},
-\emph{H1 is confirmed for these methods and this dataset}.
+mean RMSE score than the other singular methods. As we can see in Tables \ref{table:results:e1} \emph{\&} \ref{table:results:e2},
+\emph{H1 is confirmed for these methods and these datasets}.
 While we can not generalize too much on this basis, 
 the fact that this dataset is a common testing ground for recommender systems,
 that RMSE is the de facto measure for determining performance,
@@ -77,15 +81,15 @@ We shall discuss this in Chapter \ref{chap:discussion}.
 
 Similarly, expressed in the same terms, H2 posits that 
 our stacked recommenders should outperform the aggregation approaches
-given in Table \ref{table:results:e1}.
+given in Table \ref{table:results:methods}.
 The \emph{median} and \emph{average} aggregation methods
 serve as globalized and generalized aggragation methods,
 Stacked recommenders are adaptive in that each prediction is 
 aggregated based on the current user and item,
 satisfying the language of H2.
 
-As we can see in Table \ref{table:results:e1:sum},
-\emph{H2 is confirmed for these methods and this dataset}.
+As we can see in Tables \ref{table:results:e1} \emph{\&} \ref{table:results:e2},
+\emph{H2 is confirmed for these methods and these datasets}.
 However, as our collection of aggregation methods is a lot simpler
 than our collection of recommender systems, the strength of this combination
 is notably weaker than that of H1.
@@ -99,7 +103,6 @@ Our adaptive aggregation approach outperforms both standard recommender
 methods and simple generalized aggregation methods.
 Notably, our approach is more complex than the methods it outperforms,
 so the question whether the methods performance is worth its extra complexity becomes important.
-We shall discuss this, and other implications of these results in the next chapter.
+We shall discuss this, and other implications and limitations of these results in the next chapter.
 For now, let us proceed to the second experiment and hypothesis H3.
 
-\clearpage

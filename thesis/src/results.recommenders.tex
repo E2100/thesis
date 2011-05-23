@@ -1,16 +1,18 @@
 \section{Recommenders}
 
-In addition to the dataset, we need a number of recommender systems
-that can predict unknown ratings between users and items.
-As we have seen, standard recommenders will be used for both the basic predictions,
-and for the accuracy estimations for each basic prediction.
+We need a number of recommender systems for each experiment.
+Standard recommenders will be used for both the basic predictions,
+and the accuracy estimations,
+as desecribed in Chapter \ref{chap:methods}.
 
-Naturally, we need a number of different recommenders, preferably ones that consider
+Naturally, we need a large number of different recommenders, preferably ones that consider
 disjoint patterns in the data. Table \ref{table:results:methods}
 gives a short overview of the recommender systems we shall employ.
-See Section \ref{sec:recommender} for more information on the different
-types of recommenders, and Appendix \ref{appendix:implementation}
-for information on how these were implemented in the following experiments.
+Each experiment will use every recommender in this table.
+This section only gives a short introduction to each recommender.
+See Section \ref{sec:recommender} for more information, 
+and Appendix \ref{appendix:implementation} for details on how these were implemented in our system.
+
 
 \subsection{Basic Recommenders}
 
@@ -35,12 +37,10 @@ for information on how these were implemented in the following experiments.
     \bottomrule
   \end{tabular*}
   \caption[Stacked Modeling Methods]{
-    Stacked modeling methods: A short description of each of the recommender methods
-    used in our experiment. See Section \ref{sec:recommender} for more information.
-    For the SVD methods, the factorizers refers to algoriithms used to factorize the ratings matrix.
-    An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
-    An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
-    The number of features refers to the truncation of the factors in order to reduce the taste-space.
+    Stacked modeling methods: A short overview of each of the recommender methods
+    used in our experiment.
+    Each recommender is used in every experiment. 
+    See Section \ref{sec:recommender} for more information.
   }
   \label{table:results:methods}
 \end{table}
@@ -60,8 +60,19 @@ By reducing this space, the algorithm is able to find
 latent relations, such as groups of movies that has the same
 rating pattern, or groups of users that often rate in a similar manner.
 
+For the SVD methods, the factorizers refers to algoriithms used to factorize the ratings matrix.
+An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
+An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
+The number of features refers to the truncation of the factors in order to reduce the taste-space.
+In other words, the number of features corresponds to the number of latent taste categories
+we wish to identify.
+Naturally, different numbers of features will yield different recommenders.
+
 The Slope One and baseline algorithms look at average
 ratings for items and from users, and use these to predict ratings.
+These are simple algorithms that often perform as well
+as more complex approaches.
+
 The cosine similarity algorithm looks for items that are rated
 similarly by the same users, and infers item similarity from this measure.
 New ratings are then predicted by taking known ratings of other items,
@@ -76,13 +87,25 @@ of the item in question, weighted by their respective similarity.
 See Section \ref{sec:recommender} for more 
 detailed information on how these recommenders work. 
 
+The main difference between our recommenders are the scope of the patterns they leverage.
+The SVD and baseline methods look at global effects, such as latent categories
+and overall rating averages.
+The cosine similarity and KNN algorithms look at smaller clusters of similar
+users and items, and compute an average rating weighted by 
+similarities of elements.
+This wide range of recommender should give us the desired
+effect of looking at disjoint data patterns.
+
+
 \subsection{Stacked Recommenders}
 
 The second type of recommenders are the aggregation methods, 
-that combine the result of each of the basic recommender systems.
-In addition to our stacked recommender method
-(denoted with the key \emph{stacked} in Table \ref{table:results:methods}),
-we have the median- and average-based aggregators.
+that combine the result of each of the basic recommender systems
+(the methods below the middle line in Table \ref{table:results:methods},
+denoted "A").
+
+The first two of these methods are simple aggregation approaches.
+These will be used to test hypothesis H2.
 The median aggregator choses the median value of the predictions
 produced by the standard recommenders.
 Similarly, the average aggregator takes the mean of the
@@ -90,6 +113,15 @@ standard predictions.
 While not complex in nature, these methods
 will help us see how our method compares to simple, traditional
 aggregation techniques.
+
+The last entry in Table \ref{table:results:methods}
+refers to our technique. 
+This is the recommender outlined by the algorithms
+in Chapter \ref{chap:methods},
+that create secondary accuracy estimating recommender systems,
+in order to adaptively weigh each basic recommender.
+All the aggregation approaches, including our technique,
+use every basic recommender system described so far.
 
 As explained in Section \ref{sec:usermetamodeling},
 any basic recommender system can be used for the stacked method.
@@ -113,7 +145,6 @@ or users a specific recommender works well for.
 
 The choices of recommenders will be further discussed
 in Chapter \ref{chap:discussion}.
-For now, let us see how we determined the performance of each method.
-
+For now, let us see how the performance of each method is determined.
 
 
