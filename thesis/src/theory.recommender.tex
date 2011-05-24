@@ -186,7 +186,7 @@ This is closely related to the common AI problem of \emph{overfitting} data,
 where the algorithms creates models that match the training data, 
 but not the actual underlying relationships. 
 As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start
-(e.g. \cite{Said2009}). 
+(e.g. \cite{Said2009}, \cite{Lilegraven2011}). 
 When using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
 where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p2]{Adomavicius2005}.
 
@@ -440,6 +440,18 @@ The factors are truncated, and the result expanded to a matrix that is much simp
 than our original image matrix. As seen in Figure \ref{fig:svd-image}, how close the compressed image resembles the original image
 depends on the chosen $rank$, i.e. how many rows and columns we keep during truncation.
 A higher rank means less dimensionality rediction and less compression of the image.
+
+The key question for any SVD algorithm is how it performs the factorization,
+and which rank the original matrix is reducted to.
+Two common factorization methods are the EM and the ALSWR algorithms.
+An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
+An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
+The number of features refers to the truncation of the factors in order to reduce the taste-space.
+In other words, the number of features corresponds to the number of latent taste categories
+we wish to identify.
+Naturally, different numbers of features will yield different recommenders.
+The SVD factorization algorithms are iterative methods, where each iteration
+yields more accurate results.
 
 In recommender systems, SVD is used to compress the ratings space into what is sometimes called a \emph{taste space},
 where users are mapped to higher-level "taste" categories
