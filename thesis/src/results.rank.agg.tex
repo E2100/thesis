@@ -82,6 +82,22 @@ We shall take a look at four use cases with to see how our algorithm
 performs in a number of scenarios. Each case presents 
 a query and shows how a certain IR weight influences the final ranking.
 
+The IR weight is the ratio multiplied with the IR score 
+before the adaptive recommender scores are incorporated
+(see Listing \ref{code:rank:prediction}).
+The actual choice of weight depends on scale of scores
+returned by the IR method.
+If the scores are on the same scales as the ratings themselves,
+an IR weight of $1$ signifies that the IR score
+should have equal importance as each recommender score.
+Any higher, and the IR model should be prioritized above the recommenders.
+Any lower, and the recommender scores will dominate the initial IR rankings.
+
+In other words, the actual IR weight must
+be calculated based on the scale of the IR scores.
+In this chapter, the scores returned by our IR
+model is normalized to the scale of our ratings (1-5).
+
 We will consider the following use cases:
 (1) searching multiple topics,
 (2) searching for a series of movies,

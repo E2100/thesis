@@ -37,11 +37,11 @@ across each collection of subsets.
 This table confirms the results from the full results table:
 Our stacked recommenders approach improves the mean performance
 of our system.
-The mean performance, along with the standard deviation
+The mean performance in Experiment 1, along with the standard deviation
 are shown in Figure \ref{plot:rmse}.
 
-%\input{plot.movielens}
-\input{plot.rmse}
+\input{plot.movielens}
+%\input{plot.rmse}
 
 \input{plot.sigma}
 
@@ -53,7 +53,7 @@ If these variations occured as a result of unstable
 predictions of the same dataset, this would be a substantial problem,
 resulting in unreliable predictions.
 However, as seen in Figure \ref{plot:datasets}
-(based on the results of Experiment 1),
+(based on Experiment 1),
 the standard deviation is mostly caused by the differing
 performance across the varying datasets.
 As we see, the performance of each of the aggregation methods,
@@ -96,6 +96,18 @@ is notably weaker than that of H1.
 Still, the fact that a stacked recommender outperforms these simple aggregation
 approaches is a positive result warranting further experiments.
 This will also be discussed in Chapter \ref{chap:discussion}.
+
+Our system performs better in Experiment 1 than Experiment 2.
+While better performance in Experiment 2 would have been desirable,
+the results fit our original assumptions.
+The Jester dataset, used in Experiment 2, have very few items (100).
+This would intuitively mean that there ae fewer disjoint
+patterns for the adaptive layer to leverage.
+As described in the previous chapter, stacked recommenders
+are mostly mean for scenarios where we have a wide range of
+different users and items.
+However, as in Experiment 1, our method outperforms the standard and aggregate recommenders,
+if only by a small margin.
 
 It would seem then that, based on our experiments, available data
 and assumptions of evaluation measures, both H1 and H2 are confirmed.

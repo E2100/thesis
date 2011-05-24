@@ -60,14 +60,8 @@ By reducing this space, the algorithm is able to find
 latent relations, such as groups of movies that has the same
 rating pattern, or groups of users that often rate in a similar manner.
 
-For the SVD methods, the factorizers refers to algoriithms used to factorize the ratings matrix.
-An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
-An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
-The number of features refers to the truncation of the factors in order to reduce the taste-space.
-In other words, the number of features corresponds to the number of latent taste categories
-we wish to identify.
-Naturally, different numbers of features will yield different recommenders.
-
+For the SVD methods, the factorizers refers to algorithms used to factorize the ratings matrix
+(see Section \ref{subsec:recommender:examples}).
 The Slope One and baseline algorithms look at average
 ratings for items and from users, and use these to predict ratings.
 These are simple algorithms that often perform as well
@@ -143,8 +137,18 @@ for each model.
 Examples of these patterns include groups of items
 or users a specific recommender works well for.
 
+It is important to note that the same configuration of recommenders was used for all three experiments.
+In other words, neither the basic nor the aggregate or stacked recommenders were heavily tailored
+to each dataset. To be sure, higher performance could probably have been achieved
+by tailoring each recommender to each dataset. However,
+as our goal is to compare our finite set of methods, all we care 
+about is how they perform compared to each other.
+
+As with the basic recommenders, the same SVD recommender configuration was used 
+for the adaptive layer in each Experiment.
+We chose to use en EM-factorizer to perform the actual decomposition,
+consisting of 20 features. The decomposition was performed by 20 iterations.
+See \ref{subsec:recommender:examples} for more information on how SVD recommenders work. 
 The choices of recommenders will be further discussed
 in Chapter \ref{chap:discussion}.
-For now, let us see how the performance of each method is determined.
-
 
