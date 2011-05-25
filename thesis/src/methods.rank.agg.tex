@@ -68,6 +68,11 @@ Query log mining is a common approach in personalized search
 (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000}).
 By mining this log, we can create an implicit ratings matrix.
 Each populated cell represents a selected item.
+\cite{Venetis2011} shows an interesting approach where they use requests for directions
+from online map services to infer implicit ratings:
+when a user asks for the directions from A to B, this is taken 
+as a vote from this user that location B is interesting.
+This is just one of many ways implicit ratings matrices can be mined.
 
 The values in this implict ratings matrix can take many forms.
 If we only care about selected items, binary ratings may suffice:
