@@ -1,7 +1,7 @@
-\section{Stacked Recommenders}
+\section{adaptive Recommenders}
 \label{sec:usermetamodeling}
 
-\emph{Stacked Recommenders} (SR) is a technique for combining recommender systems
+\emph{adaptive Recommenders} (SR) is a technique for combining recommender systems
 in an effort to answer two important questions.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
@@ -17,14 +17,14 @@ Modern aggregation techniques goes one step further, and combines many methods u
 However, we wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
 
-Formally, we define stacked recommenders as \emph{adapting a set of recommender systems
+Formally, we define adaptive recommenders as \emph{adapting a set of recommender systems
 with another complementary set of recommender systems} 
-(see Figure \ref{fig:stackedusermodeling}).
+(see Figure \ref{fig:adaptiveusermodeling}).
 The first set creates standard prediction scores, and answers the first question.
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
 The interesting bit is that SR can use recommender systems for both these tasks, as we shall soon see.
-A system for stacked recommenders is specified by a 6-tuple:
+A system for adaptive recommenders is specified by a 6-tuple:
 
 \begin{eqnarray*}
   \mathrm{SR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
@@ -41,7 +41,7 @@ As before, we use the term "rating" loosely --- equivalent terms include \emph{r
 in the current domain language. However, since \emph{rating} will match the case study we present in the next chapter,
 that is what we shall use. 
 
-\input{figure.stack.comparison}
+\input{figure.layer.comparison}
 
 The $Framework$ variable specifies how the data is represented.
 The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
@@ -82,16 +82,16 @@ As described in Section \ref{sec:aggregate}, multiple prediction results are nor
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
-With stacked recommenders, the $Adapters$ are themselves user modeling methods 
-(see Figure \ref{fig:stack:comparison}).
+With adaptive recommenders, the $Adapters$ are themselves user modeling methods 
+(see Figure \ref{fig:layer:comparison}).
 However, instead of modeling users, we wish to model each recommender system.
 More specifically, we wish to model the \emph{accuracy} of each recommender system.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
 In other words, we have two distinct layers of user modeling 
-(see Figure \ref{fig:stackedusermodeling}):
+(see Figure \ref{fig:adaptiveusermodeling}):
 
-\input{figure.stack}
+\input{figure.layers}
 
 \begin{enumerate}
   \item
@@ -163,8 +163,8 @@ These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, 
 the weights can be estimated through different machine learning methods.
 However, as discussed in Section \ref{sec:reasoning},
-this is still a generalized result, averaged across every user. 
-The system assumes that the best average result is the best result for each individual user.
+this is still a generalized result, averaged across every prediction.
+The system assumes that the best average result is the best result for each individual user and item.
 Even with method-specific weights we are still hindered by the latent subjectivity problem.
 
 In order to leverage as many patterns as possible while sidestepping the latent subjectivity,
@@ -186,8 +186,6 @@ We wish to use standard recommender systems for predicting optimal adaptive weig
 To do this, we need to create a matrix (or graph)
 that stores known values of how accurate some of the rating predictions will be.
 
-\input{figure.errors}
-
 The key insight is that \emph{the predicted accuracy of a method is the opposite of its predicted error}.
 By modeling the errors of a method through standard recommender systems,
 we can in turn predict errors for untested combinations
@@ -195,6 +193,8 @@ we can in turn predict errors for untested combinations
 If we predict the error of a recommender system for a user and an item,
 we have also predicted its accuracy.
 To achieve this, we can create an \emph{error matrix}:
+
+\input{figure.errors}
 
 \begin{eqsp}
  E_{u,i} =
@@ -210,8 +210,30 @@ Creating an error matrix for each modeling method is quite simple:
 by splitting the ratings data in two,
 the first set can be used for the actual training, and the second
 can be used to populate each error matrix.
+
 Each standard modeling method gets an error matrix where some cells have values:
 each value corresponds to the prediction error for a combination of a user and an item.
+Each modeling method is trained with a part of the ratings data.
+The error matrix is populated from the rest of the data,
+by computing the error of each known rating the method was not trained for:
+
+\begin{eqsp}
+  \forall (u,i,r) \in (d_e - d_m): E(m)_{u,i} = |r - p(m,u,i)|
+  \quad
+  \text{where}
+  \quad
+  d_e,d_m \subset D
+\end{eqsp}
+%
+Here, $D$ is the current dataset, and
+$d_m$ and $d_e$ are subsets of $D$.
+$m$ is a modeling method trained with the subset $d_m$.
+To populate the error matrix for this method,
+we take each rating which have not been used to train the method
+and calculate the error of the method on this combination.
+The result is a sparse error matrix
+we can use to predict unknown errors.
+
 Notice how similar this matrix is to the previously introduced ratings matrix.
 This similarity is what will allow us using standard recommender systems
 to perform adaptive aggregation.
@@ -224,6 +246,14 @@ Whenever we wish to train a new modeling method,
   \item Use the error estimation data set to create the error matrix.
   \item Train an error model based on the error matrix.
 \end{enumerate*}
+
+The error models are trained using standard recommender systems.
+After all, the mission is the same:
+we have two dimensions, with a sparse set of known connections,
+and wish to predict unknown connections from this data.
+The result is a set of modeling methods
+that can predict the error of a recommender system
+when its used on a particular user and item combination.
 
 When we have an error model for each modeling method, 
 we can use these errors to estimate each weight.
@@ -239,7 +269,7 @@ we apply the following algorithm:
 \end{enumerate*}
 
 The next section will explain these steps in detail.
-We can now express the prediction phase of stacked recommenders as an equation.
+We can now express the prediction phase of adaptive recommenders as an equation.
 Each rating/relevance prediction is weighted by its predicted accuracy,
 conditioned on the current user and item:
 
@@ -269,7 +299,7 @@ which is the sum of the errors of each method for the current combination.
 This gives us weights in the range $[0,1]$ ensuring
 final rating predictions on the same scale as that returned by the basic recommenders.
 
-%For now, we have our approach to stacking recommenders:
+%For now, we have our approach to adaptive recommenders:
 %
 %\begin{eqsp}
 %  \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \times p(m_{r},u,i),
@@ -287,8 +317,9 @@ final rating predictions on the same scale as that returned by the basic recomme
 Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
 $m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using the error matrix.
 This means we can use \emph{any} standard recommender system to perform adaptive aggregation.
-Hence, the name \emph{stacked recommenders}: 
-each standard recommender is stacked under an accuracy estimating recommender.
+Hence, the name \emph{adaptive recommenders}:
+a set of secondary recommenders is used to adapt a set of standard
+recommenders to each user and item.
 
 It is also important to note that the types of recommenders used for the adaptive layer
 is independent of the basic recommenders.

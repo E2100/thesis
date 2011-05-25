@@ -10,7 +10,7 @@ The second level is another set of recommender systems
 that predict how accurate each of the first level recommenders will be.
 
 In this section, we shall explain how such a system may be created.
-Most importantly, there are two distinct phases to stacked recommenders:
+Most importantly, there are two distinct phases to adaptive recommenders:
 
 \begin{enumerate*}
   \item The modeling phase creates the user models for both levels.
@@ -124,13 +124,13 @@ and returned as our new $error\_model$.
 When the computations of the algorithm in Listing \ref{code:training} is complete,
 we have a set of trained recommender systems, and a set of trained error models.
 Each recommender model has a corresponding error model,
-forming a set of stacks, that we shall use when performing predictions.
+forming two layers, that we shall use when performing predictions.
 
 
 \subsection{Prediction Phase}
 
 In the prediction phase of adaptive prediction aggregation,
-we wish to use our stacks of trained models to produce adaptive
+we wish to use our layers of trained models to produce adaptive
 combinations of multiple predictions and accuracy estimations.
 Listing \ref{code:prediction} gives the basic algorithm.
 

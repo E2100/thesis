@@ -33,11 +33,11 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
     \midrule
     A & median    	  & Aggregation           & Median rating from the above methods. \\
     A & average    	  & Aggregation           & Average rating from the above methods. \\
-    A & stacked       & Adaptive agg.         & Accuracy predictions from error models. \\
+    A & adaptive       & Adaptive agg.         & Accuracy predictions from error models. \\
     \bottomrule
   \end{tabular*}
-  \caption[Stacked Modeling Methods]{
-    Stacked modeling methods: A short overview of each of the recommender methods
+  \caption[adaptive Modeling Methods]{
+    adaptive modeling methods: A short overview of each of the recommender methods
     used in our experiment.
     Each recommender is used in every experiment. 
     See Section \ref{sec:recommender} for more information.
@@ -91,7 +91,7 @@ This wide range of recommender should give us the desired
 effect of looking at disjoint data patterns.
 
 
-\subsection{Stacked Recommenders}
+\subsection{adaptive Recommenders}
 
 The second type of recommenders are the aggregation methods, 
 that combine the result of each of the basic recommender systems
@@ -118,16 +118,16 @@ All the aggregation approaches, including our technique,
 use every basic recommender system described so far.
 
 As explained in Section \ref{sec:usermetamodeling},
-any basic recommender system can be used for the stacked method.
+any basic recommender system can be used for the adaptive method.
 The only difference is how this method is trained:
 while the basic methods are trained using the ratings matrix,
-the stacked methods are trained using the error model,
+the adaptive methods are trained using the error model,
 as seen in Listing \ref{code:training}.
 In other words, we have as many possibilities for choosing
-the stacked recommenders as the basic recommenders.
+the adaptive recommenders as the basic recommenders.
 
 For our experiment, we went with SVD recommenders
-for each of the stacked models.
+for each of the adaptive models.
 That is, each basic recommender method gets a secondary 
 accuracy predicting recommender, which in this case is a 
 standard SVD recommender.
@@ -138,7 +138,7 @@ Examples of these patterns include groups of items
 or users a specific recommender works well for.
 
 It is important to note that the same configuration of recommenders was used for all three experiments.
-In other words, neither the basic nor the aggregate or stacked recommenders were heavily tailored
+In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
 to each dataset. To be sure, higher performance could probably have been achieved
 by tailoring each recommender to each dataset. However,
 as our goal is to compare our finite set of methods, all we care 

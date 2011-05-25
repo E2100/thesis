@@ -4,11 +4,11 @@
 \label{appendix:implementation}
 
 
-This section describes how we implemented stacked recommenders.
+This section describes how we implemented adaptive recommenders.
 This is a short description of the most important features and considerations
 made when implementing the system.
 While quite specific and not important to the viability of 
-\emph{stacked recommenders} in itself,
+\emph{adaptive recommenders} in itself,
 this should give a short introduction to how this technique can be put into practice.
 
 \section{Libraries}
@@ -57,7 +57,7 @@ Mahout is build on top of \emph{Apache Hadoop},
 a system for creating scalable and distributed data processing systems 
 (See Appendix \ref{appendix:resources}).
 This is important to the performance of our system.
-As mentioned, a lot of the operations performed in stacking recommenders
+As mentioned, a lot of the operations performed in layering recommenders
 are independent and lend themselves well to parallelization.
 By building on Hadoop, each of our recommenders come implemented in a 
 proper MapReduce framework for parallel computation (as explained in \citet[p75]{Manning2008}).
@@ -129,7 +129,7 @@ As mentioned, this is an offline approach, so that the models can be computed an
 indepentent of making any actual predictions.
 
 Our experiments required us to measure the performance of each
-recommender, and the stacked recommender, for every combination of 
+recommender, and the adaptive recommender, for every combination of 
 a user and an item.
 In order to perform these experiments, an \emph{evaluator} module was built.
 As both the standard recommenders and the adaptive recommender system presents the same 
@@ -138,7 +138,7 @@ and measures their accuracy across the dataset specified by the current task.
 
 This prediction phase, where each user is compared to every un-rated item,
 is not comparable to the prediction phase of a real-world system
-based on stacked recommenders. In a real world application of this technique,
+based on adaptive recommenders. In a real world application of this technique,
 a prediction is made whenever a user's actions requires it,
 e.g. when we need to know what a user will think of an item.
 
@@ -152,7 +152,7 @@ based on probable accuracy.
 These computations can of course be cached, if certain combinations of users and items
 often need predictions.
 
-As mentioned, none of these aspects have any bearing on the viability of stacked recommenders.
+As mentioned, none of these aspects have any bearing on the viability of adaptive recommenders.
 However, as this does provide an example of how to implement such a system. 
 See Appendix \ref{appendix:resources} for links to other resources. 
 
@@ -166,8 +166,8 @@ This appendix gives pointers to additional resources mentioned throughout this t
 \section{Implementation Code}
 
 The code for the implementation outlined in Appendix \ref{appendix:implementation} is available online.
-It resides in a version control at 
-\url{https://github.com/olav/thesis/tree/master/code}.
+It resides in version control at 
+\url{github.com/olav/thesis/tree/master/code}.
 
 The implementation is built on three open-source libraries from the
 Apache Project\footnote{See \url{www.apache.org/} --- accessed 19/5/2011}:
@@ -189,10 +189,10 @@ This thesis is written in the LaTeX document preparation system.
 It is based on a LaTeX-template called Memoir\footnote{
 See \url{www.ctan.org/tex-archive/macros/latex/contrib/memoir/} --- accessed 19/5/2011.}.
 Most of the figures and graphs are made with the TikZ and PGF graphics libraries\footnote{
-See \url{www.texample.net/tikz/} --- acecssed 23.05.2011}.
+See \url{www.texample.net/tikz/} --- accessed 23.05.2011}.
 
 The entire source code for this document can be found at 
-\url{https://github.com/olav/thesis/tree/master/thesis}.
+\url{github.com/olav/thesis/tree/master/thesis}.
 The most current PDF-version is also available from this site.
 %The source code for the implentation, this document, and the thesis itself
 %is available under a Creative Commons BY 3.0 license\footnote{

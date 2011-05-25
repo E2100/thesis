@@ -24,7 +24,7 @@ on how well it performs for the item and user in question.
 The experiments of the previous chapter shows the promise of this technique.
 However, there are lots of use cases not yet considered.
 
-It should be clear that stacked recommenders would work best in situations where
+It should be clear that adaptive recommenders would work best in situations where
 we have a wide range of diverse algorithms that can infer the relevance of an item to a user.
 For users, social connections is a good example: whether or not social connections should influence
 recommendations or personalized search results is a contentious topic.
@@ -40,13 +40,13 @@ varying levels of accuracy for each individual item.
 Stacked recommenders can help solve this problem by adaptively 
 combining the recommenders based on individual item performance.
 
-Hypothesis H1 was confirmed by showing that stacked recommenders
+Hypothesis H1 was confirmed by showing that adaptive recommenders
 can outperform standard single-approach recommenders.
 We achieved lower total RMSE scores across each of our datasets,
-which would imply that stacked recommenders
+which would imply that adaptive recommenders
 reliably performs better than our tested standard recommenders.
 
-Hypothesis H2 was confirmed by showing that stacked recommenders
+Hypothesis H2 was confirmed by showing that adaptive recommenders
 can outperform simple, generalized aggragation approaches.
 While our standard aggregators were simple,
 this result is promising.
@@ -59,11 +59,11 @@ While we did not strictly evaluate the quantitative performance
 of this approach, our results show that different
 prioritations of the IR scores can cope with many different use cases.
 The key insight is that the IR score can be seen as a signal
-on the same level as the stacked recommenders,
+on the same level as the adaptive recommenders,
 gaining the power of query matching and relevance matching
 in the same results set.
 
-With stacked recommenders, both the methods layer and the adaptive layer consists of standard recommender algorithms.
+With adaptive recommenders, both the methods layer and the adaptive layer consists of standard recommender algorithms.
 Because we use ratings matrices for the taste models and error matrices for the weight estimations,
 we can use the same algorithms for both tasks.
 Using known algorithms for this new task is beneficial:
@@ -86,7 +86,7 @@ This depends on the basic recommenders that are to be combined.
 If the system is made up by many different recommenders,
 that each user might place varying importance on,
 and that may have varying success with each item,
-stacked recommenders may provide implressive gains in accuracy.
+adaptive recommenders may provide implressive gains in accuracy.
 
 On the other hand, if the recommenders are simple in nature,
 and look at similar patterns in the data,
@@ -99,7 +99,7 @@ to suggest that our method is particularly better
 than a simple standard recommender.
 
 (2) Evaluation: we chose traditional datasets and evaluation metrics
-to validate the stacked recommenders technique.
+to validate the adaptive recommenders technique.
 While our initial results are promising, it is important to stress
 that this is only one test on one dataset. Considering the vast scope
 of appicable data, and the number of ways these results many be 
@@ -166,7 +166,7 @@ to fit the available data. As in all machine learning,
 achieving relatively good performance is quite simple.
 Any improvements above this standard requires deep domain knowledge,
 and methods customized to the problem at hand.
-In an actual system, the stacked recommenders should be tested
+In an actual system, the adaptive recommenders should be tested
 against carefully selected standard recommenders,
 optimized for the current domain.
 
@@ -194,7 +194,7 @@ in this domain.
 
 We have made two main contributions with this thesis:
 (1) described the latent subjectitivty problem and
-(2) developed the technique of stacked recommenders.
+(2) developed the technique of adaptive recommenders.
 
 (1) The latent subjectivity problem is one we think hinders
 standard recommender systems reaching their full potential.
@@ -209,7 +209,7 @@ level, where each user and item is treated the same.
 This underlying subjectivity leads to a mismatch between the notions
 of whoever developed the systems, and the users and items of the service.
 
-The latent subjectivity problem extens to any ensemble learning systems
+The latent subjectivity problem extens to any ensemble learning system
 (as those described in \cite{Polikar2006}) that blends multiple 
 algorithms to leverage patterns.
 Whenever we have multiple algorithms that work on a set of items
@@ -233,7 +233,7 @@ its accuracy for each user/item combination.
 These predictions can then be used to weigh each combined algorithm accordingly.
 
 As far as the latent subjectivity problem extends to any ensemble learning system,
-the adaptive aggregation part of stacked recommenders can be used to 
+the adaptive aggregation part of adaptive recommenders can be used to 
 create better combinations of many types of predictors.
 Whenever we have a set of algorithms producing a set of predicted values
 based on items, a set of aggregating recommenders can model the probable
@@ -242,7 +242,7 @@ This leads to adaptive ensembles that should outperform generalized approaches.
 Because of this, the technique build in this thesis should be 
 applicable in situations other than recommender systems.
 
-While the experiments of Chapter \ref{chap:results} show the general viability of stacked reocmmenders,
+While the experiments of Chapter \ref{chap:results} show the general viability of adaptive reocmmenders,
 we belive there are greater opportunities in systems where there  are even more diverging
 patterns to be leveraged. The prime examples of this are systems that may or may 
 not use social connections between users, and systems which predict the 
@@ -251,19 +251,19 @@ relevance of widely varying items.
 
 \section{Future Work}      
 
-We have only shown the basic viability of stacked recommenders,
+We have only shown the basic viability of adaptive recommenders,
 and how they can outperform traditional approaches on traditional datasets.
 This section outlines a few interesting research topics
 which should shed more light on the subject.
 
 
 \paragraph{Choosing Different Adaptive Recommenders}
-We chose to use SVD-based recommenders for the adaptive part of our stacked approach.
+We chose to use SVD-based recommenders for the adaptive part of our adaptive approach.
 The main reason for this is that we are looking for global traits of the data
 when performing accuracy estimations. In other words, we wish to identify
 clusters of users and items for which each algorithm may or may not be suited.
 
-However, as the stacked recommenders can utilize any standard recommender system
+However, as the adaptive recommenders can utilize any standard recommender system
 to model the errors of another recommender, it would be interesting to perform
 a more in-depth study of how different choices for the adaptive layer
 influence the final system.
@@ -282,15 +282,15 @@ The primary reason was to be able to direcly evaluate our results towards those 
 As this dataset and this error measure is widely used to evaluate recommender systems,
 it is natural for a first look at a new approach to use the same notions of accuracy.
 
-However, as mentioned above, the main strength of stacked recommenders may be
+However, as mentioned above, the main strength of adaptive recommenders may be
 in situations with much more diverse data sources. Social networks or systems
-with widely varying sets of items would provide an interesting use case for stacked recommenders.
+with widely varying sets of items would provide an interesting use case for adaptive recommenders.
 The main premise of our approach is that each user and item have differing preferences
 for each algorithm. 
 
 Naturally, the more diverse the data and algorithms get,
 the more dire the need for adaptive aggregation becomes.
-Because of this, using stacked recommeners in other domains with more variation 
+Because of this, using adaptive recommeners in other domains with more variation 
 in the data and combined algorithms would be an interesting topic.
 
 
@@ -304,12 +304,12 @@ and RSs, we would have a large set of differing
 input signals:
 one from each IR model and one from each RS.
 
-In this case, stacked recommenders could be used to adapt
+In this case, adaptive recommenders could be used to combine
 both the RSs and IR models.
 In the same way different RSs have varying performance
 for individual users and items, the same should hold
 for different IR models.
-By using stacked recommenders we would be able
+By using adaptive recommenders we would be able
 to adaptively restrict the item space based on the 
 current user.
 While outside the scope of this thesis,
@@ -324,7 +324,7 @@ Whenever there is a set of prediction algorithms that use different data to prod
 an adaptive aggregation should be able to combine these in a more nuanced way.
 
 Ensemble learning is a big topic, used in many situations.
-By stacking recommenders on top of each method in an ensemble, 
+By layering recommenders on top of each method in an ensemble, 
 we get a system capable of predicting the accuracy of each method.
 Naturally, it would be interesting to see how this approach would fare
 in other fields such as document classification, document clustering,
@@ -344,7 +344,7 @@ help us filter, sort and consume information can we hope
 to mitigate the overload.
 
 This thesis has explained the \emph{latent subjectivity problem},
-and introduced the technique of \emph{stacked recommenders}
+and introduced the technique of \emph{adaptive recommenders}
 in an attempt to solve it.
 We belive this solution is one possible way to minimize the overload problem.
 Our technique implicitly, and without any extra work required from each user

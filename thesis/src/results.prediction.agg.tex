@@ -17,15 +17,15 @@ The second hypothesis, H2, states:
 }
 
 In order to verify these hypotheses, we performed adaptive prediction aggregation
-through stacked recommenders on the two datasets previously described.
+through adaptive recommenders on the two datasets previously described.
 5-fold cross validation was performed to further verify each result.
 
 Table \ref{table:results:e1} gives the results from Experiment 1 (MovieLens).
 Table \ref{table:results:e2} gives the results from Experiment 2 (Jester).
 Each cell corresponds to the RMSE values for each dataset,
 for each recommender and aggregation approach.
-The bottom entry in this table refers to our stacked recommenders method.
-As seen in this table, the stacked recommender achieved
+The bottom entry in this table refers to our adaptive recommenders method.
+As seen in this table, the adaptive recommender achieved
 lower RMSE values than any of the other applied methods.
 
 Statistics for each experiment are given in the last
@@ -35,7 +35,7 @@ for each of the methods. We also include
 the standard deviation ($\sigma$) for each method,
 across each collection of subsets.
 This table confirms the results from the full results table:
-Our stacked recommenders approach improves the mean performance
+Our adaptive recommenders approach improves the mean performance
 of our system.
 The mean performance in Experiment 1, along with the standard deviation
 are shown in Figure \ref{plot:rmse}.
@@ -47,7 +47,7 @@ are shown in Figure \ref{plot:rmse}.
 
 Let us take a look at the standard deviation measures from the different methods.
 As seen in Figure \ref{plot:rmse}, 
-most of the methods, including the stacked models,
+most of the methods, including the adaptive models,
 exhibit quite a lot of variation in their results.
 If these variations occured as a result of unstable
 predictions of the same dataset, this would be a substantial problem,
@@ -64,7 +64,7 @@ which results in high values for $\sigma$.
 
 What does this mean for hypotheses H1 and H2?
 Expressed in terms of this experiment,
-H1 posits that stacked recommenders should outperform each of the standard modeling methods
+H1 posits that adaptive recommenders should outperform each of the standard modeling methods
 in Table \ref{table:results:methods}.
 The adaptive methods blend the results of multiple predictors by estimating the accuracy
 on a per-item and per-user basis, satisfying the formulation of H1.
@@ -80,11 +80,11 @@ to confirm hypothesis H1 in these conditions, and likely for other, similar scen
 We shall discuss this in Chapter \ref{chap:discussion}.
 
 Similarly, expressed in the same terms, H2 posits that 
-our stacked recommenders should outperform the aggregation approaches
+our adaptive recommenders should outperform the aggregation approaches
 given in Table \ref{table:results:methods}.
 The \emph{median} and \emph{average} aggregation methods
 serve as globalized and generalized aggragation methods,
-Stacked recommenders are adaptive in that each prediction is 
+adaptive recommenders are adaptive in that each prediction is 
 aggregated based on the current user and item,
 satisfying the language of H2.
 
@@ -93,7 +93,7 @@ As we can see in Tables \ref{table:results:e1} \emph{\&} \ref{table:results:e2},
 However, as our collection of aggregation methods is a lot simpler
 than our collection of recommender systems, the strength of this combination
 is notably weaker than that of H1.
-Still, the fact that a stacked recommender outperforms these simple aggregation
+Still, the fact that a adaptive recommender outperforms these simple aggregation
 approaches is a positive result warranting further experiments.
 This will also be discussed in Chapter \ref{chap:discussion}.
 
@@ -103,7 +103,7 @@ the results fit our original assumptions.
 The Jester dataset, used in Experiment 2, have very few items (100).
 This would intuitively mean that there ae fewer disjoint
 patterns for the adaptive layer to leverage.
-As described in the previous chapter, stacked recommenders
+As described in the previous chapter, adaptive recommenders
 are mostly mean for scenarios where we have a wide range of
 different users and items.
 However, as in Experiment 1, our method outperforms the standard and aggregate recommenders,

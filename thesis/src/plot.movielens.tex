@@ -6,7 +6,7 @@
 
 \begin{axis}[
       symbolic x coords={
-        knn,svd2,svd1,slopeone,itemavg,svd4,svd3,cosine,baseline,a:median,a:average,a:stacked},
+        knn,svd2,svd1,slopeone,itemavg,svd4,svd3,cosine,baseline,a:median,a:average,a:adaptive},
       xtick=data,
       x tick label style={rotate=45,anchor=east,yshift=-0.5em,xshift=-0.2em},
       bar width=20pt
@@ -26,7 +26,7 @@
     %\addplot [ybar,fill=blue!50] coordinates {
       (a:median, 0.9065) +- (0,0.10025)
       (a:average, 0.8801) +- (0,0.1172)
-      (a:stacked, 0.8352) +- (0,0.11125)
+      (a:adaptive, 0.8352) +- (0,0.11125)
     };
 \end{axis}
 
