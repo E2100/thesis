@@ -18,7 +18,7 @@ We believe this selection should be left to each user:
 differing users and items will require adaptive recommender algorithms that
 consider the context before making predictions.
 
-Stacked recommenders can help solve this problem.
+Adaptive recommenders can help solve this problem.
 In a collection of possible recommender algorithms, each is adaptively used based 
 on how well it performs for the item and user in question.
 The experiments of the previous chapter shows the promise of this technique.
@@ -37,7 +37,7 @@ Each of these algorithms can be based on a number of attributes, for example
 temporality, geography, sentiment analysis, topic or keywords.
 It is not a huge leap to assume that each of these algorithms may have
 varying levels of accuracy for each individual item.
-Stacked recommenders can help solve this problem by adaptively 
+Adaptive recommenders can help solve this problem by adaptively 
 combining the recommenders based on individual item performance.
 
 Hypothesis H1 was confirmed by showing that adaptive recommenders
@@ -221,7 +221,7 @@ with little concern to the uniqueness of items (and users).
 In other words, this is a comprehensive problem
 that may be discovered amongst many machine learning techniques.
 
-(2) Stacked recommenders is our attempt to solve the latent subjectivity problem.
+(2) Adaptive recommenders is our attempt to solve the latent subjectivity problem.
 As far as we know, this type of adaptive prediction aggregation has not been done before.
 Chapter \ref{chap:results} showed that an aggregation that combines predictions based
 on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.
@@ -276,7 +276,7 @@ This was attempted earlier in our research, but abandoned when recommenders were
 better results in a more elegant way.
 
 
-\paragraph{Using Stacked Recommenders in Other Domains}
+\paragraph{Using Adaptive Recommenders in Other Domains}
 We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
 The primary reason was to be able to direcly evaluate our results towards those of other research thesiss.
 As this dataset and this error measure is widely used to evaluate recommender systems,
@@ -317,7 +317,7 @@ using multiple IR models would add another adaptive
 aspect to the final results list in personalized search.
 
 
-\paragraph{Using Stacked Recommenders in Other AI Fields}
+\paragraph{Using Adaptive Recommenders in Other AI Fields}
 We have only considered the notion of latent subjectivity within the field of recommender systems.
 However, as briefly mentioned above, the technique should be applicable to many more situations.
 Whenever there is a set of prediction algorithms that use different data to produce results,
