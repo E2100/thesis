@@ -260,7 +260,7 @@
 \RequirePackage{listings}
 \RequirePackage{courier}
 \lstset{
-  basicstyle=\footnotesize\ttfamily,
+  basicstyle=\scriptsize\ttfamily,
   numbers=right,
   numberstyle=\tiny\color{gray},
   %stepnumber=2,
@@ -268,7 +268,7 @@
   tabsize=2,
   extendedchars=true,
   breaklines=true,
-  keywordstyle=\color{black},
+  keywordstyle=\color{green},
   frame=lines,         
   stringstyle=\color{red}\ttfamily,
   showspaces=false,
@@ -303,6 +303,12 @@
   \setSpacing{1}
   \lstset{language={#1},label={#2},caption={#3}}
 }{}
+\lstnewenvironment{implementation}[2]{
+  \setSpacing{1}
+  \lstset{language={Ruby},label=#1,caption={#2}}
+}{}
+
+
 
 % Pseudocode
 \RequirePackage{algorithm}
