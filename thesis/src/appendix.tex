@@ -157,6 +157,58 @@ However, as this does provide an example of how to implement such a system.
 See Appendix \ref{appendix:resources} for links to other resources. 
 
 
+\section{Example Code}
+
+This section gives an example of an experiment run through our system.
+In this experiment, we wish to create our adaptive recommender
+and test it on the MovieLens dataset.
+The code is written in JRuby, just as it is in the implementation.
+
+First, we create our tasks and run these tasks to create the recommenders.
+We then create an evaluator to test our resulting adaptive recommender.
+The resulting RMSE values are output to the screen
+(see Listing \ref{code:example})
+
+\begin{implementation}{code:example}{Example code showing a test of adaptive recommenders.}
+d_m = "movielens/base/1"
+d_t = "movielens/test/1"
+
+# Standard recommenders
+recommender_tasks = {
+  knn:        Task.new(recommender: :generic_user, dataset: d_m),
+  item_avg:   Task.new(recommender: :item_average, dataset: d_m),
+  slope_one:  Task.new(recommender: :slope_one, dataset: d_m),
+  baseline:   Task.new(recommender: :item_user_average, dataset: d_m),
+  cosine:     Task.new(recommender: :generic_item, dataset: d_m) 
+}
+rs = Perform.perform(recommender_tasks)
+
+# Aggregate recommenders
+aggregate_tasks = {
+  average: Task.new(recommender: :aggregate, method: :average, recommenders: rs),
+  median:  Task.new(recommender: :aggregate, method: :median,  recommenders: rs)
+}
+aggregate_recommenders = Perform.perform(aggregate_tasks)
+
+# Adaptive recommender
+adaptive_task = Task.new(recommender: :adaptive, recommenders: rs)
+adaptive_recommender = Perform.perform(adaptive_task)
+
+# Merge all recommenders
+all = rs.merge(aggregate_recommenders).merge(adaptive_recommender)
+
+# Evaluation
+evaluator_task = Task.new(mission: :rmse_evaluator, recommenders: all, dataset: d_t)
+evaluator = Perform.perform(evaluator_task)
+
+# Run experiment
+result = evaluator.evaluate
+Log.evaluation(result)
+\end{implementation}
+
+
+
+
 
 \chapter{Resources}
 \label{appendix:resources}
