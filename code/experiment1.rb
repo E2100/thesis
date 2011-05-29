@@ -3,10 +3,10 @@ require 'experiments'
 M  = MetaModel
 
 datasets = {
-  #d1: 'u1',
-  #d2: 'u2',
-  #d3: 'u3',
-  #d4: 'u4',
+  d1: 'u1',
+  d2: 'u2',
+  d3: 'u3',
+  d4: 'u4',
   d5: 'u5'
 }
 

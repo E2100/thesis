@@ -5,12 +5,12 @@ raise "Ruby 1.9 required" unless RUBY_VERSION  =~ /^1.9/
 # load path
 $: << File.join(File.dirname(__FILE__), 'metamodel')
 
-# std libs
+# standard libs
 require 'java'
 require 'pp'
 require 'csv'
 
-# core ext
+# core extensions
 require 'ext/array'
 
 # app libs
@@ -32,6 +32,7 @@ require 'adaptive_recommender'
 # config
 module MetaModel
   module Config
+    # Main data path
     Data = File.expand_path(File.join(File.dirname(__FILE__), '..', 'data')) 
   end
 end
