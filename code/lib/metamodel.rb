@@ -30,7 +30,7 @@ require 'aggregate_recommender'
 require 'adaptive_recommender'
 
 # config
-module MetaModel
+module AR
   module Config
     # Main data path
     Data = File.expand_path(File.join(File.dirname(__FILE__), '..', 'data')) 

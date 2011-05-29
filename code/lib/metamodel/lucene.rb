@@ -3,7 +3,7 @@ Dir[File.join(File.dirname(__FILE__),'lucene','**','*.jar')].each do |jar|
   require jar
 end
 
-module MetaModel
+module AR
 module Lucene
   
   import org.apache.lucene.util.Version

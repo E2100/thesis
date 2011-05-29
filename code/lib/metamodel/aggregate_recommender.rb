@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class AggregateRecommender
 
   def initialize(task, model)

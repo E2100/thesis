@@ -1,4 +1,4 @@
-module MetaModel
+module AR
   
   # Standard library error
   class Error < StandardError; end

@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class Task
 
   def initialize(opts={})

@@ -1,6 +1,6 @@
 require 'lib/metamodel'
 require 'experiments'
-M  = MetaModel
+AR  = AR
 
 datasets = {
   d1: '1',
@@ -16,8 +16,8 @@ datasets.each do |name,path|
     dataset: '/jester/splits/base/' + path,
     testset: '/jester/splits/test/' + path
   }
-  rs = M.recommenders(o)
-  ev = M.evaluate(rs,o)
+  rs = AR.recommenders(o)
+  ev = AR.evaluate(rs,o)
   ev.each do |name, e|
     results[name] = {} unless results.key?(name)
     results[name][path] = e.round(5)
@@ -29,7 +29,7 @@ maxs  = {}
 means = {}
 devs  = {}
 
-M::Log.head('Results')
+AR::Log.head('Results')
 
 results.each do |method, res|
   print "#{method.to_s.ljust(15)}\t"

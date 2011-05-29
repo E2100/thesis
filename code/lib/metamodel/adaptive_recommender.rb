@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class AdaptiveRecommender
   
   def initialize(task, model)

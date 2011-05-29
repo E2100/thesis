@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class Model
   attr_reader :path
 

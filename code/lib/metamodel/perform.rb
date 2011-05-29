@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class Perform
   
   def self.perform_all(tasks)

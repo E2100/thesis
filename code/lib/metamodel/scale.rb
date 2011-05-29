@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 module Scale
   extend self
 

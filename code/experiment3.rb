@@ -23,7 +23,7 @@ datasets = {
 }
 
 queries.each do |q|
-  M::Log.head('Query:',q)
+  AR::Log.head('Query:',q)
   o = {
     dataset: '/movielens/movielens-1mm/ratings.dat',
     testset: '/movielens/movielens-1mm/ratings.dat',
@@ -32,9 +32,9 @@ queries.each do |q|
     number_of_results: 20,
     userid: 11
   }
-  rs = M.recommenders(o)
-  ranker = M.ranker(rs,o)
-  ev = M.evaluate(ranker, o)
+  rs = AR.recommenders(o)
+  ranker = AR.ranker(rs,o)
+  ev = AR.evaluate(ranker, o)
   puts
   puts "IR:"
   pp ev.first

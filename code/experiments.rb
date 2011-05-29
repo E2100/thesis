@@ -1,6 +1,6 @@
 require 'lib/metamodel'
 
-module MetaModel
+module AR
   extend self
 
   def recommender_tasks(opts)
@@ -43,9 +43,9 @@ module MetaModel
   end
 
   def recommenders(opts = {})
-    rs = Perform.perform_all(M.recommender_tasks(opts))
-    ms = Perform.perform_all(M.aggregator_tasks(rs, opts)) 
-    ad = Perform.perform(M.adaptive_task(rs, opts))
+    rs = Perform.perform_all(AR.recommender_tasks(opts))
+    ms = Perform.perform_all(AR.aggregator_tasks(rs, opts)) 
+    ad = Perform.perform(AR.adaptive_task(rs, opts))
     rs.merge!(ms)
     rs[:adaptive] = ad
     rs

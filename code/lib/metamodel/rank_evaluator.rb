@@ -1,4 +1,4 @@
-module MetaModel
+module AR
 class RankEvaluator
   
   def initialize(task)

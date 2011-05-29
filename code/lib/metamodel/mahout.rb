@@ -3,7 +3,7 @@ Dir[File.join(File.dirname(__FILE__),'mahout','**','*.jar')].each do |jar|
   require jar
 end
 
-module MetaModel
+module AR
   
   # Data model
   import org.apache.mahout.cf.taste.impl.model.GenericDataModel
