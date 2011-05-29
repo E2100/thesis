@@ -157,7 +157,7 @@ However, as this does provide an example of how to implement such a system.
 See Appendix \ref{appendix:resources} for links to other resources. 
 
 
-\section{Example Code}
+\section{Example Task}
 
 This section gives an example of an experiment run through our system.
 In this experiment, we wish to create our adaptive recommender
@@ -207,7 +207,41 @@ Log.evaluation(result)
 \end{implementation}
 
 
+\section{Running the Experiments}
 
+To tun the experiments, a few libraries must be installed. 
+First, JRuby must be available (see links in Appendix \ref{appendix:resources}).
+This has to be a version capable of running code conformant to Ruby version 1.9 (e.g. JRuby 1.6).
+The \emph{rake} library should also be installed, as it is used to start and run each experiment.
+
+To get the system up and running in a Posix-based environment, 
+the following steps should be run.
+The \textsf{\$} refers to the operator in a terminal window.
+All commands should be run from the top-level folder of the implementation source code.
+
+\begin{enumerate*}
+  \item Install JRuby (version >= 1.6) from their website.
+  \item Install rake: \textsf{\$ jruby -S gem install rake}
+  \item Run each experiment: \textsf{jruby -S rake e1}
+  \item Substitute \textsf{e1} with \textsf{e2} or \textsf{e3} to run each experiment.
+\end{enumerate*}
+
+On some systems, the JRuby VM might run out of memory due to its low default setting.
+To manually allow more memory to be used, the following command
+can be substituted in when running each experiment:
+
+{
+\footnotesize
+\begin{verbatim}
+jruby --1.9 -J-Xmn512m -J-Xms2048m -J-Xmx2048m experiment1.rb
+\end{verbatim}
+}
+
+The first parameter specifies that this application should be run with version 1.9 of the Ruby language specification.
+The second specifies the minimum garbage collection memory size.
+The two following gives the minimum and maximum heap memory size.
+The last part of this command is the file that should be run.
+Each experiment has its own file.
 
 
 \chapter{Resources}
