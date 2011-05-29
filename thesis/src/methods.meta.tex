@@ -255,6 +255,15 @@ The result is a set of modeling methods
 that can predict the error of a recommender system
 when its used on a particular user and item combination.
 
+Of course, some recommender systems will work better than others for the adaptive layer.
+Most often we are seeking global patterns in the data.
+We are looking for groups of users or items (or both) that suite some 
+recommenders especially well, or that some recommenders will not work for.
+SVD-based recommenders is one type of RS that can be used for this purpose.
+By reducing the method-error space into an "error category space",
+we can identify how well a set of groups suite each available method.
+We will get back to this when performing experiments in the next chapter.
+
 When we have an error model for each modeling method, 
 we can use these errors to estimate each weight.
 Whenever we wish to create an adaptive aggregate prediction,
