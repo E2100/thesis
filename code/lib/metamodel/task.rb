@@ -9,12 +9,11 @@ class Task
     {
       # recommender, rmse_evaluator, rank_evaluator
       mission: :recommender,
-      
-      #dataset: '/movielens/movielens-100k/base/60/u1.base.60',
-      #testset: '/movielens/movielens-100k/base/40/u1.base.40'
-      #dataset: '/movielens/movielens-100k/base/100/u1.base',
-      #testset: '/movielens/movielens-100k/test/u1.test'
+
+      # default dataset
       dataset: '/jester/splits/base/1',
+
+      # default testset
       testset: '/jester/splits/test/1'
     }
   end
@@ -63,24 +62,11 @@ class Task
     }
   end
 
-  def neural_net
-    {
-      nn_in: 2,
-      nn_out: 1,
-      nn_hidden: 5,
-      nn_transfer: :sigmoid,
-      nn_learning_rate: 0.01,
-      nn_max_iterations: 100,
-      nn_max_error: 0.00001,
-      nn_momentum: 0.0
-    }
-  end
-
-  def meta
+  def aggregate
     {
       userid: 0,
       recommenders: {},
-      meta_method: :average,
+      method: :average,
       number_of_results: 10
     }
   end
@@ -90,8 +76,7 @@ class Task
       main,
       recommender,
       evaluator,
-      neural_net,
-      meta,
+      aggregate,
       opts
     ].inject(:merge)
   end

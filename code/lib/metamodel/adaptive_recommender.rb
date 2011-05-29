@@ -1,5 +1,5 @@
 module MetaModel
-class MetaSVDRecommender
+class AdaptiveRecommender
   
   def initialize(task, model)
     Log.task(task)
@@ -84,8 +84,8 @@ private
       data,
       ExpectationMaximizationSVDFactorizer.new(
         data, 
-        20, #@task[:factorizer_features],
-        20 #@task[:factorizer_iterations]
+        4, #@task[:factorizer_features],
+        4 #@task[:factorizer_iterations]
       )) 
       #ALSWRFactorizer.new(
       #  data,

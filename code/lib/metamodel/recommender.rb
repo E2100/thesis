@@ -7,13 +7,9 @@ class Recommender
   end
 
   def prediction(userid,itemid)
-    begin
-      recommender.estimate_preference(userid,itemid)
-    rescue NativeException
-      #raise PredictionError
-      #0.0
-      Float::NAN
-    end
+    recommender.estimate_preference(userid,itemid)
+  rescue NativeException
+    Float::NAN
   end
   
   def recommend(userid,n)
@@ -33,7 +29,6 @@ private
 
   def model
     if @task[:bagging] < 1.0
-      # bootstrap aggregation
       @model_boot ||= Model.rand(Model.new(@task[:dataset]), @task[:bagging])
     else
       @model_data ||= Model.new(@task[:dataset])
@@ -80,16 +75,12 @@ private
       @task[:clusters])
   end
 
-  def meta
-    MetaRecommender.new(@task, model)
-  end
-  
-  def meta_basic
-    MetaBasicRecommender.new(@task, model)
+  def aggregate
+    AggregateRecommender.new(@task, model)
   end 
 
-  def meta_svd
-    MetaSVDRecommender.new(@task, model)
+  def adaptive
+    AdaptiveRecommender.new(@task, model)
   end
   
 

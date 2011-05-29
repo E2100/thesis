@@ -1,5 +1,5 @@
 module MetaModel
-class MetaBasicRecommender
+class AggregateRecommender
 
   def initialize(task, model)
     @task = task
@@ -9,7 +9,7 @@ class MetaBasicRecommender
   def estimate_preference(userid, itemid)
     ps = predictions(userid, itemid)
     return Float::NAN if ps.size == 0
-    send(@task[:meta_method], ps)
+    send(@task[:method], ps)
   end
 
   def average(ps)
