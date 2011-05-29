@@ -1,20 +1,16 @@
 #!/usr/bin/env jruby
 
-def run(f)
-  sh "ruby --1.9 #{f}"
+task :default => :e1
+
+task :e1 do
+  sh "jruby --1.9 experiment1.rb"
 end
 
-task :default => :run
-
-task :run do
-  run('example.rb')
+task :e2 do
+  sh 'jruby --1.9 experiment2.rb'
 end
 
-task :server do
-  sh '/Users/frog/.rvm/rubies/jruby-1.6.0/bin/jruby --ng-server'
+task :e3 do
+  sh 'jruby --1.9 experiment3.rb'
 end
 
-task :run_server do
-  sh 'jruby --1.9 --ng -J-server -J-d64 -J-Xmx768m \
-      -J-XX:+UseParallelGC lib/metamodel.rb'
-end
