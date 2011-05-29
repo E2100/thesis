@@ -19,7 +19,6 @@ module Lucene
   import org.apache.lucene.queryParser.QueryParser
   import org.apache.lucene.search.IndexSearcher
   
-  # https://github.com/davidx/jruby-lucene
   class API
     
     def initialize(path='data/ir/')

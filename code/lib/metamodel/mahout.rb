@@ -31,10 +31,6 @@ module AR
   import org.apache.mahout.cf.taste.impl.recommender.svd.ExpectationMaximizationSVDFactorizer
   import org.apache.mahout.cf.taste.impl.recommender.svd.ALSWRFactorizer
 
-  # Recommender interface
-  #import org.apache.mahout.cf.taste.recommender.Recommender
-  #import org.apache.mahout.cf.taste.impl.recommender.AbstractRecommender
-
   # Recommenders
   import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender
   import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender

@@ -49,10 +49,10 @@ class RankEvaluator
 
   def evaluate
     ps = predicted_ranking
-    ir = list_by(ps, :ir)    # ir ranking
-    st = list_by(ps, :stack) # stacked model ranking
-    cm = list_by(ps, :score) # combined ranking
-    [ir, st, cm]
+    ir = list_by(ps, :ir)       # ir ranking
+    ad = list_by(ps, :adaptive) # adaptive model ranking
+    cm = list_by(ps, :score)    # combined ranking
+    [ir, ad, cm]
   end
 
 end
