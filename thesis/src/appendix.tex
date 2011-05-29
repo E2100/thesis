@@ -44,7 +44,7 @@ the system was linked with the \emph{Apache Mahout machine learning library}
 (See Appendix \ref{appendix:resources}). 
 Mahout provides a number of machine learning
 algorithms, amongst which a set of recommender systems.
-Examples include SVD- and KNN-based recommenders,
+Examples include SVD- and kNN-based recommenders,
 baseline recommenders, a Slope One recommender,
 cluster-based recommenders,
 and various generic recommenders for mixing different 
@@ -86,11 +86,11 @@ perform varying experiments in a short amount of time.
       width=1.0\textwidth]{../graphics/diagram-task}
     \caption[Task Structure Diagram]{
       Task structure diagram:
-      A task (instantiated config) is passed to the perform module.
+      A task (instantiated configuration) is passed to the perform module.
       This module creates a number of modules:
       recommenders, aggregators, evaluators and information retrieval models.
       Each module takes a set of inputs (bottom row), 
-      which are specificed by the current task.
+      which are specified by the current task.
       These modules are then used as needed by each experiment.
     }
   \label{fig:uml}
@@ -103,7 +103,7 @@ be used together in different ways.
 Everything the system does is considered a \emph{task}.
 A task is a collection of settings and directives
 and serves as instantiated configurations for the system.
-Tasks are created beforehand, and fed into the sytem,
+Tasks are created beforehand, and fed into the system,
 which carries them out.
 Tasks specify what the system should do,
 which dataset should be used, and other options.
@@ -126,7 +126,7 @@ A task is created for each of the basic recommenders, and for each of the adapti
 If this is a rank aggregation scenario, an IR model is also created, based on the data
 specified by the current task.
 As mentioned, this is an offline approach, so that the models can be computed and recomputed,
-indepentent of making any actual predictions.
+independent of making any actual predictions.
 
 Our experiments required us to measure the performance of each
 recommender, and the adaptive recommender, for every combination of 
@@ -136,7 +136,7 @@ As both the standard recommenders and the adaptive recommender system presents t
 interface, the evaluators simply takes a set of recommenders as input, 
 and measures their accuracy across the dataset specified by the current task.
 
-This prediction phase, where each user is compared to every un-rated item,
+This prediction phase, where each user is compared to every unrated item,
 is not comparable to the prediction phase of a real-world system
 based on adaptive recommenders. In a real world application of this technique,
 a prediction is made whenever a user's actions requires it,
@@ -246,7 +246,7 @@ See \url{www.texample.net/tikz/} --- accessed 23.05.2011}.
 The entire source code for this document can be found at 
 \url{github.com/olav/thesis/tree/master/thesis}.
 The most current PDF-version is also available from this site.
-%The source code for the implentation, this document, and the thesis itself
+%The source code for the implementation, this document, and the thesis itself
 %is available under a Creative Commons BY 3.0 license\footnote{
 %See \url{creativecommons.org/licenses/by/3.0/}}.
 %Anyone is free to share, copy, distribute or transmit this work,

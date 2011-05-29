@@ -15,13 +15,14 @@ Such systems are commonly used on the web to provide a host of predictive functi
 
 Common to these examples are a set of users, a set of items, and a sparse set of explicit ratings or preferences.
 Items can be just about anything: documents, movies, music, places, people, or indeed other users.
-The operations of a recommender system is best descriped through graph operations, 
+The operations of a recommender system is best described through graph operations, 
 although the underlying algorithms might not use this as the representation at all.
 \cite{Mirza2003} explain how any RS can be expressed as a graph traversal algorithm.
 Items and users are nodes, while ratings, social connections et cetera are edges between the nodes.
-An RS performs predictive reasoning on this graph by estimating the strenghts of hypothetical connections between nodes that are not explicitly connected.
+An RS performs predictive reasoning on this graph by estimating the strengths of hypothetical connections between nodes that are not explicitly connected.
 
-Note that altough we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same.
+Note that although we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, they all basically mean the same
+in this context.
 
 For example, if a user has rated a subset of the movies in a movie recommendation system, 
 algorithms can use these ratings to predict how well the user will like unseen movies.
@@ -59,7 +60,7 @@ This could for instance entail automatic filing of emails based on content class
 
 An application that personalizes content automatically will fall somewhere in the two last categories and present either an adaptive or intelligent interface, 
 depending on the extent and transparency of its autonomy.
-We are only interested in fully atonomous, intelligent interfaces.
+We are only interested in fully autonomous, intelligent interfaces.
 We wish to create a system that implicitly, and without any effort from each user,
 can adapt the content of an application based on previous behaviour
 Examples of implicit user modeling include \cite{Qiu2006}, \cite{Shen2005} and \cite{Carmel2009}.
@@ -143,7 +144,7 @@ input directly by users, the RS should take into account the domain specific mea
 For example, in a system for rating movies, the jump between ratings 4-5 might not have the same significance as
 the jump from 2-3. However, this is a fact seldom mentioned in the literature. Most RSs 
 employ metrics that assume a normal distribution, and even the common
-evaluation techniques such as RMSE or MAE treat ordinal data as a continous scale.
+evaluation techniques such as RMSE or MAE treat ordinal data as a continuous scale.
 We will get back to this in Chapter \ref{chap:discussion}. 
 % http://technocalifornia.blogspot.com/2011/04/recommender-systems-were-doing-it-all.html
 
@@ -180,7 +181,7 @@ Content-based methods use only items, intra-item relations, and
 an individual user's past history as predictive of future actions \cite[p1]{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
 However, such methods often require a lot of interaction before reliable models can be created \cite[p4]{Adomavicius2005}.
-The problem of having to do complex inference from little data, as is often is in content-based predictions, i
+The problem of having to do complex inference from little data, as is often is in content-based predictions, is
 similar to the \emph{sparsity problem}, is often called the \emph{cold start} or \emph{new user} problem. 
 This is closely related to the common AI problem of \emph{overfitting} data, 
 where the algorithms creates models that match the training data, 
@@ -219,7 +220,7 @@ For example, recommending items similar to the ones already rated by computing t
 The \emph{granularity} variable tells whether this approach creates models for the canonical user, stereotypical users or individual users. 
 For example, \cite{Rich1979} presented one of the first user modeling systems based on stereotypes, 
 used to predict which books in a library each user would most enjoy.
-Here, a dialogue between the system and the user was performed to place the user into a set of sterotypes. 
+Here, a dialogue between the system and the user was performed to place the user into a set of stereotypes. 
 Each stereotype has a set of \emph{facets} which is then used to match books and users.
 This created user models of \emph{typical} granularity, as opposed to common \emph{individual} approaches.
 
@@ -261,7 +262,7 @@ $b_u$ is the user baseline and
 $b_i$ is the item baseline.
 The user and item baselines correspond to how the user's and item's ratings deviate from the norm.
 This makes sense as some items may be consistently rated higher than the average, some users may be 
-highly critical in their assesments, and so on. \citeauthor{Koren2008} computes these baselines by solving the
+highly critical in their assessments, and so on. \citeauthor{Koren2008} computes these baselines by solving the
 least squares problem
 
 \begin{eqsp}
@@ -293,7 +294,7 @@ estimate an unknown rating by averaging the ratings of similar items or users, w
 These approaches often work in two steps: First, a neighborhood if similar elements is computed.
 Second, the similarities and connections within this neighborhood is used to produce a prediction.
 
-The principal method for computing user similarity is the \emph{pearson correlation coefficient} (PCC)
+The principal method for computing user similarity is the \emph{Pearson Correlation Coefficient} (PCC)
 \cite[p11]{Segaran2007}.
 While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
 for testing new ideas (e.g. in \citet{Lemire2005, Ujjin, Konstas}).
@@ -322,7 +323,7 @@ and using a limited neighborhood size $n$, we get
 %
 The limited neighborhood size becomes the statistical sampling size, and is a useful
 way of placing an upper bound on the complexity of computing a neighborhood.
-$n$ does not have to be a raondom sampling --- it can also be limited by the number of ratings 
+$n$ does not have to be a stochastic sampling --- it can also be limited by the number of ratings 
 the two compared users have in common, the number of ratings each user have, or something similar,
 as denoted by $K$ in our the formula.
 
@@ -350,7 +351,7 @@ The PCC is but one of many methods used to compute neighborhoods.
 Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007},
 Spearman's or Kendall Tau rank correlation coefficients \cite[p30]{Herlocker2004} --- 
 variations on the PCC.
-Of course, user similarity does not have to rely on ratigs. 
+Of course, user similarity does not have to rely on ratings. 
 If the system has access to detailed user profiles, these can be used
 to estimate the similarity of users.
 Similarity metrics from information retrieval,
@@ -358,7 +359,7 @@ such as \emph{cosine correlation} from the \emph{vector space model} (VSM) are a
 used to compute item similarities (see section \ref{sec:search}).
 
 \cite{Bell2007a} shows a more sophisticated neighborhood estimation which computes global interpolation weights,
-that can be computed simultaneously for all neirest neighbors.
+that can be computed simultaneously for all nearest neighbors.
 Combinations of metrics are also possible: 
 \cite{Ujjin} first use a simple euclidean metric to gather a larger neighborhood, which is then refined
 by a \emph{genetic algorithm}.
@@ -366,21 +367,21 @@ Another way of computing neighborhoods is by reducing the dimensions of the rati
 as we will now describe.
 
 
-(3) \emph{Dimensionaliy reduction} is an oft-used technique when creating recommender systems.
-The ratings matrix is factored into a set of lower dimension matrixes, that can be used to approximate the original matrix.
+(3) \emph{Dimensionality reduction} is an oft-used technique when creating recommender systems.
+The ratings matrix is factored into a set of lower dimension matrices, that can be used to approximate the original matrix.
 Since this has the added effect of trying to approximate unknown cells, the lower dimension matrices
 can be used to predict unknown ratings (a type of least squares data fitting).
 
 \emph{Singular Value Decomposition} (SVD) is a common method for such matrix factorization (e.g. \citet[p5]{Billsus}, \citet{Sun2005}, \citet{Bell2007}).  
-This is the same underlying technique used by \emph{latent semantic indexing} (LSI) in information retrieval \cite[p44]{Baeza-Yates1999}.
+This is the same underlying technique used by \emph{latent semantic indexing} in information retrieval \cite[p44]{Baeza-Yates1999}.
 Formally, SVD is the factorization $M = U \Sigma V^{T}$. 
 $M$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
 $U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{T}$ (the transpose of $V$) is an $n \times n$ factor (the "stretcher").
 $\Sigma$ is a $m \times n$ diagonal matrix (the "aligner"). 
 $\Sigma$ is a diagonal matrix, made up of what is called the \emph{singular values} of the original matrix.
 
-The dimensionalty reduction can be performed by truncating the factor matrices each to a number of rows or columns, 
-where the number is a paramenter depending on the current domain and data, called the $rank$ ($r$).
+The dimensionality reduction can be performed by truncating the factor matrices each to a number of rows or columns, 
+where the number is a parameter depending on the current domain and data, called the $rank$ ($r$).
 The truncated matrix is $M_r = U_r \Sigma_r V_r^{*}$, where $U_r$ are the first $r$ columns of $U$,
 $V_r^{T}$ are the first $r$ rows of $V^{T}$ and $\Sigma_r$ is the top-left $r \times r$ sub-matrix of $\Sigma$.
 There are many more complex ways of compressing the matrix than pure truncation, but this is the most 
@@ -439,10 +440,10 @@ The image we wish to compress is treated as an $N \times M$ matrix, which is run
 The factors are truncated, and the result expanded to a matrix that is much simpler to represent
 than our original image matrix. As seen in Figure \ref{fig:svd-image}, how close the compressed image resembles the original image
 depends on the chosen $rank$, i.e. how many rows and columns we keep during truncation.
-A higher rank means less dimensionality rediction and less compression of the image.
+A higher rank means less dimensionality reduction and less compression of the image.
 
 The key question for any SVD algorithm is how it performs the factorization,
-and which rank the original matrix is reducted to.
+and which rank the original matrix is reduced to.
 Two common factorization methods are the EM and the ALSWR algorithms.
 An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
 An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
@@ -466,7 +467,7 @@ which is exactly what we need to predict unknown ratings or connections.
 
 (4) \emph{Network traversal} refers to estimating predictions by traversing a graph of users and items to provide recommendations.
 The connections between nodes can be any type of relation that makes sense to the RS. Examples include linking item and user nodes
-based on purchases or explicit ratings, linking user nodes from asymetrical (directed edges) symetrical (undirected edges) relations,
+based on purchases or explicit ratings, linking user nodes from asymmetrical (directed edges) symmetrical (undirected edges) relations,
 or linking items based on some similarity metric.
 Recommender systems can use common graph-traversal algorithms to infer unknown connections in this graph.
 

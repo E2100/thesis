@@ -88,7 +88,7 @@ Our partitioning strategy is now clear:
 \end{enumerate*}
 
 Each modeling method is trained in ways specific to their implementation. 
-Model-based approaches create pre-built strutures and provide offline training,
+Model-based approaches create pre-built structures and provide offline training,
 while heuristic methods simply store the data for future computation.
 Either way, it is up to each modeling method what it does with the supplied training data.
 The result of this algorithm is a set of trained rating models and error models.
@@ -116,7 +116,7 @@ that this error model should represent.
 We first create the aforementioned error matrix by estimating
 predictions for each known combination in the ratings data.
 The $\mathrm{NewModelingMethod}$ call simply creates a new, untrained
-recommender model of some prespecified $type$
+recommender model of some pre-specified $type$
 (in this case, a new SVD-based model, but any recommender method will do).
 A new model is then trained based on the created error matrix,
 and returned as our new $error\_model$.

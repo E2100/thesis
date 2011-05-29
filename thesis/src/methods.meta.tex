@@ -63,18 +63,18 @@ Each model $m \in M$ is used to compute independent and hopefully complimentary 
 In our case, these methods are recommender systems.
 
 As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms,
-that consider differents aspects in the data: users, items and ratings, as well as 
+that consider different aspects in the data: users, items and ratings, as well as 
 sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
 Examples of such recommender systems include Slope One predictions, SVD factorization and Nearest Neighbor weighted predictions
 (see Section \ref{subsec:recommender:examples}).
-These methods predict unkown connections between users and items based on some pattern in the data,
+These methods predict unknown connections between users and items based on some pattern in the data,
 for example user profile similarity, rating correlations or social connections.
 As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
 The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
 In traditional prediction aggregation this is a simple linear function for combining the different predictions,
-for example by precomputing a set of weights, one for each method.
+for example by pre-computing a set of weights, one for each method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of each predictor.
@@ -132,8 +132,8 @@ as we shall soon see.
 
 Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ is helpful 
 as this will guide our implementation into a proper MapReduce framework
-for parallell computation (as explained in \citet[p75]{Manning2008}).
-For optimal performance, both layers can be performed in paralell, as we shall soon see.
+for parallel computation (as explained in \citet[p75]{Manning2008}).
+For optimal performance, both layers can be performed in parallel, as we shall soon see.
 
 
 \subsection{Adaptive Aggregation}
@@ -142,7 +142,7 @@ To perform adaptive aggregation, we need the $Adapters$ to be actual recommender
 Until now we have talked about both prediction aggregation (scores) and rank aggregation (sorted lists).
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
 
-The simplest generalized way of prediction aggregation is to take the avereage of all predictions made
+The simplest generalized way of prediction aggregation is to take the average of all predictions made
 by the different methods (e.g. \citet[p3]{Aslam2001}):
 
 \begin{eqsp}

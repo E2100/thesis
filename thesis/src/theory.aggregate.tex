@@ -12,7 +12,7 @@ We have already seen a few examples of aggregate modeling:
   \item \cite{Huang2002} aggregates different types of graph relations into one prediction.
   \item \citet{Haveliwala2003} combined their personalized PageRank with another approach.
   \item \cite{Carmel2009} combined classic IR with social relations and annotations.
-  \item \citet[p5]{Bender2005} aggregates signals masured from website structure.
+  \item \citet[p5]{Bender2005} aggregates signals measured from website structure.
 \end{itemize*}
 
 Clearly, aggregation is an important part of both RS and PS.
@@ -20,7 +20,7 @@ The reasoning behind combining different approaches is that no one methods
 can capture all the predictive nature of available data.
 For example, 
 \cite{Bell2007b} created a recommender systems where the neighborhood- and SVD-based approaches complement each other.
-While the neighborhoods correspond to "local effects" where similar users influence each other's preictions,
+While the neighborhoods correspond to "local effects" where similar users influence each other's predictions,
 the dimensionality reduction finds "regional effects", major structural patterns in the data: 
 "both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
@@ -47,7 +47,7 @@ Other methods merge the methods themselves into one implementation that uses the
 However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
 to create a result better than any single methods would provide.
 
-There are two main use cases for model aggretation \cite[p1]{Liu2007}: 
+There are two main use cases for model aggregation \cite[p1]{Liu2007}: 
 
 \begin{enumerate}
   \item Rank (or \emph{order-based}) aggregation (RA) lets each method
@@ -55,8 +55,8 @@ There are two main use cases for model aggretation \cite[p1]{Liu2007}:
   into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
   These methods only require the resulting list of items from each method \cite[p1]{Aslam2001}.
 
-  \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combinining predicted scores
-  one-by-one, creating an aggregated result for each element that should be evaulated.
+  \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
+  one-by-one, creating an aggregated result for each element that should be evaluated.
   These methods require the actual prediction scores for any item from each method \cite[p2]{Aslam2001}.
 \end{enumerate}
 
@@ -74,7 +74,7 @@ of this approach to combine an IR and personal approach to result ranking.
 \citet[p3]{Aslam2001} calls their version of this \emph{Weighted Borda-Fuse},
 where the points given from a method to an item is controlled
 by the weights estimated for each method.
-\citet[p4]{Aslam2001} also explain a bayesian approach (\emph{bayes-fuse}),
+\citet[p4]{Aslam2001} also explain a Bayesian approach (\emph{bayes-fuse}),
 that combined with the \emph{naive Bayes} independence assumption 
 produce the following formula:
 
@@ -89,12 +89,12 @@ Conversely, $\mathrm{Pr}(r_i(d) | irr)$ is the probability that the document
 is irrelevant. The probability values are obtained through training,
 and evaluating the results against known relevance judgements.
 An interesting note is that the standard Borda method does not require training data,
-while the weighted version and the bayesian approach do.
+while the weighted version and the Bayesian approach do.
 \citet[p1]{Aslam2001} results with these rank aggregations were positive:
-"Our experimental results show that metasearch algorithms based on the 
+"Our experimental results show that meta-search algorithms based on the 
 Borda and Bayesian models usually outperform the best input system 
 and are competitive with, and often outperform, 
-existing metasearch strategies."
+existing meta-search strategies."
 
 \cite{Liu2007} presents a rank-aggregation framework, where
 the task of estimating a ranking function by using training data.
@@ -126,15 +126,15 @@ over a training set, in an effort to find the combination that gives the lowest 
 This last method improved on the top-scoring predictor by almost 11\% \cite[p3]{Aslam2001},
 showing that even fairly simple combinations have merit.
 
-Early approaches in recommender systems dabbeled in aggregating content-based and collaborative approaches.
+Early approaches in recommender systems dabbled in aggregating content-based and collaborative approaches.
 \cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
 Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
 Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
-knowledge of other users in the system --- knowledge that out-performes simple content analysis.
+knowledge of other users in the system --- knowledge that out-performs simple content analysis.
 In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
 
 Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} (EM) \cite[p1]{Dietterich2000}.
-While most often used to combine classifiers that classify items with discrete lables,
+While most often used to combine classifiers that classify items with discrete labels,
 these methods are also used for aggregating numerical values (see the numerical parts of \cite{Breiman1996}).
 Approaches include \emph{bootstrap aggregation} (bagging) and \emph{boosting} 
 for selecting proper training and testing sets,

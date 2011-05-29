@@ -30,11 +30,11 @@ For users, social connections is a good example: whether or not social connectio
 recommendations or personalized search results is a contentious topic.
 Naturally, a system where each user's personal opinion determines if these connections are used is desireable.
 
-This implication extens to the items that should be recommended:
+This implication extends to the items that should be recommended:
 As evident by the field of information retrieval,
 there exists many ways of considering the relevance of an item. 
 Each of these algorithms can be based on a number of attributes, for example
-temporality, geography, sentiment analysis, topic or keywords.
+temporal information, geography, sentiment analysis, topic or keywords.
 It is not a huge leap to assume that each of these algorithms may have
 varying levels of accuracy for each individual item.
 Adaptive recommenders can help solve this problem by adaptively 
@@ -47,7 +47,7 @@ which would imply that adaptive recommenders
 reliably performs better than our tested standard recommenders.
 
 Hypothesis H2 was confirmed by showing that adaptive recommenders
-can outperform simple, generalized aggragation approaches.
+can outperform simple, generalized aggregation approaches.
 While our standard aggregators were simple,
 this result is promising.
 However, the real test would be to use our approach
@@ -57,7 +57,7 @@ Hypothesis H3 was confirmed by showing that our approach
 can be used to provide personalized search.
 While we did not strictly evaluate the quantitative performance
 of this approach, our results show that different
-prioritations of the IR scores can cope with many different use cases.
+prioritisations of the IR scores can cope with many different use cases.
 The key insight is that the IR score can be seen as a signal
 on the same level as the adaptive recommenders,
 gaining the power of query matching and relevance matching
@@ -86,7 +86,7 @@ This depends on the basic recommenders that are to be combined.
 If the system is made up by many different recommenders,
 that each user might place varying importance on,
 and that may have varying success with each item,
-adaptive recommenders may provide implressive gains in accuracy.
+adaptive recommenders may provide gains in accuracy.
 
 On the other hand, if the recommenders are simple in nature,
 and look at similar patterns in the data,
@@ -102,18 +102,18 @@ than a simple standard recommender.
 to validate the adaptive recommenders technique.
 While our initial results are promising, it is important to stress
 that this is only one test on one dataset. Considering the vast scope
-of appicable data, and the number of ways these results many be 
+of applicable data, and the number of ways these results many be 
 evaluated, the results must be seen for what they are:
 initial and preliminary explorations of a new technique
 that has yet to be proved useful in the real world.
 
 As mentioned in Chapter \ref{chap:theory}, the scale of known ratings is another concern.
 When we have a set of explicit ratings given by users, these are often
-given in discrete steps, and not on a continous scale.
+given in discrete steps, and not on a continuous scale.
 As known from the field of statistics, when using ordinal scales,
-the significance of each steps are not neccessarily equal.
+the significance of each steps are not necessarily equal.
 For instance, on a scale from 1 through 5, the difference
-between 2 and 3 might not be as significant as the differene between 4 and 5.
+between 2 and 3 might not be as significant as the difference between 4 and 5.
 This is a limitation of many recommender system, apparent by the algorithms they use:
 most do not consider the implications of ordinal data.
 Naturally, in a real-world system, this limitation has to be considered.
@@ -128,7 +128,7 @@ However, as most of today's recommender systems
 perform quite simple tasks, they may be more
 than good enough for their purpose.
 
-This will always be a tradeoff, between complexity and required accuracy.
+This will always be a trade-off, between complexity and required accuracy.
 As in many other cases, each of the systems described in this thesis
 have their use cases. In the end, the requirements of each system
 must decide which method best suit their needs.
@@ -139,7 +139,7 @@ raise a number of questions which is outside the scope of this thesis.
 For example, user privacy is a big issue.
 Whenever we have a system that tries to learn the tastes, habits and
 traits of its users, how each user will react to this must be considered.
-This is often a tradeoff between adaptability and transparency.
+This is often a trade-off between adaptability and transparency.
 The most adaptive systems will not always be able to explain to the users
 what is going on and what it knows about each person,
 especially when dealing with emergent behavior based on 
@@ -151,7 +151,7 @@ there is a question of how easy the resulting system will be to use.
 As mentioned in Chapter \ref{chap:theory},
 unpredictability is the enemy of usability.
 Creating an autonomous system that is also
-predictable is a serious challenge, and a common tradeoff.
+predictable is a serious challenge, and a common trade-off.
 
 While a thorough discussion of privacy and usability is 
 outside our scope, they are both important limitations to considered
@@ -170,7 +170,7 @@ In an actual system, the adaptive recommenders should be tested
 against carefully selected standard recommenders,
 optimized for the current domain.
 
-Hypothesis H2 was only tested against simple aggregator methods.
+Hypothesis H2 was only tested against simple aggregators.
 Many more complex aggregations are possible,
 for example by solving the problem of finding
 optimal generalized weights for each method.
@@ -193,7 +193,7 @@ in this domain.
 \section{Contributions} 
 
 We have made two main contributions with this thesis:
-(1) described the latent subjectitivty problem and
+(1) described the latent subjectivity problem and
 (2) developed the technique of adaptive recommenders.
 
 (1) The latent subjectivity problem is one we think hinders
@@ -209,7 +209,7 @@ level, where each user and item is treated the same.
 This underlying subjectivity leads to a mismatch between the notions
 of whoever developed the systems, and the users and items of the service.
 
-The latent subjectivity problem extens to any ensemble learning system
+The latent subjectivity problem extends to any ensemble learning system
 (as those described in \cite{Polikar2006}) that blends multiple 
 algorithms to leverage patterns.
 Whenever we have multiple algorithms that work on a set of items
@@ -242,8 +242,8 @@ This leads to adaptive ensembles that should outperform generalized approaches.
 Because of this, the technique build in this thesis should be 
 applicable in situations other than recommender systems.
 
-While the experiments of Chapter \ref{chap:results} show the general viability of adaptive reocmmenders,
-we belive there are greater opportunities in systems where there  are even more diverging
+While the experiments of Chapter \ref{chap:results} show the general viability of adaptive recommenders,
+we believe there are greater opportunities in systems where there  are even more diverging
 patterns to be leveraged. The prime examples of this are systems that may or may 
 not use social connections between users, and systems which predict the 
 relevance of widely varying items.
@@ -278,7 +278,7 @@ better results in a more elegant way.
 
 \paragraph{Using Adaptive Recommenders in Other Domains}
 We chose to use the MovieLens dataset and the RMSE evaluation measure for testing our approach.
-The primary reason was to be able to direcly evaluate our results towards those of other research thesiss.
+The primary reason was to be able to directly evaluate our results towards those of other research thesis.
 As this dataset and this error measure is widely used to evaluate recommender systems,
 it is natural for a first look at a new approach to use the same notions of accuracy.
 
@@ -290,7 +290,7 @@ for each algorithm.
 
 Naturally, the more diverse the data and algorithms get,
 the more dire the need for adaptive aggregation becomes.
-Because of this, using adaptive recommeners in other domains with more variation 
+Because of this, using adaptive recommenders in other domains with more variation 
 in the data and combined algorithms would be an interesting topic.
 
 
@@ -346,7 +346,7 @@ to mitigate the overload.
 This thesis has explained the \emph{latent subjectivity problem},
 and introduced the technique of \emph{adaptive recommenders}
 in an attempt to solve it.
-We belive this solution is one possible way to minimize the overload problem.
+We believe this solution is one possible way to minimize the overload problem.
 Our technique implicitly, and without any extra work required from each user
 adapts how the system models users and items based on past performance.
 Our experiments show that this technique is capable of higher accuracy
@@ -366,7 +366,7 @@ aggregation is key to stopping information overload,
 regardless of how it is done.
 Generalized methods is not enough: only
 by creating truly adaptive systems that adapt their
-algorithms to ecah user and item can we achieve a 
+algorithms to each user and item can we achieve a 
 system powerful enough to deal with the widely
 varying users, and vast scope of items.
 

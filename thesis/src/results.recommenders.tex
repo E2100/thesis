@@ -3,7 +3,7 @@
 We need a number of recommender systems for each experiment.
 Standard recommenders will be used for both the basic predictions,
 and the accuracy estimations,
-as desecribed in Chapter \ref{chap:methods}.
+as described in Chapter \ref{chap:methods}.
 
 Naturally, we need a large number of different recommenders, preferably ones that consider
 disjoint patterns in the data. Table \ref{table:results:methods}
@@ -27,13 +27,13 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
     S & svd4          & SVD                   & EM factorizer, 20 features. \\
     S & slope\_one    & Slope One             & Rating delta computations. \\
     S & item\_avg     & Baseline              & Based on item averages. \\ 
-    S & baseline      & Baseline              & Basd on user and item averages.\\ 
-    S & cosine   	    & Cosine similarity     & Weigted ratings from similar items.\\ 
+    S & baseline      & Baseline              & Based on user and item averages.\\ 
+    S & cosine   	    & Cosine similarity     & Weighted ratings from similar items.\\ 
     S & knn       	  & Pearson Corr.         & Weighted ratings from similar users.\\
     \midrule
     A & median    	  & Aggregation           & Median rating from the above methods. \\
     A & average    	  & Aggregation           & Average rating from the above methods. \\
-    A & adaptive       & Adaptive agg.         & Accuracy predictions from error models. \\
+    A & adaptive      & Adaptive agg.         & Accuracy predictions from error models. \\
     \bottomrule
   \end{tabular*}
   \caption[adaptive Modeling Methods]{
@@ -50,7 +50,7 @@ First, we have the basic recommenders, denoted by \emph{S} in the table.
 These recommenders each look at the data in different ways to arrive at predicted ratings.
 We chose this wide range of recommenders for just this reason:
 as previously explained, the performance of aggregate recommenders
-are more dependent on the disimilarity of the basic recommenders
+are more dependent on the dissimilarity of the basic recommenders
 than their individual performance.
 
 Let us briefly explain how each basic recommender works.
@@ -100,9 +100,9 @@ denoted "A").
 
 The first two of these methods are simple aggregation approaches.
 These will be used to test hypothesis H2.
-The median aggregator choses the median value of the predictions
+The median aggregation method choses the median value of the predictions
 produced by the standard recommenders.
-Similarly, the average aggregator takes the mean of the
+Similarly, the average aggregation method takes the mean of the
 standard predictions.
 While not complex in nature, these methods
 will help us see how our method compares to simple, traditional
