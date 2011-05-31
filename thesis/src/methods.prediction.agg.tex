@@ -35,7 +35,7 @@ untrained recommender systems).
   \begin{algorithmic}[1]
   \REQUIRE ratings: The ratings matrix
   \REQUIRE methods: The set of modeling methods
-  \ENSURE
+  \ENSURE  rating\_models, error\_models: trained rating and error models 
     \STATE $rating\_models \gets \emptyset$
     \STATE $error\_models \gets \emptyset$
     \FORALL{$m \in methods$}
@@ -95,9 +95,9 @@ The result of this algorithm is a set of trained rating models and error models.
 
 \begin{algorithm}
   \begin{algorithmic}[1]
-  \REQUIRE ratings: The ratings matrix
-  \REQUIRE rating\_model: A standard user model
-  \ENSURE
+  \REQUIRE ratings: the ratings matrix
+  \REQUIRE rating\_model: a recommender system user model
+  \ENSURE error\_model: a trained error model for this method
     \STATE $errors \gets [[]]$
     \FORALL{$user,item,rating \in ratings$}
         \STATE $errors_{user,item} \gets | ratings_{user,item} - \mathrm{Predict}(rating\_model, user, item) |$
@@ -136,10 +136,10 @@ Listing \ref{code:prediction} gives the basic algorithm.
 
 \begin{algorithm}
   \begin{algorithmic}[1]
-  \REQUIRE user, item: A user and an item
-  \REQUIRE rating\_models: The set of trained modeling methods 
-  \REQUIRE error\_models: The set of trained error models
-  \ENSURE
+  \REQUIRE user, item: a user and an item
+  \REQUIRE rating\_models: the set of trained modeling methods 
+  \REQUIRE error\_models: the set of trained error models
+  \ENSURE  prediction: the predicted relevance of the item to the user
     \STATE $ratings \gets \emptyset$
     \STATE $errors  \gets \emptyset$
     \FORALL{$m \in rating\_models$}

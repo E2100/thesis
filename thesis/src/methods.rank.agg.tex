@@ -115,13 +115,13 @@ which is not our concern in this chapter.
 
 \begin{algorithm}[t]
   \begin{algorithmic}[1]
-  \REQUIRE user: The current user
-  \REQUIRE items: The set of all items and their meta-data
-  \REQUIRE query: The user initiated query
-  \REQUIRE ir\_model: A trained IR model
-  \REQUIRE rating\_models: The set of trained modeling methods 
-  \REQUIRE error\_models: The set of trained error models
-  \ENSURE
+  \REQUIRE user: the current user
+  \REQUIRE items: the set of all items and their meta-data
+  \REQUIRE query: the user initiated query
+  \REQUIRE ir\_model: a trained IR model
+  \REQUIRE rating\_models: the set of trained modeling methods 
+  \REQUIRE error\_models: the set of trained error models
+  \ENSURE  results: the adaptively sorted list of results
     \STATE $ratings \gets \emptyset$
     \STATE $errors  \gets \emptyset$
     \STATE $results \gets \mathrm{Search}(ir\_model, items, query)$

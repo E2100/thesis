@@ -255,6 +255,28 @@ The result is a set of modeling methods
 that can predict the error of a recommender system
 when its used on a particular user and item combination.
 
+What will happen when we train a recommender system with the error matrix?
+First of all, the errors will be on the same scale as the initial ratings.
+Second, just as the ratings matrix will include noise (ratings that
+do not contribute to any underlying pattern), this will be 
+true for the error matrix as well.
+
+For example, one method might have a large error for a particular user and item combination,
+yet still work well for both these elements. 
+Luckily, this is 
+just the kind of noise recommender systems are good at pruning away.
+What we are interested in are situations where a method
+has stable and significant errors for many ratings from a user,
+or many ratings of an item.
+In this case, there is a pattern where this method does not 
+work well for the element in question.
+This is exactly the kind of pattern recommender systems are good at identifying.
+
+In other words, the same capabilities that makes recommender systems work well
+on the ratings matrix, will also make them work well on the error matrix.
+The properties we need for predicting ratings
+are the same as those needed to predict accuracy.
+
 Of course, some recommender systems will work better than others for the adaptive layer.
 Most often we are seeking global patterns in the data.
 We are looking for groups of users or items (or both) that suite some 
