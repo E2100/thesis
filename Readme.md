@@ -1,4 +1,4 @@
-**Adaptive Recommenders: Personalized Prediction Aggregation Through Accuracy Estimation**
+**Adaptive Aggregation of Recommender Systems**
 
 In the field of artificial intelligence,
 *recommender systems* are user modeling methods
@@ -58,7 +58,7 @@ at the Norwegian University of Science and Technology (NTNU).
 **Files in this repository**
 
 The thesis can be found in the "thesis/dist" folder.
-The corresponding implementation in the "code" folder.
+The corresponding implementation is in the "code" folder.
 A short version of the thesis is available as a paper in the "paper/dist" folder.
 
 
