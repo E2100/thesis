@@ -1,0 +1,44 @@
+\begin{figure*}[!t]
+  \center
+  \def\layersep{3cm}
+  \begin{tikzpicture}[shorten >=1pt,->,draw=black, node distance=\layersep]
+
+    \tikzstyle{every pin edge}=[<-,shorten <=2pt]
+    \tikzstyle{rmodel}=[rectangle,fill=green!25,minimum size=20pt,inner sep=5pt]
+    \tikzstyle{emodel}=[rectangle,fill=blue!25,minimum size=20pt,inner sep=5pt]
+    \tikzstyle{amodel}=[rectangle,fill=red!25,minimum size=20pt,inner sep=5pt]
+    \tikzstyle{blank}=[rectangle,right,fill=white,minimum size=20pt,inner sep=5pt]
+    
+    \node[blank] (UI) at (0,-0.5) {(u,i)}; 
+
+    \node[blank] (EM) at (\layersep,-1) {error model};
+    \node[blank] (RM) at (\layersep,0) {ratings model};
+    
+    \node[blank] (ER) at (\layersep*2.1,-1) {predicted error};
+    \node[blank] (RR) at (\layersep*2.1,0) {predicted rating};
+ 
+    \node[blank] (AG) at (\layersep*3.4,-0.5) {adaption};
+    \node[blank] (W) at (\layersep*4.3,-0.5) {$\hat{pr}$}; 
+    
+    \path (UI) edge (EM);
+    \path (UI) edge (RM);
+    \path (EM) edge (ER);
+    \path (RM) edge (RR);
+    \path (ER) edge (AG);
+    \path (RR) edge (AG);
+    \path (AG) edge (W);
+       
+  \end{tikzpicture}
+
+  \vspace{1em}
+  \caption[Multiple Models for Adaptive Weights]{
+    Multiple models for adaptive weights: 
+    The data flow through the adaption of a single recommender method.
+    The current user and item is fed into two distinct models: the ratings model, which 
+    predicts unknown ratings, and the error model, which predicts how accurate 
+    this rating will be for the current input. 
+    The two predictions are then aggregated into a final part of a rating ($\hat{pr}$).
+    Each of the recommenders contribute parts to the final rating.
+  }
+  \label{fig:adaptiveweights}
+\end{figure*}
