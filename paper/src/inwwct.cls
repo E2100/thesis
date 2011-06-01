@@ -59,44 +59,4 @@
 {0.5ex plus 0.5ex minus 0ex}{\normalfont\normalsize\itshape}}%
 
 
-% Custom
-% -----------------------------------------------------------------
-
-% utf-8
-\usepackage[utf8]{inputenc} 
-
-% Compact lists
-\RequirePackage{mdwlist}
-
-% Text
-\RequirePackage{array}
-
-% Math
-\RequirePackage{amsmath}
-\RequirePackage{amsthm}
-\RequirePackage{amssymb}
-
-% Graphics
-\RequirePackage{graphicx}
-\RequirePackage{pdfpages}
-\RequirePackage{wrapfig}
-\RequirePackage{subfig}
-\RequirePackage{caption}
-\RequirePackage{tikz}
-\RequirePackage{pgf}
-\RequirePackage{pgfplots}
-\usetikzlibrary{arrows,shapes,positioning,plotmarks}
-
-% Counters
-\newcounter{MYtempeqncnt}
-
-% Color
-\RequirePackage{xcolor}
-\definecolor{red}{HTML}{990000}
-\definecolor{green}{HTML}{336633}
-\definecolor{black}{HTML}{000000}
-\definecolor{lightgray}{HTML}{CCCCCC}
-\definecolor{gray}{HTML}{999999}
-\definecolor{darkgray}{HTML}{666666}
-
 
