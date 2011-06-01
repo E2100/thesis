@@ -27,6 +27,7 @@ require 'ranker'
 require 'rmse_evaluator'
 require 'rank_evaluator'
 require 'aggregate_recommender'
+require 'weighted_recommender'
 require 'adaptive_recommender'
 
 # config

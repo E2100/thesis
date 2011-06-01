@@ -79,6 +79,10 @@ private
     AggregateRecommender.new(@task, model)
   end 
 
+  def weighted
+    WeightedRecommender.new(@task, model)
+  end
+
   def adaptive
     AdaptiveRecommender.new(@task, model)
   end
