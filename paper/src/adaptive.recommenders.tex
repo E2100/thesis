@@ -25,15 +25,16 @@ The first set creates standard prediction scores, and answers the first question
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
 The interesting bit is that AR can use recommender systems for both these tasks, as we shall soon see.
+
 A system for adaptive recommenders is specified by a 6-tuple, 
 $\mathrm{AR} = (I,U,R,F,M,A)$.
-
 We have sets of $Users$ ($U$) and $Items$ ($I$), 
 and a set of $Ratings$ ($R$): each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 Items can be just about anything: documents, websites, movies, events, or indeed, other users.
 The ratings can be explicitly provided by users, for example by rating movies,
 or they can be mined from existing data, for example by mining query logs
 (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000}).
+
 We use the term "rating" loosely --- equivalent terms include \emph{relevance}, \emph{utility},
 \emph{score} or \emph{connection strength}. In other words, this is a measure of what a user thinks of an item
 in the current domain language. However, since \emph{rating} 
