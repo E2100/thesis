@@ -1,7 +1,7 @@
 \section{Adaptive Recommenders}
 \label{sec:usermetamodeling}
 
-\emph{Adaptive Recommenders} (SR) is a technique for combining recommender systems
+\emph{Adaptive Recommenders} (AR) is a technique for combining recommender systems
 in an effort to answer two important questions.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
@@ -23,11 +23,11 @@ with another complementary set of recommender systems}
 The first set creates standard prediction scores, and answers the first question.
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
-The interesting bit is that SR can use recommender systems for both these tasks, as we shall soon see.
+The interesting bit is that AR can use recommender systems for both these tasks, as we shall soon see.
 A system for adaptive recommenders is specified by a 6-tuple:
 
 \begin{eqnarray*}
-  \mathrm{SR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
+  \mathrm{AR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
               &=& (I,U,R,F,M,A).
 \end{eqnarray*}
 %
