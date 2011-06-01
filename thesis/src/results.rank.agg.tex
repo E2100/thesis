@@ -23,6 +23,18 @@ Hypothesis H3 states that
 We wish to check if the prediction algorithm
 in Listing \ref{code:rank:prediction} performs personalized search
 in a meaningful way.
+There are a few important limitations to this experiment:
+
+\begin{itemize}
+  \item 
+    We are not interested in measuring the actual performance of the IR system.
+    It us assumed that the IR model returns items relevant to the current query,
+    ranked by their individual relevance.
+  \item
+    We are not interested in measuring the performance of the resulting personalized search.
+    This experiment will only show whether or not personalized search is achievable
+    by using adaptive recommenders, as per our hypothesis.
+\end{itemize}
 
 \begin{comment}
 \begin{table}[b]
