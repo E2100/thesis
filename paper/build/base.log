@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.9.23)  1 JUN 2011 16:04
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.9.23)  1 JUN 2011 16:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1143,7 +1143,7 @@ Before submitting the final camera ready copy, remember to:
 Here is how much of TeX's memory you used:
  19205 strings out of 493747
  418963 string characters out of 3143546
- 566603 words of memory out of 3000000
+ 566605 words of memory out of 3000000
  22030 multiletter control sequences out of 15000+200000
  56262 words of font info for 130 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -1163,7 +1163,7 @@ live/2010/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/20
 10/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/local/texlive/2010/tex
 mf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2010/texmf-dist
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on base.pdf (10 pages, 217141 bytes).
+Output written on base.pdf (10 pages, 217143 bytes).
 PDF statistics:
  97 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream
