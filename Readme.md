@@ -9,14 +9,13 @@ Recommender systems examine data such as ratings, query logs,
 user behaviour and social connections to predict
 what each user will think of each available item.
 
-Modern recommender systems use ensemble learning techniques,
-combining multiple standard recommenders,
-in order to leverage disjoint patterns in the available data.
+Modern recommender systems
+combine multiple standard recommenders,
+in order to leverage disjoint patterns in available data.
 By combining different methods,
 complex predictions that rely on much evidence can be made.
-These aggregations are done on a generalized level,
-often by weighting each recommender in a way
-that achieves an optimal result.
+These aggregations are done on a generalized level
+by estimating weights that result in an optimal combination.
 
 However, we posit these systems have an important weakness.
 There exists an underlying, misplaced subjectivity to relevance prediction.
@@ -46,12 +45,20 @@ Our initial results are promising, showing that adaptive recommenders
 can outperform both standard recommenders and simple aggregation methods.
 We also discuss the implications and limitations of our results.
 
-The paper can be found in the "thesis/dist" folder, 
-and the corresponding implementation in the "code" folder.
-
 ---
+
+**Colophon**
 
 This is a Master Thesis in the field of Artificial Intelligence,
 as part of my degree in Computer Science
 at the Norwegian University of Science and Technology (NTNU).
+
+---
+
+**Files in this repository**
+
+The thesis can be found in the "thesis/dist" folder.
+The corresponding implementation in the "code" folder.
+A short version of the thesis is available as a paper in the "paper/dist" folder.
+
 
