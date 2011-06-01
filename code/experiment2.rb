@@ -1,6 +1,4 @@
-require 'lib/metamodel'
 require 'experiments'
-AR  = AR
 
 datasets = {
   d1: '1',

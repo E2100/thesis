@@ -1,4 +1,4 @@
-require 'lib/metamodel'
+require 'lib/ar'
 
 module AR
   extend self

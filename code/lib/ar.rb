@@ -3,7 +3,7 @@ raise "JRuby required"    unless RUBY_PLATFORM =~ /java/
 raise "Ruby 1.9 required" unless RUBY_VERSION  =~ /^1.9/
 
 # load path
-$: << File.join(File.dirname(__FILE__), 'metamodel')
+$: << File.join(File.dirname(__FILE__), 'ar')
 
 # standard libs
 require 'java'

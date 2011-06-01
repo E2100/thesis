@@ -1,4 +1,3 @@
-require 'lib/metamodel'
 require 'experiments'
 
 queries = [
