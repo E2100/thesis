@@ -1,4 +1,4 @@
-\section{Related Work}
+\section{Theory \emph{\&} Related Work}
 
 There are many ways of predicting the
 relevance of an item to a user. 
@@ -13,7 +13,7 @@ of different types of recommenders.
 
 We are more interested in current approaches to recommender prediction aggregation,
 that is, combining multiple predictions made by different algorithms.
-\cite{Aslam2001} describes a number of simple approaches to prediction aggregation.
+\cite{Aslam2001} describes a number of simple approaches.
 Min, max and sum models combine the individual predictions in some way, 
 or select one or more of the results as the final prediction. 
 Other models use the average, or log-average of the different methods.
@@ -24,9 +24,12 @@ This last method improved on the top-scoring predictor by almost 11\% \cite[p3]{
 showing that even fairly simple combinations have merit.
 
 Early approaches in recommender systems dabbled in aggregating content-based and collaborative approaches.
+Content-based (CB) methods look at item similarities and the previous actions of a single user.
+On the other hand, Collaborative Filtering approaches consider
+previous actions from other users in the system.
 \cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
-Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
-Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
+Collaborative filtering methods have problems rating items for new users, radically different users or when dealing with very sparse data.
+Content-based methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
 knowledge of other users in the system --- knowledge that out-performs simple content analysis.
 In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
 
