@@ -13,7 +13,7 @@ Such systems are commonly used on the Web to provide a host of functionality, in
   \item Personalizing search results based on the current user's preferences.
 \end{itemize*}
 
-Note that although we use "ratings", "utility", "preference", "relevance" and "connection strength" depending on the context, 
+Note that although we use \emph{ratings}, \emph{utility}, \emph{preference}, \emph{relevance} and \emph{connection strength} depending on the context, 
 they all basically mean the same, depending on the context. 
 The terms are measures for what a user thinks of an item, using the domain language of the application in question.
 These measures can be explicitly provided by each user, or implicitly mined from observed user behavior.
@@ -29,7 +29,7 @@ For example, if a user has rated a subset of the movies in a movie recommendatio
 algorithms can use these ratings to predict how well the user will like unseen movies.
 This inference can for instance be based on each movie's ratings from similar users.
 In social networks, recommender systems can be used to infer new social relations 
-based on existing connections. The principle is the same: By evaluating current explicit
+based on existing connections. The principle is the same. By evaluating current explicit
 connections, and the connections of similar users, new connections can be predicted.
 
 As evident by the examples, recommender systems are powerful methods for user modeling, personalization and for fighting information overload.
@@ -126,8 +126,8 @@ For example, in the seminal Netflix Challenge movie recommender dataset, almost 
 user/item pairs have no rating \cite[p1]{Bell2007d}. In other words, 
 this recommender system had to be able to produce results from a matrix where only 1\% of the cells had meaningful values.
 
-This is often the defining characteristic of a recommender system: 
-its ability to extract meaningful patterns from sparse data, 
+This is often the defining characteristic of a recommender system.
+An RS is defined by its ability to extract meaningful patterns from sparse data, 
 through dimensionality reduction, neighborhood estimation and many other methods, as we shall soon see.
 Naturally, much research looks at ways to best tackle this sparsity problem
 (e.g. \cite{Pitsilis2009}, \citet[p3]{Claypool1999}, \citet[p19]{Ziegler2005}).
@@ -157,7 +157,7 @@ We will get back to these problems in Chapters \ref{chap:results} \emph{\&} \ref
 
 The crucial part of any RS is how it predicts unknown ratings.
 Because of this, each method may be categorized based on certain dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-In this thesis, we use a taxonomy where these dimensions are: 
+In this thesis, we use a taxonomy where these dimensions are 
 (1) the available \emph{data}, 
 (2) the prediction \emph{method}, 
 (3) the model \emph{granularity}, 
@@ -190,7 +190,7 @@ similar to the \emph{sparsity problem}, is often called the \emph{cold start} or
 This is closely related to the common AI problem of \emph{overfitting} data, 
 where the algorithms creates models that match the training data, 
 but not the actual underlying relationships. 
-As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving "warmer" cold start
+As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving ``warmer'' cold start
 (e.g. \cite{Said2009}, \cite{Lilegraven2011}). 
 Formally, when using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
 where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p2]{Adomavicius2005}.

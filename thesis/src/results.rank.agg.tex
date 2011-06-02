@@ -48,7 +48,7 @@ There are a few important limitations to this experiment:
     \midrule
     
     1 &
-    ["new york or washington"] &
+    [``new york or washington''] &
     combined &
     $1.0$ \\
 
@@ -134,7 +134,7 @@ while the adaptive recommenders finds the most enjoyable movies,
 according to the metrics most preferred by this user in the past.
 
 Table \ref{table:rank:washington} shows this use case and how our algorithm performs.
-The results are for the query [\emph{"new york" or washington}].
+The results are for the query [\emph{``new york'' or washington}].
 The first table shows the IR scores for the first 10 results,
 and their rank (position in the list) according to these scores.
 The second table shows the predicted rankings for each of these items.
@@ -148,7 +148,7 @@ instructing the algorithm place about the same importance on the IR score
 and the predicted ratings. As we can see in the last section of 
 Table \ref{table:rank:washington} the final result list is a blend
 of the IR rankings and prediction rankings.
-In other words, we have achieved personalized search: the results
+In other words, we have achieved personalized search. The results
 from the IR method are re-ranked according to personal preferences.
 
 

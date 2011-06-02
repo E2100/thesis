@@ -45,9 +45,9 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
   \label{table:results:methods}
 \end{table}
 
-As seen in Table \ref{table:results:methods}, we have two types of recommenders:
+As seen in Table \ref{table:results:methods}, we have two types of recommenders.
 First, we have the basic recommenders, denoted by \emph{S} in the table.
-These recommenders each look at the data in different ways to arrive at predicted ratings.
+Each recommender system looks at varying data patterns to predict ratings.
 We chose this wide range of recommenders for just this reason:
 as previously explained, the performance of aggregate recommenders
 are more dependent on the dissimilarity of the basic recommenders
@@ -71,6 +71,7 @@ The cosine similarity algorithm looks for items that are rated
 similarly by the same users, and infers item similarity from this measure.
 New ratings are then predicted by taking known ratings of other items,
 weighted by their item's similarity to the new item.
+This is based on the same method used in the previously introduced vector space model.
 
 The KNN algorithm employs yet another approach. This algorithm,
 similar in strategy to the cosine similarity algorithm,
@@ -96,7 +97,7 @@ effect of looking at disjoint data patterns.
 The second type of recommenders are the aggregation methods, 
 that combine the result of each of the basic recommender systems
 (the methods below the middle line in Table \ref{table:results:methods},
-denoted "A").
+denoted ``A'').
 
 The first two of these methods are simple aggregation approaches.
 These will be used to test hypothesis H2.
@@ -115,7 +116,7 @@ in Chapter \ref{chap:methods},
 that create secondary accuracy estimating recommender systems,
 in order to adaptively weigh each basic recommender.
 All the aggregation approaches, including our technique,
-use every basic recommender system described so far.
+employ every basic recommender system described so far.
 
 As explained in Section \ref{sec:usermetamodeling},
 any basic recommender system can be used for the adaptive method.
@@ -140,9 +141,9 @@ or users a specific recommender works well for.
 It is important to note that the same configuration of recommenders was used for all three experiments.
 In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
 to each dataset. To be sure, higher performance could probably have been achieved
-by tailoring each recommender to each dataset. However,
-as our goal is to compare our finite set of methods, all we care 
-about is how they perform compared to each other.
+by tailoring each recommender to each dataset. 
+However, as our goal is to compare our finite set of methods, 
+we are currently only interested in how they perform compared to each other.
 
 As with the basic recommenders, the same SVD recommender configuration was used 
 for the adaptive layer in each Experiment.

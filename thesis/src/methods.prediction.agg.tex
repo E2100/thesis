@@ -20,7 +20,7 @@ Most importantly, there are two distinct phases to adaptive recommenders:
 We shall first explain the modeling phase, then the prediction phase,
 when dealing with prediction aggregation.
 The next section will explain a similar situation where
-we wish to do \emph{adaptive rank aggregation}: 
+we wish to do \emph{adaptive rank aggregation} by 
 combining ordered lists of results, depending on the current user and item.
 
 
@@ -75,10 +75,10 @@ In statistics, these types of samples are called \emph{bootstrap samples}.
 If $n'$ is comparable in size to $n$, there will be some items
 that are repeated in the new training sets.
 
-Bagging suits our needs perfectly, for a few reasons: First, the method helps create disjoint predictors, 
+Bagging suits our needs for a few reasons. First, the method helps create disjoint predictors, 
 since each predictor is only trained (or specialized for) a subset of the available data.
 Second, it allows us to easily train the underlying modeling methods without any complex partitioning of the data.
-Our partitioning strategy is now clear:
+To partition and use the available data, we use the following algorithm:
 
 \begin{enumerate*}
   \item Split the entire dataset into a training and testing set.

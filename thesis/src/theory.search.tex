@@ -10,14 +10,14 @@ the basics of \emph{information retrieval} (IR).
 \subsection{Information Retrieval}
 \label{sec:ir}
 
-\citet[p1]{Manning2008} define IR as "finding material (usually documents) of
+\citet[p1]{Manning2008} define IR as \emph{``finding material (usually documents) of
 an unstructured nature (usually text) that satisfies an information need
-from within large collections (usually stored on computers)".
+from within large collections (usually stored on computers)''}.
 
 How does this relate to recommender systems? There is an important distinction:
-The purpose of \emph{recommending} is twofold: (1) to show the user items
+The purpose of \emph{recommending} is twofold. (1) To show the user items
 similar to another item, and (2) to allow discovery of relevant items the user did not know exist.
-The purpose of \emph{search} is a bit different: to allow the user to find the location of
+The purpose of \emph{search} is a bit different. To allow the user to find the location of
 information he or she knows (or hopes) exists.
 In other words, the defining separator is often the knowledge of existence.
 However, as we shall see, the two fields employ similar methods and terminology. 
@@ -60,14 +60,14 @@ Recall, precision and relevance are well defined measures for evaluating the qua
 \end{itemize*}
 
 There are many more measures, but recall and precision succinctly define what a search engine must to
-to be successful: retrieve many relevant documents and few irrelevant documents.
+to be successful --- retrieve many relevant documents and few irrelevant documents.
 Failing this test is to neglect the main purpose of IR:
 to prevent information overload by allowing efficient access 
 to relevant parts of an otherwise overwhelming collection of information.
 
 In relation to this thesis, the most interesting part of any IR system is its \emph{ranking function}.
 This function computes the score of each document relative to the current query. 
-The relation to recommender systems is quite clear: both the ranking function and RSs
+The relation to recommender systems is quite clear. Both the ranking function and RSs
 compute the relevance of items in the current context, either based on a query or the current user.
 Indeed, IR systems use many of the same metrics to measure the similarity of queries and documents,
 as RSs measure the similarity of items.
@@ -127,13 +127,13 @@ Different types of ranking functions are combined to produce the final \emph{sea
 with each ranking function often being referred to as a \emph{signal}. Alternate names include
 \emph{re-ranking} or \emph{re-scoring} functions.
 
-Google, the company behind the popular online search engine, writes: "Today we use more than 200 signals, including PageRank, 
-to order websites, and we update these algorithms on a weekly basis. 
+Google, the company behind the popular online search engine, writes that \emph{``Today we use more than 200 signals, including PageRank, 
+to order websites, and we update these algorithms on a weekly basis.
 For example, we offer personalized search results based on your web history and 
-location."\footnote{\url{google.com/corporate/tech.html} --- accessed 11.04.2011}
+location.''}\footnote{\url{google.com/corporate/tech.html} --- accessed 11.04.2011}
 Bing, a Web search engine from Microsoft, uses the same terminology:
-"We use over 1,000 different signals and features in our ranking 
-algorithm."\footnote{\url{bing.com/community/site_blogs/b/search/archive/2011/02/01/thoughts-on-search-quality.aspx} --- accessed 11.04.2011}
+\emph{``We use over 1,000 different signals and features in our ranking 
+algorithm.''}\footnote{\url{bing.com/community/site_blogs/b/search/archive/2011/02/01/thoughts-on-search-quality.aspx} --- accessed 11.04.2011}
 
 Signals are often products of the document structure of the current domain.
 \citet[p5]{Bender2005} points to the use of the proximity of query terms in matching documents.
@@ -157,7 +157,7 @@ Each web site is given its rank based on how many pages that link to it.
 For each page that provides links, the score it contributes to the linked-to page is 
 its own page rank, inversely proportional to the number of outbound links the page has.
 Another intuitive justification for a site's PageRank is the \emph{random surfer model} \cite[p4]{Bender2005}.
-The probability that the random surfer visits a page is its PageRank. The "randomness" is introduced 
+The probability that the random surfer visits a page is its PageRank. The \emph{randomness} is introduced 
 by a damping parameter $d$, which is the probability that a user will stop browsing and start at a new random page:
 
 \begin{eqsp}
@@ -168,7 +168,7 @@ where $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is 
 The first term distributes an equal PageRank score to all pages that have no outbound links, as $N$ is the total number of pages.
 This iterative algorithm is run until convergence inside a small delta.
 
-Let us now finally take a look at one of the main uses of signals: \emph{personalized search}.
+Let us now finally take a look \emph{personalized search}, which is one of the main uses of these signals.
 
 
 \subsection{Personalizing Search Results}
@@ -179,7 +179,7 @@ the restricted nature of queries, comes the wildly differing users.
 Each user is unique. Even when considering one user, there might be many 
 different use cases, for example when using the same search engine at work and at home.
 Another identified problem is that users use search engines for navigation as well as pure search.
-\citet{Teevan2007} found that as many as 40\% of all queries to the Yahoo! search engine were "re-finding queries",
+\citet{Teevan2007} found that as many as 40\% of all queries to the Yahoo! search engine were ``re-finding queries'',
 i.e. attempts to find information the user had accessed before.
 
 \emph{Personalized search} attempts to solve these problems by introducing individually adaptive search results. 
@@ -195,17 +195,17 @@ retrieves and ranks documents. The second method is results re-ranking, where th
 based on personalized metrics. This section describes the latter approach.
 
 To demonstrate how these methods compare to traditional recommendation systems,
-we will explore a few different approaches to personalized search: 
-(1) \emph{personalized topic-sensitive PageRank},
+we will explore a few different approaches to personalized search. 
+(1) \emph{Personalized topic-sensitive PageRank},
 (2) \emph{folksonomy-based personalization} and
 (3) \emph{social network search ranking}.
 
 (1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
-to "generate more accurate rankings than with a single, generic PageRank vector". 
+to \emph{``generate more accurate rankings than with a single, generic PageRank vector''}. 
 They show how to create topic-specific PageRank vectors for a number of pre-set topics,
 creating many rankings per page, one for each topic.
 This new PageRank is computed based on an existing set of websites that belong to each topic.
-\citet{Qiu2006} achieved "significant improvements" to this approach by adding a personally adaptive layer
+\citet{Qiu2006} achieved ``significant improvements'' to this approach by adding a personally adaptive layer
 to the topic-sensitive PageRank algorithm, creating a \emph{personalized PageRank algorithm}. 
 
 In addition to the topic vector, \citeauthor{Qiu2006}
@@ -251,7 +251,7 @@ In our terms, this personomy would be the user model.
 \cite{Bao2007} shows how folksonomies can be used to personalize search.
 They first create a topic-space, where every user and document are represented.
 Each tag in the system is a dimension in this topic-space, or tag-space.
-Whenever a new query is issued, two things happen: First, a regular IR method
+Whenever a new query is issued, two things happen. First, a regular IR method
 computed a standard, non-personalized ranking of documents.
 Second, a personalized ranking list is computed by performing a simple
 vector-space model matching in the topic-space, for example by using
@@ -276,12 +276,12 @@ to provide an individual searching experience.
 
 (3) \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
 By re-ranking documents according to their relation to with individuals in the current user's social network,
-they arrived at a document ranking that "significantly outperformed" non-personalized social search \cite[p1]{Carmel2009}.
-Note, however the qualifier "social search" --- their project searches through social data within an enterprise, 
+they arrived at a document ranking that ``significantly outperformed'' non-personalized social search \cite[p1]{Carmel2009}.
+Note, however the qualifier ``social search''. Their project searches through social data within an enterprise, 
 naturally conducive to algorithmic alterations based on social concepts. However, as social data is data just as well,
 seeing how a personalized approach improves standard IR in this domain, is helpful.
 
-Their approach: First, documents are retrieved by a standard IR method. Second, the user's socially connected peers
+Their approach: first, documents are retrieved by a standard IR method. Second, the user's socially connected peers
 are also retrieved. Third, the initial ranked list of documents is re-ranked based on how strongly they are connected 
 to the user's peers, and how strongly those peers are connected to the user. The user-user similarity is
 computed based on a few signals \cite[p2]{Carmel2009}, e.g. co-authoring of documents, the use of similar tags
@@ -289,7 +289,7 @@ computed based on a few signals \cite[p2]{Carmel2009}, e.g. co-authoring of docu
 The user model also includes a list of terms the current user has employed in a social context (profile, tags, et cetera).
 This is all done to infer implicit similarity based on social connections.
 
-The algorithm is quite powerful, and combines three types of rankings: 
+The algorithm is quite powerful, and combines three types of rankings. 
 The initial IR score, the social connection score, and a term score, where the terms are tags and keywords used by a user.
 The user model is $U(u) = (N(u), T(u))$, 
 where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile terms.

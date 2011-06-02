@@ -53,9 +53,9 @@ and $\mathrm{\delta}(i,j)$ is the average difference in ratings for items $i$ an
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
 
 (2) \emph{Neighborhood estimation} is at the core of many recommendation systems. 
-This is the basic principle behind most collaborative filtering algorithms: 
-unknown ratings are estimated by averaging the ratings of similar items or users, weighted by their similarity.
-Neighborhood-based approaches often work in two steps: first, a neighborhood if similar elements is computed.
+This is the basic principle behind most collaborative filtering algorithms. 
+Unknown ratings are estimated by averaging the ratings of similar items or users, weighted by their similarity.
+Neighborhood-based approaches often work in two steps. First, a neighborhood if similar elements is computed.
 second, the similarities and connections within this neighborhood is used to produce a prediction.
 
 A common method for computing user similarity is the \emph{Pearson Correlation Coefficient} (PCC) \cite[p11]{Segaran2007}.
@@ -124,7 +124,7 @@ as we shall see in Section \ref{sec:search}.
 
 \cite{Bell2007a} shows a more sophisticated neighborhood estimation which computes global interpolation weights,
 that can be computed simultaneously for all nearest neighbors.
-Combinations of different types of neighborhoods are also possible: 
+Combinations of different types of neighborhoods are also possible. 
 \cite{Ujjin} use a simple euclidean metric to gather a larger neighborhood, which is then refined using a \emph{genetic algorithm}.
 Another common way of computing neighborhoods is by reducing the dimensions of the ratings matrix, as we will now describe.
 
@@ -138,8 +138,8 @@ This can then be used to find neighborhoods, compute similarities and estimate u
 This is the same underlying technique used by \emph{latent semantic indexing} in information retrieval \cite[p44]{Baeza-Yates1999}.
 Formally, SVD is the factorization $R = U \Sigma V^{T}$. 
 $R$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
-$U$ is an $m \times m$ factor (sometimes called the "hanger"), $V^{T}$ (the transpose of $V$) is an $n \times n$ factor (the "stretcher").
-$\Sigma$ is a $m \times n$ diagonal matrix (the "aligner"). 
+$U$ is an $m \times m$ factor, $V^{T}$ (the transpose of $V$) is an $n \times n$ factor.
+$\Sigma$ is a $m \times n$ diagonal matrix. 
 $\Sigma$ is a diagonal matrix, made up of what is called the \emph{singular values} of the original matrix.
 
 The dimensionality reduction can be performed by truncating the factor matrices each to a number of rows or columns, 
@@ -179,7 +179,7 @@ With the factors reduced to $r$ dimensions, the resulting matrices are compresse
 \end{eqsp}
 %
 Two important transformations happen in this dimensionality reduction. 
-First, ratings that do not contribute to any greater pattern are removed as "noise".
+First, ratings that do not contribute to any greater pattern are removed as noise.
 Second, ratings that in some way correlate to each other are enhanced, giving more weight to the actual predictive parts of the data.
 This means that the reduced factors can for instance identify features that correspond to correlations between items or users.
 These features are comparable to the mapping of terms to concepts in LSI.
@@ -215,7 +215,7 @@ The SVD factorization algorithms are iterative methods, where each iteration
 yields more accurate results.
 
 In recommender systems, SVD is used to compress the ratings space into what is sometimes called a \emph{taste space},
-where users are mapped to higher-level "taste" categories
+where users are mapped to higher-level \emph{taste} categories
 (e.g. \citet[p5]{Ahn2004}, \citet[p4]{Brand2003} or \citet[p2]{Liu2006}).
 In a taste space,
 the collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.

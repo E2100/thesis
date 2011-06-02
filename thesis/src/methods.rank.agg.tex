@@ -12,7 +12,7 @@ Often we wish to produce lists of recommended items, not just estimate the ratin
 Consider the task of personalizing a list of search results
 (see Section \ref{sec:search}). The important part is not the score
 given to each result, but rather the order in which they appear.
-The underlying technology is still the same: a number of recommenders are used to predict the ratings
+The underlying technology is still the same. A number of recommenders are used to predict the ratings
 of items to users. However, to do rank aggregation, another layer is added, that requests lists from each method,
 not only singular items.
 
@@ -32,7 +32,7 @@ and the predicted ratings from each recommender systems are signals.
 Adaptive aggregation then entails estimating \emph{how accurate each of these signals are likely to be for the current user and item}.
 This is almost the same task as in adaptive prediction aggregation, only in a list-oriented fashion.
 
-The important difference is this: The IR methods constrict the range of items worked on by the recommender systems.
+There is an important difference. The IR methods constrict the range of items worked on by the recommender systems.
 As the IR methods identify items that may be relevant to the users query, these are the items we wish the recommender systems to work on.
 This goes back to the previously mentioned difference between \emph{search} and \emph{recommendations}:
 
@@ -103,7 +103,7 @@ from simple query logs. Examples include \cite{Joachims2007},
 \cite{Speretta2000}.
 
 When we have the implicit or explicit ratings matrix, the modeling phase
-consists of two parts: training the IR models and the recommender models.
+consists of two parts. Training the IR models and the recommender models.
 The recommender models are trained as before, given in Listing \ref{code:training}.
 The one or more IR methods are not trained with a ratings matrix,
 but with the items and their respective data.

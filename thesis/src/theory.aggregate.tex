@@ -20,18 +20,18 @@ The reasoning behind combining different approaches is that no one methods
 can capture all the predictive nature of available data.
 For example, 
 \cite{Bell2007b} created a recommender system where the neighborhood- and SVD-based approaches complement each other.
-While the neighborhoods correspond to "local effects" where similar users influence each other's predictions,
-the dimensionality reduction finds "regional effects", major structural patterns in the data: 
-"both the local and the regional approaches, and in particular their combination through a unifying model, 
+While the neighborhoods correspond to \emph{local effects} where similar users influence each other's predictions,
+the dimensionality reduction finds \emph{regional effects}, major structural patterns in the data:
+\emph{``both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
-commercial Netflix Cinematch recommender system [...]"
-\cite[p1]{Bell2007b}.
+commercial Netflix Cinematch recommender system [...]''}.
+\cite{Bell2007b}.
 
 An interesting question is whether or not all hybrid recommenders,
 that combine content-based and collaborative methods, are aggregators. 
 This is mostly a question of semantics and implementation.
 \citet[p4]{Burke2007} liberally defines a hybrid system as 
-"any recommender system that combines multiple recommendation techniques together to produce its output".
+``any recommender system that combines multiple recommendation techniques together to produce its output''.
 Some hybrid methods combine stand-alone methods, and are definitely aggregations.
 Other methods merge the methods themselves into one implementation that uses the data in different ways.
 \citeauthor{Burke2007} describes a few types of hybrid recommenders:
@@ -44,16 +44,16 @@ Other methods merge the methods themselves into one implementation that uses the
   \item Augmentation, where one recommender produces input to the next.
 \end{itemize*}
 
-However, without being to pedantic, these can all be seen as aggregate approaches: Multiple prediction techniques are used
+However, without being to pedantic, these can all be seen as aggregate approaches. Multiple prediction techniques are used
 to create a result better than any single methods would provide.
 
-There are two main use cases for model aggregation \cite[p1]{Liu2007}: 
+There are two main use cases for model aggregation \cite{Liu2007}: 
 
 \begin{enumerate}
   \item Rank (or \emph{order-based}) aggregation (RA) lets each method
   produce a sorted list of recommendations or search results. These lists are then combined
   into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
-  These methods only require the resulting list of items from each method \cite[p1]{Aslam2001}.
+  These methods only require the resulting list of items from each method \cite{Aslam2001}.
 
   \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
   one-by-one, creating an aggregated result for each element that should be evaluated.
@@ -90,11 +90,11 @@ is irrelevant. The probability values are obtained through training,
 and evaluating the results against known relevance judgements.
 An interesting note is that the standard Borda method does not require training data,
 while the weighted version and the Bayesian approach do.
-\citet[p1]{Aslam2001} results with these rank aggregations were positive:
-"Our experimental results show that meta-search algorithms based on the 
+\citet{Aslam2001} results with these rank aggregations were positive:
+\emph{``Our experimental results show that meta-search algorithms based on the 
 Borda and Bayesian models usually outperform the best input system 
 and are competitive with, and often outperform, 
-existing meta-search strategies."
+existing meta-search strategies''.}
 
 \cite{Liu2007} presents a rank-aggregation framework, where
 the task of estimating a ranking function by using training data.
@@ -125,17 +125,17 @@ Other models use the average, or log-average of the different methods.
 Another example is the linear combination model, that trains weights for each predictor and weighs predictions accordingly.
 At slightly more complex approach is to train a logistic regression model \cite[p3]{Aslam2001}
 over a training set, in an effort to find the combination that gives the lowest possible error.
-This last method improved on the top-scoring predictor by almost 11\% \cite[p3]{Aslam2001},
+This last method improved on the top-scoring predictor by almost 11\%,
 showing that even fairly simple combinations have merit.
 
-Early approaches in recommender systems dabbled in aggregating content-based and collaborative approaches.
+Early approaches to recommender systems experimented with aggregating content-based and collaborative approaches.
 \cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
 Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
 Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
 knowledge of other users in the system --- knowledge that out-performs simple content analysis.
 In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
 
-Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} (EM) \cite[p1]{Dietterich2000}.
+Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} (EM) \cite{Dietterich2000}.
 While most often used to combine classifiers that classify items with discrete labels,
 these methods are also used for aggregating numerical values (see the numerical parts of \cite{Breiman1996}).
 Approaches include \emph{bootstrap aggregation} (bagging) and \emph{boosting} 
@@ -147,16 +147,15 @@ and creating a \emph{mixture of experts} for combining the predictors
 %\url{http://en.wikipedia.org/wiki/Machine\_learning\_ensemble}
 %\url{http://www.tdan.com/view-articles/4960/}
 
-\cite{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
+\citeauthor{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
 by combining 107 individual results from different recommenders.
-They found this to significantly outperform each standard recommender:
-"We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
+They found this to significantly outperform each standard recommender \cite[p6]{Bell2007}:
+\emph{``We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
 complementing aspects of the data. Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
-Quite frequently we have found that the more accurate predictors are less useful within the full blend". \cite[p6]{Bell2007}.
-%In other words, the final result is improved because of the disjoint reasoning performed by the different predictors.
+Quite frequently we have found that the more accurate predictors are less useful within the full blend''}.
 
 Like RA, PA is an extensive topic.
-The take-away stays the same: by combining different modeling methods,
+The take-away stays the same. By combining different modeling methods,
 more patterns in the data can be mined, and 
 the resulting combination can outperform the best performing method.
 This is key to the model we shall build in the next chapter.
