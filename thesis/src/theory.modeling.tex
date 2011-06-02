@@ -9,14 +9,14 @@ to how interface design is influenced by personalization --- the field covers a 
 It is important to differentiate between adapting the interface of an application and the content of an application. 
 Many user modeling methods strive to personalize the interface itself, e.g. menus, buttons and control elements 
 (e.g. \cite{Jameson2009, Fischer2001}. 
-Adapting the application content, on the other hand, means changing how and what content is displayed
+Adapting the application content, on the other hand, means changing how and what content is displayed.
 For instance, interface adaption might mean changing the order of items in a menu, while content 
 adaption might mean changing the order and emphasis of results in a web search interface
 (e.g. \cite{Xu2008, Qiu2006, Rhodes2000}).
 
 In this thesis, we are interested in adapting the \emph{content} of an application.
-The source of information overload problem often comes down to a mismatch between presented content and desired content. 
-Examples of this kind of user modeling include:
+We believe the information overload problem often stems from a mismatch between presented content and desired content. 
+Examples of adaptive content include:
 
 \begin{itemize*}
   \item Suggesting interesting items based on previous activity.
@@ -31,7 +31,7 @@ However, as described by \cite[p6]{Lieberman2009}, they have different approache
 while AI researchers often view contributions from HCI as trivial cosmetics, the HCI camp
 tends to view AI as unreliable and unpredictable --- surefire aspects of poor interaction design.
 
-In AI, user modeling refers to precise algorithms and methods that infer knowledge about a user based on past interaction 
+In AI, user modeling refers to algorithms and methods that infer knowledge about a user based on past interaction 
 (e.g. \cite{Pazzani2007, Smyth2007, Alshamri2008, Resnick1994}).
 By examining previous actions, predictions can be made of how the user will react to future information. This new knowledge is then embedded in a model of the user, which can predict future actions and reactions. 
 For instance, an individual user model may predict how interesting an unseen article will be to a user, based on previous feedback on similar articles or the feedback of similar users.
@@ -44,8 +44,7 @@ These models are then utilized by interaction designers to properly design the c
 \cite{Totterdell1990} describes user modeling in interaction design as a collection of deferred parameters: "The designer defers some of the design parameters such that they can be selected or fixed by features of the environment at the time of interaction [...] Conventional systems are special cases of adaptive systems in which the parameters have been pre-set."
 
 This thesis is concerned with the AI approach to user modeling, and in particular, the use of \emph{recommender systems} (RSs).
-As our goal is to combine different RSs into one coherent user model, 
-we shall now describe what makes a recommender system,
-and introduce some of the many algorithms they employ.
+As our goal is to adaptively combine different RSs based on each user and item,
+we shall now describe what makes a recommender system, and introduce some of the many algorithms they employ.
 
 

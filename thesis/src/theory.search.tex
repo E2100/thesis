@@ -2,9 +2,9 @@
 \label{sec:search}
 
 Personalized search means adapting the results of a search engine to each individual user.
-As we shall see, this field has a lot in common with recommender system.
+As we shall see, this field has a lot in common with recommender systems.
 In both situations, we wish to predict how relevant each item will be to each user.
-Before delving into the techniques of personalizing search results, we present 
+Before delving into the techniques of personalizing search results, we will quickly present 
 the basics of \emph{information retrieval} (IR).
 
 \subsection{Information Retrieval}
@@ -21,7 +21,8 @@ The purpose of \emph{search} is a bit different: to allow the user to find the l
 information he or she knows (or hopes) exists.
 In other words, the defining separator is often the knowledge of existence.
 However, as we shall see, the two fields employ similar methods and terminology. 
-In the next chapter, we will show how these can work together.
+In the next chapter, we will show how these can work together,
+by allowing an IR method to constrain the item-space worked on by our recommender system.
 
 \citet[p23]{Baeza-Yates1999} presents a formal definition of an IR system:
 $\mathrm{IR} = (Documents, Queries, Framework, ranking(q_i, d_i))$.
@@ -62,11 +63,12 @@ There are many more measures, but recall and precision succinctly define what a 
 to be successful: retrieve many relevant documents and few irrelevant documents.
 Failing this test is to neglect the main purpose of IR:
 to prevent information overload by allowing efficient access 
-to relevant parts of an otherwise overwhelming collection.
+to relevant parts of an otherwise overwhelming collection of information.
 
-To us, the most interesting part of any IR system is the \emph{ranking function}.
-This function compute the score of each document to the current query. 
-The relation to recommender systems should be self-evident.
+In relation to this thesis, the most interesting part of any IR system is its \emph{ranking function}.
+This function computes the score of each document relative to the current query. 
+The relation to recommender systems is quite clear: both the ranking function and RSs
+compute the relevance of items in the current context, either based on a query or the current user.
 Indeed, IR systems use many of the same metrics to measure the similarity of queries and documents,
 as RSs measure the similarity of items.
 
@@ -108,8 +110,8 @@ There are as many IR models as there are domains that need search.
 Even the basic VSM can be constructed in a myriad of ways. Other models include the simple 
 \emph{boolean search model}, where queries are based on boolean algebra. Probabilistic models
 frame the similarity question as the probability that the document is relevant. 
-Latent Semantic Indexing (LSI), the application of SVD to IR by performing dimensionality reduction of the term-space
-into concept-space is another approach.
+Latent Semantic Indexing (LSI) is the application of SVD to IR by performing dimensionality reduction of the term-space
+into concept-space.
 See \cite{Manning2008}, \cite{Robertson2010} or \cite{Baeza-Yates1999} for a more comprehensive introduction to models in IR.
 
 The important take-away is that, while serving different use cases, RSs and IR systems 
@@ -137,9 +139,9 @@ Signals are often products of the document structure of the current domain.
 \citet[p5]{Bender2005} points to the use of the proximity of query terms in matching documents.
 Those where the terms appear close together are natural candidates for a higher ranking.
 Other signals, still reliant on the documents themselves, are more domain oriented.
-Another signal they point out is how words in a larger or bold font can be weighted 
+One signal they point out is how words in a larger or bold font can be weighted 
 higher than normally typeset words.
-In this way, the design of a web page is used to choose the most important terms. 
+In this way, the design of a document is used to choose the most important terms. 
 
 Signals can also depend on the query. \citet[p145]{Manning2008} describes a system that takes
 multi-word queries, breaks them up into different permutations and runs each new query against the same
@@ -200,7 +202,7 @@ we will explore a few different approaches to personalized search:
 
 (1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
 to "generate more accurate rankings than with a single, generic PageRank vector". 
-In essence, they create topic-specific PageRank vectors for a number of pre-set topics,
+They show how to create topic-specific PageRank vectors for a number of pre-set topics,
 creating many rankings per page, one for each topic.
 This new PageRank is computed based on an existing set of websites that belong to each topic.
 \citet{Qiu2006} achieved "significant improvements" to this approach by adding a personally adaptive layer
@@ -226,7 +228,7 @@ the normal PageRank vector computed within a pre-set topic $i$.
 
 The construction of $T(i)$, i.e. the training phase of the algorithm, is performed by mining the query logs for each user.
 By identifying how many sites the user has visited in each topic, computing $T$ can be done through linear regression or
-by using a Maximum-likelihood estimator (basically, any method that can fit a curve).
+by using a Maximum-likelihood estimator.
 \citet[p10]{Qiu2006} reports improvements of 25\% to 33\% over the Topic-sensitive PageRank approach, which 
 \citet{Haveliwala2003} reports outperformed the original PageRank algorithm.
 
@@ -283,7 +285,7 @@ Their approach: First, documents are retrieved by a standard IR method. Second, 
 are also retrieved. Third, the initial ranked list of documents is re-ranked based on how strongly they are connected 
 to the user's peers, and how strongly those peers are connected to the user. The user-user similarity is
 computed based on a few signals \cite[p2]{Carmel2009}, e.g. co-authoring of documents, the use of similar tags
-(see (2)) or commenting on the same content. 
+(see Example 2 in this section), or leaving comments on the same content. 
 The user model also includes a list of terms the current user has employed in a social context (profile, tags, et cetera).
 This is all done to infer implicit similarity based on social connections.
 
@@ -291,10 +293,13 @@ The algorithm is quite powerful, and combines three types of rankings:
 The initial IR score, the social connection score, and a term score, where the terms are tags and keywords used by a user.
 The user model is $U(u) = (N(u), T(u))$, 
 where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile terms.
+The function $sim(x,y)$ measures the similarity of two items, be they users or documents.
+
+The re-scoring is performed in two steps.
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
 
 \begin{eqsp}
-  S_P(q,d|U(u)) = \beta \sum_{v \in N(u)} w(u,v) \times w(v,d) + (1-\beta) \sum_{t \in T(u)} w(u,t) \times w(t,d)
+  S_P(q,d,U(u)) = \beta \sum_{v \in N(u)} sim(u,v) \times sim(v,d) + (1-\beta) \sum_{t \in T(u)} sim(u,t) \times sim(t,d)
 \end{eqsp}
 %
 Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
@@ -308,5 +313,5 @@ This approach, while simple, shows how social relations and social annotations c
 However, \citet[p10]{Carmel2009} notes that the high quality data in their enterprise setting were important
 to achieve the improved results. 
 
-
+\clearpage
 

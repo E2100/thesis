@@ -19,19 +19,19 @@ Clearly, aggregation is an important part of both RS and PS.
 The reasoning behind combining different approaches is that no one methods
 can capture all the predictive nature of available data.
 For example, 
-\cite{Bell2007b} created a recommender systems where the neighborhood- and SVD-based approaches complement each other.
+\cite{Bell2007b} created a recommender system where the neighborhood- and SVD-based approaches complement each other.
 While the neighborhoods correspond to "local effects" where similar users influence each other's predictions,
 the dimensionality reduction finds "regional effects", major structural patterns in the data: 
 "both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
 commercial Netflix Cinematch recommender system [...]"
-\cite[p1]{Bell2007b}
+\cite[p1]{Bell2007b}.
 
 An interesting question is whether or not all hybrid recommenders,
 that combine content-based and collaborative methods, are aggregators. 
 This is mostly a question of semantics and implementation.
 \citet[p4]{Burke2007} liberally defines a hybrid system as 
-"any recommender system that combines multiple recommendation techniques together to produce its output."
+"any recommender system that combines multiple recommendation techniques together to produce its output".
 Some hybrid methods combine stand-alone methods, and are definitely aggregations.
 Other methods merge the methods themselves into one implementation that uses the data in different ways.
 \citeauthor{Burke2007} describes a few types of hybrid recommenders:
@@ -63,11 +63,11 @@ There are two main use cases for model aggregation \cite[p1]{Liu2007}:
 \subsection{Rank Aggregation}
 \label{sec:theory:rank}
 
-RA combines multiple result lists into one list by some metric.
+RA combines multiple result lists into one list through aggregation.
 \cite{Dwork2001} shows a few metrics applicable to meta-search, the combination of results from multiple search engines.
-Borda's method \cite[p6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
+For example, Borda's method \cite[p6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
 based on where it appears in the sorted list. Items at the top gets the most points, while lower items gets fewer points.
-This is in essence a method where each method has a set number of votes ($c$, the number of results) that they give to each item.
+This is in essence an approach where each predictor has a set number of votes ($c$, the number of results) that they give to each item.
 
 As we saw in Section \ref{sec:search}, \citet[p3]{Xu2008} used a weighted version
 of this approach to combine an IR and personal approach to result ranking.
@@ -82,7 +82,7 @@ produce the following formula:
   \mathrm{relevance}(d)  = \sum_{i \in Methods} \log 
     \frac{ \mathrm{Pr}(r_i(d) | rel) }{ \mathrm{Pr}(r_i(d) | irr) }.
 \end{eqsp}
-%
+
 Here, $\mathrm{Pr}(r_i(d) | rel)$ is the probability that document $d$
 is relevant given its ranking by method $i$.
 Conversely, $\mathrm{Pr}(r_i(d) | irr)$ is the probability that the document 
@@ -108,7 +108,6 @@ to the best of the combined methods are attainable.
 See \cite{Aslam2001}, \cite{Liu2007} or \cite{Klementiev2008} 
 for more information.
 
-\clearpage
 
 \subsection{Prediction Aggregation}
 \label{sec:theory:predictionagg}
@@ -116,12 +115,14 @@ for more information.
 Unlike rank aggregation, prediction aggregation (PA) does not deal with lists of results.
 PA works on the item-level, collecting scalar predictions of an item's relevance from a number of methods,
 and combining these predictions into a final score.
+This thesis is most concerned with prediction aggregation,
+and it is where we shall evaluate the performance of our approach.
 
 \cite{Aslam2001} describe a number of simple approaches:
-Min, max and sum models combine the individual predictions in some way, 
+Min, max and sum aggregations combine the individual predictions based on simple arithmetics, 
 or select one or more of the results as the final prediction. 
 Other models use the average, or log-average of the different methods.
-The linear combination model trains weights for each predictor, and weighs predictions accordingly.
+Another example is the linear combination model, that trains weights for each predictor and weighs predictions accordingly.
 At slightly more complex approach is to train a logistic regression model \cite[p3]{Aslam2001}
 over a training set, in an effort to find the combination that gives the lowest possible error.
 This last method improved on the top-scoring predictor by almost 11\% \cite[p3]{Aslam2001},
@@ -147,10 +148,11 @@ and creating a \emph{mixture of experts} for combining the predictors
 %\url{http://www.tdan.com/view-articles/4960/}
 
 \cite{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
-by combining 107 individual results from different recommenders: 
+by combining 107 individual results from different recommenders.
+They found this to significantly outperform each standard recommender:
 "We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 
 complementing aspects of the data. Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
-Quite frequently we have found that the more accurate predictors are less useful within the full blend." \cite[p6]{Bell2007}
+Quite frequently we have found that the more accurate predictors are less useful within the full blend". \cite[p6]{Bell2007}.
 %In other words, the final result is improved because of the disjoint reasoning performed by the different predictors.
 
 Like RA, PA is an extensive topic.
@@ -158,5 +160,4 @@ The take-away stays the same: by combining different modeling methods,
 more patterns in the data can be mined, and 
 the resulting combination can outperform the best performing method.
 This is key to the model we shall build in the next chapter.
-
 

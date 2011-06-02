@@ -3,13 +3,13 @@
 Information overload conveys the act of receiving \emph{too much information}. 
 The problem is apparent in situations where decisional accuracy turns from improving with more information, 
 to being hindered by too much irrelevant data \cite[p13]{Bjorkoy2010d}. 
-This is a widespread phenomenon, with as many names and definitions as there are fields experiencing the problem. 
+This is a widespread phenomenon, with as many definitions as there are fields experiencing the problem. 
 Examples include \emph{sensory overload}, \emph{cognitive overload} and \emph{information anxiety} \cite[p2]{Eppler2004}.
-Two common tasks quickly become difficult in this situation:
+Two common tasks quickly become difficult when this happens:
 
 \begin{enumerate*}
-  \item Consuming relevant content is hindered by too much irrelevant noise.
-  \item Discovering new content is difficult because of too much information.
+  \item Consumption of relevant content is hindered by too much irrelevant noise.
+  \item Discovering new and interesting content is difficult because of too much information.
 \end{enumerate*}
 
 \noindent
@@ -18,8 +18,9 @@ Finding contemporary examples is not difficult:
 \begin{itemize*}
   \item Missing important news articles that get drowned out by irrelevant content.
   \item Forgetting to reply to an email as new messages keep arriving.
-  \item Discovering sub-par entertainment because the most relevant is never discovered.
+  \item Consuming sub-par entertainment because the most relevant is never discovered.
   \item Reformulating search queries because the results include irrelevant items.
+  \item Browse through much information to find what one is actually looking for.
 \end{itemize*}
 
 Information overload is often likened to a \emph{paradox of choice}, as there may be no problem acquiring the relevant information, 
@@ -31,14 +32,17 @@ related to stressful situations, lost attention span, increased distraction and 
 
 \cite{Kirsh2000} argues that "the psychological effort of making hard decisions about \emph{pushed} information is the first cause of cognitive overload." 
 According to \citeauthor{Kirsh2000}, there will never be a fully satisfiable solution to the problem of overabundant information, 
-but that optimal environments can be designed to increase productivity and reduce the level of stress through careful consideration of the user's needs. 
-In other words, to solve the problems of information overload and content discovery, applications must be able to individually adapt to each user. 
+but that optimal environments can be designed,
+in order to increase productivity and reduce the level of stress.
+This is achieved through careful consideration of each user's needs. 
+In other words, to solve the problems of information overload, 
+applications must be able to individually adapt themselves to each user. 
 
-An insightful perspective on information overload comes from the study of attention economy. 
+An insightful perspective on information overload comes from the study of \emph{attention economy}. 
 In this context human attention is seen a scarce commodity, offset by how much irrelevant noise is present at any given time. 
-Attention can then be defined as "... focused mental engagement on a particular item of information. 
-Items come into our awareness, we attend to a particular item, and then we decide whether to act" \cite[p1]{Davenport2001}. 
-To evade information overload is then to maximize available attention, allowing more focus on the most important items.
+\citet[p1]{Davenport2001} defines attention as "[...] focused mental engagement on a particular item of information. 
+Items come into our awareness, we attend to a particular item, and then we decide whether to act". 
+To evade information overload means maximising the available attention, allowing more focus on the most important items in each situation.
 
 \begin{wrapfigure}{rt}{0.5\textwidth}
   \vspace{-20pt}
@@ -51,7 +55,7 @@ To evade information overload is then to maximize available attention, allowing 
   \vspace{-20pt}
 \end{wrapfigure}
 
-Conceptual models used in interaction design can help us see when and where information overload interferes with the user experience. 
+Conceptual models used in interaction design can also help us see when and where information overload interferes with a user's experience. 
 \cite{Norman1988} advocates a model called \emph{the seven stages of action}, 
 that describes how each user goes through several states while using a system
 (see Figure \ref{fig:seven-stages}, adapted from \citeauthor{Norman1988}). 
@@ -67,27 +71,28 @@ leading to information overload.
 This precludes the user from properly evaluating the resulting application state. 
 
 In short, an application interface can fail both before and after a user tries to interact with it.
-Information overload happens throughout the interaction process, which is important to know when considering possible solutions.
+Information overload happens throughout the interaction process.
+
 
 \subsection{Online Overload}
 
 The Web is a common source of information overload, 
 and a good example of how and why the problem occurs.
 Online information overload is especially pervasive when considering \emph{content aggregating websites}:
-sites that collate information from multiple other sites and sources. 
-Online information retrieval (search engines), fall into this category, as does
-online newspapers, feed readers and portal websites.
+Web sites that combine information from multiple other sites and sources. 
+Online information retrieval systems (search engines) are in category, as are
+online newspapers, feed readers and portal sites.
 
 The wealth and scope of data on the Web are natural culprits of online overload, 
 as well as the varying qualities of websites publishing the information. 
 However, the problem is also a result of the fundamental observed structure of the Web.
 Graph theory presents applicable models that characterize how people navigate between websites, 
 and show how content aggregators form important hubs in the network. 
-These models give a theoretical foundation for why information overload occurs.
+These models give a theoretical foundation for why information overload occurs on the Web.
+
 In the Web graph, nodes correspond to websites and
 directed edges between nodes are links from one page to another. The \emph{degree} of a node is defined as its number of edges.
-
-The Internet has the properties of a \emph{small-world network} (\citep{Newman2000}, \citep[p2]{Huang2005}), 
+This graph has the properties of a \emph{small-world network} (\citep{Newman2000}, \citep[p2]{Huang2005}), 
 a type of random graph, where most nodes are not neighbors, but most nodes are reachable through a small number of edges (See Figure \ref{fig:swn}). 
 This is because of important random shortcuts differentiating the graph from a regular lattice. 
 The graph is not  random, but neither is it completely regular.
