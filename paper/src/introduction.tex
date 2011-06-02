@@ -1,8 +1,8 @@
 \section{Introduction}
 \label{sec:intro}
 
-Information is a curious thing:
-having too much can be as harmful as having no information at all.
+Information is a curious thing.
+Having too much can be as harmful as having no information at all.
 While lacking information is an obvious problem,
 too much leads to information overload,
 where relevant content drowns in irrelevant noise.
@@ -12,8 +12,9 @@ Our ability to make informed decisions is often the first thing to go
 \cite[p1]{Davenport2001}.
 
 However, while people struggle with excessive information,
-algorithms in \emph{artificial intelligence} (AI) can not get enough.
-\cite[p1]{Halevy2009} calls this the "unreasonable effectiveness of data":
+many algorithms in \emph{artificial intelligence}  
+can increase their performance by accessing more information.
+\cite[p1]{Halevy2009} calls this the ``unreasonable effectiveness of data'':
 perhaps surprisingly, more data often trumps more efficient algorithms.
 For example, \cite[p3]{Banko2001} show how common algorithms in AI 
 can be substantially improved by giving them a lot more data to work with.
@@ -21,12 +22,12 @@ As much as researchers chase elegant algorithms, finding more data to work with 
 
 Few places is this difference of users and computers more apparent than in \emph{recommender systems}.
 A recommender system is a technique in user modeling to estimate the relevance of an item to a user.
-An item can be just about anything: documents, websites, movies, events or other users.
+An item can be just about anything, for example documents, websites, movies, events or other users.
 These systems use data such as search query logs, 
 ratings from similar users, social connections and much more
-to predict unknown relevance, as we shall soon see.
-Recommender systems are especially prolific on the Web: 
-wherever there is personalized recommendations of news, books, movies,
+to predict unknown relevance.
+Recommender systems are especially prolific on the Web. 
+Wherever there is personalized recommendations of news, books, movies,
 articles, social connections, search results, et cetera, recommender systems are working behind the scenes.
 
 Modern recommendation approaches often embrace the 
@@ -34,12 +35,12 @@ unreasonable effectiveness of data,
 by combining multiple recommender systems, that each predict relevance in various ways.
 By considering different aspects of users and items when making predictions,
 the methods provide quite complex predictions that rely on much evidence.
-For example, \cite[p1]{Bell2007} took this to its logical conclusion by 
+For example, Bell et al. took this approach its logical conclusion in \cite[p1]{Bell2007}, by 
 combining 107 different recommender systems when winning the 
 Netflix movie recommender challenge
 (see \cite{Linden2009}).
 
-While the name might seem constraining, recommender systems are incredibly powerful tools.
+While the name ``recommender systems'' might seem limiting, these are incredibly powerful tools.
 If we can accurately predict how each user will react to each item,
 we will have come a long way towards solving information overload.
 
@@ -81,19 +82,18 @@ The same problem exists for items: while one item might best be judged by its co
 another might be better described by previous ratings from other users.
 One item's relevance may be closely tied to when it was created,
 while other items may be timeless.
-The exact differences are not important --- what is important is that they exist.
+The exact differences are not important, only that they exist.
 
-Another way of explaining the latent subjectivity problem is that 
-\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
-In other words, a modeling method use some aspect of available data to make predictions,
-and this aspect is chosen by whoever creates the system.
+%User modeling methods are dependent on the subjective assumptions of their creators.
+%In other words, a modeling method use certian aspects of available data to make predictions,
+%and these aspects are chosen by whoever creates the system.
 
-Aggregate modeling methods face the same problem of misplaced subjectivity: 
+Aggregate modeling methods face the same problem of misplaced subjectivity. 
 Aggregation is done on a generalized, global level,
 where each user and item is expected to place the same importance on each modeling method
 (e.g. \cite{Aslam2001, Claypool1999, Bell2007, Carmel2009, Bender2005}).
-While the aggregation is of course selected to minimize some error over a testing set,
-the subjective nature remains: the compiled aggregation is a generalization,
+While aggregation is selected to minimize some error over a testing set,
+the subjective nature remains. The compiled aggregation is a generalization,
 treating all users the same --- hardly a goal of user modeling.
 
 %Should it not be up to each user to implicitly decide which method best describes their preferences?
@@ -106,16 +106,16 @@ based on how well they have previously worked for each user and item.
 The scope of users and items is simply too great for any one or generalized combination
 of methods to capture the nuanced nature of relevance prediction.
 
-We propose a novel method called \emph{adaptive recommenders}, where these decisions are left to each user and item,
-providing an extra level of abstraction and personalization.
+We propose a novel method that we call \emph{adaptive recommenders}, where 
+the selection of algorithms is made by each user and item.
+This provides an extra level of abstraction and personalization.
 The decisions are implicit, and happens in the background, without any extra interaction required.
-This leaves the subjective nature of selecting ways to model users and items where it should be:
-in the hands of each individual user, and dependent on each specific item, without any extraneous effort.
-If each method of relevance prediction is \emph{only used} based on how well it performs for each element,
-any possibly applicable recommender system suddenly becomes a worthy addition to the system.
+%This leaves the subjective nature of selecting ways to model users and items where it should be, i.e.
+%in the hands of each individual user, and dependent on each specific item.
+This adaptive selection has an important consequence. 
+If each algorithm is contextually used based on how well it performs for each user and item,
+any possibly useful recommender algorithm suddenly becomes a worthy addition.
 
 As far as we know, such adaptive prediction aggregation has not been done before.
-Can a system where each user and item implicitly decides how they should be modeled outperform traditional approaches?
-\emph{That is the main research question of this paper}.
-
-
+In this paper, we explore the question of whether or not
+adaptive recommenders can outperform traditional approaches.

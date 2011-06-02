@@ -18,7 +18,7 @@ we need a measure for computing the total error across a large number of predict
 The canonical measure for estimating the error of a recommender system
 is the \emph{Root mean squared error} (RMSE) measure
 (for example in \cite[p17]{Herlocker2004}, \cite[p13]{Adomavicius2005} and \cite[p6]{Bell2007}).
-We shall use this measure to estimate the performance
+We use this measure to estimate the performance
 of our adaptive prediction aggregation algorithms.
 The RMSE of a set of estimations $\hat{R}$, 
 compared the correct rating values $R$, is defined as
@@ -50,7 +50,7 @@ Naturally, we need a large number of different recommenders, preferably ones tha
 disjoint patterns in the data. Table \ref{table:results:methods}
 gives a short overview of the recommender systems we shall employ.
 Each experiment will use every recommender in this table.
-This section only gives a short introduction to each recommender.
+The following section gives a short introduction to each recommender.
 
 \subsection{Basic Recommenders}
 
@@ -78,23 +78,23 @@ This section only gives a short introduction to each recommender.
     \hline
     A & median    	  & Aggregation           & Median aggregate rating. \\
     A & average    	  & Aggregation           & Average aggregate rating. \\
-    A & adaptive      & Adaptive agg.         & Our approach. \\
+    A & adaptive      & Adaptive agg.         & \emph{The approach of Sec \ref{sec:adaptive}.} \\
     \hline
   \end{tabular*}
   \label{table:results:methods}
 \end{table}
 
-As seen in Table \ref{table:results:methods}, we have two types of recommenders:
+As seen in Table \ref{table:results:methods}, we have two types of recommenders.
 First, we have the basic recommenders, denoted by \emph{S} in the table.
-These recommenders each look at the data in different ways to arrive at predicted ratings.
-We chose this wide range of recommenders for just this reason:
-as previously explained, the performance of aggregate recommenders
+Each recommender system looks at the data in a different ways to predict ratings.
+This wide range of recommenders was chosen for just this reason.
+As previously explained, the performance of aggregate recommenders
 are more dependent on the dissimilarity of the basic recommenders
 than their individual performance.
 
 Let us briefly explain how each basic recommender works.
 In recommender systems, SVD is used to compress the ratings space into what is sometimes called a \emph{taste space},
-where users are mapped to higher-level "taste" categories
+where users are mapped to higher-level \emph{taste} categories
 (e.g. \cite[p5]{Ahn2004}, \cite[p4]{Brand2003} or \cite[p2]{Liu2006}).
 The factorizers refers to algorithms used to factorize the ratings matrix
 (e.g. the ALSWR factorizer \cite{Zhou2008}).
@@ -108,6 +108,8 @@ The cosine similarity algorithm looks for items that are rated
 similarly by the same users, and infers item similarity from this measure.
 New ratings are then predicted by taking known ratings of other items,
 weighted by their item's similarity to the new item.
+This is based on the same method used in the vector space model,
+from the field of information retrieval.
 
 The KNN algorithm employs yet another approach. This algorithm,
 similar in strategy to the cosine similarity algorithm,
@@ -124,7 +126,7 @@ for a more comprehensive exploration of different types of recommenders.
 The second type of recommenders are the aggregation methods, 
 that combine the result of each of the basic recommender systems
 (the methods below the middle line in Table \ref{table:results:methods},
-denoted "A").
+denoted ``A'').
 The first two of these methods are simple aggregation approaches.
 The median aggregation method choses the median value of the predictions
 produced by the standard recommenders.
@@ -140,7 +142,7 @@ This is the recommender outlined by Section \ref{sec:adaptive},
 that create secondary accuracy estimating recommender systems,
 in order to adaptively weigh each basic recommender.
 All the aggregation approaches, including our technique,
-use every basic recommender system described so far.
+employ every basic recommender system described so far.
 
 As explained in Section \ref{sec:adaptive},
 any basic recommender system can be used for the adaptive method.
@@ -165,11 +167,12 @@ It is important to note that the same configuration of recommenders was used for
 In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
 to each dataset. To be sure, higher performance could probably have been achieved
 by tailoring each recommender to each dataset. However,
-as our goal is to compare our finite set of methods, all we care 
-about is how they perform compared to each other.
+as our goal is to compare our finite set of methods, 
+we are currently only interested in 
+how they perform compared to each other.
 
 As with the basic recommenders, the same SVD recommender configuration was used 
-for the adaptive layer in each Experiment.
+for the adaptive layer in the experiment.
 We chose to use en EM-factorizer to perform the actual decomposition,
 consisting of 20 features. The decomposition was performed by 20 iterations.
 
@@ -204,13 +207,13 @@ This table confirms the results from the full results table:
 Our adaptive recommenders approach improves the mean performance
 of our system.
 The mean performance and the standard deviation
-are shown in Figure \ref{plot:movielens}.
+are shown in Fig. \ref{plot:movielens}.
 
 \input{plot.movielens}
 %\input{plot.sigma}
 
 Let us take a look at the standard deviation measures from the different methods.
-As seen in Figure \ref{plot:movielens}, 
+As seen in Fig. \ref{plot:movielens}, 
 most of the methods, including the adaptive models,
 exhibit quite a lot of variation in their results.
 If these variations occurred as a result of unstable
@@ -233,7 +236,7 @@ This fundamentally limits how confident we can be that our system
 is indeed an improvement.
 We shall discuss this further in Section \ref{sec:discussion}.
 
-\cite{Bjorkoy2011} performs more experiments with adaptive recommenders,
+In \cite{Bjorkoy2011}, we perform more experiments with adaptive recommenders,
 including one where this approach is used to provide personalized search results.
 
 
