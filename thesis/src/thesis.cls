@@ -51,7 +51,7 @@
 \RequirePackage{microtype}
 
 % Leading (for b5/10pt)
-\setSpacing{1.2}
+\setSpacing{1.15}
 
 % Paragraphs
 \clubpenalty  = 5000
