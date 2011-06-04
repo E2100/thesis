@@ -254,7 +254,24 @@ relevance of widely varying items.
 We have only shown the basic viability of adaptive recommenders,
 and how they can outperform traditional approaches on traditional datasets.
 This section outlines a few interesting research topics
-which should shed more light on the subject.
+which may shed more light on the subject.
+
+
+\paragraph{Quantitative Performance of Personalized Search}
+
+We did not test how well adaptive recommenders would work for personalized search.
+Our third experiment was a case study, detailing how this might be done.
+With more data or test subjects, it would be possible to measure
+actual performance gains (or setbacks) by using adaptive recommenders to
+achieve personalized search.
+
+To measure the performance of personalized search one would need detailed query logs with click-through information.
+By this we mean logs that show the queries from each user, and which search result each user
+selected for each query.
+These logs can be mined to create implicit ratings matrices, which can be split into
+training- and testing sets.
+However, as this is outside our scope, and we lack the neccessary data,
+we leave this experiment to future research.
 
 
 \paragraph{Choosing Different Adaptive Recommenders}
@@ -337,20 +354,12 @@ curve fitting \cite[p7]{Polikar2006}, and other fields of ensemble learning.
 This thesis has explained the \emph{latent subjectivity problem},
 and introduced the technique of \emph{adaptive recommenders}
 in an attempt to solve it.
-We believe this solution is one possible way to minimize the overload problem.
+We believe this approach is one possible way to minimize the overload problem
+while avoiding latent subjectivity.
 Our technique implicitly, and without any extra work required from each user
 adapts how the system models users and items based on past performance.
 Our experiments show that this technique is capable of higher accuracy
 than standard recommenders and simple aggregation approaches.
-
-The information overload problem will always be present.
-No matter how elegant solutions one may find,
-the fact is that the overwhelming amount of available data
-quickly outgrows our ability to use it.
-We believe artificial intelligence is crucial to finding a solution.
-Only by creating intelligent systems that 
-help us filter, sort and consume information can we hope 
-to mitigate the overload.
 
 Of course, we have only tested our method on a limited 
 number of use cases, with a few specific datasets.
@@ -369,6 +378,15 @@ Only by creating truly adaptive systems that adapt their
 algorithms to each user and item can we achieve a 
 system powerful enough to deal with the widely
 varying users, and vast scope of items.
+
+The information overload problem will always be present.
+No matter how elegant solutions one may find,
+the fact is that the overwhelming amount of available data
+quickly outgrows our ability to use it.
+We believe artificial intelligence is crucial to finding a solution.
+Only by creating intelligent systems that 
+help us filter, sort and consume information can we hope 
+to mitigate the overload.
 
 As stated through the latent subjectivity problem,
 systems should not only tell users what has been predicted,
