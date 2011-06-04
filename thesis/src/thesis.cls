@@ -190,13 +190,16 @@
 \chapterstyle{thesis}
 
 % Sections
-\setsecheadstyle{\vspace{1em}\Large}
+\setsecheadstyle{\vspace{1em}\Large\noindent\textbf}
 
 % Subsections
 \setsubsecheadstyle{\large\itshape}
 
 % Subsubsections
 \setsubsubsecheadstyle{\itshape}
+
+% Paragraph headings
+\setparaheadstyle{\normalfont\itshape}
 
 
 % -----------------
