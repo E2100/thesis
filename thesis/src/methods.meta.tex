@@ -130,12 +130,15 @@ Note that there is no input item in this formula as we wish to produce a ranking
 The result is an adaptively sorted list of the top $n$ items for the current user.
 A common use case for rank aggregation is personalized search:
 an IR algorithm restricts the item space, which is then adapted by recommender systems,
-as we shall soon see.
+as we shall see.
 
 Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ is helpful 
-as this will guide our implementation into a proper MapReduce framework
+as this will guide our implementation.
+Note that our terminology is a bit different from the proper MapReduce framework
 for parallel computation (as explained in \citet[p75]{Manning2008}).
-For optimal performance, both layers can be performed in parallel, as we shall soon see.
+However, as with the standard key/value approach to MapReduce,
+the fact that our tasks can be run in parallel will help
+us implement efficient algorithms.
 
 
 \subsection{Adaptive Aggregation}
