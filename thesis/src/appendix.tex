@@ -167,7 +167,7 @@ The code is written in JRuby, just as it is in the implementation.
 First, we create our tasks and run these tasks to create the recommenders.
 We then create an evaluator to test our resulting adaptive recommender.
 The resulting RMSE values are output to the screen
-(see Listing \ref{code:example})
+(see Listing \ref{code:example}).
 
 \begin{implementation}{code:example}{Example code showing a test of adaptive recommenders.}
 d_m = "movielens/base/1"
@@ -205,6 +205,11 @@ evaluator = Perform.perform(evaluator_task)
 result = evaluator.evaluate
 Log.evaluation(result)
 \end{implementation}
+
+Each of our experiments were run with a similar task structure.
+The specifics of each experiment can be seen in the implementation code,
+links to which are given in Appendix \ref{appendix:resources}.
+
 
 
 \section{Running the Experiments}
@@ -255,7 +260,7 @@ It resides in version control at
 \url{github.com/olav/thesis/tree/master/code}.
 
 The implementation is built on three open-source libraries from the
-Apache Project\footnote{See \url{www.apache.org} --- accessed 19.05.2011}:
+Apache Project\footnote{See \url{www.apache.org} --- accessed 19.05.2011}.
 The Hadoop distributed computing library\footnote{See \url{hadoop.apache.org} --- accessed 19.05.2011},
 the Mahout machine learning library\footnote{See \url{mahout.apache.org} --- accessed 19.05.2011},
 and the Lucene information retrieval library\footnote{See \url{lucene.apache.org} --- accessed 19.05.2011}.
