@@ -190,7 +190,7 @@
 \chapterstyle{thesis}
 
 % Sections
-\setsecheadstyle{\vspace{1em}\Large\noindent\textbf}
+\setsecheadstyle{\vspace{1em}\Large}
 
 % Subsections
 \setsubsecheadstyle{\large\itshape}
