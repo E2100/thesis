@@ -17,8 +17,8 @@ and according to the predicted rating of each movie for the current user.
 Hypothesis H3 states that 
 {
   \itshape
-  the result set from an information retrieval query
-  can be personalized with adaptive recommenders.
+  the ordering of results from an information retrieval query
+  can be personalized by using adaptive recommenders.
 }
 We wish to check if the prediction algorithm
 in Listing \ref{code:rank:prediction} performs personalized search
@@ -112,10 +112,10 @@ Any lower, and the recommender scores will dominate the initial IR rankings.
 In other words, the actual IR weight must
 be calculated based on the scale of the IR scores.
 In this chapter, the scores returned by our IR
-model is normalized to the scale of our ratings (1-5).
+model is normalized to the scale of our ratings.
 
 We will consider the following use cases:
-(1) searching multiple topics,
+(1) searching for multiple topics,
 (2) searching for a series of movies,
 (3) searching for one particular topic, and
 (4) searching for a particular attribute.
@@ -123,7 +123,7 @@ We will consider the following use cases:
 \input{table.rank.star}
 \afterpage{\clearpage}
 
-(1) Let us start with a simple use case:
+\emph{(1) Multiple topics:} Let us start with a simple use case:
 a user wishes to find movies about two separate topics, ranked by 
 query match and predicted ratings.
 This is a realistic use case, for example if a user is interested
@@ -152,7 +152,7 @@ In other words, we have achieved personalized search. The results
 from the IR method are re-ranked according to personal preferences.
 
 
-(2) Let us consider another use case:
+\emph{(2) Series of items:} Let us consider another use case:
 A user wishes to see a movie in a certain series of movies,
 but does not know which one. In this case, the IR method can find all movies within this series,
 while the recommender systems ranks the result list according to the user's preferences.
@@ -167,7 +167,7 @@ list can get the best of both worlds:
 the top ranked items are the ones that both match the query \emph{and}
 are probable good fits for the current user.
 
-(3) What happens when the IR weight is set to $0$?
+\emph{(3) Singular topic:} What happens when the IR weight is set to $0$?
 In this use case, the predicted ratings alone sort the final list.
 Consider the following use case:
 A user wishes to see a movie related to a certain topic, e.g. a city.
@@ -186,7 +186,8 @@ best suited to the current user. At the same time, each of these recommenders
 are used differently for each item in the list, based on how well they have
 performed for each item in the past.
 
-(4) As we can see, ignoring the IR score gives us quite a different algorithm.
+\emph{(4) Attribute search:} 
+As we can see, ignoring the IR score gives us quite a different algorithm.
 Now, the search part is only performed to constrain the item-space worked
 on by the recommender systems.
 Another example of this is shown in Table \ref{table:rank:year}.

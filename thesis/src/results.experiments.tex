@@ -57,8 +57,8 @@ In particular, we will look at how different prioritizations of the IR model sco
 As seen in Table \ref{table:experiments}, 
 we will use two distinct datasets in the experiments.
 Each dataset have different numbers of items, users and ratings.
-This is a desirable property:
-testing our technique in different scenarios
+This is a desirable property.
+Testing adaptive recommenders in different scenarios
 will help us achieve more reliable results.
 
 First is the MovieLens dataset\footnote{
@@ -87,17 +87,17 @@ This dataset is considerably larger than our first set,
 consisting of 1,832,275 ratings from 24,983 users of 100 items.
 Notably, the number of items is quite smaller than in the other dataset.
 
-Jester also have a different ratings scale compared to the MovieLens dataset:
-while each movie is rated on a discrete scale from $1$ through $5$,
+Jester also has ratings on a different scale than the MovieLens dataset.
+While each movie is rated on a discrete scale from $1$ through $5$,
 the items in Jester are rated on a continuous scale from $-10$ to $10$.
 However, in order to easily compare the measurements on both datasets,
 the ratings in Jester were converted to be on the scale $1-5$.
 Still, the difference between ordinal and continuous ratings remains,
 and will give us another differing quality to verify our results.
 
-In another effort to achieve reliable evaluation results, 
+In another effort to achieve reliable results, 
 both datasets were split into multiple disjoint subsets.
-We need disjoint subsets in order to perform cross-validation.
+We need disjoint subsets in order to perform cross-validation testing.
 This entails running the same experiments across all subsets and averaging the results.
 Each dataset is split into five sets which are again split into training and testing sets:
 
@@ -114,5 +114,5 @@ into random subsets for training each standard recommender model.
 The entire base set is then used to train the adaptive error estimating recommenders.
 Each corresponding $test$ set will be used to evaluate our performance on each subset.
 
-Before diving into each experiment,
+Before performing each experiment,
 let us take a closer look at the different types of recommender systems each will use.
