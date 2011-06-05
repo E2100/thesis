@@ -41,7 +41,9 @@ Consider the following examples of relevance judgement:
 While the methods themselves may perform well, their selection
 reflects how whoever created the system assumes how each user
 can and \emph{should} be modeled. This underlying subjectivity is not desirable.
-Imagine creating a recommendation system, and consider the following two questions:
+For example, consider the following two questions:
+
+\clearpage
 
 \begin{enumerate*}
   \item What combination of which methods will accurately predict unknown scores?
@@ -61,6 +63,12 @@ We believe this is a much simpler problem.
 Instead of trying to generalize individuality,
 it can be embraced, by allowing users to implicitly and automatically select which methods they prefer,
 from a large set of possible predictors.
+
+As explained in Chapter \ref{chap:intro}, 
+assuming that each user will place a similar importance on each modeling method is 
+contrary to the goals of user modeling. 
+Our goal should instead be a system which can leverage the differences
+between users and employ each available algorithm based on their individual preferences.
 
 Just as each user is different, each item may have their own characteristics.
 Needless to say, items are often quite different from another,
