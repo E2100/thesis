@@ -374,7 +374,7 @@
     \color{black}
   \end{center}
   \normalsize
-  \vspace{1em}
+  \vspace{2em}
 }
 
 % narrow column
