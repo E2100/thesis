@@ -1,23 +1,22 @@
 \section{Adaptive Recommenders}
 \label{sec:adaptive}
 
-\emph{Adaptive Recommenders} (AR) is a technique for combining recommender systems
-in an effort to answer two important questions.
-These are,
-given that we wish to predict the relevance of an item to a user,
+\emph{Adaptive Recommenders} (AR) is a technique for combining many recommender systems
+in a way that is optimal for the each user and each item.
+Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
+we have two important questions:
 
 \begin{enumerate*}
   \item What rating does each method predict?
   \item How accurate will each of these predictions be?
 \end{enumerate*}
 
-User modeling methods and recommender systems traditionally only care about the first question.
+Recommender systems traditionally only care about the first question.
 A single method is used to predict an unknown rating.
-Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination
-(e.g. \cite{Bell2007b, Huang2002}).
+Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
 We wish to make the aggregation \emph{adaptive},
-so that the aggregation itself depends on which user and item we are considering.
+so that the aggregation itself depends on which user and which item we are considering.
 
 Formally, we define adaptive recommenders as \emph{adapting a set of recommender systems
 with another complementary set of recommender systems} 
