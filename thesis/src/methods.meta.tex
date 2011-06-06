@@ -12,8 +12,8 @@ we have two important questions:
   \item How accurate will each of these predictions be?
 \end{enumerate*}
 
-Recommender systems traditionally only care about the first question:
-a single method is used to predict an unknown rating.
+Recommender systems traditionally only care about the first question.
+A single method is used to predict an unknown rating.
 Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
 We wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
@@ -37,8 +37,9 @@ We have sets of $Users$ and $Items$, and a set of $Ratings$.
 Each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 As mentioned, items can be just about anything, for example documents, websites, movies, events, or indeed, other users.
 The ratings can be explicitly provided by users, for example by rating movies,
-or they can be mined from existing data, for example by mining query logs.
-As before, we use the term \emph{rating} loosely --- equivalent terms include \emph{relevance}, \emph{utility},
+or they can be implicitly extracted from existing data, for example by mining query logs.
+
+We use the term \emph{rating} loosely --- equivalent terms include \emph{relevance}, \emph{utility},
 \emph{score} or \emph{connection strength}. In other words, this is a measure of what a user thinks of an item
 in the current domain language. However, since \emph{rating} will match the case study we present in the next chapter,
 we will be using this term. 

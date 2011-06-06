@@ -223,8 +223,10 @@ The recommender systems do the final ranking, and actually
 push every item in the top 10 IR ranking 
 below the top 10 final results.
 
+\clearpage
 \input{table.rank.paris}
-
+\input{table.rank.year}
+\clearpage
 
 \subsection{Adaptive IR Weights}
 
@@ -234,8 +236,6 @@ By varying the IR weight we can create quite a range of systems:
 On the one hand, an IR weight of 0 will let the recommenders do all the ranking.
 On the other hand, by increasing the IR weight, the recommenders will carefully
 adapt parts of the IR results list by moving some of the items.
-
-\input{table.rank.year}
 
 We have not considered which IR weight or other parameters would result in the best performing
 personalized search system.
@@ -275,3 +275,14 @@ can be used to provide personalized search}.
 This positive result for Experiment 3 confirms hypothesis H3,
 at least for this dataset, this IR system and our chosen recommender algorithms.
 We will discuss this further in the next chapter.
+
+The implications of adaptive rankings of search results are not hard to see.
+By estimating how accurate each algorithm will for current user,
+we get a list of results that is sorted based on how the user \emph{should} be modeled.
+At the same time, by estimating accuracies for the current item,
+each item is sorted by the algorithms that can best predict their relevance.
+
+This is the main strenght of adaptive recommenders.
+Instead of a generic and averaged sorting, we achieve an adaptive sorting
+that creates an optimal algorithmic combination based on each context.
+We shall discuss this further in the next chapter.

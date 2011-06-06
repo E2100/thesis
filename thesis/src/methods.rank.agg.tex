@@ -104,6 +104,13 @@ from simple query logs. Examples include \cite{Joachims2007},
 \cite{Lee2005}, \cite{Agichtein2006}, \cite{Mobasher} and
 \cite{Speretta2000}.
 
+As in prediction aggregation, the strength of our resulting system is in large part dependent on the accuracy of our ratings.
+This means that deciding and understanding how implicit ratings are created, or 
+finding auxiliary sources to provide explicit ratings, is a critical step.
+The algorithms are only as strong as the data they use.
+Methods for personalized search may work best in settings where we have explicit ratings,
+or can gather explicit ratings from secondary sources, for example from external social networks or publishing platforms.
+
 When we have the implicit or explicit ratings matrix, the modeling phase
 consists of two parts. Training the IR models and the recommender models.
 The recommender models are trained as before, given in Listing \ref{code:training}.
@@ -115,6 +122,7 @@ we assume that the IR model is trained with the system's items,
 and that it returns relevant items when given a query.
 
 
+\clearpage
 \subsection{Prediction Phase}
 
 \begin{algorithm}[t]
@@ -190,11 +198,28 @@ we sort the list by the item predictions, and return the list.
 The resulting list is adaptively sorted based on the current user and the specific items in the list,
 achieving adaptive rank aggregation.
 
-Clearly, as in prediction aggregation, the strength of our resulting system is in large part dependent on the accuracy of our ratings.
-This means that deciding and understanding how implicit ratings are created, or 
-finding auxiliary sources to provide explicit ratings, is a critical step.
-The algorithms are only as strong as the data they use.
-Methods for personalized search may work best in settings where we have explicit ratings,
-or can gather explicit ratings from secondary sources, for example from external social networks or publishing platforms.
+Listing \ref{code:rank:prediction} considers rank aggregation in a scenario with a single IR model.
+In the case of more IR models,
+we would combine the scores for each item returned by the different models.
+In this case, estimating the accuracy of each IR model in the same way as the recommender systems
+would provide another level of personalization.
+Just as each RS works differently for each element, each IR model
+may have varying applicabiltiy to each item.
+At the same time, each user might place a different importance on each IR model.
+
+This would be a simple extension of our prediction algorithm.
+The most important question becomes how to estimate the error matrix for an IR model.
+There are many ways to do this.
+For example, the error for each query could be based on how 
+how often the element in question is selected for the current query.
+Another error might be based on the difference between
+the optimal placement (based on click-through rates)
+and the actual placement of an item in the result list.
+
+However, as this is outside the scope of this thesis, 
+we shall stick to situations where we have a single IR model.
+Experiment 3 in the next chapter will show how this IR model can be used in different ways
+by varying the IR weight.
+
 
 
