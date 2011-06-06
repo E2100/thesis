@@ -265,7 +265,7 @@ which is another name for weighted combination of the rankings:
 
 \begin{eqsp}
   \mathrm{rank}(u,q,p) = \alpha \times \mathrm{rank}_{IR}(q,p) 
-                 + (1-\alpha) \times \mathrm{rank}_{personal}(u,p)
+                 + (1-\alpha) \times \mathrm{rank}_{RS}(u,p)
 \end{eqsp}
 %
 \citeauthor{Xu2008} tried many combinations of weights,
@@ -293,7 +293,7 @@ The algorithm is quite powerful, and combines three types of rankings.
 The initial IR score, the social connection score, and a term score, where the terms are tags and keywords used by a user.
 The user model is $U(u) = (N(u), T(u))$, 
 where $N(u)$ are the social connections of $u$ and $T(u)$ the user's profile terms.
-The function $sim(x,y)$ measures the similarity of two items, be they users or documents.
+The function $sim(x,y)$ measures the similarity of two elements, either users or items.
 
 The re-scoring is performed in two steps.
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
@@ -306,7 +306,7 @@ Finally, the results are combined with the ranking returned by the IR method ($R
 A parameter $\alpha$ is used to control how much each method is weighted:
 
 \begin{eqsp}
-  S(q,d|P(u)) = \alpha \times R_{IR}(q,d) + (1-\alpha) \times S_P(q,d|U(u)) 
+  S(q,d,U(u)) = \alpha \times R_{IR}(q,d) + (1-\alpha) \times S_P(q,d,U(u)) 
 \end{eqsp}
 %
 This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.
