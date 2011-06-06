@@ -4,12 +4,12 @@
 \label{appendix:implementation}
 
 
-This section describes how we implemented adaptive recommenders.
+This appendix describes how we implemented adaptive recommenders.
 This is a short description of the most important features and considerations
 made when implementing the system.
 While quite specific and not important to the viability of 
-\emph{adaptive recommenders} in itself,
-this should give a short introduction to how this technique can be put into practice.
+the technique in itself,
+this should give a short introduction to how it can be put into practice.
 
 \section{Libraries}
 
@@ -30,21 +30,21 @@ this should give a short introduction to how this technique can be put into prac
   \end{center}
 \end{figure}
 
-Naturally, the most important part of the implementations are the recommender systems.
+The most important part of the implementations are the recommender systems.
 These are used for the basic ratings predictions, and to 
 create the adaptive aggregation by predicting the accuracy of other recommenders.
 At the same time, these different recommenders need to have the same
 interface for training and testing, regardless of which context
 each experiment places them into.
 Our implementation makes use of a number of external libraries,
-as seen in Figure \ref{fig:library-layers}
+as seen in Figure \ref{fig:library-layers}.
 
 To quickly get a large number of recommenders up and running,
 the system was linked with the \emph{Apache Mahout machine learning library}
 (See Appendix \ref{appendix:resources}). 
 Mahout provides a number of machine learning
 algorithms, amongst which a set of recommender systems.
-Examples include SVD- and kNN-based recommenders,
+Examples include SVD- and neighbor-based recommenders,
 baseline recommenders, a Slope One recommender,
 cluster-based recommenders,
 and various generic recommenders for mixing different 
@@ -97,12 +97,11 @@ perform varying experiments in a short amount of time.
   \end{center}
 \end{figure}
 
-In order to facilitate rapid prototyping,
-our system is built around a few core concepts that can
+Our system is built around a few core concepts that can
 be used together in different ways.
 Everything the system does is considered a \emph{task}.
 A task is a collection of settings and directives
-and serves as instantiated configurations for the system.
+that serves as an instantiated configuration of the system.
 Tasks are created beforehand, and fed into the system,
 which carries them out.
 Tasks specify what the system should do,
@@ -149,7 +148,7 @@ is given to each modeling method. These methods return a number of scalar predic
 The next step is the $\mathrm{reduce}$ operation, which is the adaptive layer.
 Here, the scalar predictions are reduced to one prediction by computing weights
 based on probable accuracy.
-These computations can of course be cached, if certain combinations of users and items
+These computations can for example be cached, if certain combinations of users and items
 often need predictions.
 
 As mentioned, none of these aspects have any bearing on the viability of adaptive recommenders.
@@ -162,7 +161,7 @@ See Appendix \ref{appendix:resources} for links to other resources.
 This section gives an example of an experiment run through our system.
 In this experiment, we wish to create our adaptive recommender
 and test it on the MovieLens dataset.
-The code is written in JRuby, just as it is in the implementation.
+The task specifications are written in JRuby, just as in the implementation.
 
 First, we create our tasks and run these tasks to create the recommenders.
 We then create an evaluator to test our resulting adaptive recommender.
@@ -214,14 +213,14 @@ links to which are given in Appendix \ref{appendix:resources}.
 
 \section{Running the Experiments}
 
-To tun the experiments, a few libraries must be installed. 
+To run the experiments, a few libraries must be installed. 
 First, JRuby must be available (see links in Appendix \ref{appendix:resources}).
 This has to be a version capable of running code conformant to Ruby version 1.9 (e.g. JRuby 1.6).
-The \emph{rake} library should also be installed, as it is used to start and run each experiment.
+The \emph{rake} build library should also be installed, as it is used to start and run each experiment.
 
 To get the system up and running in a Posix-based environment, 
 the following steps should be run.
-The \textsf{\$} refers to the operator in a terminal window.
+The \textsf{\$} refers to the prompt in a terminal window.
 All commands should be run from the top-level folder of the implementation source code.
 
 \begin{enumerate*}

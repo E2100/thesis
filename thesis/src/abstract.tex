@@ -1,4 +1,4 @@
-\null\vspace{2em}
+\null\vspace{4em}
 {
   \centering
   \normalfont
@@ -10,16 +10,16 @@
 
 \noindent
 In the field of artificial intelligence,
-\emph{recommender systems} are user modeling methods
+\emph{recommender systems} are methods
 that can predict the relevance of an item to a user.
-Items can be just about anything, for example 
+The items can be just about anything, for example 
 documents, articles, movies, music, events or other users.
 Recommender systems examine data such as ratings, query logs,
 user behavior and social connections to predict
-what each user will think of each available item.
+what each user will think of each item.
 
 Modern recommender systems
-combine multiple standard recommenders,
+combine multiple standard recommenders
 in order to leverage disjoint patterns in available data.
 By combining different methods,
 complex predictions that rely on much evidence can be made.
@@ -31,27 +31,24 @@ There exists an underlying, misplaced subjectivity to relevance prediction.
 Each chosen recommender system reflects one view of 
 how each user and item \emph{should} be modeled.
 We believe the selection of recommender methods should 
-be adaptively and automatically chosen based on
-how accurate each prediction is likely to be for each user and item.
+be automatically chosen based on their predicted accuracy for each user and item.
 After all, a system that insists on being adaptive
 in one particular way is not really adaptive at all.
 
 This thesis presents a novel method for prediction aggregation
 that we call \emph{adaptive recommenders}.
 Multiple recommender systems are combined on a per-user and per-item basis
-by estimating how accurate each recommender will be for the current user and item.
-This is done by creating a set of secondary error estimating recommenders.
+by estimating their individual accuracy in each context.
+This is done by creating a secondary set of error estimating recommenders.
 The core insight is that standard recommenders can be used
-to estimate the accuracy of other recommenders, for each
-user/item pair.
+to estimate the accuracy of other recommenders.
 As far as we know, this type of adaptive prediction aggregation
 has not been done before.
 
-We test prediction aggregation (combining scores) in a
-recommendation scenario,
-and rank aggregation (sorting results lists) in a personalized search scenario.
-Our initial results are promising, showing that adaptive recommenders
+Prediction aggregation (combining scores) is tested in a recommendation scenario.
+Rank aggregation (sorting results lists) is tested in a personalized search scenario.
+Our initial results are promising and show that adaptive recommenders
 can outperform both standard recommenders and simple aggregation methods.
-We also discuss the implications and limitations of our results.
+We will also discuss the implications and limitations of our results.
 
 \cleardoublepage
