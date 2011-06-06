@@ -1,17 +1,13 @@
 \section{Recommenders}
 
-We need a number of recommender systems for each experiment.
-Standard recommenders will be used for both the basic predictions,
-and the accuracy estimations,
-as described in Chapter \ref{chap:methods}.
-
-Naturally, we need a large number of different recommenders, preferably ones that consider
+Standard recommender systems will be used for both the basic predictions, and the accuracy estimations, as described in Chapter \ref{chap:methods}.
+Naturally, we need a number of different RSs, preferably ones that consider
 disjoint patterns in the data. Table \ref{table:results:methods}
 gives a short overview of the recommender systems we shall employ.
 Each experiment will use every recommender in this table.
-This section only gives a short introduction to each method.
-See Section \ref{sec:recommender} for more information, 
-and Appendix \ref{appendix:implementation} for details on how these were implemented in our system.
+This section gives a short introduction to each method.
+See Section \ref{sec:recommender} for more information on RSs, 
+and Appendix \ref{appendix:implementation} for details on how these were implemented in this system.
 
 
 \subsection{Basic Recommenders}
@@ -47,21 +43,21 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
 
 As seen in Table \ref{table:results:methods}, we have two types of recommenders.
 First, we have the basic recommenders, denoted by \emph{S} in the table.
-Each system looks at varying data patterns to predict ratings.
-We chose this wide range of recommenders for just this reason:
-as previously explained, the performance of aggregation methods
+Each of these systems look at varying data patterns to predict ratings.
+We chose this wide range of recommenders for just this reason.
+As previously explained, the performance of aggregation methods
 are more dependent on the dissimilarity of the basic recommenders
-than their individual performance.
+than their individual performance \cite[p6]{Bell2007}.
 
-Let us briefly explain how each basic recommender works.
+Let us briefly explain how each basic RS works.
 The SVD methods look for global patterns in the data 
 by reducing the ratings-space into a concept-space.
 By reducing this space, the algorithm is able to find
 latent relations, such as groups of movies that has the same
 rating pattern, or groups of users that often rate in a similar manner.
-
 For the SVD methods, the factorizers refers to algorithms used to factorize the ratings matrix
 (see Section \ref{subsec:recommender:examples}).
+
 The Slope One and baseline algorithms look at average
 ratings for items and from users, and use these to predict ratings.
 These are simple algorithms that often perform as well
@@ -89,7 +85,7 @@ The cosine similarity and KNN algorithms look at smaller clusters of similar
 users and items, and compute an average rating weighted by 
 similarities of elements.
 This wide range of recommender should give us the desired
-effect of looking at disjoint data patterns.
+effect of looking at disjoint rating patterns.
 
 
 \subsection{Adaptive Recommenders}
@@ -106,8 +102,7 @@ produced by the standard recommenders.
 Similarly, the average aggregation method takes the mean of the
 standard predictions.
 While not complex in nature, these methods
-will help us see how our method compares to simple, traditional
-aggregation techniques.
+will help us see how our method compares to simple aggregation techniques.
 
 The last entry in Table \ref{table:results:methods}
 refers to our technique. 
@@ -120,23 +115,22 @@ employ every basic recommender system described so far.
 
 As explained in Section \ref{sec:usermetamodeling},
 any basic recommender system can be used for the adaptive method.
-The only difference is how this method is trained:
-while the basic methods are trained using the ratings matrix,
-the adaptive methods are trained using the error model,
+The only difference is how this method is trained.
+While the basic methods are trained using the ratings matrix,
+the adaptive methods are trained using the error matrix,
 as seen in Listing \ref{code:training}.
 In other words, we have as many possibilities for choosing
 the adaptive recommenders as the basic recommenders.
 
-For our experiment, we went with SVD recommenders
-for each of the adaptive models.
+For our experiment, we chose SVD recommenders for the adaptive models.
 That is, each basic recommender method gets a secondary 
-accuracy predicting recommender, which in this case is a 
-standard SVD recommender.
+accuracy predicting recommender, which in this case is a standard SVD recommender.
 The SVD recommender is a natural choice in this case,
-since we wish to uncover latent patterns of accuracy
-for each model.
-Examples of these patterns include groups of items
-or users a specific recommender works well for.
+since we wish to uncover latent patterns of accuracy for each model.
+SVD recommenders look for global patterns in the data,
+which in this case would mean situations where a standard RS
+works especially well for, or does not work for,
+a set of users, items, or a combination of these.
 
 It is important to note that the same configuration of recommenders was used for all three experiments.
 In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
@@ -149,7 +143,7 @@ As with the basic recommenders, the same SVD recommender configuration was used
 for the adaptive layer in each Experiment.
 We chose to use en EM-factorizer to perform the actual decomposition,
 consisting of 20 features. The decomposition was performed by 20 iterations.
-See \ref{subsec:recommender:examples} for more information on how SVD recommenders work. 
+See \ref{subsec:recommender:examples} for more information on how SVD-based recommenders work. 
 The choices of recommenders will be further discussed
 in Chapter \ref{chap:discussion}.
 

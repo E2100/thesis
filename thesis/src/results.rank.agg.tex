@@ -3,16 +3,19 @@
 \input{table.rank.washington}
 \afterpage{\clearpage}
 
+Let us see how adaptive recommenders can be used for personalized search.
 While the previous experiment was a quantitative exploration of RMSE values,
 this experiment will focus on qualitative traits of rank aggregation.
-In particular we wish to see how our method can perform personalized search.
 
 The MovieLens dataset fit the needs of this experiment.
 Searching through movies is a scenario where the actual predicted
-rating of each movie would be a welcome signal for ranking the results.
-In other words, we have a database of movies the user wishes to search through,
+rating of each movie would sometimes be a welcome signal for ranking the results.
+We have a database of movies the user wishes to search through,
 where the results are ranked both by how well they match the free text query,
 and according to the predicted rating of each movie for the current user.
+The value of letting predicted ratings re-rank search results of movies
+is of course entirely dependent on the actual system and use case,
+but it presents a probable situation where personalized search may be employed.
 
 Hypothesis H3 states that 
 {
@@ -75,34 +78,36 @@ There are a few important limitations to this experiment:
 \end{comment}
 
 In other words, this experiment is not statistically significant in any way,
-but is should show how our approach to recommender systems
-can be used to provide personalized search.
+but rather a case study where we investigate the implications
+of using adaptive recommenders for personalized search.
 
-There are many ways of determining the accuracy of a personalized search
-algorithm, such as the mean average precision of the results list
+To be sure, there are many ways of determining the accuracy of a personalized search
+algorithm. Examples include the mean average precision of the results list
 (the mean of the precision average over a set of queries).
-However, these are subjective measures based on relevance judgements from each user.
+As always when dealing with personalization, 
+these are subjective measures based on relevance judgements from each user.
+
 Our hypothesis only states that our algorithm should be usable for such 
 a system, which is what we shall explore in this section.
 To quantitatively measure the performance of personalized search,
-one would need detailed query logs, user profiles and click-through information,
-which we have no access to.
+one would need detailed query logs, user profiles and click-through information.
 
-Of course, any recommender system can be used for personalized search.
+Any recommender system can be used for personalized search.
 The interesting bit in regards to adaptive recommenders is what 
 happens under the hood. First, the information retrieval score 
 is itself treated as an input signal, just as the user modeling methods.
 Second, by using adaptive recommenders, the user is in control of which
 methods that actually determine how the final results are ranked.
-We shall take a look at four use cases with to see how our algorithm
+
+We have considered four use cases with to see how our algorithm
 performs in a number of scenarios. Each case presents 
 a query and shows how a certain IR weight influences the final ranking.
 
-The IR weight is the ratio multiplied with the IR score 
-before the adaptive recommender scores are incorporated
+The IR weight is the scalar value multiplied with the IR score 
+before the adaptive recommender scores are incorporated in the result
 (see Listing \ref{code:rank:prediction}).
 The actual choice of weight depends on scale of scores
-returned by the IR method.
+returned by the IR method, and how much the IR model should influence the final ranking.
 If the scores are on the same scales as the ratings themselves,
 an IR weight of $1$ signifies that the IR score
 should have equal importance as each recommender score.
@@ -113,8 +118,9 @@ In other words, the actual IR weight must
 be calculated based on the scale of the IR scores.
 In this chapter, the scores returned by our IR
 model is normalized to the scale of our ratings.
+We then adapt the IR weight to achieve differing prioritisations of the IR scores.
 
-We will consider the following use cases:
+We consider the following use cases:
 (1) searching for multiple topics,
 (2) searching for a series of movies,
 (3) searching for one particular topic, and
@@ -123,8 +129,10 @@ We will consider the following use cases:
 \input{table.rank.star}
 \afterpage{\clearpage}
 
-\emph{(1) Multiple topics:} Let us start with a simple use case:
-a user wishes to find movies about two separate topics, ranked by 
+\subsection{Merging IR \& Recommender Scores}
+
+\emph{(1) Multiple topics:} Let us start with a simple use case.
+A user wishes to find movies about two separate topics, ranked by 
 query match and predicted ratings.
 This is a realistic use case, for example if a user is interested
 in a few topics and wants to see the movie within these categories
@@ -152,13 +160,13 @@ In other words, we have achieved personalized search. The results
 from the IR method are re-ranked according to personal preferences.
 
 
-\emph{(2) Series of items:} Let us consider another use case:
+\emph{(2) Series of items:} Let us consider another use case.
 A user wishes to see a movie in a certain series of movies,
 but does not know which one. In this case, the IR method can find all movies within this series,
 while the recommender systems ranks the result list according to the user's preferences.
 
-Table \ref{table:rank:startrek} shows the intermediary and final ranking
-for the query [\emph{star trek}], which refers to a movie series.
+Table \ref{table:rank:startrek} shows the intermediary and final rankings
+for the query [\emph{star trek}], which refers to a collection of movies within the same series.
 The IR method returns all items that match this query,
 and the recommenders predict the rating for each of these items.
 However, since the IR method only ranks results based on how well they match the query,
@@ -167,9 +175,12 @@ list can get the best of both worlds:
 the top ranked items are the ones that both match the query \emph{and}
 are probable good fits for the current user.
 
+
+\subsection{Constraining the Item Space}
+
 \emph{(3) Singular topic:} What happens when the IR weight is set to $0$?
 In this use case, the predicted ratings alone sort the final list.
-Consider the following use case:
+Consider the following use case.
 A user wishes to see a movie related to a certain topic, e.g. a city.
 Table \ref{table:rank:paris} shows two results lists for the query [\emph{paris}].
 On the left are the standard ranking as returned by the IR model for this query,
@@ -194,8 +205,7 @@ Another example of this is shown in Table \ref{table:rank:year}.
 In this scenario, the user wishes to see a movie from a certain year,
 and issues the query [\emph{1998}].
 Naturally, the IR algorithm returns a whole lot of items, and each can
-be said to be perfect answers to the algorithm -- each movie
-was made in 1998.
+be said to be perfect answers to the query, as each movie was made in 1998.
 
 In this case, setting the IR weight to $0$ allows us to rank the results
 purely by predicted preference, which makes sense when the IR algorithm
@@ -210,9 +220,11 @@ below the top 10 final results.
 
 \input{table.rank.paris}
 
+
+\subsection{Adaptive IR Weights}
+
 As we have seen in this section, adaptive recommenders can provide personalized search
 in multiple ways. 
-Because of this, hypotheses H3 is confirmed for these use cases with our dataset.
 By varying the IR weight we can create quite a range of systems:
 On the one hand, an IR weight of 0 will let the recommenders do all the ranking.
 On the other hand, by increasing the IR weight, the recommenders will carefully
@@ -231,13 +243,30 @@ orders items both by IR score and predicted rating.
 Naturally, this weight is a defining characteristic of any 
 personalized search based on adaptive recommenders.
 
+An adaptive adjustment of the IR weight based on the current query and use case
+would seem to be the best choice for a system that should handle each scenario.
+When we have a short, specific query, the IR ranking function have little to
+no basis for ranking each item differently.
+In this case, a weight of $0$ allows the recommenders to perform the ranking
+of a constrained item space.
+If the predicted ratings of each item is a constructive signal,
+as in our movie search example, this will leverage the strenghts of both systems.
+
+However, in systems with complex queries, where the IR model
+\emph{can} rank each item based on their similarity to the information need,
+an IR weight of $1.0$ gives us the desired result.
+Items are ranked both by their match to the query,
+and based on how each user and item should be modeled.
+By using adaptive recommenders, each rescoring function
+that influence the final rankings of items is conditioned
+on how well they have previously worked for the current item,
+and how well they suit each user.
+
 The performance of personalized search is hard to judge without
 extensive query logs with click-through information.
 While we had no access to such data, 
-we have been able to show that adaptive recommenders
-can be used to provide personalized search.
+we have been able to show that \emph{adaptive recommenders
+can be used to provide personalized search}.
 This positive result for Experiment 3 confirms hypothesis H3,
 at least for this dataset, this IR system and our chosen recommender algorithms.
-
-The next chapter will discuss the implications and limitation of our results.
-
+We shall discuss this further in the next chapter.
