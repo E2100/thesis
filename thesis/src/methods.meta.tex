@@ -1,18 +1,18 @@
 \section{Adaptive Recommenders}
 \label{sec:usermetamodeling}
 
-\emph{Adaptive Recommenders} (AR) is a technique for combining recommender systems
-in an effort to answer two important questions.
-These are,
-given that we wish to predict the relevance of an item to a user,
+\emph{Adaptive Recommenders} (AR) is a technique for combining many recommender systems
+in a way that is optimal for the each user and each item.
+Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
+we have two important questions:
 
 \begin{enumerate*}
   \item What rating does each method predict?
   \item How accurate will each of these predictions be?
 \end{enumerate*}
 
-User modeling methods and recommender systems traditionally only care about the first question:
+Recommender systems traditionally only care about the first question:
 a single method is used to predict an unknown rating.
 Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
 We wish to make the aggregation \emph{adaptive},
@@ -25,7 +25,7 @@ This then is a form of meta-modeling, where one set of modeling methods is adapt
 The first set creates standard prediction scores, and answers the first question.
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
-The interesting bit is that AR can use recommender systems for both these tasks, as we shall soon see.
+The interesting bit is that AR can use recommender systems for both these tasks, as we shall see.
 A system for adaptive recommenders is specified by a 6-tuple:
 
 \begin{eqnarray*}
@@ -90,7 +90,7 @@ However, instead of modeling users, we wish to model each recommender system.
 More specifically, we wish to model the \emph{accuracy} of each recommender system.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
-In other words, we have two distinct layers of user modeling 
+We then have two distinct layers of user modeling 
 (see Figure \ref{fig:adaptiveusermodeling}):
 
 \input{figure.layers}
@@ -118,7 +118,7 @@ For example, we can express prediction aggregation as
 First, each modeling method is applied by the $\mathrm{map}$ function, with the current user, item and set of modeling methods as input.
 This operation returns a set of scalar prediction values. 
 These values are then combined by the $\mathrm{reduce}$ function, which also takes the current user and item as input.
-In other words, $\mathrm{map}$ is the methods layer, and $\mathrm{reduce}$ is the adaptive layer.
+In our terms, $\mathrm{map}$ is the methods layer, and $\mathrm{reduce}$ is the adaptive layer.
 If we wish to do rank aggregation, the equation is a bit different:
 
 \begin{eqsp}
@@ -178,7 +178,7 @@ we need \emph{adaptive weights} that are computed specifically for each combinat
 This is more difficult than simply estimating generalized weights.
 If we wish each weight to be combination-specific, then pre-computing each weight for each method becomes unfeasible.
 We would have to compute a weight for each method for each possible rating.
-In other words, the adaptive weights also have to be estimated just as the unknown ratings:
+The adaptive weights also have to be estimated just as the unknown ratings:
 
 \begin{eqsp}
   \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
@@ -270,8 +270,7 @@ true for the error matrix as well.
 
 For example, one method might have a large error for a particular user and item combination,
 yet still work well for both these elements. 
-Luckily, this is 
-just the kind of noise recommender systems are good at pruning away.
+However, this is just the kind of noise recommender systems are good at pruning away.
 What we are interested in are situations where a method
 has stable and significant errors for many ratings from a user,
 or many ratings of an item.
@@ -279,7 +278,7 @@ In this case, there is a pattern where this method does not
 work well for the element in question.
 This is exactly the kind of pattern recommender systems are good at identifying.
 
-In other words, the same capabilities that makes recommender systems work well
+The same capabilities that makes recommender systems work well
 on the ratings matrix, will also make them work well on the error matrix.
 The properties we need for predicting ratings
 are the same as those needed to predict accuracy.
