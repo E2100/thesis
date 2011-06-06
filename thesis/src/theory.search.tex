@@ -88,12 +88,12 @@ For example, by this definition, a document containing every conceivable query t
 would be the most relevant to any query.
 A better idea is to use something like the TF-IDF weighting scheme \citep[p29]{Baeza-Yates1999}:
 
-\begin{eqsp}
+\begin{equation*}
   w_{t,d} = tf_{t,d} \times idf_{t}
           = \frac{ f(t,d) }{ \sum_{k \in d} f(k,d) } \times 
             \log \frac{N}{n_{t}}.
-\end{eqsp}
-%
+\end{equation*}
+
 The final weight is computed by multiplying the term frequency score (TF) $tf_{t,d}$ with the 
 inverse document frequency (IDF) $idf_{t}$. TF evaluates how well the term describes the document contents,
 while IDF punish terms that appear in many documents. 
@@ -160,9 +160,9 @@ Another intuitive justification for a site's PageRank is the \emph{random surfer
 The probability that the random surfer visits a page is its PageRank. The \emph{randomness} is introduced 
 by a damping parameter $d$, which is the probability that a user will stop browsing and start at a new random page:
 
-\begin{eqsp}
+\begin{equation*}
   \mathrm{PageRank}(x) = \frac{1 - d}{N} + d \sum_{y \in B_x} \frac{\mathrm{PageRank}(y)}{\mathrm{Links}(y)},
-\end{eqsp}
+\end{equation*}
 %
 where $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is the number of outbound links from page $y$.
 The first term distributes an equal PageRank score to all pages that have no outbound links, as $N$ is the total number of pages.
@@ -214,10 +214,10 @@ a learning algorithm kicks in and estimates approximately how likely the user is
 in each of the pre-set topics, creating the topic-preference vector $T$. When it is time to rank a 
 page $p$ in response to the query $q$, they compute the personalized ranking:
 
-\begin{eqsp}
+\begin{equation*}
   PersonalizedRanking(T,p,q) = \sum_{t=1}^{m} T(i) \times Pr(q|T(i)) \times TSPR_i(p)
-\end{eqsp}
-%
+\end{equation*}
+
 We will not deduce this equation here (see \citet[p5]{Qiu2006}), but let us explain it. 
 $T$ is the user-specific topic preference vector.
 $i$ is the index of a topic and $m$ the total number of topics.
@@ -263,11 +263,11 @@ The two ranks are aggregated by a simple consensus-metric, the
 \emph{weighted borda-fuse} (WBS) aggregation method \cite[p3]{Xu2008}, 
 which is another name for weighted combination of the rankings:
 
-\begin{eqsp}
+\begin{equation*}
   \mathrm{rank}(u,q,p) = \alpha \times \mathrm{rank}_{IR}(q,p) 
                  + (1-\alpha) \times \mathrm{rank}_{RS}(u,p)
-\end{eqsp}
-%
+\end{equation*}
+
 \citeauthor{Xu2008} tried many combinations of weights,
 topic selection and datasets, with the general conclusion
 that folksonomy-based personalized search has great potential.
@@ -298,17 +298,17 @@ The function $sim(x,y)$ measures the similarity of two elements, either users or
 The re-scoring is performed in two steps.
 First, the score based on connections and terms is computed, weighted by $\beta$ which determines the weighting of both approaches:
 
-\begin{eqsp}
+\begin{equation*}
   S_P(q,d,U(u)) = \beta \sum_{v \in N(u)} sim(u,v) \times sim(v,d) + (1-\beta) \sum_{t \in T(u)} sim(u,t) \times sim(t,d)
-\end{eqsp}
-%
+\end{equation*}
+
 Finally, the results are combined with the ranking returned by the IR method ($R_{IR}$). 
 A parameter $\alpha$ is used to control how much each method is weighted:
 
-\begin{eqsp}
+\begin{equation*}
   S(q,d,U(u)) = \alpha \times R_{IR}(q,d) + (1-\alpha) \times S_P(q,d,U(u)) 
-\end{eqsp}
-%
+\end{equation*}
+
 This approach, while simple, shows how social relations and social annotations can easily be used to personalize a search experience.
 However, \citet[p10]{Carmel2009} notes that the high quality data in their enterprise setting were important
 to achieve the improved results. 
