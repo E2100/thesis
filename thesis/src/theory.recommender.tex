@@ -33,7 +33,7 @@ based on existing connections. The principle is the same. By evaluating current 
 connections, and the connections of similar users, new connections can be predicted.
 
 As evident by the examples, recommender systems are powerful methods for user modeling, personalization and for fighting information overload.
-Their ability to infer unknown relevance between users and items makes them useful in many situations, as we shall soon see.
+Their ability to infer unknown relevance between users and items makes them useful in many situations, as we shall see.
 
 
 \subsection{Interface Autonomy}
@@ -98,7 +98,7 @@ The utility function $p$ depends on the modeling method being used, the active u
 The \emph{reason} for using a recommender system is that the utility is not defined for the entire $U \times I$ space, 
 that is, the system does not know the utility of each item for each user. 
 The point of a recommender system is then to extrapolate $R$ to cover the entire user-item space. 
-In other words, to be able to rank items according to user preferences, 
+To be able to rank items according to user preferences, 
 the system must be able to predict each user's reaction to items they have not yet explicitly or implicitly rated themselves. 
 
 Another common way of describing and implementing an RS is using a simple matrix.
@@ -123,12 +123,12 @@ only rates, connects to or uses a few of items.
 This is true for any scenario where users explicitly rate items, access items in search results,
 or connect to each other in a social network. 
 For example, in the seminal Netflix Challenge movie recommender dataset, almost 99\% of the potential
-user/item pairs have no rating \cite[p1]{Bell2007d}. In other words, 
-this recommender system had to be able to produce results from a matrix where only 1\% of the cells had meaningful values.
+user/item pairs have no rating \cite[p1]{Bell2007d}.  
+These recommender systems had to be able to produce results from a matrix where only 1\% of the cells had meaningful values.
 
 This is often the defining characteristic of a recommender system.
 An RS is defined by its ability to extract meaningful patterns from sparse data, 
-through dimensionality reduction, neighborhood estimation and many other methods, as we shall soon see.
+through dimensionality reduction, neighborhood estimation and many other methods, as we shall see.
 Naturally, much research looks at ways to best tackle this sparsity problem
 (e.g. \cite{Pitsilis2009}, \citet[p3]{Claypool1999}, \citet[p19]{Ziegler2005}).
 

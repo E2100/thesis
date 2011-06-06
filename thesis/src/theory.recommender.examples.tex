@@ -41,14 +41,13 @@ or in other words, a better average rating.
 Another approach based on simple averages is the  \emph{Slope One} family of recommender algorithms. 
 As introduced by \cite{Lemire2005}, these algorithms predict unknown ratings based on the average difference in ratings between two items. 
 For example, if item $i$ is on average rated $\delta$ points above item $j$, and user $u$ has rated item $j$,
-that is, we predict $\hat{r}_{u,i}$ (the estimated rating) to be $r_{u,j} + \delta$, for all the user's ratings that match this pattern.
-In other words,
+that is, we predict $\hat{r}_{u,i}$ (the estimated rating) to be $r_{u,j} + \delta$, for all the user's ratings that match this pattern,
 
 \begin{eqsp}
-  \hat{r}_{u,i} = \frac{\sum_{j \in R_u} \mathrm{ratings}(j) \times (r_{u,j} + \mathrm{\delta}(i,j))}{\sum_{j \in R_u} \mathrm{ratings}(j) },
+  \hat{r}_{u,i} = \frac{\sum_{j \in R_u} \mathrm{ratings}(j) \times (r_{u,j} + \mathrm{\delta}(i,j))}{\sum_{j \in R_u} \mathrm{ratings}(j) }.
 \end{eqsp}
-%
-where $\hat{r}_{ui}$ is the estimated rating, $R_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
+
+Here, $\hat{r}_{ui}$ is the estimated rating, $R_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
 and $\mathrm{\delta}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
 
@@ -208,8 +207,7 @@ Two common factorization methods are the EM and the ALSWR algorithms.
 An EM factorizer uses the Expectation-Maximization algorithm to find the factors.
 An ALSWR factorizer performs the same factorization with a least-squares approach \citep{Zhou2008}.
 The number of features refers to the truncation of the factors in order to reduce the concept-space.
-In other words, the number of features corresponds to the number of latent taste categories
-we wish to identify.
+These features then correspond to the number of latent taste categories we wish to identify.
 Naturally, different numbers of features will yield different recommenders.
 The SVD factorization algorithms are iterative methods, where each iteration
 yields more accurate results.
@@ -220,7 +218,7 @@ where users are mapped to higher-level \emph{taste} categories
 In a taste space,
 the collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.
 This reduction makes it easy to find similar users that share some global characteristic.
-We can of course also find similarities between items, clusters of items and user and so on, all based on latent categories
+We can also find similarities between items, clusters of items and user and so on, all based on latent categories
 discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
@@ -259,7 +257,7 @@ connect nodes of the same type, or nodes of different types.
 One variation comes from \cite{Walter2008}, who create a network of \emph{transitive trust} to produce recommendations. Here,
 the neighborhood of users is determined by traversing through users connected by a level of trust. 
 The trust can for example be a function of how many agreeable results the connection to a user has produced.
-In other words, users trust each other's recommendations based on previous experience.
+Uers trust each other's recommendations based on previous experience.
 
 \cite{Konstas} takes yet another approach that measures the similarity between two nodes through their \emph{random walks with restarts} (RWR) technique.
 Starting from a node $x$, the RWR algorithm randomly follows a link to a neighboring node. 
@@ -276,7 +274,7 @@ The stationary probabilities of each node, signifying their long term visiting r
 %
 when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $P_y$ where $p$ is the user model for the user represented by node $x$.
 \citeauthor{Konstas} found that this approach outperformed the PCC, as long as the social networks were an explicit part of the system in question.
-In other words, the connections between users had to be one actively created by the users to be of such quality and precision that
+The connections between users had to be one actively created by the users to be of such quality and precision that
 accurate predictions could be made.
 
 After this whirlwind tour of recommender systems, it is time to look at some closely related topics:
