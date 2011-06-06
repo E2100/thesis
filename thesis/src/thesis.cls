@@ -123,6 +123,7 @@
 \settypeblocksize{47pc}{32pc}{*} % (height,width,ratio)
 \setlrmargins{*}{*}{1}
 \setulmargins{7pc}{*}{*}
+\raggedbottom
 \checkandfixthelayout
 
 \makepagestyle{ruled}
