@@ -1,24 +1,20 @@
 \section{Prediction Aggregation}
 
 Adaptive prediction aggregation means combining the results
-from multiple scalar predictors based on the current user and item
-(see Section \ref{sec:theory:predictionagg}).
-As mentioned, we have two levels of predictors:
+from multiple scalar predictors conditioned on the current context.
+As mentioned, we have two levels of predictors.
 The first level is a set of traditional recommender systems
 that produce estimations of unknown ratings between users and items.
 The second level is another set of recommender systems 
 that predict how accurate each of the first level recommenders will be.
-
-In this section, we shall explain how such a system may be created.
-Most importantly, there are two distinct phases to adaptive recommenders:
+There are two distinct phases when using adaptive recommenders:
 
 \begin{enumerate*}
   \item The modeling phase creates the user models for both levels.
   \item The prediction phase uses the created models to estimate ratings.
 \end{enumerate*}
 
-We shall first explain the modeling phase, then the prediction phase,
-when dealing with prediction aggregation.
+We shall first explain the modeling phase, then the prediction phase.
 The next section will explain a similar situation where
 we wish to do \emph{adaptive rank aggregation} by 
 combining ordered lists of results, depending on the current user and item.
@@ -55,9 +51,9 @@ In this scenario, we need to split the data for a number of purposes.
 The following sets must be created during training:
 
 \begin{enumerate*}
-  \item Training sets to create the standard recommenders.
-  \item Training sets to create the error estimation models.
-  \item A testing set to test our final system.
+  \item Training sets for the standard recommenders.
+  \item Training sets for the error estimation models.
+  \item A testing set to measure the performance of our final system.
 \end{enumerate*}
 
 Constructing these subsets of the available data is a common task in ensemble learning
@@ -75,9 +71,11 @@ In statistics, these types of samples are called \emph{bootstrap samples}.
 If $n'$ is comparable in size to $n$, there will be some items
 that are repeated in the new training sets.
 
-Bagging suits our needs for a few reasons. First, the method helps create disjoint predictors, 
+Bagging suits our needs for a few reasons. First, it helps create disjoint predictors, 
 since each predictor is only trained (or specialized for) a subset of the available data.
-Second, it allows us to easily train the underlying modeling methods without any complex partitioning of the data.
+When using multiple similar recommenders, this means we can create specialized models
+for parts of the data with a higher performance than if they were trained on the entire dataset.
+Second, bagging allows us to easily train the underlying modeling methods without any complex partitioning of the data.
 To partition and use the available data, we use the following algorithm:
 
 \begin{enumerate*}
@@ -117,7 +115,7 @@ We first create the aforementioned error matrix by estimating
 predictions for each known combination in the ratings data.
 The $\mathrm{NewModelingMethod}$ call simply creates a new, untrained
 recommender model of some pre-specified $type$
-(in this case, a new SVD-based model, but any recommender method will do).
+(in this case, a new SVD-based model, but any applicable RS will do).
 A new model is then trained based on the created error matrix,
 and returned as our new $error\_model$.
 
@@ -164,23 +162,23 @@ The first input is the user and item for which we wish to predict a rating.
 We assume that this rating is unknown --- predicting ratings for known combinations
 would mean recommending items the user has already seen and considered
 (however, if we are dealing with a task such as personalized search,
-these known ratings are of course important, as we shall see in the next section).
+these known ratings are important, as we shall see in the next section).
 
 The other inputs are the trained rating models, and the corresponding error models.
 The algorithm begins by creating empty sets for predicted ratings and errors.
 Next, each modeling method is used to predict ratings, and their error models to predict errors.
 Note that each step in the first for-loop is independent of each other, and both steps
-inside the for loop is also independent. This is then an algorithm well suited for
-parallelization.
+inside the for loop are also independent. 
+This is then an algorithm well suited for parallelization.
 In a MapReduce framework, this for loop would be run as a $\mathrm{map}$ operation,
 where the input user and item is mapped over the sets of modeling methods
 (see Appendix \ref{appendix:implementation} for implementation details).
 
 After the predictions have been collected, the errors are normalized,
-i.e. converted to the range $[0,1]$ and changed to sum to $1$.
+i.e. converted to the range $[0,1]$, so that they sum to $1$.
 This is vital before last stage of the prediction algorithm,
 which weighs each prediction from the different rating models.
-This step corresponds to the previously explained $\mathrm{reduce}$ operation,
+The last step corresponds to the previously explained $\mathrm{reduce}$ operation,
 that combines multiple scores into one final result.
 The weight of each method is computed as $1 - error$, where $error$ 
 is the normalized error for this method, for the current user and item.
@@ -191,12 +189,12 @@ There is an important performance different between the modeling and prediction 
 While the modeling phase is the most computationally expensive,
 it can be performed independently of making predictions.
 As the prediction phase is when the user has to wait for the system,
-this is of course where performance is most important.
+this is where performance is most important.
 Naturally, as users rate more items and new items arrive,
 the models have to be recreated based on this new reality.
 However, as the modeling phase is an offline operation,
 the training can be performed in the background, while new
-and speedy predictions are always at the users hands.
+and computatinally efficient predictions are always available.
 
 
 

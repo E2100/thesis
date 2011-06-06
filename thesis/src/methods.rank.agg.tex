@@ -1,18 +1,17 @@
 \section{Rank Aggregation}
 \label{sec:methods:rank}
 
-Now that we have seen how to adaptively aggregate scalar scores, it is time to see how
-to do \emph{adaptive rank aggregation}. Rank aggregation means combining sorted lists of items.
+It is time to see how to do \emph{adaptive rank aggregation}. 
+Rank aggregation means combining sorted lists of items.
 In this scenario, each modeling method takes the current user as input, and produces a
-list of items ranked in order of rating
-(see Section \ref{sec:theory:rank}).
+list of items ranked in order of rating (see also Section \ref{sec:theory:rank}).
 
-Aggregating lists is desirable in a number of situations:
-Often we wish to produce lists of recommended items, not just estimate the rating of a single combination.
+Aggregating lists is desirable in a number of situations.
+Often we wish to produce lists of recommended items, not just estimate the rating of a single user/item pair.
 Consider the task of personalizing a list of search results
 (see Section \ref{sec:search}). The important part is not the score
 given to each result, but rather the order in which they appear.
-The underlying technology is still the same. A number of recommenders are used to predict the ratings
+The underlying technology stays the same. A number of recommenders are used to predict the ratings
 of items to users. However, to do rank aggregation, another layer is added, that requests lists from each method,
 not only singular items.
 
@@ -32,7 +31,8 @@ and the predicted ratings from each recommender systems are signals.
 Adaptive aggregation then entails estimating \emph{how accurate each of these signals are likely to be for the current user and item}.
 This is almost the same task as in adaptive prediction aggregation, only in a list-oriented fashion.
 
-There is an important difference. The IR methods constrict the range of items worked on by the recommender systems.
+There is an important difference. 
+The IR methods should be used to constrict the range of items worked on by the recommender systems.
 As the IR methods identify items that may be relevant to the users query, these are the items we wish the recommender systems to work on.
 This goes back to the previously mentioned difference between \emph{search} and \emph{recommendations}:
 
@@ -56,9 +56,9 @@ Let us now see how the modeling and prediction phases are performed in adaptive 
 \subsection{Modeling Phase}
 
 We shall only deal with settings where we have a single IR method.
-While multiple IR methods and corresponding error models would be an interesting
+While multiple IR methods and corresponding error models is an interesting
 setting, we are most interested in using the IR method for constraining the Item-space considered by the recommender systems.
-As we shall see, this does not introduce many changes to our previously developed algorithms.
+As we shall see, this does not introduce many changes to our algorithms.
 
 The modeling phase for the recommender system stays the same, with one important change.
 As we are dealing with a search engine, we might not have an explicit ratings matrix to rely on.
@@ -66,9 +66,10 @@ Most feedback we can gather from user initiated searches are from query logs.
 These logs show the current user, query, and the item that is finally selected after the query is performed.
 Query log mining is a common approach in personalized search
 (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000}).
-By mining this log, we can create an implicit ratings matrix.
+By mining query logs we can create an implicit ratings matrix.
 Each populated cell represents a selected item.
-\cite{Venetis2011} shows an interesting approach where they use requests for directions
+
+For example, \cite{Venetis2011} shows an interesting approach where they use requests for directions
 from online map services to infer implicit ratings:
 when a user asks for the directions from A to B, this is taken 
 as a vote from this user that location B is interesting.
@@ -81,16 +82,17 @@ These ratings can be further improved by considering different metrics, includin
 
 \begin{itemize*}
   \item Time spent before selecting the item.
+  \item The items initial placement and the effort required to identify it.
   \item How far the user was willing to scroll before clicking the item.
   \item Whether or not the user resubmitted the same query shortly after.
 \end{itemize*}
 
-Based on these, and similar, metrics, we can achieve quite accurate implicit ratings.
+Based on these and other similar metrics, one can achieve quite accurate implicit ratings.
 Naturally, ratings can also be gathered from other sources.
 If we have more data on each user, or know of secondary systems such as social networks
 or other systems where ratings are present, these can be used to augment the implicit ratings matrix
 (e.g. \cite{Carmel2009}).
-There are also search systems where we already have explicit ratings:
+There are also search systems where we already have explicit ratings.
 Consider, for instance, the use case of searching for movies on a movie rating site,
 or searching for people in a social network.
 In these cases, we have explicit ratings that can be used to train the recommender models.
@@ -107,8 +109,10 @@ consists of two parts. Training the IR models and the recommender models.
 The recommender models are trained as before, given in Listing \ref{code:training}.
 The one or more IR methods are not trained with a ratings matrix,
 but with the items and their respective data.
-Of course, the actual IR modeling method depends on the IR system itself,
-which is not our concern in this chapter.
+Of course, the actual IR modeling method depends on the IR system itself.
+However, as a through explanation of IR systems is outside our scope,
+we assume that the IR model is trained with the system's items,
+and that it returns relevant items when given a query.
 
 
 \subsection{Prediction Phase}
@@ -156,9 +160,9 @@ Listing \ref{code:rank:prediction} gives the basic algorithm.
 As input, instead of one item, we have the entire set of items, and a query.
 We run the query and items through the IR model to get the constrained set of items ($results$).
 Each of the recommender methods is then run for each of the items in the results list.
-As before, the first for-loop can easily be performed in parallel.
-Each call to $\mathrm{Predict}$ is independent of the other operations,
-allowing us to perform it as a $\mathrm{map}$ operation.
+As before, the first for-loop can be performed in parallel.
+Each call to $Predict$ is independent of the other operations,
+allowing us to perform it as a $map$ operation.
 
 As before, the error estimations are normalized before converting them to weights.
 Since we are dealing with two dimensions of errors, for each item and each method,
@@ -170,7 +174,7 @@ error predictions, the adaptive aggregated prediction is computed.
 Because we do not care of the final score we set the initial predictions to be the IR scores.
 The recommender systems simply add or subtract from this initial score.
 This means that the resulting predictions will not be in the same range as the known ratings,
-but since we are only interested in the order of the items, not the actual rating, this poses no problem.
+but since we are only interested in the order of the items, not the actual rating, this is not a problem.
 
 An important coefficient is the $w_{IR}$ (IR weight),
 which determines how much the IR method should decide of the final ranking.
@@ -184,13 +188,13 @@ influences the ranked results lists.
 After computing the predictions for each item in the results list, 
 we sort the list by the item predictions, and return the list.
 The resulting list is adaptively sorted based on the current user and the specific items in the list,
-achieving in adaptive rank aggregation.
+achieving adaptive rank aggregation.
 
 Clearly, as in prediction aggregation, the strength of our resulting system is in large part dependent on the accuracy of our ratings.
 This means that deciding and understanding how implicit ratings are created, or 
 finding auxiliary sources to provide explicit ratings, is a critical step.
-As we have said before, algorithms are only as strong as the data they can leverage.
-In other words, methods for personalized search will work best in settings where we have explicit ratings,
+The algorithms are only as strong as the data they use.
+In other words, methods for personalized search may work best in settings where we have explicit ratings,
 or can gather explicit ratings from secondary sources, for example from external social networks or publishing platforms.
 
 

@@ -143,7 +143,7 @@ us implement efficient algorithms.
 
 \subsection{Adaptive Aggregation}
 
-To perform adaptive aggregation, we need the $Adapters$ to be actual recommender systems.
+To perform adaptive recommender aggregation, we need the $Adapters$ to be actual recommender systems.
 Until now we have talked about both prediction aggregation (scores) and rank aggregation (sorted lists).
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
 
@@ -156,7 +156,8 @@ by the different methods (e.g. \citet[p3]{Aslam2001}):
 %
 Here, $\hat{r}_{u,i}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from method $m$.
-However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
+To achieve an even more optimal result, 
+many aggregators weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{eqsp}
   \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i) 
@@ -166,17 +167,18 @@ However, many aggregators attempt to weigh each method differently (e.g. \cite{C
 In this equation, $w_m$ is the weight applied to modeling method $m$. 
 These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, 
-the weights can be estimated through different machine learning methods.
+these weights can be estimated by different machine learning methods.
 However, as discussed in Section \ref{sec:reasoning},
-this is still a generalized result, averaged across every prediction.
+this is still a generalized result, averaged across every user and item.
 The system assumes that the best average result is the best result for each individual user and item.
-Even with method-specific weights we are still hindered by the latent subjectivity problem.
+This means that, even with method-specific weights, we are still hindered by the latent subjectivity problem.
 
-In order to leverage as many patterns as possible while sidestepping the latent subjectivity,
+In order to leverage as many patterns as possible while sidestepping any latent subjectivity,
 we need \emph{adaptive weights} that are computed specifically for each combination of a user and an item.
+This is more difficult than simply estimating generalized weights.
 If we wish each weight to be combination-specific, then pre-computing each weight for each method becomes unfeasible.
 We would have to compute a weight for each method for each possible rating.
-In other words, these adaptive weights also have to be estimated, just as the ratings themselves:
+In other words, the adaptive weights also have to be estimated just as the unknown ratings:
 
 \begin{eqsp}
   \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
@@ -197,7 +199,7 @@ we can in turn predict errors for untested combinations
 (see Figure \ref{fig:adaptiveweights}).
 If we predict the error of a recommender system for a user and an item,
 we have also predicted its accuracy.
-To achieve this, we can create an \emph{error matrix}:
+To achieve this, we create an \emph{error matrix}:
 
 \input{figure.errors}
 
@@ -211,13 +213,13 @@ To achieve this, we can create an \emph{error matrix}:
  \end{pmatrix}
 \end{eqsp}
 %
-Creating an error matrix for each modeling method is done by splitting the ratings data in two,
-the first set can be used for the actual training, and the second
-can be used to populate each error matrix.
+Creating an error matrix for each modeling method is done by splitting the ratings data in two.
+The first set can be used for the actual RS modeling, and the second
+can be used to populate an error matrix for each RS.
 
-Every standard modeling method produces an error matrix where some cells have values.
+With adaptive recommenders, each standard modeling method produces an error matrix where some of the cells have values.
 A value in this matrix corresponds to the prediction error for a combination of a user and an item.
-Each modeling method is trained with a part of the ratings data.
+To achieve this, each modeling method is only trained with a part of the ratings data.
 The error matrix is populated from the rest of the data,
 by computing the error of each known rating the method was not trained for:
 
@@ -235,12 +237,12 @@ $m$ is a modeling method trained with the subset $d_m$.
 To populate the error matrix for this method,
 we take each rating which have not been used to train the method
 and calculate the error of the method on this combination.
-The result is a sparse error matrix
-we can use to predict unknown errors.
+Since we are only interested in the magnitude of each error,
+we take the absolute value of each measurement.
+The result is a sparse error matrix we can use to predict unknown errors.
 
 Notice the similarity of this matrix and the previously introduced ratings matrix.
 This similarity is what will allow standard recommender systems
-to perform adaptive aggregation.
 to perform adaptive aggregation.
 Whenever we wish to train a new modeling method,
 we apply the following algorithm:
@@ -369,7 +371,8 @@ basic method.
 The result of this is a system that does not only aggregate a number of predictions for each unknown
 combination of users and items,
 but that also combines these methods based on how accurate each prediction is likely to be.
-Now that we have our model, it is time to see how it can be implemented.
-First, we shall do prediction aggregation in a recommendation scenario,
-and then rank aggregation in an information retrieval scenario.
+
+Let us now see how adaptive recommenders may be implemented.
+We shall first do prediction aggregation in a recommendation scenario,
+then rank aggregation in an information retrieval scenario.
 
