@@ -2,7 +2,7 @@
 
 Having too much information can be as harmful as having no information at all.
 While having too little is an obvious problem,
-too much leads to an overload where relevant content drowns in irrelevant noise.
+too much leads to information overload where relevant content drowns in irrelevant noise.
 This is a common problem. Whenever we have enough information,
 anything extra only leads to confusion.
 Our ability to make properly informed decisions is often the first thing to go
@@ -105,15 +105,18 @@ to perform well in scenarios with widely differing users and items.
 The scope of users and items is simply too great for any one or generalized combination
 of methods to capture the nuanced nature of relevance prediction.
 
-We propose a novel method called \emph{adaptive recommenders}, 
+We propose a novel method that we call \emph{adaptive recommenders}, 
 where the selection of algorithms is implicitly made by each user and item.
-This will provide an extra level of abstraction and personalization.
+This provides an extra level of abstraction and personalization.
 The selection decisions are implicit, and happens in the background, without any extra interaction required.
-This leaves the subjective nature of selecting ways to model users and items where it should be,
-that is, in the hands of each individual user, and dependent on each specific item.
+This leaves the subjective nature of selecting ways to model users and items where it should be.
+That is, in the hands of each individual user, and dependent on each specific item.
+
 This adaptive selection has an important consequence. 
 If each algorithm is contextually used based on how well it performs for each user and item,
 any possibly useful recommender algorithm suddenly becomes a worthy addition.
+Algorithms that perform well for a user or an item is selected for this task.
+Those that do not will be used in other situations where they might be better suited.
 
 As far as we know, such adaptive prediction aggregation has not been done before.
 The main research question of this thesis is whether or not adaptive recommenders
