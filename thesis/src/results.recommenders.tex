@@ -25,7 +25,7 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
     S & item\_avg     & Baseline              & Based on item averages. \\ 
     S & baseline      & Baseline              & Based on user and item averages.\\ 
     S & cosine   	    & Cosine similarity     & Weighted ratings from similar items.\\ 
-    S & knn       	  & Pearson Corr.         & Weighted ratings from similar users.\\
+    S & pcc       	  & Pearson Corr.         & Weighted ratings from similar users.\\
     \midrule
     A & median    	  & Aggregation           & Median rating from the above methods. \\
     A & average    	  & Aggregation           & Average rating from the above methods. \\
@@ -69,7 +69,7 @@ New ratings are then predicted by taking known ratings of other items,
 weighted by their item's similarity to the new item.
 This is based on the same method used in the previously introduced vector space model.
 
-The KNN algorithm employs yet another approach. This algorithm,
+The PCC algorithm employs yet another approach. This algorithm,
 similar in strategy to the cosine similarity algorithm,
 looks for users with similar rating patterns.
 The similarity is measured with the Pearson Correlation Coefficient.
@@ -81,7 +81,7 @@ detailed information on how these recommenders work.
 The main difference between our recommenders are the scope of the patterns they leverage.
 The SVD and baseline methods look at global effects, such as latent categories
 and overall rating averages.
-The cosine similarity and KNN algorithms look at smaller clusters of similar
+The cosine similarity and pcc algorithms look at smaller clusters of similar
 users and items, and compute an average rating weighted by 
 similarities of elements.
 This wide range of recommender should give us the desired
@@ -119,7 +119,7 @@ The only difference is how this method is trained.
 While the basic methods are trained using the ratings matrix,
 the adaptive methods are trained using the error matrix,
 as seen in Listing \ref{code:training}.
-In other words, we have as many possibilities for choosing
+We have as many possibilities for choosing
 the adaptive recommenders as the basic recommenders.
 
 For our experiment, we chose SVD recommenders for the adaptive models.
@@ -133,7 +133,7 @@ works especially well for, or does not work for,
 a set of users, items, or a combination of these.
 
 It is important to note that the same configuration of recommenders was used for all three experiments.
-In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
+Neither the basic nor the aggregate or adaptive recommenders were heavily tailored
 to each dataset. To be sure, higher performance could probably have been achieved
 by tailoring each recommender to each dataset. 
 However, as our goal is to compare our finite set of methods, 

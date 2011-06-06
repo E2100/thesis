@@ -14,7 +14,7 @@ We have a database of movies the user wishes to search through,
 where the results are ranked both by how well they match the free text query,
 and according to the predicted rating of each movie for the current user.
 The value of letting predicted ratings re-rank search results of movies
-is of course entirely dependent on the actual system and use case,
+is entirely dependent on the actual system and use case,
 but it presents a probable situation where personalized search may be employed.
 
 Hypothesis H3 states that 
@@ -77,7 +77,7 @@ There are a few important limitations to this experiment:
 \end{table}
 \end{comment}
 
-In other words, this experiment is not statistically significant in any way,
+This experiment is not statistically significant in any way,
 but rather a case study where we investigate the implications
 of using adaptive recommenders for personalized search.
 
@@ -114,7 +114,7 @@ should have equal importance as each recommender score.
 Any higher, and the IR model should be prioritized above the recommenders.
 Any lower, and the recommender scores will dominate the initial IR rankings.
 
-In other words, the actual IR weight must
+The actual IR weight must
 be calculated based on the scale of the IR scores.
 In this chapter, the scores returned by our IR
 model is normalized to the scale of our ratings.
@@ -125,6 +125,11 @@ We consider the following use cases:
 (2) searching for a series of movies,
 (3) searching for one particular topic, and
 (4) searching for a particular attribute.
+The first two use cases merge the IR and recommender scores
+into a combined ranking.
+The last two will let the recommender systems do the ranking
+in situations where the IR model is not able to properly rank the results.
+
 
 \input{table.rank.star}
 \afterpage{\clearpage}
@@ -269,4 +274,4 @@ we have been able to show that \emph{adaptive recommenders
 can be used to provide personalized search}.
 This positive result for Experiment 3 confirms hypothesis H3,
 at least for this dataset, this IR system and our chosen recommender algorithms.
-We shall discuss this further in the next chapter.
+We will discuss this further in the next chapter.
