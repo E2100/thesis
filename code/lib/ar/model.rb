@@ -43,6 +43,9 @@ class Model
   end
  
   def self.rand(model,p)
+    # create tmp dir if it does not exist
+    Dir.mkdir(Config::Data + '/tmp') rescue nil 
+
     t = Config::Data + '/tmp/model' 
     d = File.open(model.path).read.split("\n")
     n = d.size
