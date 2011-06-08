@@ -3,8 +3,8 @@
 
 It is time to see how to do \emph{adaptive rank aggregation}. 
 Rank aggregation means combining sorted lists of items.
-In this scenario, each modeling method takes the current user as input, and produces a
-list of items ranked in order of rating (see also Section \ref{sec:theory:rank}).
+In this scenario, the modeling methods take the current user as input, and produce 
+lists of items ranked in order of rating (see also Section \ref{sec:theory:rank}).
 
 Aggregating lists is desirable in a number of situations.
 Often we wish to produce lists of recommended items, not just estimate the rating of a single user/item pair.
@@ -25,9 +25,9 @@ and re-sort, or re-score, the results list (e.g. \citet[p3]{Xu2008}).
 
 The key insight is that both the IR method and the recommender systems form \emph{input signals}
 (see Section \ref{subsec:signals}).
-An input signal is some measure of how each item should be ranked in the final results list.
+An input signal is some measure of how an item should be ranked in the final results list.
 The relevance scores returned from our IR ranking functions are signals,
-and the predicted ratings from each recommender systems are signals.
+and the predicted ratings from the recommender systems are signals.
 Adaptive aggregation then entails estimating \emph{how accurate each of these signals are likely to be for the current user and item}.
 This is almost the same task as in adaptive prediction aggregation, only in a list-oriented fashion.
 
@@ -44,8 +44,8 @@ This goes back to the previously mentioned difference between \emph{search} and 
 The difference lies in the knowledge of existence.
 As personalized search is still a search task, the IR methods should determine the set of items that might be relevant.
 Their relevance scores for these items becomes the first input signals.
-The recommender systems works on this set of items, re-scoring each as needed.
-We still have the adaptive layer that estimates how well each signal will perform for the current user and item.
+The recommender systems works on this set of items, re-scoring them as needed.
+We still have the adaptive layer that estimates how well the signals will perform for the current user and item.
 This is especially important considering that we may have multiple IR methods that define multiple sets of relevant items.
 The final result is an adaptive combination of the rating and accuracy predictions for each signal,
 as seen in Figure \ref{fig:adaptiverank}.
@@ -167,17 +167,17 @@ The prediction phase is where adaptive rank aggregation differs most from adapti
 Listing \ref{code:rank:prediction} gives the basic algorithm.
 As input, instead of one item, we have the entire set of items, and a query.
 We run the query and items through the IR model to get the constrained set of items ($results$).
-Each of the recommender methods is then run for each of the items in the results list.
+Each of the recommender methods is then run for the items in the results list.
 As before, the first for-loop can be performed in parallel.
-Each call to $Predict$ is independent of the other operations,
+The calls to $Predict$ are independent of the other calls,
 allowing us to perform it as a $map$ operation.
 
 As before, the error estimations are normalized before converting them to weights.
-Since we are dealing with two dimensions of errors, for each item and each method,
+Since we are dealing with two dimensions of errors, for each item and method,
 the errors are normalized across items.
-For each item, the errors from the recommenders fall in the range $[0,1]$ and sum to $1$.
+For items, the errors from the recommenders fall in the range $[0,1]$ and sum to $1$.
 
-After each item in the results list has an IR score, a set of predictions, and a corresponding set of 
+After the items in the results list have an IR score, a set of predictions, and a corresponding set of 
 error predictions, the adaptive aggregated prediction is computed. 
 Because we do not care of the final score we set the initial predictions to be the IR scores.
 The recommender systems simply add or subtract from this initial score.
@@ -200,17 +200,17 @@ achieving adaptive rank aggregation.
 
 Listing \ref{code:rank:prediction} considers rank aggregation in a scenario with a single IR model.
 In the case of more IR models,
-we would combine the scores for each item returned by the different models.
+we would combine the scores for the items returned by the different models.
 In this case, estimating the accuracy of each IR model in the same way as the recommender systems
 would provide another level of personalization.
-Just as each RS works differently for each element, each IR model
-may have varying applicability to each item.
-At the same time, each user might place a different importance on each IR model.
+Just as varying RSs work differently for elements, each IR model
+may have varying applicability to individual items.
+At the same time, users might place a different importance on the varying IR models.
 
 This would be a simple extension of our prediction algorithm.
 The most important question becomes how to estimate the error matrix for an IR model.
 There are many ways to do this.
-For example, the error for each query could be based on how 
+For example, the error for a query could be based on how 
 how often the element in question is selected for the current query.
 Another error might be based on the difference between
 the optimal placement (based on click-through rates)
@@ -225,10 +225,10 @@ The implications of adaptive rankings of search results are considerable.
 By estimating how accurate each algorithm will for current user,
 we get a list of results that is sorted based on how the user \emph{should} be modeled.
 At the same time, by estimating accuracies for the current item,
-each item is sorted by the algorithms that can best predict their relevance.
+the items are sorted by the algorithms that can best predict their relevance.
 
 This is the main strength of adaptive recommenders.
 Instead of a generic and averaged sorting, we achieve an adaptive sorting
-that creates an optimal algorithmic combination based on each context.
+that creates an optimal algorithmic combination based on the current context.
 We shall discuss this further in the Chapter \ref{chap:discussion}.
 

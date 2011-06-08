@@ -13,9 +13,9 @@ and suggest possible future work.
 Our central assumption is that modern recommender systems 
 are constrained by their misplaced subjectivity.
 Each system selects some measures to model its users, 
-based on how they think each user and item \emph{should} be modeled.
-We believe this selection should be left to each user:
-different users and items will require adaptive recommender algorithms that
+based on how they think users and items \emph{should} be modeled.
+We believe this selection should be left to individual users.
+Different users and items will require adaptive recommender algorithms that
 consider the context before making predictions.
 
 Adaptive recommenders can help solve this problem.
@@ -28,21 +28,21 @@ It should be clear that adaptive recommenders would work best in situations wher
 we have a wide range of diverse algorithms that can infer the relevance of an item to a user.
 For users, social connections is a good example. Whether or not social connections should influence
 recommendations or personalized search results is a contentious topic.
-Naturally, a system where each user's personal opinion determines if these connections are used is desirable.
+Naturally, a system where every user's personal opinion determines if these connections are used is desirable.
 
 This implication extends to the items that should be recommended:
 As evident by the field of information retrieval,
 there exists many ways of considering the relevance of an item. 
-Each of these algorithms can be based on a number of attributes, for example
+These algorithms can be based on a number of attributes, for example
 temporal information, geography, sentiment analysis, topic or keywords.
-It is not a huge leap to assume that each of these algorithms may have
-varying levels of accuracy for each individual item.
+It is not a huge leap to assume that these algorithms may have
+varying levels of accuracy for individual items.
 Adaptive recommenders can help solve this problem by adaptively 
 combining the recommenders based on individual item performance.
 
 Hypothesis H1 was confirmed by showing that adaptive recommenders
 can outperform standard single-approach recommenders.
-We achieved lower total RMSE scores across each of our datasets,
+We achieved lower total RMSE scores across our datasets,
 which would imply that adaptive recommenders
 reliably performs better than our tested standard recommenders.
 However, the real test would be to use our approach
@@ -87,8 +87,8 @@ related to the
 it is worth questioning if its gains are worth the extra complexity.
 This depends on the basic recommenders that are to be combined.
 If the system is made up by many different recommenders,
-that each user might place varying importance on,
-and that may have varying success with each item,
+that users might place varying importance on,
+and that may have varying success with individual items,
 adaptive recommenders may provide gains in accuracy.
 
 On the other hand, if the recommenders are simple in nature,
@@ -114,7 +114,7 @@ As mentioned in Chapter \ref{chap:theory}, the scale of known ratings is another
 When we have a set of explicit ratings given by users, these are often
 given in discrete steps, and not on a continuous scale.
 As known from the field of statistics, when using ordinal scales,
-the significance of each steps are not necessarily equal.
+the significance of every step are not necessarily equal.
 For instance, on a scale from 1 through 5, the difference
 between 2 and 3 might not be as significant as the difference between 4 and 5.
 This is a limitation of many recommender system, apparent by the algorithms they use:
@@ -132,8 +132,8 @@ perform quite simple tasks, they may be more
 than good enough for their purpose.
 
 This will always be a trade-off, between complexity and required accuracy.
-As in many other cases, each of the systems described in this thesis
-have their use cases. In the end, the requirements of each system
+As in many other scenarios, the systems described in this thesis
+have their use cases. In the end, the requirements of the current system
 must decide which method best suit their needs.
 
 (4) Common issues:
@@ -141,7 +141,7 @@ The topic of recommenders and adaptive systems in general
 raise a number of questions which is outside the scope of this thesis.
 For example, user privacy is a big issue.
 Whenever we have a system that tries to learn the tastes, habits and
-traits of its users, how each user will react to this must be considered.
+traits of its users, how they will react to this must be considered.
 This is often a trade-off between adaptability and transparency.
 The most adaptive systems will not always be able to explain to the users
 what is going on and what it knows about each person,
@@ -161,7 +161,7 @@ outside our scope, they are both important limitations to considered
 when using a recommender system.
 
 In addition to these general limitations, 
-each experiment has its own limiting factors.
+the experiments have their own limiting factors.
 
 Hypothesis H1 was only tested against a limited number of standard recommenders.
 The key word is standard. These recommenders were not heavily customized
@@ -229,7 +229,7 @@ in the context of recommender systems.
 The main choice for any such system is how to predict unknown ratings.
 To do this, a pattern in the available ratings data must be leveraged.
 These patterns are plentiful, and their individual performance
-depends on each user and item of the system.
+depends on the users and items of the system.
 Modern aggregation recommenders utilize many patterns, but on a generalized
 level, where each user and item is treated the same.
 This underlying subjectivity leads to a mismatch between the notions
@@ -240,7 +240,7 @@ The latent subjectivity problem extends to any ensemble learning system
 algorithms to leverage patterns.
 Whenever we have multiple algorithms that work on a set of items
 (and possibly users), there is a question of how accurate each
-approach will be for each item.
+approach will be for any individual item.
 Averaged or generalized weighted approaches will always
 chose the combination that performs best \emph{on average},
 with little concern to the uniqueness of items (and users).
@@ -253,16 +253,16 @@ on estimated accuracy can outperform both standard recommenders and simple aggre
 Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
 This is the core insight of this thesis. 
-\emph{By creating error models for each recommender, we can use this to predict
-its accuracy for each user/item combination.
-These predictions can then be used to weigh each combined algorithm accordingly.}
+\emph{By creating error models for the recommenders, we can use these to predict 
+the accuracy of a method for any user/item combination.
+These predictions can then be used to weigh the algorithms accordingly.}
 
 As far as the latent subjectivity problem extends to any ensemble learning system,
 the adaptive aggregation part of adaptive recommenders can be used to 
 create better combinations of many types of predictors.
 Whenever we have a set of algorithms producing a set of predicted values
 based on items, a set of aggregating recommenders can model the probable
-errors of these approaches, based on each individual item.
+errors of these approaches, based on individual items.
 This leads to adaptive ensembles that should outperform generalized approaches.
 Because of this, the technique build in this thesis should be 
 applicable in situations other than recommender systems.
@@ -290,8 +290,8 @@ actual performance gains (or setbacks) by using adaptive recommenders to
 achieve personalized search.
 
 To measure the performance of personalized search one would need detailed query logs with click-through information.
-By this we mean logs that show the queries from each user, and which search result each user
-selected for each query.
+By this we mean logs that show the queries from individual users, and which search result they
+selected for every query.
 These logs can be mined to create implicit ratings matrices, which can be split into
 training- and testing sets.
 However, as this is outside our scope, and we lack the necessary data,
@@ -302,7 +302,7 @@ we leave this experiment to future research.
 We chose to use SVD-based recommenders for the adaptive part of our adaptive approach.
 The main reason for this is that we are looking for global traits of the data
 when performing accuracy estimations. We wish to identify
-clusters of users and items for which each algorithm may or may not be suited.
+clusters of users and items for which the algorithms may or may not be suited.
 
 However, as the adaptive recommenders can utilize any standard recommender system
 to model the errors of another recommender, it would be interesting to perform
@@ -312,7 +312,7 @@ There are many more recommenders that also look at global patterns
 that might be well suited for this task.
 
 Another interesting question is whether other machine learning methods can be used for the adaptive layer.
-For example, using neural networks to estimate non linear aggregation functions for each user would be an interesting approach.
+For example, using neural networks to estimate non linear aggregation functions for individual users would be an interesting approach.
 This was attempted earlier in our research, but abandoned when recommenders were found to produce
 better results in a more elegant way.
 
@@ -326,7 +326,7 @@ it is natural for a first look at a new approach to use the same notions of accu
 However, as mentioned above, the main strength of adaptive recommenders may be
 in situations with much more diverse data sources. Social networks or systems
 with widely varying sets of items would provide an interesting use case for adaptive recommenders.
-The main premise of our approach is that each user and item have differing preferences
+The main premise of our approach is that users and items have differing preferences
 for each algorithm. 
 
 Naturally, the more diverse the data and algorithms get,
@@ -365,8 +365,8 @@ Whenever there is a set of prediction algorithms that use different data to prod
 an adaptive aggregation should be able to combine these in a more nuanced way.
 
 Ensemble learning is a big topic, used in many situations.
-By layering recommenders on top of each method in an ensemble, 
-we get a system capable of predicting the accuracy of each method.
+By layering recommenders on top of the methods in an ensemble, 
+we get a system capable of predicting the accuracy of the basic methods.
 Naturally, it would be interesting to see how this approach would fare
 in other fields such as document classification, document clustering,
 curve fitting \cite[p7]{Polikar2006}, and other fields of ensemble learning.

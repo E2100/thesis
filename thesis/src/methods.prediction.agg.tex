@@ -72,7 +72,7 @@ If $n'$ is comparable in size to $n$, there will be some items
 that are repeated in the new training sets.
 
 Bagging suits our needs for a few reasons. First, it helps create disjoint predictors, 
-since each predictor is only trained (or specialized for) a subset of the available data.
+since the predictors are only trained (or specialized for) a subset of the available data.
 When using multiple similar recommenders, this means we can create specialized models
 for parts of the data with a higher performance than if they were trained on the entire dataset.
 Second, bagging allows us to easily train the underlying modeling methods without any complex partitioning of the data.
@@ -166,8 +166,8 @@ these known ratings are important, as we shall see in the next section).
 
 The other inputs are the trained rating models, and the corresponding error models.
 The algorithm begins by creating empty sets for predicted ratings and errors.
-Next, each modeling method is used to predict ratings, and their error models to predict errors.
-Note that each step in the first for-loop is independent of each other, and both steps
+Next, the modeling methods are used to predict ratings, and their error models to predict errors.
+Note that the step in the first for-loop are independent, and both steps
 inside the for loop are also independent. 
 This is then an algorithm well suited for parallelization.
 In a MapReduce framework, this for loop would be run as a $\mathrm{map}$ operation,
@@ -177,12 +177,12 @@ where the input user and item is mapped over the sets of modeling methods
 After the predictions have been collected, the errors are normalized,
 i.e. converted to the range $[0,1]$, so that they sum to $1$.
 This is vital before last stage of the prediction algorithm,
-which weighs each prediction from the different rating models.
+which weighs the predictions from the different rating models.
 The last step corresponds to the previously explained $\mathrm{reduce}$ operation,
 that combines multiple scores into one final result.
-The weight of each method is computed as $1 - error$, where $error$ 
+The weights of the methods are computed as $1 - error$, where $error$ 
 is the normalized error for this method, for the current user and item.
-Each rating prediction is then weighted, and combined to form the final,
+The rating predictions are then multiplies with their weight, and combined to form the final
 adaptively aggregated prediction.
 
 There is an important performance different between the modeling and prediction phases:

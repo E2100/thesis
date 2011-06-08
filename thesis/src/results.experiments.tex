@@ -73,11 +73,11 @@ For Experiment 3 we use a much larger subset in order to
 have more items available for the IR model.
 This subset has 1,000,000 ratings from 6,040 users of 3,900 movies.
 
-The MovieLens dataset also comes with meta-data on each user, such as
-gender, age and occupation. There is also meta-data on each movie,
+The MovieLens dataset also comes with meta-data on users, such as
+gender, age and occupation. There is also meta-data on movies,
 such as its title, release date and genre. 
 In Experiment 1, we are only interested in the ratings matrix of this dataset.
-However, the titles of each movie will be used in Experiment 3.
+However, the titles of movies will be used in Experiment 3.
 
 Our second set of ratings comes from the Jester dataset\footnote{
 See \url{eigentaste.berkeley.edu/dataset/} ---
@@ -92,7 +92,7 @@ The widely varying number of items, users and ratings in our selected datasets
 will give us more dimensions along which to verify our results.
 
 Jester also has ratings on a different scale than the MovieLens dataset.
-While each movie is rated on a discrete scale from $1$ through $5$,
+While the movies are rated on a discrete scale from $1$ through $5$,
 the items in Jester are rated on a continuous scale from $-10$ to $10$.
 However, in order to easily compare the measurements on both datasets,
 the ratings in Jester were converted to be on the scale $1-5$.
@@ -109,14 +109,14 @@ Each dataset is split into five sets which are again split into training and tes
   D_n = \{ d_1 = \{base_1, test_1\}, d_2 = \{base_2, test_2\}, ..., d_5 = \{base_5, test_5\} \}
 \end{eqsp}
 %
-Each $base_x$ and $test_x$ are disjoint 80\% / 20\% splits of the data in each subset.
+The $base_x$ and $test_x$ pairs are disjoint 80\% / 20\% splits of the data in the subsets.
 We shall perform five-fold cross-validation across all these sets in our experiments.
 This way we can be more certain that our results are reliable,
 and not because of local effect in parts of the data.
-As previously explained, each $base$ set is further split using bootstrap aggregation,
-into random subsets for training each standard recommender model.
+As previously explained, the $base$ sets are further split using bootstrap aggregation,
+into random subsets for training the standard recommender models.
 The entire base set is then used to train the adaptive error estimating recommenders.
-Each corresponding $test$ set will be used to evaluate our performance on each subset.
+The corresponding $test$ sets will be used to evaluate our performance on the subsets.
 
-Before performing each experiment,
+Before performing our experiments,
 let us take a closer look at the different types of recommender systems we will use.

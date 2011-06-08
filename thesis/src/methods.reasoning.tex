@@ -12,7 +12,7 @@ As described in Section \ref{sec:aggregate},
 modern approaches to recommender systems try to combine many of these methods.
 By leveraging so called \emph{disjoint patterns}
 in the data, several less than optimal predictors
-can be combined, so that the combination outperforms each part.
+can be combined, so that the combination outperforms the individual algorithms.
 Moderns search engines work much in the same way,
 combining multiple ranking signals into a final results list
 (see Section \ref{subsec:signals}).
@@ -39,7 +39,7 @@ Consider the following examples of relevance judgement:
 \end{itemize*}
 
 While these methods may perform well, their selection
-reflects how whoever created the system assumes how each user
+reflects how whoever created the system assumes how users
 can and \emph{should} be modeled. This underlying subjectivity is not desirable.
 We see two different approaches one can take when creating a recommender system,
 represented by two questions:
@@ -66,15 +66,15 @@ it can be embraced, by allowing users to implicitly and automatically select whi
 from a large set of possible predictors.
 
 As explained in Chapter \ref{chap:intro}, 
-assuming that each user will place a similar importance on each modeling method is 
+assuming that users will place similar importance on each modeling method is 
 contrary to the goals of user modeling. 
 Our goal should instead be a system which can leverage the differences
-between users and employ each available algorithm based on their individual preferences.
+between users and employ the available algorithms based on their individual preferences.
 
-Just as each user is different, each item may have their own characteristics.
+Just as users are different, items have their own characteristics.
 Needless to say, items are often quite different from another,
 along a myriad of dimensions. For example,
-if each webpage is an item, the number of metrics we can use to judge
+if items correspond to websites, the number of metrics we can use to judge
 the relevance of an item is immense.
 If items are indeed as different as the users themselves, it stands to reason that the same 
 modeling method will not perform as well for every item.
@@ -96,8 +96,8 @@ In other words, instead of finding an optimal combination,
 we can use any algorithm that \emph{might work for some elements}
 in our aggregation.
 
-With adaptive recommenders, each user is in control of which methods best fit their needs, and
-each method's priority is influenced by how well it performs for the current item.
+With adaptive recommenders, the users are in control of which methods best fit their needs, and
+a method's priority is influenced by how well it performs for the current item.
 However, in order to test whether or not these assumptions hold,
 we need a set of testable hypotheses.
 

@@ -144,7 +144,7 @@ higher than normally typeset words.
 In this way, the design of a document is used to choose the most important terms. 
 
 Signals can also depend on the query. \citet[p145]{Manning2008} describes a system that takes
-multi-word queries, breaks them up into different permutations and runs each new query against the same
+multi-word queries, breaks them up into different permutations and runs the new queries against the same
 document index and ranking function. Each query corresponds to its own ranked set of results,
 which are sent to a \emph{rank aggregation function} which turns the accumulated ranking evidence
 into one coherent result. We will have more to say on rank aggregation in Section \ref{sec:aggregate}.  
@@ -153,7 +153,7 @@ Signals can also be external to the collection or relational within the collecti
 PageRank \cite[p4]{Bender2005} is perhaps the most known of the relational signals.
 The algorithm forms a probability distribution over web pages, ranking their perceived
 authority or importance according to a simple iterative estimation.
-Each web site is given its rank based on how many pages that link to it.
+Every web site is given its rank based on how many pages that link to it.
 For each page that provides links, the score it contributes to the linked-to page is 
 its own page rank, inversely proportional to the number of outbound links the page has.
 Another intuitive justification for a site's PageRank is the \emph{random surfer model} \cite[p4]{Bender2005}.
@@ -203,15 +203,15 @@ we will explore a few different approaches to personalized search.
 (1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
 to \emph{``generate more accurate rankings than with a single, generic PageRank vector''}. 
 They show how to create topic-specific PageRank vectors for a number of pre-set topics,
-creating many rankings per page, one for each topic.
-This new PageRank is computed based on an existing set of websites that belong to each topic.
+creating many rankings per page, one per topic.
+This new PageRank is computed based on an existing set of websites that belong to one or more topics.
 \citet{Qiu2006} achieved ``significant improvements'' to this approach by adding a personally adaptive layer
 to the topic-sensitive PageRank algorithm, creating a \emph{personalized PageRank algorithm}. 
 
 In addition to the topic vector, \citeauthor{Qiu2006}
 creates a topic-preference vector for each user. When the user has clicked on a few search results,
 a learning algorithm kicks in and estimates approximately how likely the user is to be interested 
-in each of the pre-set topics, creating the topic-preference vector $T$. When it is time to rank a 
+in the pre-set topics, creating the topic-preference vector $T$. When it is time to rank a 
 page $p$ in response to the query $q$, they compute the personalized ranking:
 
 \begin{eqsp}
@@ -226,8 +226,8 @@ This can be as simple as the total number of times the query terms appear in web
 $TSPR_i(p)$ is the topic-sensitive PageRank score for page $p$ in topic $i$. Basically, this is 
 the normal PageRank vector computed within a pre-set topic $i$.
 
-The construction of $T(i)$, i.e. the training phase of the algorithm, is performed by mining the query logs for each user.
-By identifying how many sites the user has visited in each topic, computing $T$ can be done through linear regression or
+The construction of $T(i)$, i.e. the training phase of the algorithm, is performed by mining the query logs from individual users.
+By identifying how many sites the user has visited in per topic, computing $T$ can be done through linear regression or
 by using a Maximum-likelihood estimator.
 \citet[p10]{Qiu2006} reports improvements of 25\% to 33\% over the Topic-sensitive PageRank approach, which 
 \citet{Haveliwala2003} reports outperformed the original PageRank algorithm.

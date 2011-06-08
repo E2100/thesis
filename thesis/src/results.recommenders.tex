@@ -4,8 +4,8 @@ Standard recommender systems will be used for both the basic predictions, and th
 Naturally, we need a number of different RSs, preferably ones that consider
 disjoint patterns in the data. Table \ref{table:results:methods}
 gives a short overview of the recommender systems we shall employ.
-Each experiment will use every recommender in this table.
-This section gives a short introduction to each method.
+All three experiments will use every recommender in this table.
+This section gives a short introduction to these methods.
 See Section \ref{sec:recommender} for more information on RSs, 
 and Appendix \ref{appendix:implementation} for details on how these were implemented in this system.
 
@@ -33,7 +33,7 @@ and Appendix \ref{appendix:implementation} for details on how these were impleme
     \bottomrule
   \end{tabular*}
   \caption[adaptive Modeling Methods]{
-    adaptive modeling methods: A short overview of each of the recommender methods
+    adaptive modeling methods: A short overview of the recommender methods
     used in our experiment.
     Each recommender is used in every experiment. 
     See Section \ref{sec:recommender} for more information.
@@ -109,7 +109,7 @@ refers to our technique.
 This is the recommender outlined by the algorithms
 in Chapter \ref{chap:methods},
 that create secondary accuracy estimating recommender systems,
-in order to adaptively weigh each basic recommender.
+in order to adaptively weigh the basic recommenders.
 All the aggregation approaches, including our technique,
 employ every basic recommender system described so far.
 
@@ -123,8 +123,8 @@ We have as many possibilities for choosing
 the adaptive recommenders as the basic recommenders.
 
 For our experiment, we chose SVD recommenders for the adaptive models.
-That is, each basic recommender method gets a secondary 
-accuracy predicting recommender, which in this case is a standard SVD recommender.
+That is, the basic recommender methods get secondary 
+accuracy predicting recommenders, which in this case are standard SVD-based recommender systems.
 The SVD recommender is a natural choice in this case,
 since we wish to uncover latent patterns of accuracy for each model.
 SVD recommenders look for global patterns in the data,
@@ -134,13 +134,13 @@ a set of users, items, or a combination of these.
 
 It is important to note that the same configuration of recommenders was used for all three experiments.
 Neither the basic nor the aggregate or adaptive recommenders were heavily tailored
-to each dataset. To be sure, higher performance could probably have been achieved
-by tailoring each recommender to each dataset. 
+to the datasets. To be sure, higher performance could probably have been achieved
+by tailoring the recommenders to the available data. 
 However, as our goal is to compare our finite set of methods, 
 we are currently only interested in how they perform compared to each other.
 
 As with the basic recommenders, the same SVD recommender configuration was used 
-for the adaptive layer in each Experiment.
+for the adaptive layer in every experiment.
 We chose to use en EM-factorizer to perform the actual decomposition,
 consisting of 20 features. The decomposition was performed by 20 iterations.
 See \ref{subsec:recommender:examples} for more information on how SVD-based recommenders work. 

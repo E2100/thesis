@@ -56,8 +56,8 @@ In \citet[p2]{Adomavicius2005}, $M$ is seen as a utility (the rating, in AI term
 $p: U \times I \rightarrow S$. Here, $p$ (for prediction) is a function that maps the set
 of users and items into a fully ordered set of items $S$, ranked by their
 utility to each user. In other words, $S$ is the completely specified version of $R$,
-where each user has either an explicit, implicit or predicted preference for each item in $I$.
-To predict the most relevant unrated item for each user, we simply find the item with the highest expected utility:
+where every user has either an explicit, implicit or predicted preference for every item in $I$.
+To predict the most relevant unrated item for a user, we simply find the item with the highest expected utility:
 
 \begin{eqsp}
   \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} p(u,i)
@@ -65,10 +65,10 @@ To predict the most relevant unrated item for each user, we simply find the item
 
 The utility function $p$ depends on the modeling method being used, the active user and the item in question. 
 The \emph{reason} for using a recommender system is that the utility is not defined for the entire $U \times I$ space, 
-that is, the system does not know the utility of each item for each user. 
+that is, the system does not know the utility of every item for every user. 
 The point of a recommender system is then to extrapolate $R$ to cover the entire user-item space. 
 To be able to rank items according to user preferences, 
-the system must be able to predict each user's reaction to items they have not yet explicitly or implicitly rated themselves. 
+the system must be able to predict a user's reaction to items they have not yet explicitly or implicitly rated themselves. 
 
 Another common way of describing and implementing an RS is using a simple matrix.
 This is what we shall use in this thesis. 
@@ -197,7 +197,7 @@ For example, recommending items similar to the ones already rated by computing t
 The canonical user is another term for the \emph{average} user, indicative of systems that adapt by seeing all users as a single entity. 
 Stereotypical systems look at groups of users. 
 For example, \cite{Rich1979} presented one of the first user modeling systems based on stereotypes, 
-used to predict which books in a library each user would most enjoy.
+used to predict which books in a library the users would most enjoy.
 Here, a dialogue between the system and the user was performed to place the user into a set of stereotypes. 
 Each stereotype has a set of \emph{facets} which is then used to match books and users.
 This created user models of \emph{typical} granularity, as opposed to common \emph{individual} approaches.

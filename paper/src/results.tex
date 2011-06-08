@@ -50,15 +50,15 @@ Naturally, we need a large number of different recommenders, preferably ones tha
 disjoint patterns in the data. Table \ref{table:results:methods}
 gives a short overview of the recommender systems we shall employ.
 Each experiment will use every recommender in this table.
-The following section gives a short introduction to each recommender.
+The following section gives a short introduction to these systems.
 
 \subsection{Basic Recommenders}
 
 \begin{table}
   \caption[Adaptive Modeling Methods]{
-    adaptive modeling methods: A short overview of each of the recommender methods
+    adaptive modeling methods: A short overview of the recommender methods
     used in our experiment.
-    Each recommender is used in every experiment. 
+    Every recommender is used in every experiment. 
   }
   \setlength{\extrarowheight}{0.2em}
   \vspace{1em}
@@ -92,7 +92,7 @@ As previously explained, the performance of aggregate recommenders
 are more dependent on the dissimilarity of the basic recommenders
 than their individual performance.
 
-Let us briefly explain how each basic recommender works.
+Let us briefly explain how the basic recommenders work.
 In recommender systems, \emph{Singular Value Decomposition} (SVD) is used to compress 
 the ratings space into what is sometimes called a \emph{taste space},
 where users are mapped to higher-level \emph{taste} categories
@@ -141,7 +141,7 @@ The last entry in Table \ref{table:results:methods}
 refers to our technique. 
 This is the recommender outlined by Section \ref{sec:adaptive},
 that create secondary accuracy estimating recommender systems,
-in order to adaptively weigh each basic recommender.
+in order to adaptively weigh the basic recommenders.
 All the aggregation approaches, including our technique,
 employ every basic recommender system described so far.
 
@@ -154,8 +154,8 @@ In other words, we have as many possibilities for choosing
 the adaptive recommenders as the basic recommenders.
 
 For our experiment, we went with SVD recommenders
-for each of the adaptive models.
-That is, each basic recommender method gets a secondary 
+for the adaptive models.
+That is, every basic recommender method gets a secondary 
 accuracy predicting recommender, which in this case is a 
 standard SVD recommender.
 The SVD recommender is a natural choice in this case,
@@ -165,12 +165,11 @@ Examples of these patterns include groups of items
 or users a specific recommender works well for.
 
 It is important to note that the same configuration of recommenders was used for all three experiments.
-In other words, neither the basic nor the aggregate or adaptive recommenders were heavily tailored
-to each dataset. To be sure, higher performance could probably have been achieved
-by tailoring each recommender to each dataset. However,
-as our goal is to compare our finite set of methods, 
-we are currently only interested in 
-how they perform compared to each other.
+Neither the basic nor the aggregate or adaptive recommenders were heavily tailored
+to the datasets. To be sure, higher performance could probably have been achieved
+by tailoring the recommenders to the available data. 
+However, as our goal is to compare our finite set of methods, 
+we are currently only interested in how they perform compared to each other.
 
 As with the basic recommenders, the same SVD recommender configuration was used 
 for the adaptive layer in the experiment.
@@ -181,8 +180,7 @@ consisting of 20 features. The decomposition was performed by 20 iterations.
 \subsection{Results}
 
 Table \ref{table:results:e1} gives the resulting RMSE values when our algorithm is used with the MovieLens dataset.
-Each cell corresponds to the RMSE values for each dataset,
-for each recommender and aggregation approach.
+A cell corresponds to the RMSE values for a dataset and a recommender system.
 The bottom entry in this table refers to our adaptive recommenders method.
 As seen in this table, our approach outperforms both the standard recommenders
 and the aggregation approaches.
@@ -198,11 +196,11 @@ we have grounds for some confidence in these results.
 
 \input{table.movielens}
 
-Statistics for each experiment are given in the last
+Statistics for the experiments are given in the last
 part of Table \ref{table:results:e1}. 
 The statistical values are the minimum, maximum and mean values
-for each of the methods. We also include
-the standard deviation ($\sigma$) for each method,
+for the methods. We also include
+the standard deviation ($\sigma$) for the methods,
 across each collection of subsets.
 This table confirms the results from the full results table:
 Our adaptive recommenders approach improves the mean performance
@@ -222,7 +220,7 @@ predictions of the same dataset, this would be a substantial problem,
 resulting in unreliable predictions.
 However, the standard deviation is mostly caused by the differing
 performance across the varying datasets.
-As we see, the performance of each of the aggregation methods,
+As we see, the performance of the aggregation methods,
 as well as the best performing standard recommender,
 follow each other closely. At the same time,
 performance varies across the different datasets,

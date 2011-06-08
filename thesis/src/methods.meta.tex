@@ -2,7 +2,7 @@
 \label{sec:usermetamodeling}
 
 \emph{Adaptive Recommenders} (AR) is our technique for combining many recommender systems
-in a way that is optimal for the each user and each item.
+in a way that is optimal for the each user and item.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
 there are two important questions:
@@ -34,7 +34,7 @@ A system for adaptive recommenders is specified by a 6-tuple:
 \end{eqnarray*}
 %
 We have sets of $Users$ and $Items$, and a set of $Ratings$.
-Each user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
+Any user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
 As mentioned, items can be just about anything, for example documents, websites, movies, events, or indeed, other users.
 The ratings can be explicitly provided by users, for example by rating movies,
 or they can be implicitly extracted from existing data, for example by mining query logs.
@@ -61,7 +61,7 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
 \end{eqsp}
 %
 As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
-each with their own way of estimating unknown ratings. 
+with their own ways of estimating unknown ratings. 
 Each model $m \in M$ is used to compute independent and hopefully complimentary predictions.
 In our case, these methods are recommender systems.
 
@@ -77,18 +77,18 @@ i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}
 
 The $Adapters$ part of our 6-tuple refers to the second level of recommender systems.
 In traditional prediction aggregation this is a simple linear function for combining the different predictions,
-for example by pre-computing a set of weights, one for each method.
+for example by pre-computing a set of weights, one per method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
-the individual accuracy of each predictor.
+the individual accuracy of the predictors.
 As described in Section \ref{sec:aggregate}, multiple prediction results are normally 
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
 With adaptive recommenders, the $Adapters$ are themselves recommender systems 
 (see Figure \ref{fig:layer:comparison}).
-However, instead of modeling users, we wish to model each recommender system.
-More specifically, we wish to model the \emph{accuracy} of each recommender system.
+However, instead of modeling users, we wish to model the behavior of the recommender systems.
+More specifically, we wish to model the \emph{accuracy} of our recommender systems.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
 We then have two distinct layers of recommender systems 
@@ -170,14 +170,14 @@ As described in \ref{sec:aggregate},
 these weights can be estimated by different machine learning methods.
 However, as discussed in Section \ref{sec:reasoning},
 this is still a generalized result, averaged across every user and item.
-The system assumes that the best average result is the best result for each individual user and item.
+The system assumes that the best average result is the best result for individual users and items.
 This means that, even with method-specific weights, we are still hindered by the latent subjectivity problem.
 
 In order to leverage as many patterns as possible while sidestepping any latent subjectivity,
-we need \emph{adaptive weights} that are computed specifically for each combination of a user and an item.
+we need \emph{adaptive weights} that are computed specifically for combinations of users and items.
 This is more difficult than simply estimating generalized weights.
-If we wish each weight to be combination-specific, then pre-computing each weight for each method becomes unfeasible.
-We would have to compute a weight for each method for each possible rating.
+If we wish the weights to be combination-specific, then pre-computing weights for each method becomes unfeasible.
+We would have to compute a weight for every method for every possible rating.
 The adaptive weights also have to be estimated just as the unknown ratings:
 
 \begin{eqsp}
@@ -217,11 +217,11 @@ Creating an error matrix for each modeling method is done by splitting the ratin
 The first set can be used for the actual RS modeling, and the second
 can be used to populate an error matrix for each RS.
 
-With adaptive recommenders, each standard modeling method produces an error matrix where some of the cells have values.
+With adaptive recommenders, the standard modeling methods produce error matrices, where some of the cells have values.
 A value in this matrix corresponds to the prediction error for a combination of a user and an item.
 To achieve this, each modeling method is only trained with a part of the ratings data.
 The error matrix is populated from the rest of the data,
-by computing the error of each known rating the method was not trained for:
+by computing the error of every known rating the method was not trained for:
 
 \begin{eqsp}
   \forall (u,i,r) \in (d_e - d_m): E(m)_{u,i} = |r - p(m,u,i)|
@@ -235,10 +235,10 @@ Here, $D$ is the current dataset, and
 $d_m$ and $d_e$ are subsets of $D$.
 $m$ is a modeling method trained with the subset $d_m$.
 To populate the error matrix for this method,
-we take each rating which have not been used to train the method
+we take every rating which have not been used to train the method
 and calculate the error of the method on this combination.
-Since we are only interested in the magnitude of each error,
-we take the absolute value of each measurement.
+Since we are only interested in the magnitude of the error,
+we take the absolute value of the measurements.
 The result is a sparse error matrix we can use to predict unknown errors.
 
 Notice the similarity of this matrix and the previously introduced ratings matrix.
@@ -290,18 +290,18 @@ We are looking for groups of users or items (or both) that suite some
 recommenders especially well, or that some recommenders will not work for.
 SVD-based recommenders is one type of RS that can be used for this purpose.
 By reducing the method-error space into an \emph{error category space},
-we can identify how well a set of groups suite each available method.
+we can identify how well a set of groups suite the available methods.
 We will get back to this when performing experiments in the next chapter.
 
-When we have an error model for each modeling method, 
-we can use these errors to estimate each weight.
+When we have an error model for each modeling methods
+we can estimate optimal weights.
 Whenever we wish to create an adaptive aggregate prediction,
 we apply the following algorithm:
 
 \begin{enumerate*}
-  \item Collect predictions from each modeling method for $(u,i)$.
+  \item Collect predictions from the modeling methods for $(u,i)$.
   \item Collect estimated errors for each method for $(u,i)$.
-  \item Compute weights for each method based on their relative predicted errors.
+  \item Compute weights for the methods based on their relative predicted errors.
   \item Sum the weighted predictions to get the adaptively predicted rating.
 \end{enumerate*}
 
@@ -328,11 +328,11 @@ $m_r$ is the ratings model, used to predict ratings, and
 $m_e$ is the error model, used to predict errors.
 $p(m,u,i)$ is the prediction of the model $m$ (a recommender system)
 for the relevance of item $i$ to user $u$.
-Each method is weighted by its predicted accuracy.
+This means that a method is weighted by its predicted accuracy.
 The weights are computed by taking the opposite
-of each methods predicted error.
-The errors are normalized across each user and item by $errors(u,i)$,
-which is the sum of the errors of each method for the current combination.
+of a methods predicted error.
+The errors are normalized across users and items by the $errors(u,i)$ function,
+which is the sum of the errors of the methods for the current combination.
 This gives us weights in the range $[0,1]$ ensuring
 final rating predictions on the same scale as that returned by the basic recommenders.
 
@@ -345,15 +345,14 @@ recommenders to each user and item.
 
 It is also important to note that the types of recommenders used for the adaptive layer
 is independent of the basic recommenders.
-Each adaptive recommender need only predicted ratings from each basic recommender,
-and does not care which algorithm it employs.
+The adaptive recommenders need only predicted ratings from the basic recommenders, and does not care which algorithms they employ.
 When making predictions, the calculations in the methods layer and adaptive layer
-are independent of each other, as both use pre-computed models:
+are independent, as both use pre-computed models:
 the method layer use the ratings matrix, or their own models
-created during training, while the adaptive layers use the error matrices for each
-basic method.
+created during training, while the adaptive layers use the error matrices for the
+basic methods.
 
-The result of this is a system that does not only aggregate a number of predictions for each unknown
+The result of this is a system that does not only aggregate a number of predictions for unknown
 combination of users and items,
 but that also combines these methods based on how accurate each prediction is likely to be.
 

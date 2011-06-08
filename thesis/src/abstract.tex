@@ -16,7 +16,7 @@ The items can be just about anything, for example
 documents, articles, movies, music, events or other users.
 Recommender systems examine data such as ratings, query logs,
 user behavior and social connections to predict
-what each user will think of each item.
+what a user will think of an item.
 
 Modern recommender systems
 combine multiple standard recommenders
@@ -29,7 +29,7 @@ by estimating weights that result in an optimal combination.
 However, we posit these systems have an important weakness.
 There exists an underlying, misplaced subjectivity to relevance prediction.
 Each chosen recommender system reflects one view of 
-how each user and item \emph{should} be modeled.
+how users and items \emph{should} be modeled.
 We believe the selection of recommender methods should 
 be automatically chosen based on their predicted accuracy for each user and item.
 After all, a system that insists on being adaptive
@@ -38,7 +38,7 @@ in one particular way is not really adaptive at all.
 This thesis presents a novel method for prediction aggregation
 that we call \emph{adaptive recommenders}.
 Multiple recommender systems are combined on a per-user and per-item basis
-by estimating their individual accuracy in each context.
+by estimating their individual accuracy in the current context.
 This is done by creating a secondary set of error estimating recommenders.
 The core insight is that standard recommenders can be used
 to estimate the accuracy of other recommenders.

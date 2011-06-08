@@ -82,25 +82,16 @@ One item's relevance may be closely tied to when it was created,
 while other items may be timeless.
 The exact differences are not important, only that they exist.
 
-%User modeling methods are dependent on the subjective assumptions of their creators.
-%In other words, a modeling method use certian aspects of available data to make predictions,
-%and these aspects are chosen by whoever creates the system.
-
 Aggregate modeling methods face the same problem of misplaced subjectivity. 
 Aggregation is done on a generalized, global level,
-where each user and item is expected to place the same importance on each modeling method
+where where individual users and items are expected to place the same importance on every modeling method
 (e.g. \cite{Aslam2001, Claypool1999, Bell2007, Carmel2009, Bender2005}).
 While aggregation is selected to minimize some error over a testing set,
 the subjective nature remains. The compiled aggregation is a generalization,
 treating all users the same --- hardly a goal of user modeling.
 
-%Should it not be up to each user to implicitly decide which method best describes their preferences?
-%And, considering the vast scope of items we can come by, will the selected
-%methods really perform optimally for every item?
-We believe the priority of each algorithm should be implicitly and automatically
-based on how well they have previously worked for each user and item.
-%Without this adaptability, it may be hard for recommender systems
-%to gain traction in scenarios with widely differing users and items.
+We believe the priority of the algorithms should be implicitly and automatically
+based on how well they have previously worked for individual users and items.
 The scope of users and items is simply too great for any one or generalized combination
 of methods to capture the nuanced nature of relevance prediction.
 
@@ -108,10 +99,8 @@ We propose a novel method that we call \emph{adaptive recommenders}, where
 the selection of algorithms is made by each user and item.
 This provides an extra level of abstraction and personalization.
 The decisions are implicit, and happens in the background, without any extra interaction required.
-%This leaves the subjective nature of selecting ways to model users and items where it should be, i.e.
-%in the hands of each individual user, and dependent on each specific item.
 This adaptive selection has an important consequence. 
-If each algorithm is contextually used based on how well it performs for each user and item,
+If each algorithm is contextually used based on how well it performs in the current context,
 any possibly useful recommender algorithm suddenly becomes a worthy addition.
 
 As far as we know, such adaptive prediction aggregation has not been done before.

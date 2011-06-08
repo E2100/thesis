@@ -12,9 +12,9 @@ in the context of recommender systems.
 The main choice for any such system is how to predict unknown ratings.
 To do this, a pattern in the available ratings data must be leveraged.
 These patterns are plentiful, and their individual performance
-depends on each user and item of the system.
+depends on the users and items of the system.
 Modern aggregation recommenders utilize many patterns, but on a generalized
-level, where each user and item is treated the same.
+level, where every user and item is treated the same.
 This underlying subjectivity leads to a mismatch between the notions
 of whoever developed the systems, and the users and items of the service.
 
@@ -31,9 +31,9 @@ on estimated accuracy can outperform both standard recommenders and simple aggre
 Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
 This is the core insight of this paper.
-\emph{By creating error models for each recommender, we can use this to predict
-its accuracy for each user/item combination.
-These predictions can then be used to weigh each combined algorithm accordingly.}
+\emph{By creating error models for the recommenders, we can predict
+theur accuracy for each user/item combination.
+These predictions can then be used to weigh the combined algorithms accordingly.}
 
 We believe there are greater opportunities in systems where there  are even more diverging
 patterns to be leveraged. The prime examples of this are systems that may or may 
@@ -87,8 +87,8 @@ perform quite simple tasks, they may be more
 than good enough for their purpose.
 
 There will always be a trade-off, between complexity and required accuracy.
-As in many other cases, each of the systems described in this paper
-have their use cases. In the end, the requirements of each system
+As in many other cases, the systems described in this paper
+have their use cases. In the end, the requirements of the system in question
 must decide which method best suit their needs.
 
 \emph{(4) Common issues:}

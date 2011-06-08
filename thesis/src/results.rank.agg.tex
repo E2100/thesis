@@ -193,14 +193,14 @@ along with their respective scores.
 On the right we see the same results, re-ranked by user preferences.
 
 For simple one-word queries, ignoring the IR score seems to give us the desired effect.
-When we can be sure that each item returned by a search have the same textual relevance
+If we can be sure that all items returned by a search have the same textual relevance
 (IR score), the IR method does not have any more information on which to rank
 the results. The ranking then becomes the task of the recommender systems.
 By employing adaptive recommenders, the results are not only ranked by 
 one or more recommenders as chosen by the system, but by those of the recommenders
 best suited to the current user. At the same time, each of these recommenders
-are used differently for each item in the list, based on how well they have
-performed for each item in the past.
+are used differently for items in the list, based on how well they have
+previously performed in this context.
 
 \emph{(4) Attribute search:} 
 As we can see, ignoring the IR score gives us quite a different algorithm.
@@ -209,8 +209,8 @@ on by the recommender systems.
 Another example of this is shown in Table \ref{table:rank:year}.
 In this scenario, the user wishes to see a movie from a certain year,
 and issues the query [\emph{1998}].
-Naturally, the IR algorithm returns a whole lot of items, and each can
-be said to be perfect answers to the query, as each movie was made in 1998.
+Naturally, the IR algorithm returns a whole lot of items, and each movie can
+be said to be perfect answers to the query, as they were all made in 1998.
 
 In this case, setting the IR weight to $0$ allows us to rank the results
 purely by predicted preference, which makes sense when the IR algorithm
@@ -250,23 +250,23 @@ Naturally, this weight is a defining characteristic of any
 personalized search based on adaptive recommenders.
 
 An adaptive adjustment of the IR weight based on the current query and use case
-would seem to be the best choice for a system that should handle each scenario.
+would seem to be the best choice for a system that should handle every scenario.
 When we have a short, specific query, the IR ranking function have little to
-no basis for ranking each item differently.
+no basis for ranking the items differently.
 In this case, a weight of $0$ allows the recommenders to perform the ranking
 of a constrained item space.
 If the predicted ratings of each item is a constructive signal,
 as in our movie search example, this will leverage the strengths of both systems.
 
 However, in systems with complex queries, where the IR model
-\emph{can} rank each item based on their similarity to the information need,
+\emph{can} rank items based on their similarity to the information need,
 an IR weight of $1.0$ gives us the desired result.
 Items are ranked both by their match to the query,
-and based on how each user and item should be modeled.
-By using adaptive recommenders, each re-scoring function
-that influence the final rankings of items is conditioned
+and based on how users and items should be modeled.
+By using adaptive recommenders, the re-scoring functions
+are conditioned
 on how well they have previously worked for the current item,
-and how well they suit each user.
+and how well they suit individual users.
 
 The performance of personalized search is hard to judge without
 extensive query logs with click-through information.
@@ -278,10 +278,10 @@ at least for this dataset, this IR system and our chosen recommender algorithms.
 By confirming H3, we have shown that adaptive recommenders can be used for personalized search.
 
 This results in a search engine results page that inherits the strengths of adaptive recommenders.
-Each item on the result list is ranked not just based on query matching,
+The items on the result list is ranked not just based on query matching,
 but based on a number of signals, represented by recommender systems.
-Each signal is adaptively used based on how well it suits the current user,
-and how well it has worked in the past for each item.
+The signals are adaptively used based on how well it suits the current user,
+and how well it has worked in the past for individual items.
 
 This adaptive results page will hopefully help mitigate the latent subjectivity problem,
 by ranking each element based on the current context.

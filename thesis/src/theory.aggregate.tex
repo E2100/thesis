@@ -51,14 +51,14 @@ to create a result better than any single methods would provide.
 There are two main use cases for model aggregation \cite{Liu2007}: 
 
 \begin{enumerate}
-  \item Rank (or \emph{order-based}) aggregation (RA) lets each method
+  \item Rank (or \emph{order-based}) aggregation (RA) lets a set of methods
   produce a sorted list of recommendations or search results. These lists are then combined
   into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
   These methods only require the resulting list of items from each method \cite{Aslam2001}.
 
   \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
   one-by-one, creating an aggregated result for each element that should be evaluated.
-  These methods require the actual prediction scores for any item from each method \cite[p2]{Aslam2001}.
+  These methods require the actual prediction scores for any item from the recommender methods \cite[p2]{Aslam2001}.
 \end{enumerate}
 
 \subsection{Rank Aggregation}
@@ -68,13 +68,13 @@ RA combines multiple result lists into one list through aggregation.
 \cite{Dwork2001} shows a few metrics applicable to meta-search, the combination of results from multiple search engines.
 For example, Borda's method \cite[p6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
 based on where it appears in the sorted list. Items at the top gets the most points, while lower items gets fewer points.
-This is in essence an approach where each predictor has a set number of votes ($c$, the number of results) that they give to each item.
+This is in essence an approach where the predictors have a set number of votes ($c$, the number of results) that they give to the items.
 
 As we saw in Section \ref{sec:search}, \citet[p3]{Xu2008} used a weighted version
 of this approach to combine an IR and personal approach to result ranking.
 \citet[p3]{Aslam2001} calls their version of this \emph{Weighted Borda-Fuse},
 where the points given from a method to an item is controlled
-by the weights estimated for each method.
+by the weights estimated for the methods.
 \citet[p4]{Aslam2001} also explain a Bayesian approach (\emph{bayes-fuse}),
 that combined with the \emph{naive Bayes} independence assumption 
 produce the following formula:
