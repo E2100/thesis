@@ -86,10 +86,15 @@ by the same methods as every other element.
 
 This chapter will develop a way to aggregate a host of modeling methods on a per-user and per-item basis.
 By adapting the aggregation to the current item and user, we should be able to mitigate the latent subjectivity problem. 
-If each prediction method is \emph{only used} based on how well it performs for each element,
-any possibly applicable recommender system suddenly becomes a worthy addition to the system.
 This adaptive aggregation is performed implicitly and automatically,
 without any extra interaction required from each user.
+
+As mentioned in Chapter \ref{chap:intro}, this has an important consequence.
+If each algorithm is \emph{only used} in situations it will probably perform well,
+any possible recommender algorithm becomes a worthy addition.
+In other words, instead of finding an optimal combination,
+we can use any algorithm that \emph{might work for some elements}
+in our aggregation.
 
 With adaptive recommenders, each user is in control of which methods best fit their needs, and
 each method's priority is influenced by how well it performs for the current item.
