@@ -4,14 +4,10 @@ class AggregateRecommender
   def initialize(task, model)
     @task = task
     @model = model
-    puts "******** ZOMG AGGREGATE"
   end 
 
   def estimate_preference(userid, itemid)
     ps = predictions(userid, itemid)
-    puts '*'*100
-    puts ps
-    puts '*'*100
     return Float::NAN if ps.size == 0
     send(@task[:method], ps)
   end
