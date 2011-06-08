@@ -42,10 +42,9 @@ In particular, we will look at how different prioritizations of the IR model sco
     rank.agg. &
     H3 &
     MovieLens &
-    943 &
-    1,682 &
-    100,000 \\
-
+    6,040 &
+    3,900 &
+    1,000,000 \\
     
     \bottomrule 
   \end{tabular*}
@@ -68,7 +67,11 @@ This dataset is often used to test the performance of recommender systems
 \citet[p9]{Alshamri2008}, \citet[p4]{Lemire2005}, \citet[p1]{Adomavicius2005} and \citet[p2]{Herlocker2004}).
 It consists of a set of users, a set of movies, and a set of movie ratings from users,
 on the scale $1$ through $5$.
-We chose a subset of the entire MovieLens collection, with 100,000 ratings from 943 users on 1,682 movies.
+We chose two subsets of the entire MovieLens collection, 
+For Experiment 1 we use a subset of 100,000 ratings from 943 users on 1,682 movies.
+For Experiment 3 we use a much larger subset in order to
+have more items available for the IR model.
+This subset has 1,000,000 ratings from 6,040 users of 3,900 movies.
 
 The MovieLens dataset also comes with meta-data on each user, such as
 gender, age and occupation. There is also meta-data on each movie,
@@ -83,9 +86,10 @@ This is a set of 100 \emph{jokes} rated by users on a continuous scale.
 As with MovieLens, this dataset is also commonly used
 to test recommender systems (as described in
 \cite{Goldberg2001}, \citet[p14]{Herlocker2004}, \citet[p5]{Adomavicius2005} and \citet[p30]{Ahn2004}).
-This dataset is considerably larger than our first set,
-consisting of 1,832,275 ratings from 24,983 users of 100 items.
-Notably, the number of items is quite smaller than in the other dataset.
+This dataset is has many more users than those used in the other experiments.
+On the other hand, there are signficantly fewer items than in the other dataset.
+The widely varying number of items, users and ratings in our selected datasets
+will give us more dimensions along which to verify our results.
 
 Jester also has ratings on a different scale than the MovieLens dataset.
 While each movie is rated on a discrete scale from $1$ through $5$,
