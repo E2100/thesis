@@ -18,10 +18,10 @@ use more involved methods to move this starting point in some direction.
 The baseline (predicted relevance) for a user/item pair is given by
 
 \begin{eqsp}
-  b_{ui} = \mu + b_u + b_i
+  b_{ui} = \mu + b_u + b_i.
 \end{eqsp}
-%
-where $\mu$ is the average rating across all items and users, 
+
+Here, $\mu$ is the average rating across all items and users, 
 $b_u$ is the user baseline and 
 $b_i$ is the item baseline.
 The user and item baselines correspond to how the user's and item's ratings deviate from the norm.
@@ -30,10 +30,10 @@ highly critical in their assessments, and so on. \citeauthor{Koren2008} computes
 least squares problem
 
 \begin{eqsp}
-  \min_{b*} = \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda ( \sum_{u} b_u^2 + \sum_{i} b_i^2 )
+  \min_{b*} = \sum_{(u,i) \in R} (r_{ui} - \mu - b_u - b_i)^2 + \lambda ( \sum_{u} b_u^2 + \sum_{i} b_i^2 ).
 \end{eqsp}
-%
-which finds baselines that fit the given ratings while trying to reduce overfitting
+
+This equation finds baselines that fit the given ratings while trying to reduce overfitting
 by punishing greater values, as weighted by the $\lambda$ parameter. 
 By using baselines instead of simple averages, more complex predictors gain a better starting point,
 or in other words, a better average rating.
@@ -94,10 +94,10 @@ For Collaborative filtering approaches, we are interested in the similarity of u
 which means averaging the user neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
 
 \begin{eqsp}
-  \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) },
+  \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) }.
 \end{eqsp}
-%
-where $\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
+
+$\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
 This is one of the simplest ways of computing a neighborhood-based prediction.
 Most systems use more complex estimations. For instance, \cite{Koren2008} 
 uses the baseline ratings discussed above instead of plain user and item ratings, to
@@ -269,10 +269,10 @@ $Q$ is a column vector of zeroes with a value of $1$ at the starting node (that 
 The stationary probabilities of each node, signifying their long term visiting rate, is then given by 
 
 \begin{eqsp}
-  P^{(t+1)} = (1 - \alpha)SP^{(t)} + {\alpha}Q
+  P^{(t+1)} = (1 - \alpha)SP^{(t)} + {\alpha}Q.
 \end{eqsp}
-%
-when it is run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $P_y$ where $p$ is the user model for the user represented by node $x$.
+
+This algorithm is then run to convergence (within a small delta). Then, the \emph{relatedness} of nodes $x$ and $y$ is given by $P_y$ where $p$ is the user model for the user represented by node $x$.
 \citeauthor{Konstas} found that this approach outperformed the PCC, as long as the social networks were an explicit part of the system in question.
 The connections between users had to be one actively created by the users to be of such quality and precision that
 accurate predictions could be made.

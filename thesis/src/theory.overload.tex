@@ -132,23 +132,62 @@ $P_{out}(k) \sim k^{-\gamma_{out}}$.
 \cite{Albert1999} describes a number of studies placing the $\gamma$ values for the Web in the $[2,3]$ range, 
 with $\gamma_{out}$ being slightly higher than $\gamma_{in}$. 
 Both these probabilities exhibit power tails (or long tails). 
-A few important nodes have a huge number of inbound and outbound links --- the hubs. 
+A few important nodes have a huge number of inbound and outbound links, i.e. the hubs. 
+
 \citet[p86]{Barabasi2003} proposed that hubs emerge in a scale-free networks because of two factors:
 \emph{(1) Growth:} Nodes are added to the network one by one, for example when new websites are added to the Internet.
 \emph{(2) Preferential attachment:} When new nodes are created, they connect to existing nodes. The probability that the new node will connect to an existing node is proportional to the number of links the existing node has. Older, more established and central nodes are preferred neighbors.
-This is called the Barab\'{a}si-Albert model \citep{Albert1999}, 
-and the probability for a new node connecting to an existing node is given by $\prod k_i$, 
+
+This is called the Barab\'{a}si-Albert model \citep{Albert1999}. 
+The probability for a new node connecting to an existing node is given by $\prod k_i$, 
 where $k_i$ is the number of links pointing to node $i$, in the following equation: 
 
-\begin{eqsp}
+\begin{equation*}
   \prod_{i} k_i  = \frac{k_i}{\sum_{j}^N k_j}.
-\end{eqsp} 
+\end{equation*} 
 
 Search engines, social link aggregators, news portals, et cetera are all hubs of the Internet, emerging from the preferential 
 link attachment of newly created nodes, that make navigating the Web less easy as it might appear.
 What does seem clear is that these content aggregating hubs are prime candidates for overwhelming their users with information. 
+
 The fundamental observed structure of the Web creates the need for information brokers that link the net together, 
 and the need for techniques to display a lot of data --- adapted to each user and each item.
 In other words, we need user modeling, that can predict how relevant each item will be for each user.
+
+
  
+\subsection{Interface Autonomy}
+
+\begin{figure}[t]
+  \includegraphics[width=\textwidth]{../graphics/autonomy.pdf}
+  \caption[Levels of Interface Autonomy]{
+    Levels of Interface Autonomy:
+    Interfaces range from those only customizable by the user, 
+    to intelligent systems takes the initiative on their own accord.
+  }
+  \label{fig:autonomy}
+\end{figure}
+
+Using AI to adapt an interface raises important questions with regard to usability, privacy and usefulness.
+These questions are rooted in the autonomy expressed by each interface.
+An autonomous interface is one that takes initiatives on its own, regardless of whether the user has asked for it \cite[p2]{Lieberman}. 
+Naturally, any application that automatically personalizes its content will be autonomous to some degree.
+
+Adaptive interfaces can be classified into increasing order of autonomy (see Figure \ref{fig:autonomy}). 
+At the order of least autonomous systems, we have \emph{customizable interfaces}. 
+These are interfaces that the user may customize themselves, but that do not take the initiative or change anything without explicit user action. 
+For example, an interface might have a settings panel where users can change the order of items in a menu.
+
+At the next level of autonomy, we have \emph{adaptive interfaces} that suggest to the user possible changes or actions that might be beneficial. For example, an email application could suggest which folder an email should be moved to.
+At the most autonomous level, \emph{intelligent interfaces} implicitly and automatically customize the interface or content based on passive observation of the user. 
+This could for instance entail automatic filing of emails based on content classification and data mining of previous user actions with similar messages.
+
+An application that personalizes content automatically will fall somewhere in the two last categories and present either an adaptive or intelligent interface, 
+depending on the extent and transparency of its autonomy.
+
+In this thesis, we are only interested in fully autonomous, intelligent interfaces.
+We will create a system that implicitly, and without any effort from each user,
+can adapt the content of an application based on previous behavior.
+Examples of such implicit user modeling include \cite{Qiu2006}, \cite{Shen2005} and \cite{Carmel2009}.
+
 

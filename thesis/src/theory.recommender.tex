@@ -3,7 +3,8 @@
 
 A recommender systems is a powerful and versatile approach to user modeling.
 Whenever we wish to predict the relevance of an item to a user, recommender systems are the tools to use.
-Such systems are commonly used on the Web to provide a host of functionality, including:
+Such systems are commonly used on the Web to provide a host of functionality,
+for example:
 
 \begin{itemize*}
   \item Suggesting new social connections based on an existing social graph.
@@ -34,39 +35,6 @@ connections, and the connections of similar users, new connections can be predic
 
 As evident by the examples, recommender systems are powerful methods for user modeling, personalization and for fighting information overload.
 Their ability to infer unknown relevance between users and items makes them useful in many situations, as we shall see.
-
-
-\subsection{Interface Autonomy}
-
-\begin{figure}[t]
-  \includegraphics[width=\textwidth]{../graphics/autonomy.pdf}
-  \caption[Levels of Interface Autonomy]{
-    Levels of Interface Autonomy:
-    Interfaces range from those only customizable by the user, 
-    to intelligent systems takes the initiative on their own accord.
-  }
-  \label{fig:autonomy}
-\end{figure}
-
-Using AI to adapt an interface raises important questions with regard to usability, privacy and usefulness.
-These questions are rooted in the autonomy expressed by each interface.
-An autonomous interface is one that takes initiatives on its own, regardless of whether the user has asked for it \cite[p2]{Lieberman}. 
-Naturally, any application that automatically personalizes its content will be autonomous to some degree.
-
-Adaptive interfaces can be classified into increasing order of autonomy (see Figure \ref{fig:autonomy}). 
-At the order of least autonomous systems, we have \emph{customizable interfaces}. 
-These are interfaces that the user may customize themselves, but that do not take the initiative or change anything without explicit user action. 
-For example, an interface might have a settings panel where users can change the order of items in a menu.
-At the next level of autonomy, we have \emph{adaptive interfaces} that suggest to the user possible changes or actions that might be beneficial. For example, an email application could suggest which folder an email should be moved to.
-At the most autonomous level, \emph{intelligent interfaces} implicitly and automatically customize the interface or content based on passive observation of the user. 
-This could for instance entail automatic filing of emails based on content classification and data mining of previous user actions with similar messages.
-
-An application that personalizes content automatically will fall somewhere in the two last categories and present either an adaptive or intelligent interface, 
-depending on the extent and transparency of its autonomy.
-In this thesis, we are only interested in fully autonomous, intelligent interfaces.
-We wish to create a system that implicitly, and without any effort from each user,
-can adapt the content of an application based on previous behavior
-Examples of such implicit user modeling include \cite{Qiu2006}, \cite{Shen2005} and \cite{Carmel2009}.
 
 
 \subsection{Aspects of Recommender Systems}
@@ -116,7 +84,7 @@ This matrix corresponds to the framework variable $F$ in our RS quintuple:
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}
 \end{eqsp}
-%
+
 Critically, these matrices are usually extremely sparse (most of the cells are empty). 
 While there may be a large number of users and items, each individual user
 only rates, connects to or uses a few of items.
@@ -148,7 +116,7 @@ input directly by users, the RS should take into account the domain specific mea
 For example, in a system for rating movies, the jump between ratings 4-5 might not have the same significance as
 the jump from 2-3. However, this is a fact seldom mentioned in the literature. Most RSs 
 employ metrics that assume a normal distribution, and even the common
-evaluation techniques such as RMSE or MAE treat ordinal data as a continuous scale.
+evaluation measures such as the RMSE or MAE treat ordinal data as a continuous scale.
 We will get back to these problems in Chapters \ref{chap:results} \emph{\&} \ref{chap:discussion}. 
 % http://technocalifornia.blogspot.com/2011/04/recommender-systems-were-doing-it-all.html
 
@@ -192,6 +160,7 @@ where the algorithms creates models that match the training data,
 but not the actual underlying relationships. 
 As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving ``warmer'' cold start
 (e.g. \cite{Said2009}, \cite{Lilegraven2011}). 
+
 Formally, when using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
 where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p2]{Adomavicius2005}.
 
@@ -201,6 +170,7 @@ By using data from more than one user, expansive models that rely on actual user
 These methods are especially useful when considering new users arriving in a system. 
 A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based prediction. 
 Collaborative models must be careful not to represent the \emph{average} user, but a single individual.
+
 Formally, when using a collaborative method, 
 the utility $p(u,i)$ of item $i$ for user $u$ is extrapolated from the known $p(u_x,i)$ where $u_x$ is a user similar to $u$
 \cite[p4]{Adomavicius2005}. 
