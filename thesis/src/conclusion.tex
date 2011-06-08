@@ -22,7 +22,7 @@ Adaptive recommenders can help solve this problem.
 In a collection of possible recommender algorithms, each is adaptively used based 
 on how well it performs for the item and user in question.
 The experiments of the previous chapter shows the promise of this technique.
-However, there are lots of use cases not yet considered.
+At the same time, there are lots of use cases not yet considered.
 
 It should be clear that adaptive recommenders would work best in situations where
 we have a wide range of diverse algorithms that can infer the relevance of an item to a user.
@@ -45,7 +45,7 @@ can outperform standard single-approach recommenders.
 We achieved lower total RMSE scores across our datasets,
 which would imply that adaptive recommenders
 reliably performs better than our tested standard recommenders.
-However, the real test would be to use our approach
+The real test would be to use our approach
 in a situation with even more differing recommender systems.
 
 
@@ -53,7 +53,7 @@ Hypothesis H2 was confirmed by showing that adaptive recommenders
 can outperform simple, generalized aggregation approaches.
 While our aggregators were simple,
 this result is promising.
-However, it remains to test our method
+It remains to test our method
 against more complex generalized aggregation functions.
 
 Hypothesis H3 was confirmed by showing that our approach
@@ -304,7 +304,7 @@ The main reason for this is that we are looking for global traits of the data
 when performing accuracy estimations. We wish to identify
 clusters of users and items for which the algorithms may or may not be suited.
 
-However, as the adaptive recommenders can utilize any standard recommender system
+As the adaptive recommenders can utilize any standard recommender system
 to model the errors of another recommender, it would be interesting to perform
 a more in-depth study of how different choices for the adaptive layer
 influence the final system.
@@ -323,7 +323,7 @@ The primary reason was to be able to directly evaluate our results towards those
 As this dataset and this error measure is widely used to evaluate recommender systems,
 it is natural for a first look at a new approach to use the same notions of accuracy.
 
-However, as mentioned above, the main strength of adaptive recommenders may be
+As mentioned above, the main strength of adaptive recommenders may be
 in situations with much more diverse data sources. Social networks or systems
 with widely varying sets of items would provide an interesting use case for adaptive recommenders.
 The main premise of our approach is that users and items have differing preferences
@@ -338,7 +338,7 @@ in the data and combined algorithms would be an interesting topic.
 \emph{(4) Multiple IR Models as Signals:}
 As mentioned in Chapter \ref{chap:results},
 we only tried rank aggregation in a scenario with one IR model.
-However, other systems may use multiple IR models
+Other systems may use multiple IR models
 that return a set of ranked items in response to a query.
 In the case of personalized search with multiple IR models
 and RSs, we would have a large set of differing
