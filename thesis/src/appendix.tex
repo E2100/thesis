@@ -237,7 +237,7 @@ can be substituted in when running each experiment:
 {
 \footnotesize
 \begin{verbatim}
-jruby --1.9 -J-Xmn512m -J-Xms2048m -J-Xmx2048m experiment1.rb
+jruby --1.9 -J-Xmn512m -J-Xms2048m -J-Xmx2048m -S rake e1
 \end{verbatim}
 }
 
@@ -246,6 +246,78 @@ The second specifies the minimum garbage collection memory size.
 The two following gives the minimum and maximum heap memory size.
 The last part of this command is the file that should be run.
 Each experiment has its own file.
+
+
+\section{Customizing the Experiments}
+
+Each experiment can be customized and adapted in a number of ways.
+Experiments 1 through 3 can be found in three separate files
+in the top-level code directory.
+
+The set of recommenders and aggregators, and their individual settings
+are the same for each experiment. 
+These settings are customized in the \textsf{code/experiments.rb} file.
+The settings not given in this file take the default values for each setting,
+as given in the \textsf{code/lib/ar/task.rb} file.
+
+The datasets used in this thesis is bundled together with the implementation code,
+and can be found in the \textsf{code/data} folder.
+Experiment 1 use the standard recommenders, aggregate recommenders,
+and the adaptive recommender on the MovieLens dataset.
+Experiment 2 runs the same recommenders on the Jester dataset.
+
+Experiment 3 is a bit different, as it uses the Lucene IR model
+on the MovieLens dataset to create an IR system for searching
+through movie titles.
+As this experiment is a case study, it does not test every combination
+of users and items, but rather some queries for some users.
+The actual query and user that are considered when running the 
+experiment are set in the file \textsf{code/experiment3.rb}.
+See the comments in this file for more information.
+
+The file structure for the most important files of the implementation is given in Listing \ref{code:files}.
+This listing also gives a short description of each file.
+
+\begin{implementation}{code:files}{Files and folders of the implemetation.}
+code/
+  experiments.rb     # common settings for all experiments
+  experiment1.rb     # prediction aggregation with movielens
+  experiment2.rb     # prediction aggregation with jester
+  experiment3.rb     # rank aggregation with movielens
+  Rakefile           # used to run each experiment with jruby
+
+  data/
+    ir/              # contains the IR models for Experiment 3
+    movielens/       # raw data for the movielens dataset
+    jester/          # raw data for the jester dataset
+    tmp/             # tmp files created by the adaptive recommender
+
+  lib/
+    ar.rb            # main library file
+    ar/
+      ext/           # core extensions for the ruby language
+      lucene/        # the lucene IR library
+      mahout/        # the mahout machine learning library
+
+      adaptive.rb    # the adaptive recommender
+      aggregate.rb   # the aggregate recommenders
+      exceptions.rb  # custom exceptions for our library
+      log.rb         # custom logging to stdout
+      lucene.rb      # integration with the lucene library
+      mahout.rb      # integration with the mahout library
+      perform.rb     # executes task objects
+      rank_eval.rb   # evaluation of rank aggregation
+      ranker.rb      # adaptive rank aggregation algorithm
+      recommender.rb # creates all types of recommenders
+      rmse_eval.rb   # evaluation of prediction aggregation
+      scale.rb       # utilities for scaling rating values
+      task.rb        # default settings for tasks
+\end{implementation}
+
+\vspace{1em}
+\noindent
+See Appendix \ref{appendix:resources} for links to the implementation
+and other resources.
 
 
 \chapter{Resources}
