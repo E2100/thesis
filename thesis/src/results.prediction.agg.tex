@@ -16,7 +16,7 @@ The second hypothesis, H2, states that
   adaptive recommender aggregation can achieve higher accuracy than generalized aggregation methods.
 }
 
-In order to verify these hypotheses, we performed adaptive prediction aggregation on the two datasets previously described.
+In order to test these hypotheses, we performed adaptive prediction aggregation on the two datasets previously described.
 Five-fold cross validation was performed to further verify the result.
 
 Table \ref{table:results:e1} gives the results from Experiment 1 (MovieLens).
@@ -33,10 +33,10 @@ The statistical values are the minimum, maximum and mean values
 for the methods. We also include
 the standard deviation ($\sigma$)
 across the collections of subsets.
-This table confirms the results from the full results table:
+This table confirms the results from the full results table.
 Our adaptive recommenders approach improves the mean performance
 of our system.
-The mean performance in Experiment 1, along with the standard deviation
+The mean RMSE values of Experiment 1, along with their standard deviation
 are shown in Figure \ref{plot:rmse}.
 
 \input{plot.movielens}
@@ -82,8 +82,8 @@ Similarly, expressed in the same terms, H2 posits that
 our adaptive recommenders should outperform the aggregation approaches
 given in Table \ref{table:results:methods}.
 The \emph{median} and \emph{average} aggregation methods
-serve as global and generalized aggregation methods,
-adaptive recommenders are adaptive in that each prediction is 
+serve as global and generalized aggregation methods.
+Our adaptive recommenders are adaptive in that each prediction is 
 aggregated based on the current user and item,
 satisfying the language of H2.
 
@@ -112,8 +112,9 @@ It would seem then that, based on our experiments, available data
 and assumptions of evaluation measures, both H1 and H2 are confirmed.
 Our adaptive aggregation approach outperforms both standard recommender
 methods and simple generalized aggregation methods.
+
 Notably, our approach is more complex than the methods it outperforms,
-so the question whether the methods performance is worth its extra complexity becomes important.
+so the question whether the extra performance is worth its extra complexity becomes important.
 We shall discuss this, and other implications and limitations of these results in the next chapter.
 For now, let us proceed to the third experiment and hypothesis H3.
 

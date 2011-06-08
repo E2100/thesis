@@ -253,9 +253,10 @@ on estimated accuracy can outperform both standard recommenders and simple aggre
 Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
 This is the core insight of this thesis. 
-\emph{By creating error models for the recommenders, we can use these to predict 
-the accuracy of a method for any user/item combination.
-These predictions can then be used to weigh the algorithms accordingly.}
+\emph{We can use standard recommender systems to create
+error models for other recommender systems,
+that can be used to estimate the accuracy of each system
+for all possible relevance predictions.}
 
 As far as the latent subjectivity problem extends to any ensemble learning system,
 the adaptive aggregation part of adaptive recommenders can be used to 
@@ -382,13 +383,13 @@ while avoiding the problem of latent subjectivity.
 Our experiments show that this technique is capable of higher accuracy
 than standard recommenders and simple aggregation approaches.
 
-We have only tested our method on a limited 
+We have only tested our method in a limited 
 number of use cases, with a few specific datasets.
 This is an important limitation.
 Until a method is successfully applied in a real world
 situation, claiming progress is premature.
 However, we believe more research into 
-truly and internally adaptive user modeling systems
+internally adaptive recommender systems
 would be a worthwhile effort.
 
 On a more general note, we think our notion of adaptive model
@@ -398,18 +399,18 @@ Generalized methods is not enough.
 Only by creating truly adaptive systems that adapt their
 algorithms to each user and item can we achieve a 
 system powerful enough to deal with the widely
-varying users, and vast scope of items.
+varying users and items.
 
 The information overload problem will always be present.
 No matter how elegant solutions one may find,
 the fact is that the overwhelming amount of available data
 quickly outgrows our ability to use it.
-
 We believe artificial intelligence is crucial to finding a solution.
 Only by creating intelligent systems that 
 help us filter, sort and consume information can we hope 
 to mitigate the overload.
-Systems should not only tell users what has been predicted,
+
+Adaptive recommender show how systems should not only tell users what has been predicted,
 but also allow flexible and adaptive usage of its internal algorithms.
 \emph{After all, a system that insists on being adaptive
 in one particular way is not really adaptive at all}.

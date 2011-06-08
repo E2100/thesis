@@ -67,7 +67,7 @@ This dataset is often used to test the performance of recommender systems
 \citet[p.9]{Alshamri2008}, \citet[p.4]{Lemire2005}, \citet[p.1]{Adomavicius2005} and \citet[p.2]{Herlocker2004}).
 It consists of a set of users, a set of movies, and a set of movie ratings from users,
 on the scale $1$ through $5$.
-We chose two subsets of the entire MovieLens collection, 
+We chose two subsets of the entire MovieLens collection.
 For Experiment 1 we use a subset of 100,000 ratings from 943 users on 1,682 movies.
 For Experiment 3 we use a much larger subset in order to
 have more items available for the IR model.
@@ -77,7 +77,7 @@ The MovieLens dataset also comes with meta-data on users, such as
 gender, age and occupation. There is also meta-data on movies,
 such as its title, release date and genre. 
 In Experiment 1, we are only interested in the ratings matrix of this dataset.
-However, the titles of movies will be used in Experiment 3.
+The titles of movies will be used in Experiment 3.
 
 Our second set of ratings comes from the Jester dataset\footnote{
 See \url{eigentaste.berkeley.edu/dataset/} ---
@@ -86,8 +86,8 @@ This is a set of 100 \emph{jokes} rated by users on a continuous scale.
 As with MovieLens, this dataset is also commonly used
 to test recommender systems (as described in
 \cite{Goldberg2001}, \citet[p.14]{Herlocker2004}, \citet[p.5]{Adomavicius2005} and \citet[p.30]{Ahn2004}).
-This dataset is has many more users than those used in the other experiments.
-On the other hand, there are signficantly fewer items than in the other dataset.
+This dataset has many more users than those used in the other experiments.
+On the other hand, there are significantly fewer items than in the other dataset.
 The widely varying number of items, users and ratings in our selected datasets
 will give us more dimensions along which to verify our results.
 
@@ -108,7 +108,7 @@ Each dataset is split into five sets which are again split into training and tes
 \begin{eqsp}
   D_n = \{ d_1 = \{base_1, test_1\}, d_2 = \{base_2, test_2\}, ..., d_5 = \{base_5, test_5\} \}
 \end{eqsp}
-%
+
 The $base_x$ and $test_x$ pairs are disjoint 80\% / 20\% splits of the data in the subsets.
 We shall perform five-fold cross-validation across all these sets in our experiments.
 This way we can be more certain that our results are reliable,

@@ -1,10 +1,10 @@
 \label{chap:intro}
 
+As people get access to more and more information, a common problem occurs.
 Having too much information can be as harmful as having no information at all.
 While having too little is an obvious problem,
 too much leads to information overload where relevant content drowns in irrelevant noise.
-This is a common problem. Whenever we have enough information,
-anything extra only leads to confusion.
+%Whenever we have enough information, anything extra only leads to confusion.
 Our ability to make properly informed decisions is often the first thing to go
 \cite[p.1]{Davenport2001}.
 
@@ -45,16 +45,16 @@ we will have come a long way towards solving information overload.
 Despite their apparent power, recommender systems are often confined
 to simple tasks like creating small lists of recommended items
 or computing similar items to the ones being considered.
-Common examples are lists of recommended items based on the one being viewed, 
+Examples include  
 recommending new social connections, or suggesting news articles based on previous reading.
 Seldom are the full potential of recommender systems reached by creating completely adaptive
-content systems that work hard to mitigate any signs of information overload.
+systems that work hard to mitigate any signs of information overload.
 
 We posit that traditional recommender systems have an important weakness.
 There exists an underlying, misplaced subjectivity to relevance prediction.
 We believe this fundamental weakness hinders their usefulness,
 as there is a mismatch between how recommender systems perform predictions,
-and how predictions actually should be made, for each user and item.
+and how predictions actually should be made for each user and item.
 
 \input{figure.rs}
 
@@ -73,20 +73,21 @@ For instance, while one user might appreciate social
 influence in their search results, another user might not.
 While one user might find frequency of communication maps well to relevance,
 another might not. 
-One user might feel the similarity of movie titles are a good predictor,
-while another might be more influenced by production year.
+One user may think the similarity of movie titles is a good predictor,
+while another might be more influenced by their production year.
 Some users may favor items rated highly on a global scale,
 while others are more interested in what users similar to themselves have to say.
 
-The same problem exists for items. While one item might best be judged by its content,
+The same problem exists for items. 
+For example, while one item might best be judged by its content,
 another might be better described by previous ratings from other users.
 One item's relevance may be closely tied to when it was created,
 while other items may be timeless.
 The exact differences are not important, only that they exist.
 
 Another way to put this is that 
-\emph{user modeling methods are dependent on the subjective assumptions of their creators}.
-A modeling method use certain aspects of available data to make predictions,
+\emph{recommender systems methods are dependent on the subjective assumptions of their creators}.
+A recommendation method use certain aspects of available data to make predictions,
 and these aspects are chosen by whoever creates the system.
 
 Modern aggregation approaches face the same problem. 
@@ -116,10 +117,10 @@ That is, in the hands of individual users, and dependent on specific items.
 This adaptive selection has an important consequence. 
 If an algorithm is contextually used based on how well it performs,
 any possibly useful recommender algorithm suddenly becomes a worthy addition.
-Algorithms that perform well for a user or an item is selected for this task.
+Algorithms are only used in situations they work well.
 Those that do not will be used in other situations where they might be better suited.
 
-As far as we know, such adaptive prediction aggregation has not been done before.
+As far as we know, this kind of adaptive prediction aggregation has not been done before.
 The main research question of this thesis is whether or not adaptive recommenders
 can outperform traditional approaches.
 
@@ -130,8 +131,8 @@ This thesis is structured as follows.
 Chapter \ref{chap:theory} will present background theory and previous work for
 the information overload problem, recommender systems, 
 prediction aggregation (combining scores) and rank aggregation (combining sorted lists). 
-We will also introduce briefly introduce the topics of information
-retrieval and personalized search, which will serve
+We will also briefly introduce the topics of information
+retrieval and personalized search, that will serve
 as a case study in later chapters.
 
 Chapter \ref{chap:methods} will further discuss the latent subjectivity problem,

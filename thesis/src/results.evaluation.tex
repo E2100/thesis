@@ -1,14 +1,14 @@
 \section{Evaluation Strategies}
 
 To evaluate how our model performs during prediction aggregation, 
-we need a measure for computing the total error across a large number of predictions.
+we need a measure for computing the total error across a large number of estimations.
 The canonical measure for estimating the error of a recommender system
-is the \emph{Root mean squared error} (RMSE) measure
+is the \emph{Root Mean Squared Error} (RMSE) measure
 (for example in \citet[p.17]{Herlocker2004}, \citet[p.13]{Adomavicius2005} and \citet[p.6]{Bell2007}).
 We shall use this measure to estimate the performance
-of our adaptive prediction aggregation algorithms.
+of our adaptive prediction aggregation algorithm.
 The RMSE of a set of estimations $\hat{R}$, 
-compared the correct rating values $R$, is defined as
+compared the correct rating values $R$, is defined as:
 
 \begin{eqsp}
   \mathrm{RMSE}(\hat{R},R) = \sqrt{\mathrm{E}((\hat{R} - R)^2)}
@@ -16,10 +16,10 @@ compared the correct rating values $R$, is defined as
       \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
     }{
       n
-    }},
+    }}.
 \end{eqsp}
-%
-where $n$ is the total number of predictions.
+
+Here, $n$ is the total number of predictions.
 The RMSE combines a set of errors into one single combined error.
 A beneficial feature of the RMSE is that the resulting error 
 will be on the same scale as the estimations. For example,
@@ -36,7 +36,7 @@ The RMSE will judge methods that provide
 stable predictions more favorably
 than methods that, while precise, have a few items
 or users for which the method breaks down.
-For example, when the RMSE was used in the Netflix movie recommender challenge
+For example, when RMSE was used in the Netflix movie recommender challenge
 \citep{Linden2009}, the participating teams
 found that a few hard to predict movies often 
 single-handedly severely impacted their total error.
@@ -49,12 +49,11 @@ This is for instance needed when measuring the performance of a
 personalized search engine.
 However, H3 does not state anything regarding explicit performance,
 only that our method should be applicable in an information retrieval scenario.
+
 The performance of personalized search is hard to determine,
 as there are many types of rankings that make sense in a number of different use cases,
 as we shall see.
-Because of this, regarding hypothesis H3, 
-we are most interested in examining how  personalization with adaptive recommenders 
-affects the initial rankings from an IR method.
-
-
+In light of this, H3 will be experimented with as a case study,
+by looking at how our algorithm performs personalized
+search in a number of use cases.
 
