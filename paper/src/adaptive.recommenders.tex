@@ -87,7 +87,7 @@ Multiple prediction results are normally combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
 With adaptive recommenders, the $Adapters$ are themselves user modeling methods.
-However, instead of modeling users, we wish to model the behavior of recommender systems.
+Instead of modeling users, we wish to model the behavior of recommender systems.
 More specifically, we wish to model the \emph{accuracy} of the recommender systems.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
@@ -101,7 +101,7 @@ In other words, we have two distinct layers of user modeling
 To perform adaptive aggregation, we need the $Adapters$ to be actual recommender systems.
 The simplest generalized way of prediction aggregation is to take the average of all predictions made
 by the different methods (e.g. \cite[p.3]{Aslam2001}).
-However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
+Many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{eqnarray*}
   \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i).
