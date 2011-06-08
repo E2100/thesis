@@ -97,7 +97,7 @@ which means averaging the user neighborhood ratings weighted by similarity \cite
   \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) }.
 \end{eqsp}
 
-$\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
+Here, $\mathrm{sim}(u,v)$ is the similarity between two users, $K(u,i)$ is the set of users in the neighborhood of $u$ that have rated item $i$.
 This is one of the simplest ways of computing a neighborhood-based prediction.
 Most systems use more complex estimations. For instance, \cite{Koren2008} 
 uses the baseline ratings discussed above instead of plain user and item ratings, to
@@ -257,7 +257,7 @@ connect nodes of the same type, or nodes of different types.
 One variation comes from \cite{Walter2008}, who create a network of \emph{transitive trust} to produce recommendations. Here,
 the neighborhood of users is determined by traversing through users connected by a level of trust. 
 The trust can for example be a function of how many agreeable results the connection to a user has produced.
-Uers trust each other's recommendations based on previous experience.
+Users trust each other's recommendations based on previous experience.
 
 \cite{Konstas} takes yet another approach that measures the similarity between two nodes through their \emph{random walks with restarts} (RWR) technique.
 Starting from a node $x$, the RWR algorithm randomly follows a link to a neighboring node. 

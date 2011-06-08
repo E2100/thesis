@@ -104,13 +104,12 @@ We then have two distinct layers of recommender systems
     \emph{The adaptive layer} is another set of corresponding recommenders that work a bit differently.
     These methods take an item and a user and estimates how well its underlying method will perform this prediction.
     The accuracy estimations are then combined with the predictions by aggregation.
-    Each of these adaptive methods do not have to employ the same algorithm as their corresponding methods,
-    the layers are only similar in that both consist of recommender systems.
+    However, each of these adaptive methods do not have to employ the same algorithm as their corresponding methods.
 \end{enumerate}
 
-Another way of describing (and implementing) these two levels is through 
+Another way of describing (and implementing) the two levels is with
 the $\mathrm{map}$ and $\mathrm{reduce}$ functions of functional programming.
-For example, we can express prediction aggregation as 
+We can express prediction aggregation as:
 
 \begin{eqsp}
   \hat{r}_{u,i} = \mathrm{reduce}(u, i, \mathrm{map}(M, u, i)).

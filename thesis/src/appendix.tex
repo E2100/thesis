@@ -174,7 +174,7 @@ d_t = "movielens/test/1"
 
 # Standard recommenders
 recommender_tasks = {
-  knn:        Task.new(recommender: :generic_user, dataset: d_m),
+  pcc:        Task.new(recommender: :generic_user, dataset: d_m),
   item_avg:   Task.new(recommender: :item_average, dataset: d_m),
   slope_one:  Task.new(recommender: :slope_one, dataset: d_m),
   baseline:   Task.new(recommender: :item_user_average, dataset: d_m),
@@ -246,6 +246,12 @@ The second specifies the minimum garbage collection memory size.
 The two following gives the minimum and maximum heap memory size.
 The last part of this command is the file that should be run.
 Each experiment has its own file.
+
+Due to the different dataset sizes, Experiment 1 takes little time to run
+compared to Experiments 2 or 3. 
+Neither experiment is optimized for speed, but the comparably
+limited dataset of the first experiment makes it a lot 
+faster than the others.
 
 
 \section{Customizing the Experiments}

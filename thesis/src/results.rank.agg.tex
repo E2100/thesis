@@ -256,14 +256,14 @@ no basis for ranking each item differently.
 In this case, a weight of $0$ allows the recommenders to perform the ranking
 of a constrained item space.
 If the predicted ratings of each item is a constructive signal,
-as in our movie search example, this will leverage the strenghts of both systems.
+as in our movie search example, this will leverage the strengths of both systems.
 
 However, in systems with complex queries, where the IR model
 \emph{can} rank each item based on their similarity to the information need,
 an IR weight of $1.0$ gives us the desired result.
 Items are ranked both by their match to the query,
 and based on how each user and item should be modeled.
-By using adaptive recommenders, each rescoring function
+By using adaptive recommenders, each re-scoring function
 that influence the final rankings of items is conditioned
 on how well they have previously worked for the current item,
 and how well they suit each user.
@@ -277,7 +277,7 @@ This positive result for Experiment 3 confirms hypothesis H3,
 at least for this dataset, this IR system and our chosen recommender algorithms.
 By confirming H3, we have shown that adaptive recommenders can be used for personalized search.
 
-This results in a search engine results page that inherits the strenghts of adaptive recommenders.
+This results in a search engine results page that inherits the strengths of adaptive recommenders.
 Each item on the result list is ranked not just based on query matching,
 but based on a number of signals, represented by recommender systems.
 Each signal is adaptively used based on how well it suits the current user,
