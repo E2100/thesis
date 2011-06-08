@@ -57,7 +57,8 @@ The following section gives a short introduction to these systems.
 \begin{table}
   \caption[Adaptive Modeling Methods]{
     adaptive modeling methods: A short overview of the recommender methods
-    used in our experiment.
+    used in our experiment. The first column refers to the type of recommender,
+    \emph{S} for standard systems and \emph{A} for aggregation methods.
     Every recommender is used in every experiment. 
   }
   \setlength{\extrarowheight}{0.2em}
@@ -126,8 +127,6 @@ for a more comprehensive exploration of different types of recommenders.
 
 The second type of recommenders are the aggregation methods, 
 that combine the result of each of the basic recommender systems
-(the methods below the middle line in Table \ref{table:results:methods},
-denoted ``A'').
 The first two of these methods are simple aggregation approaches.
 The median aggregation method choses the median value of the predictions
 produced by the standard recommenders.
