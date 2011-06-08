@@ -24,11 +24,10 @@ require 'perform'
 require 'model'
 require 'recommender'
 require 'ranker'
-require 'rmse_evaluator'
-require 'rank_evaluator'
-require 'aggregate_recommender'
-require 'weighted_recommender'
-require 'adaptive_recommender'
+require 'rmse_eval'
+require 'rank_eval'
+require 'aggregate'
+require 'adaptive'
 
 # config
 module AR
