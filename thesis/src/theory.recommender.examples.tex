@@ -13,7 +13,7 @@ These methods compute predictions through varying types of averages of known dat
 The data is content-based, and used to compute heuristic predictions.
 While simple in nature, these methods are often helpful starting points for more complex systems, or as 
 benchmarks for exploring new approaches. 
-For example, \citet[p2]{Koren2008} computes the baselines for items and users, and
+For example, \citet[p.2]{Koren2008} computes the baselines for items and users, and
 use more involved methods to move this starting point in some direction. 
 The baseline (predicted relevance) for a user/item pair is given by
 
@@ -49,7 +49,7 @@ that is, we predict $\hat{r}_{u,i}$ (the estimated rating) to be $r_{u,j} + \del
 
 Here, $\hat{r}_{ui}$ is the estimated rating, $R_u$ is the items rated by user $u$, $\mathrm{ratings}(i)$ is the number of ratings for item $i$,
 and $\mathrm{\delta}(i,j)$ is the average difference in ratings for items $i$ and $j$.
-While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p5]{Lemire2005}.
+While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p.5]{Lemire2005}.
 
 (2) \emph{Neighborhood estimation} is at the core of many recommendation systems. 
 This is the basic principle behind most collaborative filtering algorithms. 
@@ -57,7 +57,7 @@ Unknown ratings are estimated by averaging the ratings of similar items or users
 Neighborhood-based approaches often work in two steps. First, a neighborhood if similar elements is computed.
 second, the similarities and connections within this neighborhood is used to produce a prediction.
 
-A common method for computing user similarity is the \emph{Pearson Correlation Coefficient} (PCC) \cite[p11]{Segaran2007}.
+A common method for computing user similarity is the \emph{Pearson Correlation Coefficient} (PCC) \cite[p.11]{Segaran2007}.
 While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
 for testing new ideas (e.g. in \citet{Lemire2005, Ujjin, Konstas}).
 
@@ -91,7 +91,7 @@ as denoted by $K$ in the formula.
 
 After a neighborhood is determined, it is time to predict the unknown rating.
 For Collaborative filtering approaches, we are interested in the similarity of users,
-which means averaging the user neighborhood ratings weighted by similarity \cite[p16]{Segaran2007}:
+which means averaging the user neighborhood ratings weighted by similarity \cite[p.16]{Segaran2007}:
 
 \begin{eqsp}
   \bar{r}_{ui} = \frac{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) \times R_{vi} }{ \sum_{v \in K(u,i)} \mathrm{sim}(u,v) }.
@@ -110,8 +110,8 @@ by finding items similar to these, and produce ratings by weighting the initial 
 with the similarity of the neighboring items.
 
 The PCC is but one of many methods used to compute neighborhoods. 
-Other simple measures include the \emph{euclidean distance} \cite[p10]{Segaran2007},
-Spearman's or Kendall Tau rank correlation coefficients \cite[p30]{Herlocker2004} --- 
+Other simple measures include the \emph{euclidean distance} \cite[p.10]{Segaran2007},
+Spearman's or Kendall Tau rank correlation coefficients \cite[p.30]{Herlocker2004} --- 
 variations on the PCC.
 Of course, user similarity does not have to rely on ratings. 
 If the system has access to detailed user profiles, these can be used
@@ -133,8 +133,8 @@ By reducing the noise in the ratings matrix, and keeping those ratings that cont
 we can identify groups of users, items or combinations that have something in common.
 This can then be used to find neighborhoods, compute similarities and estimate unknown ratings.
 
-\emph{Singular Value Decomposition} (SVD) is a common method for such matrix factorization (e.g. \citet[p5]{Billsus}, \citet{Sun2005}, \citet{Bell2007}).  
-This is the same underlying technique used by \emph{latent semantic indexing} in information retrieval \cite[p44]{Baeza-Yates1999}.
+\emph{Singular Value Decomposition} (SVD) is a common method for such matrix factorization (e.g. \citet[p.5]{Billsus}, \citet{Sun2005}, \citet{Bell2007}).  
+This is the same underlying technique used by \emph{latent semantic indexing} in information retrieval \cite[p.44]{Baeza-Yates1999}.
 Formally, SVD is the factorization $R = U \Sigma V^{T}$. 
 $R$ is an $m \times n$ matrix, in our case the ratings matrix, with $m$ users and $n$ items. 
 $U$ is an $m \times m$ factor, $V^{T}$ (the transpose of $V$) is an $n \times n$ factor.
@@ -189,7 +189,7 @@ These features are comparable to the mapping of terms to concepts in LSI.
     SVD Image Compression:
     A variation of using SVD to compress an image, from \cite{Ranade2007}.
     The original image is on the left, and successive images use an increasing number of factors (2, 8 and 30) when performing compression.
-    Figure adapted from \citet[p4]{Ranade2007}.
+    Figure adapted from \citet[p.4]{Ranade2007}.
   }
   \label{fig:svd-image}
 \end{figure}
@@ -214,7 +214,7 @@ yields more accurate results.
 
 In recommender systems, SVD is used to compress the ratings space into what is sometimes called a \emph{taste space},
 where users are mapped to higher-level \emph{taste} categories
-(e.g. \citet[p5]{Ahn2004}, \citet[p4]{Brand2003} or \citet[p2]{Liu2006}).
+(e.g. \citet[p.5]{Ahn2004}, \citet[p.4]{Brand2003} or \citet[p.2]{Liu2006}).
 In a taste space,
 the collections of individual ratings are reduced to groups of users, items and combinations that have patterns in common.
 This reduction makes it easy to find similar users that share some global characteristic.

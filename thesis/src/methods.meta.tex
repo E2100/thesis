@@ -78,7 +78,7 @@ i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}
 The $Adapters$ part of our 6-tuple refers to the second level of recommender systems.
 In traditional prediction aggregation this is a simple linear function for combining the different predictions,
 for example by pre-computing a set of weights, one per method.
-As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
+As found by \citet[p.6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of the predictors.
 As described in Section \ref{sec:aggregate}, multiple prediction results are normally 
@@ -125,7 +125,7 @@ If we wish to do rank aggregation, the equation is a bit different:
   \tau_{u,n} = \mathrm{reduce}(u, \mathrm{map}(M,u,n)).
 \end{eqsp}
 
-Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
+Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p.3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
 The result is an adaptively sorted list of the top $n$ items for the current user.
 A common use case for rank aggregation is personalized search:
@@ -135,7 +135,7 @@ as we shall see.
 Expressing ourselves in terms of $\mathrm{map}$ and $\mathrm{reduce}$ is helpful 
 as this will guide our implementation.
 Note that our terminology is a bit different from the proper MapReduce framework
-for parallel computation (as explained in \citet[p75]{Manning2008}).
+for parallel computation (as explained in \citet[p.75]{Manning2008}).
 However, as with the standard key/value approach to MapReduce,
 the fact that our tasks can be run in parallel will help
 us implement efficient algorithms.
@@ -148,7 +148,7 @@ Until now we have talked about both prediction aggregation (scores) and rank agg
 For now we shall stick to scalar predictions, but will return to rank aggregation in Section \ref{sec:methods:rank}.
 
 The simplest generalized way of prediction aggregation is to take the average of all predictions made
-by the different methods (e.g. \citet[p3]{Aslam2001}):
+by the different methods (e.g. \citet[p.3]{Aslam2001}):
 
 \begin{eqsp}
   \hat{r}_{u,i} = \frac{1}{N} \sum_{m \in M} p(m,u,i).

@@ -12,12 +12,10 @@ We have already seen a few examples of aggregate modeling:
   \item \cite{Huang2002} aggregates different types of graph relations into one prediction.
   \item \citet{Haveliwala2003} combined their personalized PageRank with another approach.
   \item \cite{Carmel2009} combined classic IR with social relations and annotations.
-  \item \citet[p5]{Bender2005} aggregates signals measured from website structure.
+  \item \citet[p.5]{Bender2005} aggregates signals measured from website structure.
 \end{itemize*}
 
-Clearly, aggregation is an important part of both RS and PS.
-The reasoning behind combining different approaches is that no one methods
-can capture all the predictive nature of available data.
+The reason for combining different approaches is that no one method can capture all the predictive nature of available data.
 For example, 
 \cite{Bell2007b} created a recommender system where the neighborhood- and SVD-based approaches complement each other.
 While the neighborhoods correspond to \emph{local effects} where similar users influence each other's predictions,
@@ -32,8 +30,8 @@ commercial Netflix Cinematch recommender system [...].''
 An interesting question is whether or not all hybrid recommenders,
 that combine content-based and collaborative methods, are aggregators. 
 This is mostly a question of semantics and implementation.
-\citet[p4]{Burke2007} liberally defines a hybrid system as 
-``any recommender system that combines multiple recommendation techniques together to produce its output''.
+\citet[p.4]{Burke2007} liberally defines a hybrid system as 
+\emph{``any recommender system that combines multiple recommendation techniques together to produce its output''}.
 Some hybrid methods combine stand-alone methods, and are definitely aggregations.
 Other methods merge the methods themselves into one implementation that uses the data in different ways.
 \citeauthor{Burke2007} describes a few types of hybrid recommenders:
@@ -58,7 +56,7 @@ There are two main use cases for model aggregation \cite{Liu2007}:
 
   \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
   one-by-one, creating an aggregated result for each element that should be evaluated.
-  These methods require the actual prediction scores for any item from the recommender methods \cite[p2]{Aslam2001}.
+  These methods require the actual prediction scores for any item from the recommender methods \cite[p.2]{Aslam2001}.
 \end{enumerate}
 
 \subsection{Rank Aggregation}
@@ -66,16 +64,16 @@ There are two main use cases for model aggregation \cite{Liu2007}:
 
 RA combines multiple result lists into one list through aggregation.
 \cite{Dwork2001} shows a few metrics applicable to meta-search, the combination of results from multiple search engines.
-For example, Borda's method \cite[p6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
+For example, Borda's method \cite[p.6]{Dwork2001} is based on positional voting, where each result gets a certain number of points from each result set,
 based on where it appears in the sorted list. Items at the top gets the most points, while lower items gets fewer points.
 This is in essence an approach where the predictors have a set number of votes ($c$, the number of results) that they give to the items.
 
-As we saw in Section \ref{sec:search}, \citet[p3]{Xu2008} used a weighted version
+As we saw in Section \ref{sec:search}, \citet[p.3]{Xu2008} used a weighted version
 of this approach to combine an IR and personal approach to result ranking.
-\citet[p3]{Aslam2001} calls their version of this \emph{Weighted Borda-Fuse},
+\citet[p.3]{Aslam2001} calls their version of this \emph{Weighted Borda-Fuse},
 where the points given from a method to an item is controlled
 by the weights estimated for the methods.
-\citet[p4]{Aslam2001} also explain a Bayesian approach (\emph{bayes-fuse}),
+\citet[p.4]{Aslam2001} also explain a Bayesian approach (\emph{bayes-fuse}),
 that combined with the \emph{naive Bayes} independence assumption 
 produce the following formula:
 
@@ -103,7 +101,7 @@ existing meta-search strategies.''
 \cite{Liu2007} presents a rank-aggregation framework, where
 the task of estimating a ranking function by using training data.
 They treat this task as a general optimization problem, with results
-showing that this framework can outperform existing methods \cite[p7]{Liu2007}.
+showing that this framework can outperform existing methods \cite[p.7]{Liu2007}.
 
 Rank aggregation is a substantial topic, with many approaches.
 The main take-away is that this approach combines list of results
@@ -129,7 +127,7 @@ predictions based on simple arithmetics,
 or select one or more of the results as the final prediction. 
 Other models use the average, or log-average of the different methods.
 Another example is the linear combination model, that trains weights for each predictor and weighs predictions accordingly.
-At slightly more complex approach is to train a logistic regression model \cite[p3]{Aslam2001}
+At slightly more complex approach is to train a logistic regression model \cite[p.3]{Aslam2001}
 over a training set, in an effort to find the combination that gives the lowest possible error.
 This last method improved on the top-scoring predictor by almost 11\%,
 showing that even fairly simple combinations have merit.
@@ -147,7 +145,7 @@ these methods are also used for aggregating numerical values (see the numerical 
 Approaches include \emph{bootstrap aggregation} (bagging) and \emph{boosting} 
 for selecting proper training and testing sets,
 and creating a \emph{mixture of experts} for combining the predictors
-\cite[p27]{Polikar2006}.
+\cite[p.27]{Polikar2006}.
 
 %\url{http://www.igvita.com/2009/09/01/collaborative-filtering-with-ensembles/}
 %\url{http://en.wikipedia.org/wiki/Machine\_learning\_ensemble}
@@ -155,7 +153,7 @@ and creating a \emph{mixture of experts} for combining the predictors
 
 \citeauthor{Bell2007} took method aggregation to its logical conclusion when winning the Netflix Challenge,
 by combining 107 individual results from different recommenders.
-They found this to significantly outperform each standard recommender \cite[p6]{Bell2007}:
+They found this to significantly outperform each standard recommender \cite[p.6]{Bell2007}:
 
 \begin{blockquote}
 ``We strongly believe that the success of an ensemble approach depends on the ability of its various predictors to expose different, 

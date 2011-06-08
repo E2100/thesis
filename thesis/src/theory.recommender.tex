@@ -52,7 +52,7 @@ $F$ is a framework for representing the items, users and ratings, for example wi
 $M$ is the actual user modeling algorithm used to infer unknown ratings 
 for predicting a user's preference for an unrated item. This is where AI comes in.
 
-In \citet[p2]{Adomavicius2005}, $M$ is seen as a utility (the rating, in AI terms) estimation function
+In \citet[p.2]{Adomavicius2005}, $M$ is seen as a utility (the rating, in AI terms) estimation function
 $p: U \times I \rightarrow S$. Here, $p$ (for prediction) is a function that maps the set
 of users and items into a fully ordered set of items $S$, ranked by their
 utility to each user. In other words, $S$ is the completely specified version of $R$,
@@ -92,24 +92,24 @@ only rates, connects to or uses a few of items.
 This is true for any scenario where users explicitly rate items, access items in search results,
 or connect to each other in a social network. 
 For example, in the seminal Netflix Challenge movie recommender dataset, almost 99\% of the potential
-user/item pairs have no rating \cite[p1]{Bell2007d}.  
+user/item pairs have no rating \cite[p.1]{Bell2007d}.  
 These recommender systems had to be able to produce results from a matrix where only 1\% of the cells had meaningful values.
 
 This is often the defining characteristic of a recommender system.
 An RS is defined by its ability to extract meaningful patterns from sparse data, 
 through dimensionality reduction, neighborhood estimation and many other methods, as we shall see.
 Naturally, much research looks at ways to best tackle this sparsity problem
-(e.g. \cite{Pitsilis2009}, \citet[p3]{Claypool1999}, \citet[p19]{Ziegler2005}).
+(e.g. \cite{Pitsilis2009}, \citet[p.3]{Claypool1999}, \citet[p.19]{Ziegler2005}).
 
 Recommender systems face many challenges other than this sparsity problem.
 A directly related problem is the need for large datasets. Since the data is often sparse,
 the systems will most often perform well if used on large numbers of items and users.
-In addition, as in many machine learning methods, concept drift \cite[p1]{Widmer1996}, 
+In addition, as in many machine learning methods, concept drift \cite[p.1]{Widmer1996}, 
 where the characteristics of a user or item
 changes over time, is another recurring problem.
 
 Another potential problem is that the performance of RSs is often closely tied to their computational complexity
-(as mentioned in \citet[p6]{Adomavicius2005}). 
+(as mentioned in \citet[p.6]{Adomavicius2005}). 
 Real world usage of the most precise methods can be hindered by the computational power needed to actually put them into production.
 
 Finally, the scale of the data in question should be a concern. If the ratings are ordinal data (e.g. 1-5)
@@ -151,9 +151,9 @@ In this thesis, we use a taxonomy where these dimensions are
 
 (1) The \emph{data} variable represents what data an RS uses to perform predictions. 
 \emph{Content-Based} (CB) methods use only items, intra-item relations, and 
-an individual user's past history as predictive signals of future actions \cite[p1]{Pazzani2007}.
+an individual user's past history as predictive signals of future actions \cite[p.1]{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
-However, such methods may require a lot of interaction before reliable models can be created \cite[p4]{Adomavicius2005}.
+However, such methods may require a lot of interaction before reliable models can be created \cite[p.4]{Adomavicius2005}.
 The problem of having to do complex inference from little data, as it often is in content-based predictions,
 similar to the \emph{sparsity problem}, is often called the \emph{cold start} or \emph{new user} problem. 
 This is closely related to the common AI problem of \emph{overfitting} data, 
@@ -163,7 +163,7 @@ As with the sparsity problem, a lot of research looks at ways to overcome sparse
 (e.g. \cite{Said2009}, \cite{Lilegraven2011}). 
 
 Formally, when using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
-where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p2]{Adomavicius2005}.
+where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p.2]{Adomavicius2005}.
 
 \emph{Collaborative Filtering} (CF) methods build predictive models for users based on the actions of similar users \citep{Schafer2007}.
 The key observation is that similar users should have similar usage and action patterns. 
@@ -174,7 +174,7 @@ Collaborative models must be careful not to represent the \emph{average} user, b
 
 Formally, when using a collaborative method, 
 the utility $p(u,i)$ of item $i$ for user $u$ is extrapolated from the known $p(u_x,i)$ where $u_x$ is a user similar to $u$
-\cite[p4]{Adomavicius2005}. 
+\cite[p.4]{Adomavicius2005}. 
 
 Because of \emph{the new user problem} of content-based prediction and the \emph{average user problem} of collaborative prediction, 
 many systems use a hybrid approach (as introduced by \cite{Burke2007}).
@@ -186,10 +186,10 @@ We will discuss hybrid aggregation systems later in this chapter.
 concerns \emph{how} the data is used.
 First, we have the \emph{model-based} approach, where the recommender system builds predictive models based on the known data. 
 Unseen items can then be fed into this model to compute its estimated utility score
-\cite[p5]{Adomavicius2005}. 
+\cite[p.5]{Adomavicius2005}. 
 For example, creating a Bayesian networks from past interaction is a model-based approach.
 
-The other category is the \emph{heuristic} or \emph{memory-based} approach \cite[p5]{Adomavicius2005}. 
+The other category is the \emph{heuristic} or \emph{memory-based} approach \cite[p.5]{Adomavicius2005}. 
 These methods use the raw data of items, users and ratings to directly estimate unknown utility values. 
 For example, recommending items similar to the ones already rated by computing the cosine similarity of their feature vectors is a heuristic approach.
 

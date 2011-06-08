@@ -6,7 +6,7 @@ See http://www.grouplens.org/node/73 --- accessed 10.05.2011}
 to test the performance of our system.
 This dataset is often used to test the performance of recommender systems
 (as described in 
-\cite[p9]{Alshamri2008}, \cite[p4]{Lemire2005}, \cite[p1]{Adomavicius2005} and \cite[p2]{Herlocker2004}).
+\cite[p.9]{Alshamri2008}, \cite[p.4]{Lemire2005}, \cite[p.1]{Adomavicius2005} and \cite[p.2]{Herlocker2004}).
 It consists of a set of users, a set of movies, and a set of movie ratings from users,
 on the scale $1$ through $5$.
 We chose a subset of the entire MovieLens collection, with 100,000 ratings from 943 users on 1,682 movies.
@@ -17,7 +17,7 @@ To evaluate how our model performs during prediction aggregation,
 we need a measure for computing the total error across a large number of predictions.
 The canonical measure for estimating the error of a recommender system
 is the \emph{Root mean squared error} (RMSE) measure
-(for example in \cite[p17]{Herlocker2004}, \cite[p13]{Adomavicius2005} and \cite[p6]{Bell2007}).
+(for example in \cite[p.17]{Herlocker2004}, \cite[p.13]{Adomavicius2005} and \cite[p.6]{Bell2007}).
 We use this measure to estimate the performance
 of our adaptive prediction aggregation algorithms.
 The RMSE of a set of estimations $\hat{R}$, 
@@ -96,7 +96,7 @@ Let us briefly explain how the basic recommenders work.
 In recommender systems, \emph{Singular Value Decomposition} (SVD) is used to compress 
 the ratings space into what is sometimes called a \emph{taste space},
 where users are mapped to higher-level \emph{taste} categories
-(e.g. \cite[p5]{Ahn2004}, \cite[p4]{Brand2003} or \cite[p2]{Liu2006}).
+(e.g. \cite[p.5]{Ahn2004}, \cite[p.4]{Brand2003} or \cite[p.2]{Liu2006}).
 The factorizers refers to algorithms used to factorize the ratings matrix
 (e.g. the ALSWR factorizer \cite{Zhou2008}).
 

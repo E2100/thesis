@@ -69,18 +69,18 @@ there are many different recommendation algorithms,
 that consider different aspects in the data, for example users, items and ratings, as well as 
 sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
 Examples of such recommender systems include Slope One predictions \cite{Lemire2005}, 
-SVD factorization (e.g. \cite[p5]{Billsus}, \cite{Sun2005} and \cite{Bell2007}) and 
-Nearest Neighbor weighted predictions \cite[p11]{Segaran2007}.
+SVD factorization (e.g. \cite[p.5]{Billsus}, \cite{Sun2005} and \cite{Bell2007}) and 
+Nearest Neighbor weighted predictions \cite[p.11]{Segaran2007}.
 These methods predict unknown connections between users and items based on some pattern in the data,
 for example user profile similarity, rating correlations or social connections.
 As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data
-(as described by \cite[p1]{Bell2007b}).
+(as described by \cite{Bell2007b}).
 
 The $Adapters$ ($A$) part of our 6-tuple refers to the second level of user modeling methods.
 In traditional prediction aggregation this is a simple linear function for combining the different predictions,
 for example by pre-computing a set of weights, one for each method.
-As found by \cite[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
+As found by \cite[p.6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of each predictor.
 Multiple prediction results are normally combined into a final singular result,
@@ -100,7 +100,7 @@ In other words, we have two distinct layers of user modeling
 
 To perform adaptive aggregation, we need the $Adapters$ to be actual recommender systems.
 The simplest generalized way of prediction aggregation is to take the average of all predictions made
-by the different methods (e.g. \cite[p3]{Aslam2001}).
+by the different methods (e.g. \cite[p.3]{Aslam2001}).
 However, many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
 \begin{eqnarray*}
@@ -189,7 +189,7 @@ we apply the following algorithm:
 \end{enumerate*}
 
 Constructing the subsets of the available data is a common task in ensemble learning
-\cite[p7]{Polikar2006}.
+\cite[p.7]{Polikar2006}.
 We use \emph{bootstrap aggregation}, also known as \emph{bagging} (introduced by \cite{Breiman1996}).
 Originally, bagging is used by ensemble learning classification methods, where multiple classifiers are 
 trained by uniformly sampling a subset of the available training data. 
