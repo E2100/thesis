@@ -390,8 +390,6 @@
   \begin{equation*}
 }{
   \end{equation*}
-  \vspace{0.1em}\\
+  \vspace{0.1em}
 }
-
-
 
