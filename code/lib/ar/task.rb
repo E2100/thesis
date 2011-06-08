@@ -4,7 +4,8 @@ class Task
   def initialize(opts={})
     @opts = defaults(opts)     
   end
-
+    
+  # Default main task settings
   def main 
     {
       # recommender, rmse_evaluator, rank_evaluator
@@ -17,7 +18,8 @@ class Task
       testset: '/jester/splits/test/1'
     }
   end
-
+  
+  # Default recommender settings
   def recommender
     {
       # type of recommender
@@ -52,7 +54,8 @@ class Task
       optimizer: :quadratic
     }
   end
-
+  
+  # Default evaluator settings
   def evaluator
     {
       evaluator: :rmse,
@@ -62,6 +65,7 @@ class Task
     }
   end
 
+  # Default aggregation settings
   def aggregate
     {
       userid: 0,

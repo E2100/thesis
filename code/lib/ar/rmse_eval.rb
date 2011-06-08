@@ -28,17 +28,14 @@ private
   def predictions(userid,itemid)
     ps = {}
     @recommenders.each do |name,rec|
-      #ps[name] = Scale.constrain(rec.prediction(userid,itemid), 1.0, 5.0)
       ps[name] = rec.prediction(userid,itemid)
     end
-    #report_predictions(userid,itemid,ps)
     ps
   end
 
   def single_errors(userid,itemid)
     {}.tap do |errors|
       predictions(userid,itemid).each do |name,pred|
-        #raise PredictionError if pred.nan?
         errors[name] = (correct(userid,itemid) - pred) ** 2
       end
     end
@@ -63,21 +60,15 @@ private
       if u % 100 == 0
         Log.out('evaluating user', u)
       end
-      #next if u > 100
       user_ratings(u).each do |i,r|
-          single_errors(u,i).each do |name,error|
-            begin
-              raise PredictionError if error.nan?
-              e[name] += error
-              n[name] += 1.0
-              #if name == :meta
-              #  puts @recommenders[name].recommender.meta[u].rmse
-              #end
-            rescue PredictionError
-            end
+        single_errors(u,i).each do |name,error|
+          begin
+            raise PredictionError if error.nan?
+            e[name] += error
+            n[name] += 1.0
+          rescue PredictionError
           end
-          #puts '-'*100
-          #report_errors(u,i,e,n)
+        end
       end
     end
     {}.tap do |errors|
