@@ -1,5 +1,7 @@
 require 'experiments'
 
+# Chose which disjoint subsets of jester to run the experiment on.
+# Five subsets (1 to 5) are available.
 datasets = {
   d1: '1',
   d2: '2',
@@ -8,13 +10,17 @@ datasets = {
   d5: '5'
 }
 
+# Run all recommenders on each dataset and store the results.
 results = {}
 datasets.each do |name,path|
+  # Set the correct paths for this subset of the data
   o = {
     dataset: '/jester/splits/base/' + path,
     testset: '/jester/splits/test/' + path
   }
+  # Create the recommenders
   rs = AR.recommenders(o)
+  # Evaluate across all combinations and store the results
   ev = AR.evaluate(rs,o)
   ev.each do |name, e|
     results[name] = {} unless results.key?(name)
@@ -22,13 +28,9 @@ datasets.each do |name,path|
   end
 end
 
-mins  = {}
-maxs  = {}
-means = {}
-devs  = {}
-
+# Print out the final results of the experiment
 AR::Log.head('Results')
-
+means = {}
 results.each do |method, res|
   print "#{method.to_s.ljust(15)}\t"
   res.each do |set, e|
@@ -40,17 +42,10 @@ results.each do |method, res|
   print "avg: #{v.mean}\t"
   print "stddev: #{v.stddev.round(6)}"
   puts
-
-  mins[method] = v.min
-  maxs[method] = v.max
   means[method] = v.mean
-  devs[method] = v.stddev.round(6)
 end
-
 puts
-
 puts "avgs:"
 pp means.sort { |a,b| a.last <=> b.last }
 puts
-
 

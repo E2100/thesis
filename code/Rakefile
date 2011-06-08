@@ -1,5 +1,23 @@
 #!/usr/bin/env jruby
 
+# 
+# This file is used to run each experiment
+# To run an experiment from the prompt, use:
+#
+#   $ jruby --1.9 -S rake e1
+#
+# Substitute e1 for e2 or e3 to run each experiment.
+#
+# On some machines, the JRuby VM might run out of memory.
+# To fix this, use the following paramenters to
+# up the amount of available RAM for the VM:
+#
+#   $ jruby --1.9 -J-Xmn512m -J-Xms2048m -J-Xmx2048m -S rake e1
+#
+# This sets the max RAM size to 2GB, which should be 
+# more than enough for these experiments.
+#
+
 task :default => :e1
 
 task :e1 do
