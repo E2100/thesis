@@ -1,11 +1,11 @@
 \section{Adaptive Recommenders}
 \label{sec:usermetamodeling}
 
-\emph{Adaptive Recommenders} (AR) is a technique for combining many recommender systems
+\emph{Adaptive Recommenders} (AR) is our technique for combining many recommender systems
 in a way that is optimal for the each user and each item.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
-we have two important questions:
+there are two important questions:
 
 \begin{enumerate*}
   \item What rating does each method predict?
@@ -75,7 +75,7 @@ for example user profile similarity, rating correlations or social connections.
 As previously explained, to achieve the best possible combined result, we wish to use methods that look at disjoint patterns, 
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
-The $Adapters$ part of our 6-tuple refers to the second level of user modeling methods.
+The $Adapters$ part of our 6-tuple refers to the second level of recommender systems.
 In traditional prediction aggregation this is a simple linear function for combining the different predictions,
 for example by pre-computing a set of weights, one for each method.
 As found by \citet[p6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
@@ -85,23 +85,23 @@ As described in Section \ref{sec:aggregate}, multiple prediction results are nor
 combined into a final singular result,
 based on a generalized combination found by minimizing some error across all users.
 
-With adaptive recommenders, the $Adapters$ are themselves user modeling methods 
+With adaptive recommenders, the $Adapters$ are themselves recommender systems 
 (see Figure \ref{fig:layer:comparison}).
 However, instead of modeling users, we wish to model each recommender system.
 More specifically, we wish to model the \emph{accuracy} of each recommender system.
 Methods in this second layer are used to predict how accurate each of their corresponding basic recommenders will be.
 It is these methods that will allow us to do adaptive aggregation based on the current user and item.
-We then have two distinct layers of user modeling 
+We then have two distinct layers of recommender systems 
 (see Figure \ref{fig:adaptiveusermodeling}):
 
 \input{figure.layers}
 
 \begin{enumerate}
   \item
-    \emph{The methods layer} consists of traditional user modeling methods, that use a single aspect of the data to produce predictions.
+    \emph{The methods layer} consists of traditional recommender systems, that use a single aspect of the data to produce predictions.
     When presented with an item and a user, these methods produce a predicted rating $\hat{r}_{u,i}$ based on their algorithms.
   \item
-    \emph{The adaptive layer} is another set of corresponding modeling methods, that work a bit differently.
+    \emph{The adaptive layer} is another set of corresponding recommenders that work a bit differently.
     These methods take an item and a user and estimates how well its underlying method will perform this prediction.
     The accuracy estimations are then combined with the predictions by aggregation.
     Each of these adaptive methods do not have to employ the same algorithm as their corresponding methods,
@@ -115,7 +115,7 @@ For example, we can express prediction aggregation as
 \begin{eqsp}
   \hat{r}_{u,i} = \mathrm{reduce}(u, i, \mathrm{map}(M, u, i)).
 \end{eqsp}
-%
+
 First, each modeling method is applied by the $\mathrm{map}$ function, with the current user, item and set of modeling methods as input.
 This operation returns a set of scalar prediction values. 
 These values are then combined by the $\mathrm{reduce}$ function, which also takes the current user and item as input.
@@ -125,7 +125,7 @@ If we wish to do rank aggregation, the equation is a bit different:
 \begin{eqsp}
   \tau_{u,n} = \mathrm{reduce}(u, \mathrm{map}(M,u,n)).
 \end{eqsp}
-%
+
 Here, $\tau_{u}$ is the list of recommended items for user $u$ (following the notation in \citet[p3]{Dwork2001}).
 Note that there is no input item in this formula as we wish to produce a ranking of the top $n$ recommended items.
 The result is an adaptively sorted list of the top $n$ items for the current user.
@@ -154,7 +154,7 @@ by the different methods (e.g. \citet[p3]{Aslam2001}):
 \begin{eqsp}
   \hat{r}_{u,i} = \frac{1}{N} \sum_{m \in M} p(m,u,i).
 \end{eqsp}
-%
+
 Here, $\hat{r}_{u,i}$ is the estimated rating from user $u$ to item $i$,
 $N$ is the number of methods in $M$, and $p(m,u,i)$ is the predicted rating from method $m$.
 To achieve an even more optimal result, 
@@ -164,7 +164,7 @@ many aggregators weigh each method differently (e.g. \cite{Claypool1999}):
   \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i) 
   \quad \text{where} \quad 0 \leq w_{m} \leq 1, \quad \sum_{m \in M} (w_m) = 1.
 \end{eqsp}
-%
+
 In this equation, $w_m$ is the weight applied to modeling method $m$. 
 These weights fall in the range $[0,1]$ and sum up to $1$.
 As described in \ref{sec:aggregate}, 
@@ -186,7 +186,7 @@ The adaptive weights also have to be estimated just as the unknown ratings:
   \quad \text{where} \quad
   \sum_{m \in M} (p_{w}(m,u,i)) = 1.
 \end{eqsp}
-%
+
 Here, $p_w(m,u,i)$ is the predicted optimal weight for method $m$ when applied to user $u$ and item $i$.
 Adaptive recommenders is one way to estimating these weights, i.e. one way to implement $p_w$.
 
@@ -213,7 +213,7 @@ To achieve this, we create an \emph{error matrix}:
     e_{u,1} & e_{u,2} & \cdots & e_{u,i}
  \end{pmatrix}
 \end{eqsp}
-%
+
 Creating an error matrix for each modeling method is done by splitting the ratings data in two.
 The first set can be used for the actual RS modeling, and the second
 can be used to populate an error matrix for each RS.
@@ -231,7 +231,7 @@ by computing the error of each known rating the method was not trained for:
   \quad
   d_e,d_m \subset D
 \end{eqsp}
-%
+
 Here, $D$ is the current dataset, and
 $d_m$ and $d_e$ are subsets of $D$.
 $m$ is a modeling method trained with the subset $d_m$.
@@ -323,7 +323,7 @@ conditioned on the current user and item:
   \quad
   error(u,i) = \sum_{m_e \in M} p(m_e,u,i) 
 \end{eqsp}
-%
+
 In this equation, each recommender method has two corresponding models:
 $m_r$ is the ratings model, used to predict ratings, and
 $m_e$ is the error model, used to predict errors.
@@ -336,21 +336,6 @@ The errors are normalized across each user and item by $errors(u,i)$,
 which is the sum of the errors of each method for the current combination.
 This gives us weights in the range $[0,1]$ ensuring
 final rating predictions on the same scale as that returned by the basic recommenders.
-
-%For now, we have our approach to adaptive recommenders:
-%
-%\begin{eqsp}
-%  \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - p(m_{e},u,i)) \times p(m_{r},u,i),
-%\end{eqsp}
-%
-%where $p$ returns a prediction from a model for a specific user and item,
-%$m_{r}$ is a standard recommender model, 
-%and $m_{e}$ is its corresponding error model.
-%For this equation to work as expected, the weights must be normalized:
-%
-%\begin{eqsp}
-%  0 \leq p(m_e,u,i) \leq 1 \quad \text{and} \quad \sum_{m \in M} (p(m_e,u,i)) = 1.
-%\end{eqsp}
 
 Notice that the \emph{only} difference between $m_e$ and $m_r$ is how they are created.
 $m_r$ is trained with the standard ratings matrix, and $m_e$ is trained using the error matrix.
