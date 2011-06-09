@@ -20,12 +20,9 @@ For example,
 \cite{Bell2007b} created a recommender system where the neighborhood- and SVD-based approaches complement each other.
 While the neighborhoods correspond to \emph{local effects} where similar users influence each other's predictions,
 the dimensionality reduction finds \emph{regional effects}, major structural patterns in the data \citep{Bell2007b}:
-
-\begin{blockquote}
-``Both the local and the regional approaches, and in particular their combination through a unifying model, 
+\emph{``Both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
-commercial Netflix Cinematch recommender system [...].''
-\end{blockquote}
+commercial Netflix Cinematch recommender system [...].''}
 
 An interesting question is whether or not all hybrid recommenders,
 that combine content-based and collaborative methods, are aggregators. 
@@ -45,15 +42,13 @@ Other methods merge the methods themselves into one implementation that uses the
 \end{itemize*}
 
 However, without being to pedantic, these can all be seen as aggregations. 
-Multiple prediction techniques are used
-to create a result better than any single methods would provide.
-There are two main use cases for model aggregation \cite{Liu2007}: 
+In each case, there are two main use cases for recommender aggregation \cite{Liu2007}: 
 
 \begin{enumerate}
   \item Rank (or \emph{order-based}) aggregation (RA) lets a set of methods
   produce a sorted list of recommendations or search results. These lists are then combined
   into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
-  These methods only require the resulting list of items from each method \cite{Aslam2001}.
+  These methods only require the resulting list of items from each method \citet[p.2]{Aslam2001}.
 
   \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
   one-by-one, creating an aggregated result for each element that should be evaluated.
