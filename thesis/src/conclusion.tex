@@ -30,7 +30,7 @@ For users, social connections is a good example. Whether or not social connectio
 recommendations or personalized search results is a contentious topic.
 Naturally, a system where every user's personal opinion determines if these connections are used is desirable.
 
-This implication extends to the items that should be recommended:
+This implication extends to the items that should be recommended.
 As evident by the field of information retrieval,
 there exists many ways of considering the relevance of an item. 
 These algorithms can be based on a number of attributes, for example
@@ -69,8 +69,8 @@ in the same results set.
 With adaptive recommenders, both the methods layer and the adaptive layer consists of standard recommender algorithms.
 Because we use ratings matrices for the taste models and error matrices for the weight estimations,
 we can use the same algorithms for both tasks.
-Using known algorithms for this new task is beneficial:
-they are known to work, enjoy multiple implementations
+Using known algorithms for this new task is beneficial.
+They are known to work, enjoy multiple implementations
 and are already understood and battle-tested in many different systems.
 
 
@@ -83,7 +83,8 @@ related to the
 (3) the general usefulness of this approach, and
 (4) common issues with recommender systems.
 
-(1) Complexity: As our approach is more complicated than standard recommenders,
+\emph{(1) Complexity:}
+as our approach is more complicated than standard recommenders,
 it is worth questioning if its gains are worth the extra complexity.
 This depends on the basic recommenders that are to be combined.
 If the system is made up by many different recommenders,
@@ -101,12 +102,13 @@ without real-world success stories, it is hard
 to suggest that our method is particularly better
 than a simple standard recommender.
 
-(2) Evaluation: we chose traditional datasets and evaluation metrics
+\emph{(2) Evaluation:}
+we chose traditional datasets and evaluation metrics
 to validate the adaptive recommenders technique.
 While our initial results are promising, it is important to stress
 that this is only one test on one dataset. Considering the vast scope
 of applicable data, and the number of ways these results many be 
-evaluated, the results must be seen for what they are:
+evaluated, the results must be seen for what they are, namely
 initial and preliminary explorations of a new technique
 that has yet to be proved useful in the real world.
 
@@ -117,12 +119,12 @@ As known from the field of statistics, when using ordinal scales,
 the significance of every step are not necessarily equal.
 For instance, on a scale from 1 through 5, the difference
 between 2 and 3 might not be as significant as the difference between 4 and 5.
-This is a limitation of many recommender system, apparent by the algorithms they use:
-most do not consider the implications of ordinal data.
+This is a limitation of many recommender system, apparent by the algorithms they use.
+Most do not consider the implications of ordinal data.
 Naturally, in a real-world system, this limitation has to be considered.
 
-(3) Usefulness:
-When considering the additional complexity of our approach,
+\emph{(3) Usefulness:}
+when considering the additional complexity of our approach,
 a natural response is whether or not current approaches
 to recommender systems are good enough.
 We do not think so. Information overload is such a nuanced problem 
@@ -136,8 +138,8 @@ As in many other scenarios, the systems described in this thesis
 have their use cases. In the end, the requirements of the current system
 must decide which method best suit their needs.
 
-(4) Common issues:
-The topic of recommenders and adaptive systems in general
+\emph{(4) Common issues:}
+the topic of recommenders and adaptive systems in general
 raise a number of questions which is outside the scope of this thesis.
 For example, user privacy is a big issue.
 Whenever we have a system that tries to learn the tastes, habits and
@@ -162,6 +164,8 @@ when using a recommender system.
 
 In addition to these general limitations, 
 the experiments have their own limiting factors.
+Some of these were discussed in the previous chapter, 
+but let us take a look at other important limitations.
 
 Hypothesis H1 was only tested against a limited number of standard recommenders.
 The key word is standard. These recommenders were not heavily customized
@@ -222,7 +226,8 @@ We have made two main contributions with this thesis:
 (1) described the latent subjectivity problem and
 (2) developed the technique of adaptive recommenders.
 
-(1) The latent subjectivity problem is one we think hinders
+\emph{(1) The latent subjectivity problem}
+is an issue we think hinders
 standard recommender systems reaching their full potential.
 As far as we know, this problem has not been described
 in the context of recommender systems.
@@ -246,7 +251,8 @@ chose the combination that performs best \emph{on average},
 with little concern to the uniqueness of items (and users).
 This is a comprehensive problem that may be discovered amongst many machine learning techniques.
 
-(2) Adaptive recommenders is our attempt to solve the latent subjectivity problem.
+\emph{(2) Adaptive recommenders}
+is our attempt to solve the latent subjectivity problem.
 As far as we know, this type of adaptive prediction aggregation has not been done before.
 Chapter \ref{chap:results} showed that an aggregation that combines predictions based
 on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.

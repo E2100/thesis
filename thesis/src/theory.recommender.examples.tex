@@ -8,7 +8,7 @@ a quick rundown of common approaches in recommender systems, that we will use in
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 \cite{Segaran2007} gives a good introduction to how RSs are used in practice.
 
-(1) \emph{Baseline ratings} are the simplest family of recommender systems.
+\emph{(1) Baseline ratings} are the simplest family of recommender systems.
 These methods compute predictions through varying types of averages of known data.
 The data is content-based, and used to compute heuristic predictions.
 While simple in nature, these methods are often helpful starting points for more complex systems, or as 
@@ -51,7 +51,7 @@ Here, $\hat{r}_{ui}$ is the estimated rating, $R_u$ is the items rated by user $
 and $\mathrm{\delta}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p.5]{Lemire2005}.
 
-(2) \emph{Neighborhood estimation} is at the core of many recommendation systems. 
+\emph{(2) Neighborhood estimation} is at the core of many recommendation systems. 
 This is the basic principle behind most collaborative filtering algorithms. 
 Unknown ratings are estimated by averaging the ratings of similar items or users, weighted by their similarity.
 Neighborhood-based approaches often work in two steps. First, a neighborhood if similar elements is computed.
@@ -127,7 +127,7 @@ Combinations of different types of neighborhoods are also possible.
 \cite{Ujjin} use a simple euclidean metric to gather a larger neighborhood, which is then refined using a \emph{genetic algorithm}.
 Another common way of computing neighborhoods is by reducing the dimensions of the ratings matrix, as we will now describe.
 
-(3) \emph{Dimensionality reduction} is an oft-used technique when creating recommender systems.
+\emph{(3) Dimensionality reduction} is an oft-used technique when creating recommender systems.
 The ratings matrix is factored into a set of lower dimension matrices, that can be used to approximate the original matrix.
 By reducing the noise in the ratings matrix, and keeping those ratings that contribute to global patterns,
 we can identify groups of users, items or combinations that have something in common.
@@ -223,7 +223,7 @@ discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
 
-(4) \emph{Network traversal recommenders} refers to estimating predictions by traversing a graph of users and items to provide recommendations.
+\emph{(4) Network traversal recommenders} refers to estimating predictions by traversing a graph of users and items to provide recommendations.
 The connections between nodes can be any type of relation that makes sense to the RS. Examples include linking item and user nodes
 based on purchases or explicit ratings, linking user nodes from asymmetrical (directed edges) symmetrical (undirected edges) relations,
 or linking items based on some similarity metric.

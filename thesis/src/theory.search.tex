@@ -200,7 +200,8 @@ we will explore a few different approaches to personalized search.
 (2) \emph{folksonomy-based personalization} and
 (3) \emph{social network search ranking}.
 
-(1) \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
+\emph{(1) Personalized topic-sensitive PageRank:}
+\citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
 to \emph{``generate more accurate rankings than with a single, generic PageRank vector''}. 
 They show how to create topic-specific PageRank vectors for a number of pre-set topics,
 creating many rankings per page, one per topic.
@@ -234,7 +235,8 @@ by using a Maximum-likelihood estimator.
 
 %Cube svd: \cite{Sun2005}
 
-(2) Web applications often have more information about users and items (documents, sites or articles) 
+\emph{(2) Folksonomy-based personalization:}
+Web applications often have more information about users and items (documents, sites or articles) 
 than simple ratings. One of these extra resources are tags, simple keywords assigned from users to items. 
 The collection of users, items, tags and user-based assignment of tags to resources is called a \emph{folksonomy}.
 
@@ -274,7 +276,8 @@ that folksonomy-based personalized search has great potential.
 If nothing else, this example shows how easily tags can be integrated
 to provide an individual searching experience.
 
-(3) \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
+\emph{(3) Social network search ranking:}
+\cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
 By re-ranking documents according to their relation to with individuals in the current user's social network,
 they arrived at a document ranking that ``significantly outperformed'' non-personalized social search \cite[p.1]{Carmel2009}.
 Note the qualifier ``social search''. Their project searches through social data within an enterprise, 

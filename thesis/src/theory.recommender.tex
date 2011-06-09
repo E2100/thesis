@@ -117,7 +117,7 @@ input directly by users, the RS should take into account the domain specific mea
 For example, in a system for rating movies, the jump between ratings 4-5 might not have the same significance as
 the jump from 2-3. However, this is a fact seldom mentioned in the literature. Most RSs 
 employ metrics that assume a normal distribution, and even the common
-evaluation measures such as the RMSE or MAE treat ordinal data as a continuous scale.
+evaluation measures such as the RMSE treat ordinal data as a continuous scale.
 We will get back to these problems in Chapters \ref{chap:results} \emph{\&} \ref{chap:discussion}. 
 % http://technocalifornia.blogspot.com/2011/04/recommender-systems-were-doing-it-all.html
 
@@ -126,7 +126,7 @@ We will get back to these problems in Chapters \ref{chap:results} \emph{\&} \ref
 
 The crucial part of any RS is how it predicts unknown ratings.
 Because of this, each method may be categorized based on certain dimensions of its predictive capabilities (see Table \ref{table:taxonomy}).
-In this thesis, we use a taxonomy where these dimensions are 
+In this thesis we will use a taxonomy where these dimensions are 
 (1) the available \emph{data}, 
 (2) the prediction \emph{method}, 
 (3) the model \emph{granularity}, 
@@ -149,12 +149,12 @@ In this thesis, we use a taxonomy where these dimensions are
   \label{table:taxonomy}
 \end{table}
 
-(1) The \emph{data} variable represents what data an RS uses to perform predictions. 
+\emph{(1) The data variable} represents what data an RS uses to perform predictions. 
 \emph{Content-Based} (CB) methods use only items, intra-item relations, and 
 an individual user's past history as predictive signals of future actions \cite[p.1]{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
 However, such methods may require a lot of interaction before reliable models can be created \cite[p.4]{Adomavicius2005}.
-The problem of having to do complex inference from little data, as it often is in content-based predictions,
+The problem of having to do complex inference from little data, as it often is in CB methods,
 similar to the \emph{sparsity problem}, is often called the \emph{cold start} or \emph{new user} problem. 
 This is closely related to the common AI problem of \emph{overfitting} data, 
 where the algorithms creates models that match the training data, 
@@ -169,8 +169,8 @@ where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p.2]{Adomavi
 The key observation is that similar users should have similar usage and action patterns. 
 By using data from more than one user, expansive models that rely on actual user preferences may be built. 
 These methods are especially useful when considering new users arriving in a system. 
-A central problem with collaborative methods is that the resulting model is not as individually tailored as one created through content-based prediction. 
-Collaborative models must be careful not to represent the \emph{average} user, but a single individual.
+A central problem with CF methods is that the resulting model is not as individually tailored as one created through CB methods. 
+CF models must be careful not to represent the \emph{average} user, but a single individual.
 
 Formally, when using a collaborative method, 
 the utility $p(u,i)$ of item $i$ for user $u$ is extrapolated from the known $p(u_x,i)$ where $u_x$ is a user similar to $u$
@@ -182,7 +182,7 @@ By combining content-based and collaborative methods,
 systems that properly handle predictions for new users and avoid too much generalization in the models can be achieved. 
 We will discuss hybrid aggregation systems later in this chapter.
 
-(2) The \emph{method} variable is another way to classify recommenders. Orthogonal to what data the method uses, this variable
+\emph{(2) The method variable} is another way to classify recommenders. Orthogonal to what data the method uses, this variable
 concerns \emph{how} the data is used.
 First, we have the \emph{model-based} approach, where the recommender system builds predictive models based on the known data. 
 Unseen items can then be fed into this model to compute its estimated utility score
@@ -193,7 +193,7 @@ The other category is the \emph{heuristic} or \emph{memory-based} approach \cite
 These methods use the raw data of items, users and ratings to directly estimate unknown utility values. 
 For example, recommending items similar to the ones already rated by computing the cosine similarity of their feature vectors is a heuristic approach.
 
-(3) The \emph{granularity} variable tells whether this approach creates models for the canonical user, stereotypical users or individual users. 
+\emph{(3) The granularity variable} tells whether this approach creates models for the canonical user, stereotypical users or individual users. 
 The canonical user is another term for the \emph{average} user, indicative of systems that adapt by seeing all users as a single entity. 
 Stereotypical systems look at groups of users. 
 For example, \cite{Rich1979} presented one of the first user modeling systems based on stereotypes, 
@@ -202,13 +202,13 @@ Here, a dialogue between the system and the user was performed to place the user
 Each stereotype has a set of \emph{facets} which is then used to match books and users.
 This created user models of \emph{typical} granularity, as opposed to common \emph{individual} approaches.
 
-(4) \emph{Temporality} refers to how volatile the gathered knowledge will be.
+\emph{(4) Temporality} refers to how volatile the gathered knowledge will be.
 While most RSs produce long term, relatively stable knowledge based on lasting user preference and taste, 
 some systems use fluctuating parameters such as the time of day, exact location and the current context to produce recommendations.
 For example, \cite{Horvitz} used clues from a user's calendar, camera and other sensors to determine the attentional state
 of the user before delivering personalized and contextual notifications.
 
-(5) The \emph{agents} variable signifies whether the knowledge gathering and presentation is implicit and opaque, 
+\emph{(5) The agents variable} signifies whether the knowledge gathering and presentation is implicit and opaque, 
 or explicit and requires dedicated user interaction. Explicit feedback through ratings is 
 common in movie, product or music rating services (e.g. \cite{Bell2007, Basu1998, Hotho}). 
 However, for other services such as personalized search,
