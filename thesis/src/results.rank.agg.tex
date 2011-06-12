@@ -134,9 +134,10 @@ in situations where the IR model is not able to properly rank the results.
 \input{table.rank.star}
 \afterpage{\clearpage}
 
-\subsection{Merging IR \& Recommender Scores}
+%\subsection{Merging IR \& Recommender Scores}
 
-\emph{(1) Multiple topics:} Let us start with a simple use case.
+\paragraph{(1) Searching Through Multiple topics} 
+Let us start with a simple use case.
 A user wishes to find movies about two separate topics, ranked by 
 query match and predicted ratings.
 This is a realistic use case, for example if a user is interested
@@ -165,7 +166,8 @@ In other words, we have achieved personalized search. The results
 from the IR method are re-ranked according to personal preferences.
 
 
-\emph{(2) Series of items:} Let us consider another use case.
+\paragraph{(2) Searching for Series of Items} 
+Let us consider another use case.
 A user wishes to see a movie in a certain series of movies,
 but does not know which one. In this case, the IR method can find all movies within this series,
 while the recommender systems ranks the result list according to the user's preferences.
@@ -181,9 +183,10 @@ the top ranked items are the ones that both match the query \emph{and}
 are probable good fits for the current user.
 
 
-\subsection{Constraining the Item Space}
+%\subsection{Constraining the Item Space}
 
-\emph{(3) Singular topic:} What happens when the IR weight is set to $0$?
+\paragraph{(3) Searching in a Singular Topic} 
+What happens when the IR weight is set to $0$?
 In this use case, the predicted ratings alone sort the final list.
 Consider the following use case.
 A user wishes to see a movie related to a certain topic, e.g. a city.
@@ -202,7 +205,7 @@ best suited to the current user. At the same time, each of these recommenders
 are used differently for items in the list, based on how well they have
 previously performed in this context.
 
-\emph{(4) Attribute search:} 
+\paragraph{(4) Attribute-Based Search}
 As we can see, ignoring the IR score gives us quite a different algorithm.
 Now, the search part is only performed to constrain the item-space worked
 on by the recommender systems.

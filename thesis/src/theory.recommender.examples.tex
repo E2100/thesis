@@ -2,12 +2,15 @@
 \label{subsec:recommender:examples}
 
 As our solution will combine different recommender systems, we need a short introduction to some of the approaches we will use.
-Let us take a closer look at (1) \emph{baseline ratings}, (2) \emph{neighborhood estimation}, (3) \emph{dimensionality reduction}, 
+This section takes a closer look at (1) \emph{baseline ratings}, (2) \emph{neighborhood estimation}, (3) \emph{dimensionality reduction}, 
 and (4) \emph{network traversal}. This is by no means an exhaustive list, but rather
-a quick rundown of common approaches in recommender systems, that we will use in the Chapter \ref{chap:methods}.
+a quick rundown of common approaches in recommender systems that we will use in the Chapter \ref{chap:methods}.
 See \cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} or \cite{Bjorkoy2010d} for a more comprehensive exploration of different types of recommenders.
 \cite{Segaran2007} gives a good introduction to how RSs are used in practice.
 
+\vspace{2em}
+
+\noindent
 \emph{(1) Baseline ratings} are the simplest family of recommender systems.
 These methods compute predictions through varying types of averages of known data.
 The data is content-based, and used to compute heuristic predictions.
@@ -51,11 +54,15 @@ Here, $\hat{r}_{ui}$ is the estimated rating, $R_u$ is the items rated by user $
 and $\mathrm{\delta}(i,j)$ is the average difference in ratings for items $i$ and $j$.
 While simplistic, Slope One is computationally effective and produces results comparable to more complex methods \cite[p.5]{Lemire2005}.
 
+\vspace{2em}
+
+\noindent
 \emph{(2) Neighborhood estimation} is at the core of many recommendation systems. 
 This is the basic principle behind most collaborative filtering algorithms. 
 Unknown ratings are estimated by averaging the ratings of similar items or users, weighted by their similarity.
-Neighborhood-based approaches often work in two steps. First, a neighborhood if similar elements is computed.
-second, the similarities and connections within this neighborhood is used to produce a prediction.
+Neighborhood-based approaches often work in two steps. First, a neighborhood of similar elements is computed.
+Second, the similarities and connections within this neighborhood is used to produce a 
+predicted relevance score.
 
 A common method for computing user similarity is the \emph{Pearson Correlation Coefficient} (PCC) \cite[p.11]{Segaran2007}.
 While simple, the PCC compares favorably to more complex approaches, and is often used as a benchmark 
@@ -127,6 +134,9 @@ Combinations of different types of neighborhoods are also possible.
 \cite{Ujjin} use a simple euclidean metric to gather a larger neighborhood, which is then refined using a \emph{genetic algorithm}.
 Another common way of computing neighborhoods is by reducing the dimensions of the ratings matrix, as we will now describe.
 
+\vspace{2em}
+
+\noindent
 \emph{(3) Dimensionality reduction} is an oft-used technique when creating recommender systems.
 The ratings matrix is factored into a set of lower dimension matrices, that can be used to approximate the original matrix.
 By reducing the noise in the ratings matrix, and keeping those ratings that contribute to global patterns,
@@ -185,9 +195,9 @@ These features are comparable to the mapping of terms to concepts in LSI.
 
 \begin{figure}[t]
   \includegraphics[width=\textwidth]{../graphics/compression}
-  \caption[SVD Image Compression]{
-    SVD Image Compression:
-    A variation of using SVD to compress an image, from \cite{Ranade2007}.
+  \caption[SVD-based Image Compression]{
+    SVD-Based Image Compression:
+    a variation of using SVD to compress an image, from \cite{Ranade2007}.
     The original image is on the left, and successive images use an increasing number of factors (2, 8 and 30) when performing compression.
     Figure adapted from \citet[p.4]{Ranade2007}.
   }
@@ -223,6 +233,9 @@ discovered by the automatic identification of patterns in the data.
 SVD is then an ingenious way of dealing with the commonly sparse ratings data, by identifying latent correlations and patterns in the data,
 which is exactly what we need to predict unknown ratings or connections.
 
+\vspace{2em}
+
+\noindent
 \emph{(4) Network traversal recommenders} refers to estimating predictions by traversing a graph of users and items to provide recommendations.
 The connections between nodes can be any type of relation that makes sense to the RS. Examples include linking item and user nodes
 based on purchases or explicit ratings, linking user nodes from asymmetrical (directed edges) symmetrical (undirected edges) relations,

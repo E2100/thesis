@@ -62,7 +62,7 @@ While multiple IR methods and corresponding error models is an interesting
 setting, we are most interested in using the IR method for constraining the Item-space considered by the recommender systems.
 As we shall see, this does not introduce many changes to our algorithms.
 
-The modeling phase for the recommender system stays the same, with one important change.
+The modeling phase for the recommender system stays almost the same, with one important change.
 As we are dealing with a search engine, we might not have an explicit ratings matrix to rely on.
 Most feedback we can gather from user initiated searches are from query logs.
 These logs show the current user, query, and the item that is finally selected after the query is performed.
@@ -127,6 +127,15 @@ and that it returns relevant items when given a query.
 \clearpage
 \subsection{Prediction Phase}
 
+The prediction phase is where adaptive rank aggregation differs most from adaptive prediction aggregation.
+Listing \ref{code:rank:prediction} gives the basic algorithm.
+As input, instead of one item, we have the entire set of items, and a query.
+We run the query and items through the IR model to get the constrained set of items ($results$).
+Each of the recommender methods is then run for the items in the results list.
+As before, the first for-loop can be performed in parallel.
+The calls to $Predict$ are independent of the other calls,
+allowing us to perform it as a $map$ operation.
+
 \begin{algorithm}[t]
   \begin{algorithmic}[1]
   \REQUIRE user: the current user
@@ -164,15 +173,6 @@ and that it returns relevant items when given a query.
   \caption[Adaptive Rank Aggregation]{Adaptive Rank Aggregation}
   \label{code:rank:prediction}
 \end{algorithm}
-
-The prediction phase is where adaptive rank aggregation differs most from adaptive prediction aggregation.
-Listing \ref{code:rank:prediction} gives the basic algorithm.
-As input, instead of one item, we have the entire set of items, and a query.
-We run the query and items through the IR model to get the constrained set of items ($results$).
-Each of the recommender methods is then run for the items in the results list.
-As before, the first for-loop can be performed in parallel.
-The calls to $Predict$ are independent of the other calls,
-allowing us to perform it as a $map$ operation.
 
 As before, the error estimations are normalized before converting them to weights.
 Since we are dealing with two dimensions of errors, for each item and method,

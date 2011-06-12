@@ -1,7 +1,7 @@
 \section{Recommender Systems}
 \label{sec:recommender}
 
-A recommender systems is a powerful and versatile approach to user modeling.
+Recommender systems are powerful and versatile approaches to user modeling.
 Whenever we wish to predict the relevance of an item to a user, recommender systems are the tools to use.
 Such systems are commonly used on the Web to provide a host of functionality,
 for example:
@@ -16,7 +16,7 @@ for example:
 
 Note that although we use the terms 
 \emph{ratings}, \emph{utility}, \emph{preference}, \emph{relevance} and \emph{connection strength} depending on the context, 
-they all refer to the same measure, depending on the context. 
+they all refer to the same measure. 
 The terms are measures for what a user thinks of an item, using the domain language of the application in question.
 %These measures can be explicitly provided by each user, or implicitly mined from observed user behavior.
 
@@ -45,7 +45,8 @@ $\mathrm{RS} = (I, U, R, F, M)$,
 where 
 $I$ is the set of items and 
 $U$ is the set of users.
-$R$ is the set of known ratings or utility, for example explicit preferences given by users for certain items, or connections in a social graph.
+$R$ is the set of known ratings or relevance scores, 
+for example explicit preferences given by users for certain items, or connections in a social graph.
 We have explicit ratings whenever the user provides their own ratings (e.g. product purchases),
 and implicit ratings when the system infers ratings from behavior (e.g. query log mining).
 $F$ is a framework for representing the items, users and ratings, for example with a graph or matrix. 
@@ -63,9 +64,9 @@ To predict the most relevant unrated item for a user, we simply find the item wi
   \forall u \in U,\text{ } i'_u = \arg\max_{i \in I} p(u,i)
 \end{eqsp}
 
-The utility function $p$ depends on the modeling method being used, the active user and the item in question. 
+The utility function $p$ depends on the modeling method being used. 
 The \emph{reason} for using a recommender system is that the utility is not defined for the entire $U \times I$ space, 
-that is, the system does not know the utility of every item for every user. 
+that is, the system does not know the utility of every item to every user. 
 The point of a recommender system is then to extrapolate $R$ to cover the entire user-item space. 
 To be able to rank items according to user preferences, 
 the system must be able to predict a user's reaction to items they have not yet explicitly or implicitly rated themselves. 
@@ -88,7 +89,7 @@ This matrix corresponds to the framework variable $F$ in our RS quintuple:
 
 Critically, these matrices are usually extremely sparse (most of the cells are empty). 
 While there may be a large number of users and items, each individual user
-only rates, connects to or uses a few of items.
+only rates, connects to or uses a few items.
 This is true for any scenario where users explicitly rate items, access items in search results,
 or connect to each other in a social network. 
 For example, in the seminal Netflix Challenge movie recommender dataset, almost 99\% of the potential
@@ -133,7 +134,7 @@ In this thesis we will use a taxonomy where these dimensions are
 (4) the knowledge \emph{temporality} and 
 (5) the knowledge gathering \emph{agents}.
 
-\begin{table}[b]
+\begin{table}[t]
   \begin{tabular*}{\textwidth}{ p{3cm} l @{\extracolsep{\fill}} }
     \toprule
     \emph{Variable} & \emph{Possible values} \\
@@ -154,19 +155,20 @@ In this thesis we will use a taxonomy where these dimensions are
 an individual user's past history as predictive signals of future actions \cite[p.1]{Pazzani2007}.
 By only considering the individual user in adapting an application, highly personal models can be created. 
 However, such methods may require a lot of interaction before reliable models can be created \cite[p.4]{Adomavicius2005}.
-The problem of having to do complex inference from little data, as it often is in CB methods,
-similar to the \emph{sparsity problem}, is often called the \emph{cold start} or \emph{new user} problem. 
-This is closely related to the common AI problem of \emph{overfitting} data, 
+The problem of having to do complex inference from sparse data, as it often is in CB methods,
+is called the \emph{cold start} or \emph{new user} problem. 
+This is closely related to the common AI problem of \emph{overfitting}, 
 where the algorithms creates models that match the training data, 
 but not the actual underlying relationships. 
-As with the sparsity problem, a lot of research looks at ways to overcome sparse data, i.e. achieving ``warmer'' cold start
+As with the sparsity problem, a lot of research looks at ways to overcome the new user problem, 
+i.e. achieving ``warmer'' cold start
 (e.g. \cite{Said2009}, \cite{Lilegraven2011}). 
 
 Formally, when using content-based predictions, the utility function $p(u,i)$ of user $u$ and item $i$ is extrapolated from $p(u,i_x)$, 
 where $i_x$ is an item similar to $i$ and $p(u,i_x)$ is known \cite[p.2]{Adomavicius2005}.
 
 \emph{Collaborative Filtering} (CF) methods build predictive models for users based on the actions of similar users \citep{Schafer2007}.
-The key observation is that similar users should have similar usage and action patterns. 
+The key observation is that similar users share a common taste in items. 
 By using data from more than one user, expansive models that rely on actual user preferences may be built. 
 These methods are especially useful when considering new users arriving in a system. 
 A central problem with CF methods is that the resulting model is not as individually tailored as one created through CB methods. 

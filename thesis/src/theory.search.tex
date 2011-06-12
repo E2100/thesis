@@ -14,8 +14,8 @@ the basics of \emph{information retrieval} (IR).
 an unstructured nature (usually text) that satisfies an information need
 from within large collections (usually stored on computers)''}.
 
-How does this relate to recommender systems? There is an important distinction:
-The purpose of \emph{recommending} is twofold. (1) To show the user items
+How does this relate to recommender systems? There is an important distinction.
+The purpose of \emph{recommendations} is twofold. (1) To show the user items
 similar to another item, and (2) to allow discovery of relevant items the user did not know exist.
 The purpose of \emph{search} is a bit different. To allow the user to find the location of
 information he or she knows (or hopes) exists.
@@ -150,7 +150,7 @@ which are sent to a \emph{rank aggregation function} which turns the accumulated
 into one coherent result. We will have more to say on rank aggregation in Section \ref{sec:aggregate}.  
 
 Signals can also be external to the collection or relational within the collection.
-PageRank \cite[p.4]{Bender2005} is perhaps the most known of the relational signals.
+PageRank \cite[p.4]{Bender2005} is perhaps the best known of the relational signals.
 The algorithm forms a probability distribution over web pages, ranking their perceived
 authority or importance according to a simple iterative estimation.
 Every web site is given its rank based on how many pages that link to it.
@@ -168,14 +168,15 @@ $B_x$ is the set of pages linking to page $x$, and $\mathrm{Links}(y)$ is the nu
 The first term distributes an equal PageRank score to all pages that have no outbound links, as $N$ is the total number of pages.
 This iterative algorithm is run until convergence inside a small delta.
 
-Let us now finally take a look \emph{personalized search}, which is one of the main uses of these signals.
+Let us now finally take a look \emph{personalized search}, 
+a field where such signals may play an important part.
 
 
 \subsection{Personalizing Search Results}
 
 Search engines, especially online search engines, face a huge challenge. 
-In addition to the wide range of websites, the ambiguity of language,
-the restricted nature of queries, comes the wildly differing users.
+In addition to the wide range of websites, the ambiguity of language and
+the restricted nature of queries comes the wildly differing users.
 Each user is unique. Even when considering one user, there might be many 
 different use cases, for example when using the same search engine at work and at home.
 Another identified problem is that users use search engines for navigation as well as pure search.
@@ -185,9 +186,10 @@ i.e. attempts to find information the user had accessed before.
 \emph{Personalized search} attempts to solve these problems by introducing individually adaptive search results. 
 These techniques are based on user modeling (as introduced in Section \ref{sec:modeling}),
 and attempts to build predictive models based on mined user preferences.
-Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000})
+Commonly, this is done through query log analysis (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000}).
 These are often model-based techniques with implicit knowledge gathering agents,
-that create individual, long-term user models (see Section \ref{sec:recommender}).
+that create individual, long-term user models 
+(these terms are described in Section \ref{sec:recommender}).
 
 There are two leading approaches to personalizing search results \cite[p.2]{Noll2007}. 
 The first method is query reformulation, where the actual user query is enhanced in some way, before traditional IR 
@@ -200,7 +202,8 @@ we will explore a few different approaches to personalized search.
 (2) \emph{folksonomy-based personalization} and
 (3) \emph{social network search ranking}.
 
-\emph{(1) Personalized topic-sensitive PageRank:}
+
+\paragraph{(1) Personalized topic-sensitive PageRank}
 \citet{Haveliwala2003} introduced a topic-sensitive PageRank algorithm, that they found
 to \emph{``generate more accurate rankings than with a single, generic PageRank vector''}. 
 They show how to create topic-specific PageRank vectors for a number of pre-set topics,
@@ -235,7 +238,8 @@ by using a Maximum-likelihood estimator.
 
 %Cube svd: \cite{Sun2005}
 
-\emph{(2) Folksonomy-based personalization:}
+
+\paragraph{(2) Folksonomy-based personalization}
 Web applications often have more information about users and items (documents, sites or articles) 
 than simple ratings. One of these extra resources are tags, simple keywords assigned from users to items. 
 The collection of users, items, tags and user-based assignment of tags to resources is called a \emph{folksonomy}.
@@ -276,7 +280,8 @@ that folksonomy-based personalized search has great potential.
 If nothing else, this example shows how easily tags can be integrated
 to provide an individual searching experience.
 
-\emph{(3) Social network search ranking:}
+
+\paragraph{(3) Social network search ranking}
 \cite{Carmel2009} developed a personalized search algorithm based on a user's \emph{social network}.
 By re-ranking documents according to their relation to with individuals in the current user's social network,
 they arrived at a document ranking that ``significantly outperformed'' non-personalized social search \cite[p.1]{Carmel2009}.
@@ -316,5 +321,5 @@ This approach, while simple, shows how social relations and social annotations c
 However, \citet[p.10]{Carmel2009} notes that the high quality data in their enterprise setting were important
 to achieve the improved results. 
 
-%\clearpage
+\clearpage
 

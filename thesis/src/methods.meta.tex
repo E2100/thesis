@@ -2,7 +2,7 @@
 \label{sec:usermetamodeling}
 
 \emph{Adaptive Recommenders} (AR) is our technique for combining many recommender systems
-in a way that is optimal for the each user and item.
+in a way that is optimal for each user and item.
 Given that we wish to predict the relevance of an item to a user,
 using many methods that consider disjoint data patterns,
 there are two important questions:
@@ -14,7 +14,7 @@ there are two important questions:
 
 Recommender systems traditionally only care about the first question.
 A single method is used to predict an unknown rating.
-Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
+Modern aggregation techniques goes one step further, and combine many methods using a generic (often weighted) combination.
 We wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
 
@@ -26,7 +26,8 @@ The first set creates standard prediction scores, and answers the first question
 The second set predicts how accurate each method will be for the current user and item,
 answering the second question.
 The interesting bit is that AR can use recommender systems for both these tasks, as we shall see.
-A system for adaptive recommenders is specified by a 6-tuple:
+
+A system for adaptive recommenders can be specified by the following 6-tuple:
 
 \begin{eqnarray*}
   \mathrm{AR} &=& (Items, Users, Ratings, Framework, Methods, Adapters)\\
@@ -39,8 +40,8 @@ As mentioned, items can be just about anything, for example documents, websites,
 The ratings can be explicitly provided by users, for example by rating movies,
 or they can be implicitly extracted from existing data, for example by mining query logs.
 
-We use the term \emph{rating} loosely --- equivalent terms include \emph{relevance}, \emph{utility},
-\emph{score} or \emph{connection strength}. In other words, this is a measure of what a user thinks of an item
+As before, we use the term \emph{rating} loosely. Equivalent terms include \emph{relevance}, \emph{utility},
+\emph{score} or \emph{connection strength}. This is still a measure of what a user thinks of an item
 in the current domain language. However, since \emph{rating} will match the case study we present in the next chapter,
 we will be using this term. 
 
@@ -50,7 +51,7 @@ The $Framework$ variable specifies how the data is represented.
 The two canonical ways of representing users, items and ratings are graphs and matrices (see Section \ref{sec:recommender}).
 We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit or implicit rating:
 
-\begin{eqsp}
+\begin{eqnarray*}
  R_{u,i} =
  \begin{pmatrix}
   r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
@@ -58,17 +59,15 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
   \vdots  & \vdots  & \ddots & \vdots  \\
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}.
-\end{eqsp}
-%
+\end{eqnarray*}
+
 As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
 with their own ways of estimating unknown ratings. 
 Each model $m \in M$ is used to compute independent and hopefully complimentary predictions.
 In our case, these methods are recommender systems.
 
-As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms,
-that consider different aspects in the data, for example users, items and ratings, as well as 
-sources such as intra-user connections in social networks or intra-item connections in information retrieval systems.
-Examples of such recommender systems include Slope One predictions, SVD factorization and Nearest Neighbor weighted predictions
+As demonstrated in Chapter \ref{chap:theory}, there are many different recommendation algorithms.
+Examples include Slope One predictions, SVD factorization and Nearest Neighbor weighted predictions
 (see Section \ref{subsec:recommender:examples}).
 These methods predict unknown connections between users and items based on some pattern in the data,
 for example user profile similarity, rating correlations or social connections.
@@ -76,14 +75,14 @@ As previously explained, to achieve the best possible combined result, we wish t
 i.e. complementary predictive parts of the data (see Section \ref{sec:aggregate}).
 
 The $Adapters$ part of our 6-tuple refers to the second level of recommender systems.
-In traditional prediction aggregation this is a simple linear function for combining the different predictions,
+In traditional prediction aggregation this step is a simple linear function for combining the different predictions,
 for example by pre-computing a set of weights, one per method.
 As found by \citet[p.6]{Bell2007} the accuracy of the combined predictor is more dependent on the 
 ability of the various predictors to expose different aspects of the data, than on 
 the individual accuracy of the predictors.
-As described in Section \ref{sec:aggregate}, multiple prediction results are normally 
-combined into a final singular result,
-based on a generalized combination found by minimizing some error across all users.
+As described in Section \ref{sec:aggregate}, 
+a set of recommender systems can be combined by estimating generalized weights
+that minimize the prediction error across all users.
 
 With adaptive recommenders, the $Adapters$ are themselves recommender systems 
 (see Figure \ref{fig:layer:comparison}).

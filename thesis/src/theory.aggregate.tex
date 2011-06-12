@@ -1,4 +1,4 @@
-\section{Aggregate Modeling}
+\section{Recommender Aggregation}
 \label{sec:aggregate}
 
 So far we have seen a lot of modeling methods, both for recommender systems (RS) and for personalized search (PS).
@@ -19,10 +19,13 @@ The reason for combining different approaches is that no one method can capture 
 For example, 
 \cite{Bell2007b} created a recommender system where the neighborhood- and SVD-based approaches complement each other.
 While the neighborhoods correspond to \emph{local effects} where similar users influence each other's predictions,
-the dimensionality reduction finds \emph{regional effects}, major structural patterns in the data \citep{Bell2007b}:
-\emph{``Both the local and the regional approaches, and in particular their combination through a unifying model, 
+the dimensionality reduction finds \emph{regional effects}, i.e. major structural patterns in the data \citep{Bell2007b}:
+
+\begin{blockquote}
+``Both the local and the regional approaches, and in particular their combination through a unifying model, 
 compare favorably with other approaches and deliver substantially better results than the 
-commercial Netflix Cinematch recommender system [...].''}
+commercial Netflix Cinematch recommender system [...].'' 
+\end{blockquote}
 
 An interesting question is whether or not all hybrid recommenders,
 that combine content-based and collaborative methods, are aggregators. 
@@ -44,16 +47,14 @@ Other methods merge the methods themselves into one implementation that uses the
 However, without being to pedantic, these can all be seen as aggregations. 
 In each case, there are two main use cases for recommender aggregation \cite{Liu2007}: 
 
-\begin{enumerate}
-  \item Rank (or \emph{order-based}) aggregation (RA) lets a set of methods
+(1) Rank (or \emph{order-based}) aggregation (RA) lets a set of methods
   produce a sorted list of recommendations or search results. These lists are then combined
   into one final list, through some aggregation method (see \cite{Dwork2001} or \cite{Klementiev2008}).
   These methods only require the resulting list of items from each method \citet[p.2]{Aslam2001}.
 
-  \item Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
+(2) Prediction (or \emph{score-based}) aggregation (PA) works on the item- or user-level by combining predicted scores
   one-by-one, creating an aggregated result for each element that should be evaluated.
   These methods require the actual prediction scores for any item from the recommender methods \cite[p.2]{Aslam2001}.
-\end{enumerate}
 
 \subsection{Rank Aggregation}
 \label{sec:theory:rank}
@@ -130,12 +131,12 @@ showing that even fairly simple combinations have merit.
 
 Early approaches to recommender systems experimented with aggregating content-based and collaborative approaches.
 \cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
-Collaborative filtering (CF) methods have problems rating items for new users, radically different users or when dealing with very sparse data.
-Content-based (CB) methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
+CF methods have problems rating items for new users, radically different users or when dealing with very sparse data.
+CB methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
 knowledge of other users in the system --- knowledge that out-performs simple content analysis.
 In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
 
-Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} (EM) \cite{Dietterich2000}.
+Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} \cite{Dietterich2000}.
 While most often used to combine classifiers that classify items with discrete labels,
 these methods are also used for aggregating numerical values (see the numerical parts of \cite{Breiman1996}).
 Approaches include \emph{bootstrap aggregation} (bagging) and \emph{boosting} 
