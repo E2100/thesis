@@ -3,10 +3,10 @@ require 'experiments'
 # Chose which disjoint subsets of movielens to run the experiment on.
 # Five subsets (u1 to u5) are available.
 datasets = {
-  #d1: 'u1',
-  #d2: 'u2',
-  #d3: 'u3',
-  #d4: 'u4',
+  d1: 'u1',
+  d2: 'u2',
+  d3: 'u3',
+  d4: 'u4',
   d5: 'u5'
 }
 
