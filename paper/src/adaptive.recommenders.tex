@@ -12,10 +12,13 @@ we have two important questions:
   \item How accurate will each of these predictions be?
 \end{enumerate*}
 
-Recommender systems traditionally only care about the first question.
-A single method is used to predict an unknown rating.
-Modern aggregation techniques goes one step further, and combines many methods using a generic (often weighted) combination.
-We wish to make the aggregation \emph{adaptive},
+The first generation of recommender systems were only interested in the first question,
+and used a single method to predict an unknown rating.
+Modern aggregation techniques look at both questions by combining multiple methods,
+often by an optimal generalized weighting scheme.
+For example, each combined recommender system may be weighted in a way that results in the 
+lowest average error across all users and items.
+In this paper, we wish to make the aggregation \emph{adaptive},
 so that the aggregation itself depends on which user and which item we are considering.
 
 Formally, we define adaptive recommenders as \emph{adapting a set of recommender systems
@@ -33,9 +36,10 @@ $\mathrm{AR} = (I,U,R,F,M,A)$.
 We have sets of $Users$ ($U$) and $Items$ ($I$), 
 and a set of $Ratings$ ($R$).
 Any user $u \in U$ can produce a rating $r \in R$ of an item $i \in I$.
-Items can be just about anything, for example documents, websites, movies, events, or indeed, other users.
+$r_{u,i}$ then refers to the rating of item $i$ by user $u$.
+As mentioned, items can be just about anything, for example documents, websites, movies, events, or indeed, other users.
 The ratings can be explicitly provided by users, for example by rating movies,
-or they can be mined from existing data, for example by mining query logs
+or they can be mined from existing data, for example by using search query logs
 (e.g. \cite{Liu2002, Sugiyama2004, Shen2005, Speretta2000}).
 
 We use the term \emph{rating} loosely --- equivalent terms include \emph{relevance}, \emph{utility},
@@ -48,7 +52,7 @@ The two canonical ways of representing users, items and ratings are graphs and m
 (see \cite{Mirza2003}).
 We shall use a matrix, where the first dimension corresponds to users, the second to items, and each populated cell is an explicit or implicit rating:
 
-\begin{equation*}
+\begin{equation}
  R_{u,i} =
  \begin{pmatrix}
   r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
@@ -56,7 +60,7 @@ We shall use a matrix, where the first dimension corresponds to users, the secon
   \vdots  & \vdots  & \ddots & \vdots  \\
   r_{u,1} & r_{u,2} & \cdots & r_{u,i}
  \end{pmatrix}.
-\end{equation*}
+\end{equation}
 
 As we wish to leverage disjoint data patterns, we have a set of modeling $Methods$, 
 with their own ways of estimating unknown ratings. 
@@ -103,9 +107,9 @@ The simplest generalized way of prediction aggregation is to take the average of
 by the different methods (e.g. \cite[p.3]{Aslam2001}).
 Many aggregators attempt to weigh each method differently (e.g. \cite{Claypool1999}):
 
-\begin{eqnarray*}
+\begin{eqnarray}
   \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i).
-\end{eqnarray*}
+\end{eqnarray}
 
 Here, $w_m$ is the weight applied to modeling method $m$. 
 These weights fall in the range $[0,1]$ and sum up to $1$.
@@ -121,9 +125,9 @@ If we wish each weight to be combination-specific, then pre-computing weights fo
 We would have to compute a weight for every method for all possible ratings.
 In other words, these adaptive weights also have to be estimated, just as the ratings themselves:
 
-\begin{eqnarray*}
+\begin{eqnarray}
   \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i).
-\end{eqnarray*}
+\end{eqnarray}
 
 Here, $p_w(m,u,i)$ is the predicted optimal weight for method $m$ when applied to user $u$ and item $i$.
 Adaptive recommenders is one way to estimating these weights, i.e. one way to implement $p_w$.
@@ -139,7 +143,7 @@ If we predict the error of a recommender system for a user and an item,
 we have also predicted its accuracy.
 To achieve this, we create an \emph{error matrix}:
 
-\begin{equation*}
+\begin{equation}
  E_{u,i} =
  \begin{pmatrix}
     e_{1,1} & e_{1,2} & \cdots & e_{1,i} \\
@@ -147,7 +151,7 @@ To achieve this, we create an \emph{error matrix}:
     \vdots  & \vdots  & \ddots & \vdots  \\
     e_{u,1} & e_{u,2} & \cdots & e_{u,i}
  \end{pmatrix}
-\end{equation*}
+\end{equation}
 
 Creating error matrices for the modeling methods is done by splitting the ratings data in two,
 the first set can be used for the actual training, and the second
@@ -157,11 +161,11 @@ Every standard modeling method produces an error matrix where some cells have va
 A value in this matrix corresponds to the prediction error for a combination of a user and an item.
 Each modeling method is trained with a part of the ratings data.
 The error matrix is populated from the rest of the data,
-by computing the error of all known rating the method was not trained for:
+by computing the error of all known ratings the method was not trained on:
 
-\begin{eqnarray*}
+\begin{eqnarray}
   \forall (u,i,r) \in (d_e - d_m): E(m)_{u,i} = |r - p(m,u,i)|.
-\end{eqnarray*}
+\end{eqnarray}
 
 Here, $D$ is the current dataset, and
 $d_m$ and $d_e$ are subsets of $D$.
@@ -200,13 +204,24 @@ First, the method helps create disjoint predictors,
 since each predictor is only trained (or specialized for) a subset of the available data.
 Second, it allows us to easily train the underlying modeling methods without any complex partitioning of the data.
 
+The reason for disjoint predictors is explained by \cite[p.6]{Bell2007b}:
+\emph{"We strongly believe that the success of an ensemble approach depends on the ability of its various predictors 
+to expose different, complementing aspects of the data. 
+Experience shows that this is very different from optimizing the accuracy of each individual predictor. 
+Quite frequently we have found that the more accurate predictors are less useful within the full blend."}.
+In other words, we need predictors that look at different aspects of the data, which
+can be achieved through bagging, by training each predictor on a random subset of the available data.
+As shown by \cite[p.6]{Bell2007b}, the performance of the combined recommenders
+is often not dependent on their individual accuracy, but rather by their
+skill at predicting ratings for different parts of the entire dataset.
+
 The error models are trained using standard recommender systems.
-After all, the expected input and output is the same.
+After all, the expected input and output are the same.
 We have two dimensions, with a sparse set of known connections,
 and wish to predict unknown connections from this data.
 The result is a set of modeling methods
 that can predict the error of a recommender system
-when its used on a particular user and item combination.
+when it is used on a particular user and item combination.
 
 What will happen when we train a recommender system with the error matrix?
 First of all, the errors will be on the same scale as the initial ratings.
@@ -229,17 +244,45 @@ In other words, the same capabilities that makes recommender systems work well
 on the ratings matrix, will also make them work well on the error matrix.
 The properties we need for predicting ratings
 are the same as those needed to predict accuracy.
+However, the weaknesses of the ratings matrix are also carried over to the error matrix.
+As with the ratings matrix, the error matrix is a sparse matrix with weaknesses such as 
+biased users and items, concept drift and a varying amount of noise.
+We face the same classic problems such as the cold start and
+average user problems.
+The adaptive recommenders should be able to counter these weaknesses, as 
+they are they same problems they face when computing predictions based on the ratings matrix.
+There may exist unique challenges when using an error matrix,
+but as our scope is limited, we will not examine these possible weaknesses in detail.
 
 Of course, some recommender systems will work better than others for the adaptive layer.
 Most often we are seeking global patterns in the data.
 We are looking for groups of users or items (or both) that suite some 
 recommenders especially well, or that some recommenders will not work for.
-SVD-based recommenders is one type of recommender systems that can be used for this purpose.
+SVD-based recommenders are one type of recommender systems that can be used for this purpose.
 By reducing the method-error space into an error category space,
 we can identify how well a set of groups suite each available method.
 We will return to this when testing the performance
 of our approach in Section \ref{sec:results}.
 
+
+\begin{figure*}[!t]
+\normalsize
+\begin{eqnarray}
+  \label{eq:adaptive}
+  \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - 
+  \frac{
+    p(m_{e},u,i)
+  }{
+    error(u,i)
+  }) \times p(m_{r},u,i)
+  \quad
+  \text{where}
+  \quad
+  error(u,i) = \sum_{m_e \in M} p(m_e,u,i) 
+\end{eqnarray}
+\hrulefill
+\vspace*{4pt}
+\end{figure*}
 
 \subsection{Prediction Phase}
 
@@ -260,25 +303,6 @@ We can now express the prediction phase of adaptive recommenders as an equation.
 Each rating/relevance prediction is weighted by its predicted accuracy,
 conditioned on the current user and item,
 as seen in Eq. \ref{eq:adaptive}.
-
-\begin{figure*}[!t]
-\normalsize
-\begin{eqnarray}
-  \label{eq:adaptive}
-  \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - 
-  \frac{
-    p(m_{e},u,i)
-  }{
-    error(u,i)
-  }) \times p(m_{r},u,i)
-  \quad
-  \text{where}
-  \quad
-  error(u,i) = \sum_{m_e \in M} p(m_e,u,i) 
-\end{eqnarray}
-\hrulefill
-\vspace*{4pt}
-\end{figure*}
 
 In Eq. \ref{eq:adaptive}, each recommender method has two corresponding models:
 $m_r$ is the ratings model, used to predict ratings, and
@@ -301,7 +325,7 @@ A set of secondary recommenders is used to adapt a set of standard
 recommenders to individual users and items.
 
 It is also important to note that the types of recommenders used for the adaptive layer
-is independent of the basic recommenders.
+are independent of the basic recommenders.
 The adaptive recommender need only predicted ratings from the basic recommenders,
 and does not care which algorithm it employs.
 When making predictions, the calculations in the methods layer and adaptive layer

@@ -33,7 +33,7 @@ unreasonable effectiveness of data,
 by combining multiple recommender systems, that each predict relevance in various ways.
 By considering different aspects of users and items when making predictions,
 the methods provide quite complex predictions that rely on much evidence.
-For example, Bell et al. took this approach its logical conclusion in \cite{Bell2007}, by 
+For example, Bell et al. took this approach its logical conclusion in \cite{Bell2007} by 
 combining 107 different recommender systems when winning the 
 Netflix movie recommender challenge
 (see \cite{Linden2009}).
@@ -61,9 +61,9 @@ when an algorithm is selected for use in a recommender system,
 there is a concious decision of which predictive data pattern to use.
 Before any user modeling is performed, the researcher or developer selects
 one or more methods that is thought to best model every user and item in the system.
-While the methods themselves may perform well, their selection
-reflects how whoever created the system assumes how each user
-can and \emph{should} be modeled. This underlying subjectivity is not desirable.
+This selection reflects how the researcher or developer assumes
+how each user and item \emph{should} be modeled.
+This underlying subjectivity is not desirable.
 We call this the \emph{latent subjectivity problem}
 (see \cite[p.33]{Bjorkoy2011}).
 
@@ -103,6 +103,10 @@ This adaptive selection has an important consequence.
 If each algorithm is contextually used based on how well it performs in the current context,
 any possibly useful recommender algorithm suddenly becomes a worthy addition.
 
+This paper attempts to make two contributions.
+First, we explain the \emph{latent subjectivity problem},
+and describe how an extra layer of abstraction can help solve this issue.
+Second, we develop and test one type of \emph{adaptive recommenders}
+in an effort to measure the performance of such a system.
 As far as we know, such adaptive prediction aggregation has not been done before.
-In this paper, we explore the question of whether or not
-adaptive recommenders can outperform traditional approaches.
+

@@ -8,8 +8,10 @@
     Lower values indicate better results.
     Bold values indicate the best result in a column.
     S refers to singular methods, and A to aggregation methods.
-    (b) Statistics for the methods. 
+    (b) Statistics for the methods.
+    The \emph{mean} values are macro-averaged measures for each method. 
     $\sigma$ refers to the standard deviation of each method across the subsets.
+    $\Delta$ shows the increase in mean performance of each method compared to the next best method.
   }
   \setlength{\extrarowheight}{0.2em}
   \vspace{0.5em}
@@ -44,23 +46,23 @@
 
   \vspace{0.4em}
 
-  \begin{tabular*}{0.47\textwidth}{ l p{2cm} l l l l }
+  \begin{tabular*}{0.47\textwidth}{ l p{1.8cm} l l l l l }
     \hline
-    { } & method & min & max & mean & $\sigma$ \\
+    { } & method & min & max & mean & $\sigma$ & $\Delta$ \\
     \hline
-    S & svd1          & 1.1045	& 1.2389	& 1.1441	& 0.2197 \\
-    S & svd2          & 1.1260	& 1.2630	& 1.1605	& 0.2277 \\
-    S & svd3          & 0.9797	& 1.0061	& 0.9865	& 0.0991 \\
-    S & svd4          & 0.9798	& 1.0040	& 0.9873	& \textbf{0.0924} \\
-    S & slope\_one    & 1.0393	& 1.1919	& 1.0756	& 0.2415 \\
-    S & item\_avg     & 0.9662	& 1.0713	& 0.9895	& 0.2023 \\
-    S & baseline       & 0.9415	& 1.0698	& 0.9738	& 0.2196 \\
-    S & cosine   	    & 0.9382	& 1.1101	& 0.9754	& 0.2595 \\
-    S & knn       	  & 1.1435	& 1.4850	& 1.2467	& 0.3487 \\
+    S & knn       	  & 1.1435	& 1.4850	& 1.2467	& 0.3487 & - \\
+    S & svd2          & 1.1260	& 1.2630	& 1.1605	& 0.2277 & 6.9\% \\
+    S & svd1          & 1.1045	& 1.2389	& 1.1441	& 0.2197 & 1.4\% \\
+    S & slope\_one    & 1.0393	& 1.1919	& 1.0756	& 0.2415 & 5.9\% \\
+    S & item\_avg     & 0.9662	& 1.0713	& 0.9895	& 0.2023 & 8.0\% \\
+    S & svd4          & 0.9798	& 1.0040	& 0.9873	& \textbf{0.0924} & 2.2\% \\
+    S & svd3          & 0.9797	& 1.0061	& 0.9865	& 0.0991 & 0.1\% \\
+    S & cosine   	    & 0.9382	& 1.1101	& 0.9754	& 0.2595 & 1.1\% \\
+    S & baseline       & 0.9415	& 1.0698	& 0.9738	& 0.2196 & 1.6\% \\
     \hline            
-    A & median    	  & 0.8855	& 0.9865	& 0.9065	& 0.2005 \\
-    A & average    	  & 0.8519	& 0.9900	& 0.8801	& 0.2344 \\
-    A & adaptive       & \textbf{0.7993}	& \textbf{0.9324}	& \textbf{0.8352}	& 0.2225 \\
+    A & median    	  & 0.8855	& 0.9865	& 0.9065	& 0.2005 & 6.9\% \\
+    A & average    	  & 0.8519	& 0.9900	& 0.8801	& 0.2344 & 2.9\% \\
+    A & adaptive       & \textbf{0.7993}	& \textbf{0.9324}	& \textbf{0.8352}	& 0.2225 & 5.1\% \\
     \hline
   \end{tabular*}
   \label{table:results:e1}

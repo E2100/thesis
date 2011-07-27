@@ -2,10 +2,10 @@
 \label{sec:discussion}
 
 We have made two main contributions with this paper:
-(1) described the latent subjectivity problem and
-(2) developed the technique of adaptive recommenders.
+(1) we have described the latent subjectivity problem and
+(2) we have developed the technique of adaptive recommenders.
 
-(1) The latent subjectivity problem is one we think hinders
+\textbf{The latent subjectivity problem} is one we think hinders
 standard recommender systems reaching their full potential.
 As far as we know, this problem has not been described
 in the context of recommender systems.
@@ -19,12 +19,12 @@ This underlying subjectivity leads to a mismatch between the notions
 of whoever developed the systems, and the users and items of the service.
 
 Averaged or generalized weighted approaches will always
-chose the combination that performs best \emph{on average},
+choose the combination that performs best \emph{on average},
 with little concern to the uniqueness of items (and users).
 In other words, this is a comprehensive problem
 that may be discovered amongst many machine learning techniques.
 
-(2) Adaptive recommenders is our attempt to solve the latent subjectivity problem.
+\textbf{Adaptive recommenders} is our attempt to solve the latent subjectivity problem.
 As far as we know, this type of adaptive prediction aggregation has not been done before.
 Section \ref{sec:results} showed that an aggregation that combines predictions based
 on estimated accuracy can outperform both standard recommenders and simple aggregation approaches.
@@ -32,7 +32,7 @@ Our technique is strengthened by the fact that standard recommender algorithms
 are used for the accuracy estimations.
 This is the core insight of this paper.
 \emph{By creating error models for the recommenders, we can predict
-theur accuracy for each user/item combination.
+their accuracy for each user/item combination.
 These predictions can then be used to weigh the combined algorithms accordingly.}
 
 We believe there are greater opportunities in systems where there  are even more diverging
@@ -62,6 +62,14 @@ and look at similar patterns in the data,
 generalized aggregation methods might be more applicable.
 Clearly, the performance gains in our experiments
 are not substantial enough to declare anything without reservation.
+
+The computational cost of our proposed system would be about twice the cost of the systems we compare ourself to.
+Modern recommenders already employ multiple methods, and our system would add another layer
+of recommenders, doubling the number of recommender algorithms and amount of required computation.
+However, the scalability of using multiple recommenders is not a new problem, and solutions do exist.
+For instance, many of the methods, including our SVD-based aggregation recommenders allow for offline 
+computation of the matrix factors, allowing for scalable predictions.
+
 While we believe this technique has potential,
 without real-world success stories, it is hard
 to suggest that our method is particularly better
@@ -75,6 +83,12 @@ of applicable data, and the number of ways these results many be
 evaluated, the results must be seen for what they are,
 that is, initial and preliminary explorations of a new technique
 that has yet to be proved useful in the real world.
+
+More specifically, we would like to perform the same experiments on the NetFlix dataset,
+to be able to compare our performance to \cite{Bell2007}
+(and other modern approaches that utilize this dataset).
+However, this dataset is no longer available from NetFlix and 
+redistribution seems to be prohibited.
 
 \emph{(3) Usefulness:}
 When considering the additional complexity of our approach,
@@ -113,6 +127,10 @@ and methods customized to the problem at hand.
 In an actual system, the adaptive recommenders should be tested
 against carefully selected standard recommenders,
 optimized for the current domain.
+Other future work includes looking at how the error matrix
+is influenced by common recommender system problems,
+such as the cold start and average user problems.
+
 
 Similarly, our method was only tested against simple aggregators.
 Many more complex aggregations are possible,

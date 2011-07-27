@@ -1,5 +1,4 @@
-\section{Experiments \emph{\&} Results}
-\label{sec:results}
+\section{Experimental Setup}
 
 We chose the MovieLens dataset\footnote{
 See http://www.grouplens.org/node/73 --- accessed 10.05.2011}
@@ -9,9 +8,25 @@ This dataset is often used to test the performance of recommender systems
 \cite[p.9]{Alshamri2008}, \cite[p.4]{Lemire2005}, \cite[p.1]{Adomavicius2005} and \cite[p.2]{Herlocker2004}).
 It consists of a set of users, a set of movies, and a set of movie ratings from users,
 on the scale $1$ through $5$.
-We chose a subset of the entire MovieLens collection, with 100,000 ratings from 943 users on 1,682 movies.
+The MovieLens collection comes in multiple formats and sizes,
+and we chose a subset of the entire MovieLens collection, with 100,000 ratings from 943 users on 1,682 movies.
+
+The reason for using a subset was twofold.
+First, using the entire set did not result in 
+significant differences in performance (see \cite[p.63]{Bjorkoy2011}
+for an experiment using the entire MovieLens dataset).
+Second, while we maintain that our approach is scalable to real-world systems,
+measuring performance for our experiments requires 
+multiple computations of the different methods \emph{and}
+computing predicted ratings for every user/item permutation.
+In other words, the computational complexity of our experiments
+is far higher than that of a real recommender system using this approach.
+We shall discuss this further in Section \ref{sec:discussion}.
+
 The dataset was split into disjoint sets
 ($D = \{ d_1, ..., d_5 \}$) to perform five-fold cross-validation.
+Each of these five disjoint sets were then randomly split into
+two sets, also disjoint, for training and testing each method.
 
 To evaluate how our model performs during prediction aggregation, 
 we need a measure for computing the total error across a large number of predictions.
@@ -23,14 +38,14 @@ of our adaptive prediction aggregation algorithms.
 The RMSE of a set of estimations $\hat{R}$, 
 compared the correct rating values $R$, is defined as
 
-\begin{equation*}
-  \mathrm{RMSE}(\hat{R},R) = \sqrt{\mathrm{E}((\hat{R} - R)^2)}
+\begin{equation}
+  \mathrm{RMSE}(\hat{R},R)
   = \sqrt{\frac{
       \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
     }{
       n
     }},
-\end{equation*}
+\end{equation}
 
 where $n$ is the total number of predictions.
 The RMSE combines a set of errors into one single combined error.
@@ -101,10 +116,16 @@ where users are mapped to higher-level \emph{taste} categories
 The factorizers refers to algorithms used to factorize the ratings matrix
 (e.g. the ALSWR factorizer \cite{Zhou2008}).
 
-The Slope One and baseline algorithms look at average
+The Slope One, item\_average and baseline algorithms look at average
 ratings for items and from users, and use these to predict ratings.
-These are simple algorithms that often perform as well
-as more complex approaches.
+Note that these are not simple, generalized averages, but averages
+based on solving a least squares equation for creating user and item
+\emph{baseline ratings}, not average ratings.
+This is based on the technique of \cite[p.2]{Koren2008}.
+This computes predicted average ratings that are far superior
+to simple average ratings. 
+As we shall see, these algorithms perform well compared
+to other approaches (see also \cite[p.15]{Bjorkoy2011}). 
 
 The cosine similarity algorithm looks for items that are rated
 similarly by the same users, and infers item similarity from this measure.
@@ -172,11 +193,15 @@ we are currently only interested in how they perform compared to each other.
 
 As with the basic recommenders, the same SVD recommender configuration was used 
 for the adaptive layer in the experiment.
-We chose to use en EM-factorizer to perform the actual decomposition,
+We chose to use an EM-factorizer to perform the actual decomposition,
 consisting of 20 features. The decomposition was performed by 20 iterations.
+We chose the EM algorithm instead of the previously mentioned ALSWR approach,
+as this was shown to perform better on the MovieLens dataset
+(as seen in Table \ref{table:results:e1}).
+We will discuss our choice further in Section \ref{sec:discussion}.
 
-
-\subsection{Results}
+\section{Results}
+\label{sec:results}
 
 Table \ref{table:results:e1} gives the resulting RMSE values when our algorithm is used with the MovieLens dataset.
 A cell corresponds to the RMSE values for a dataset and a recommender system.
@@ -210,12 +235,33 @@ are shown in Fig. \ref{plot:movielens}.
 \input{plot.movielens}
 %\input{plot.sigma}
 
-Let us take a look at the standard deviation measures from the different methods.
+It might seem counter-intuitive that the "baseline" and "item\_avg" methods outperform
+the SVD-, KNN- and PCC-based methods. However, as previously mentioned, these methods are not 
+as simple as their names might suggest. Computing these ratings are as complex
+as the other methods, as averages are computed as a least squares problem in a way that
+removes noise and tries to find baselines that best fit the available data,
+while taking the problems of overfitting and user/item bias into account.
+In addition, these averages are combined per user and item, resulting
+in quite capable rating estimations (see \cite[p.2]{Koren2008}).
+
+However, as their rivaling methods are most often found to still outperform these baseline methods,
+their performance is a curious result. This is most likely related
+to the fact that none of the methods were particularly tweaked and optimized for 
+the data at hand. If more time had been spent optimizing the SVD-based recommenders,
+their performance might have been different. 
+As this optimization is outside the scope of our paper, we will not attempt to explain this result.
+In addition, as previously mentioned, 
+the performance of individual recommenders are not indicative of their
+contribution to an aggregation \cite[p.6]{Bell2007b}.
+Additional optimization of the more complex methods could possibly be counter-productive
+to our goal of comparing traditional aggregators to adaptive aggregation.
+
+Let us now take a look at the standard deviation measures from the different methods.
 As seen in Fig. \ref{plot:movielens}, 
 most of the methods, including the adaptive models,
 exhibit quite a lot of variation in their results.
 If these variations occurred as a result of unstable
-predictions of the same dataset, this would be a substantial problem,
+predictions on the same dataset, this would be a substantial problem,
 resulting in unreliable predictions.
 However, the standard deviation is mostly caused by the differing
 performance across the varying datasets.
