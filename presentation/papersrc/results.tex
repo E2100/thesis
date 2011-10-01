@@ -1,0 +1,286 @@
+\section{Experimental Setup}
+
+We chose the MovieLens dataset\footnote{
+See http://www.grouplens.org/node/73 --- accessed 10.05.2011}
+to test the performance of our system.
+This dataset is often used to test the performance of recommender systems
+(as described in 
+\cite[p.9]{Alshamri2008}, \cite[p.4]{Lemire2005}, \cite[p.1]{Adomavicius2005} and \cite[p.2]{Herlocker2004}).
+It consists of a set of users, a set of movies, and a set of movie ratings from users,
+on the scale $1$ through $5$.
+The MovieLens collection comes in multiple formats and sizes,
+and we chose a subset of the entire MovieLens collection, with 100,000 ratings from 943 users on 1,682 movies.
+
+The reason for using a subset was twofold.
+First, using the entire set did not result in 
+significant differences in performance (see \cite[p.63]{Bjorkoy2011}
+for an experiment using the entire MovieLens dataset).
+Second, while we maintain that our approach is scalable to real-world systems,
+measuring performance for our experiments requires 
+multiple computations of the different methods \emph{and}
+computing predicted ratings for every user/item permutation.
+In other words, the computational complexity of our experiments
+is far higher than that of a real recommender system using this approach.
+We shall discuss this further in Section \ref{sec:discussion}.
+
+The dataset was split into disjoint sets
+($D = \{ d_1, ..., d_5 \}$) to perform five-fold cross-validation.
+Each of these five disjoint sets were then randomly split into
+two sets, also disjoint, for training and testing each method.
+
+To evaluate how our model performs during prediction aggregation, 
+we need a measure for computing the total error across a large number of predictions.
+The canonical measure for estimating the error of a recommender system
+is the \emph{Root mean squared error} (RMSE) measure
+(for example in \cite[p.17]{Herlocker2004}, \cite[p.13]{Adomavicius2005} and \cite[p.6]{Bell2007}).
+We use this measure to estimate the performance
+of our adaptive prediction aggregation algorithms.
+The RMSE of a set of estimations $\hat{R}$, 
+compared the correct rating values $R$, is defined as
+
+\begin{equation}
+  \mathrm{RMSE}(\hat{R},R)
+  = \sqrt{\frac{
+      \sum_{i=1}^{n} (\hat{R}_i - R_i)^2
+    }{
+      n
+    }},
+\end{equation}
+
+where $n$ is the total number of predictions.
+The RMSE combines a set of errors into one single combined error.
+A beneficial feature of the RMSE is that the resulting error 
+will be on the same scale as the estimations. For example,
+if we are predicting values on the scale $1-5$, the computed error
+will be on this scale as well. In this case, an error of $1$
+would then say that we are on average $1$ point away from the true 
+ratings on our $1-5$ scale.
+
+In addition to the dataset, we need a collection of recommender systems.
+Standard recommenders will be used for both the basic predictions,
+and the accuracy estimations,
+as described in Section \ref{sec:adaptive}.
+
+Naturally, we need a large number of different recommenders, preferably ones that consider
+disjoint patterns in the data. Table \ref{table:results:methods}
+gives a short overview of the recommender systems we shall employ.
+Each experiment will use every recommender in this table.
+The following section gives a short introduction to these systems.
+
+\subsection{Basic Recommenders}
+
+\begin{table}
+  \caption[Adaptive Modeling Methods]{
+    adaptive modeling methods: A short overview of the recommender methods
+    used in our experiment. The first column refers to the type of recommender,
+    \emph{S} for standard systems and \emph{A} for aggregation methods.
+    Every recommender is used in every experiment. 
+  }
+  \setlength{\extrarowheight}{0.2em}
+  \vspace{1em}
+  \begin{tabular*}{0.48\textwidth}{ l l l l }
+    \hline
+    { } & \textbf{method} & \textbf{algorithm} & \textbf{description} \\
+    \hline
+    S & svd1          & SVD                   & ALSWR factorizer, 10 features. \\
+    S & svd2          & SVD                   & ALSWR factorizer, 20 features. \\
+    S & svd3          & SVD                   & EM factorizer, 10 features. \\
+    S & svd4          & SVD                   & EM factorizer, 20 features. \\
+    S & slope\_one    & Slope One             & Rating delta computations. \\
+    S & item\_avg     & Baseline              & Item averages. \\ 
+    S & baseline      & Baseline              & User and item averages.\\ 
+    S & cosine   	    & Cosine sim.           & From similar items.\\ 
+    S & knn       	  & Pearson Corr.         & From similar users.\\
+    \hline
+    A & median    	  & Aggregation           & Median aggregate rating. \\
+    A & average    	  & Aggregation           & Average aggregate rating. \\
+    A & adaptive      & Adaptive agg.         & \emph{The approach of Sec \ref{sec:adaptive}.} \\
+    \hline
+  \end{tabular*}
+  \label{table:results:methods}
+\end{table}
+
+As seen in Table \ref{table:results:methods}, we have two types of recommenders.
+First, we have the basic recommenders, denoted by \emph{S} in the table.
+Each recommender system looks at the data in a different ways to predict ratings.
+This wide range of recommenders was chosen for just this reason.
+As previously explained, the performance of aggregate recommenders
+are more dependent on the dissimilarity of the basic recommenders
+than their individual performance.
+
+Let us briefly explain how the basic recommenders work.
+In recommender systems, \emph{Singular Value Decomposition} (SVD) is used to compress 
+the ratings space into what is sometimes called a \emph{taste space},
+where users are mapped to higher-level \emph{taste} categories
+(e.g. \cite[p.5]{Ahn2004}, \cite[p.4]{Brand2003} or \cite[p.2]{Liu2006}).
+The factorizers refers to algorithms used to factorize the ratings matrix
+(e.g. the ALSWR factorizer \cite{Zhou2008}).
+
+The Slope One, item\_average and baseline algorithms look at average
+ratings for items and from users, and use these to predict ratings.
+Note that these are not simple, generalized averages, but averages
+based on solving a least squares equation for creating user and item
+\emph{baseline ratings}, not average ratings.
+This is based on the technique of \cite[p.2]{Koren2008}.
+This computes predicted average ratings that are far superior
+to simple average ratings. 
+As we shall see, these algorithms perform well compared
+to other approaches (see also \cite[p.15]{Bjorkoy2011}). 
+
+The cosine similarity algorithm looks for items that are rated
+similarly by the same users, and infers item similarity from this measure.
+New ratings are then predicted by taking known ratings of other items,
+weighted by their item's similarity to the new item.
+This is based on the same method used in the vector space model,
+from the field of information retrieval.
+
+The KNN algorithm employs yet another approach. This algorithm,
+similar in strategy to the cosine similarity algorithm,
+looks for users with similar rating patterns.
+The similarity is measured with the Pearson Correlation Coefficient.
+Predictions are created by collecting ratings from similar users
+of the item in question, weighted by their respective similarity.
+See \cite{Adomavicius2005}, \cite{Pazzani2007} or \cite{Schafer2007}
+for a more comprehensive exploration of different types of recommenders.
+
+
+\subsection{Aggregate Recommenders}
+
+The second type of recommenders are the aggregation methods, 
+that combine the result of each of the basic recommender systems
+The first two of these methods are simple aggregation approaches.
+The median aggregation method choses the median value of the predictions
+produced by the standard recommenders.
+Similarly, the average aggregation method takes the mean of the
+standard predictions.
+While not complex in nature, these methods
+will help us see how our method compares to simple, traditional
+aggregation techniques.
+
+The last entry in Table \ref{table:results:methods}
+refers to our technique. 
+This is the recommender outlined by Section \ref{sec:adaptive},
+that create secondary accuracy estimating recommender systems,
+in order to adaptively weigh the basic recommenders.
+All the aggregation approaches, including our technique,
+employ every basic recommender system described so far.
+
+As explained in Section \ref{sec:adaptive},
+any basic recommender system can be used for the adaptive method.
+The only difference is how this method is trained:
+while the basic methods are trained using the ratings matrix,
+the adaptive methods are trained using the error model.
+In other words, we have as many possibilities for choosing
+the adaptive recommenders as the basic recommenders.
+
+For our experiment, we went with SVD recommenders
+for the adaptive models.
+That is, every basic recommender method gets a secondary 
+accuracy predicting recommender, which in this case is a 
+standard SVD recommender.
+The SVD recommender is a natural choice in this case,
+since we wish to uncover latent patterns of accuracy
+for each model.
+Examples of these patterns include groups of items
+or users a specific recommender works well for.
+
+It is important to note that the same configuration of recommenders was used for all three experiments.
+Neither the basic nor the aggregate or adaptive recommenders were heavily tailored
+to the datasets. To be sure, higher performance could probably have been achieved
+by tailoring the recommenders to the available data. 
+However, as our goal is to compare our finite set of methods, 
+we are currently only interested in how they perform compared to each other.
+
+As with the basic recommenders, the same SVD recommender configuration was used 
+for the adaptive layer in the experiment.
+We chose to use an EM-factorizer to perform the actual decomposition,
+consisting of 20 features. The decomposition was performed by 20 iterations.
+We chose the EM algorithm instead of the previously mentioned ALSWR approach,
+as this was shown to perform better on the MovieLens dataset
+(as seen in Table \ref{table:results:e1}).
+We will discuss our choice further in Section \ref{sec:discussion}.
+
+\section{Results}
+\label{sec:results}
+
+Table \ref{table:results:e1} gives the resulting RMSE values when our algorithm is used with the MovieLens dataset.
+A cell corresponds to the RMSE values for a dataset and a recommender system.
+The bottom entry in this table refers to our adaptive recommenders method.
+As seen in this table, our approach outperforms both the standard recommenders
+and the aggregation approaches.
+
+By outperform we mean that our model should have a lower
+mean RMSE score than the other singular methods. As we can see in Table \ref{table:results:e1},
+our approach outperforms both the standard recommenders
+and simple generalized aggregation approaches.
+While we can not generalize too much on this basis, 
+the fact that this dataset is a common testing ground for recommender systems,
+and that RMSE is the de facto measure for determining performance,
+we have grounds for some confidence in these results.
+
+\input{table.movielens}
+
+Statistics for the experiments are given in the last
+part of Table \ref{table:results:e1}. 
+The statistical values are the minimum, maximum and mean values
+for the methods. We also include
+the standard deviation ($\sigma$) for the methods,
+across each collection of subsets.
+This table confirms the results from the full results table:
+Our adaptive recommenders approach improves the mean performance
+of our system.
+The mean performance and the standard deviation
+are shown in Fig. \ref{plot:movielens}.
+
+\input{plot.movielens}
+%\input{plot.sigma}
+
+It might seem counter-intuitive that the "baseline" and "item\_avg" methods outperform
+the SVD-, KNN- and PCC-based methods. However, as previously mentioned, these methods are not 
+as simple as their names might suggest. Computing these ratings are as complex
+as the other methods, as averages are computed as a least squares problem in a way that
+removes noise and tries to find baselines that best fit the available data,
+while taking the problems of overfitting and user/item bias into account.
+In addition, these averages are combined per user and item, resulting
+in quite capable rating estimations (see \cite[p.2]{Koren2008}).
+
+However, as their rivaling methods are most often found to still outperform these baseline methods,
+their performance is a curious result. This is most likely related
+to the fact that none of the methods were particularly tweaked and optimized for 
+the data at hand. If more time had been spent optimizing the SVD-based recommenders,
+their performance might have been different. 
+As this optimization is outside the scope of our paper, we will not attempt to explain this result.
+In addition, as previously mentioned, 
+the performance of individual recommenders are not indicative of their
+contribution to an aggregation \cite[p.6]{Bell2007b}.
+Additional optimization of the more complex methods could possibly be counter-productive
+to our goal of comparing traditional aggregators to adaptive aggregation.
+
+Let us now take a look at the standard deviation measures from the different methods.
+As seen in Fig. \ref{plot:movielens}, 
+most of the methods, including the adaptive models,
+exhibit quite a lot of variation in their results.
+If these variations occurred as a result of unstable
+predictions on the same dataset, this would be a substantial problem,
+resulting in unreliable predictions.
+However, the standard deviation is mostly caused by the differing
+performance across the varying datasets.
+As we see, the performance of the aggregation methods,
+as well as the best performing standard recommender,
+follow each other closely. At the same time,
+performance varies across the different datasets,
+which results in high values for $\sigma$.
+
+There are two important limitations.
+First, our approach is much more complex than those we test it against.
+The question whether the methods performance is worth its extra complexity becomes important.
+Second, the generalized aggregation methods we chose to test our method with
+are simpler than the most powerful modern approaches to aggregate recommenders.
+This fundamentally limits how confident we can be that our system
+is indeed an improvement.
+We shall discuss this further in Section \ref{sec:discussion}.
+
+In \cite{Bjorkoy2011}, we perform more experiments with adaptive recommenders,
+including one where this approach is used to provide personalized search results.
+
+

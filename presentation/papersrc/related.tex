@@ -1,0 +1,51 @@
+\section{Theory \emph{\&} Related Work}
+
+There are many ways of predicting the
+relevance of an item to a user. 
+In fact, judging by the number of different approaches,
+the only limiting factor seems to be the different 
+patterns researchers discover in available data.
+We will explain many of these systems throughout this paper.
+See 
+\cite{Adomavicius2005}, \cite{Pazzani2007}, \cite{Schafer2007} 
+or \cite{Bjorkoy2010d} for a comprehensive exploration 
+of different types of recommenders.
+
+We are interested in current approaches to recommender prediction aggregation,
+that is, combining multiple predictions made by different algorithms.
+\cite{Aslam2001} describes a number of simple approaches.
+Min, max and sum models combine the individual predictions in some way, 
+or select one or more of the results as the final prediction. 
+Other models use the average, or log-average of the different methods.
+The linear combination model trains weights for each predictor, and weighs predictions accordingly.
+At slightly more complex approach is to train a logistic regression model (\cite[p3]{Aslam2001})
+over a training set, in an effort to find the combination that gives the lowest possible error.
+This last method improved on the top-scoring predictor by almost 11\%,
+showing that even fairly simple combinations have merit.
+
+Early approaches in recommender systems experimented with aggregating content-based and collaborative approaches.
+Content-Based (CB) methods look at item similarities and the previous actions of a single user.
+On the other hand, Collaborative Filtering (CF) approaches consider
+previous actions from other users in the system.
+\cite{Claypool1999} combined the two approaches in an effort to thwart problems with each method.
+CF methods have problems rating items for new users, radically different users or when dealing with very sparse data.
+CB methods do not have the same problems, but are less effective than CF in the long run, as CB does not tap into the 
+knowledge of other users in the system --- knowledge that out-performs simple content analysis.
+In \cite{Claypool1999}, the two types of recommenders were used to create a simple weighted result.
+
+Burke calls this mixing of CF and CB methods \emph{hybrid recommenders},
+and describes a number of approaches to combining their results \cite[p.4]{Burke2007}.
+In other words, the technique of combining multiple recommenders is nothing new.
+The goal of this paper is to remove the subjectivity inherent in the
+selection of the combined methods, as we shall see.
+See \cite{Bjorkoy2010d} for a more comprehensive look at how
+our technique compares to existing hybrid recommender systems. 
+
+Generally, methods for aggregating predictions in the field of machine learning is called \emph{ensemble methods} (EM) (\cite{Dietterich2000}).
+While most often used to combine classifiers that classify items with discrete labels,
+these methods are also used for aggregating numerical values (see the numerical parts of \cite{Breiman1996}).
+Approaches include \emph{bootstrap aggregation} (bagging) and \emph{boosting} 
+for selecting proper training and testing sets,
+and creating a \emph{mixture of experts} for combining the predictors
+\cite[p.27]{Polikar2006}.
+See \cite{Bjorkoy2011} for more background theory and related work.

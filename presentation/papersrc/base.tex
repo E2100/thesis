@@ -1,0 +1,61 @@
+\documentclass{inwwct}
+
+% -----------------------------------------------------------------
+
+% utf-8
+\usepackage[utf8]{inputenc} 
+
+% Compact lists
+\RequirePackage{mdwlist}
+
+% Text
+\RequirePackage{array}
+\RequirePackage{hyperref}
+\hypersetup{
+  colorlinks=true, 
+  urlcolor=black, 
+  linkcolor=black,
+  citecolor=black
+}
+\urlstyle{same}
+
+% Math
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{amssymb}
+
+% Graphics
+\RequirePackage{graphicx}
+\RequirePackage{pdfpages}
+\RequirePackage{wrapfig}
+\RequirePackage{subfig}
+\RequirePackage{caption}
+\RequirePackage{tikz}
+\RequirePackage{pgf}
+\RequirePackage{pgfplots}
+\usetikzlibrary{arrows,shapes,positioning,plotmarks}
+
+% Counters
+\newcounter{MYtempeqncnt}
+
+% Color
+\RequirePackage{xcolor}
+\definecolor{red}{HTML}{990000}
+\definecolor{green}{HTML}{336633}
+\definecolor{black}{HTML}{000000}
+\definecolor{lightgray}{HTML}{CCCCCC}
+\definecolor{gray}{HTML}{999999}
+\definecolor{darkgray}{HTML}{666666}
+
+% -----------------------------------------------------------------
+
+\begin{document}
+  \input{frontmatter}
+  \input{introduction}
+  \input{related}
+  \input{adaptive.recommenders}
+  \input{results}
+  \input{discussion}
+  \input{backmatter}
+  \bibliography{../../thesis/src/library.bib}
+\end{document}

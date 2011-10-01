@@ -1,0 +1,211 @@
+\documentclass[screen]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+
+% Graphics
+\RequirePackage{graphicx}
+\RequirePackage{pdfpages}
+\RequirePackage{wrapfig}
+\RequirePackage{subfig}
+\RequirePackage{caption}
+\RequirePackage{tikz}
+\RequirePackage{pgf}
+\RequirePackage{pgfplots}
+\usetikzlibrary{arrows,shapes,positioning,plotmarks}
+
+% Color
+\RequirePackage{xcolor}
+\definecolor{red}{HTML}{990000}
+\definecolor{green}{HTML}{336633}
+\definecolor{black}{HTML}{000000}
+\definecolor{lightgray}{HTML}{CCCCCC}
+\definecolor{gray}{HTML}{999999}
+\definecolor{darkgray}{HTML}{666666}
+
+% Bruk NTNU-temaet for beamer (her i bokmålvariant), alternativer er
+% ntnunynorsk og ntnuenglish.
+\usetheme{ntnuenglish}
+ 
+% Angi tittelen, vi gir også en kortere variant som brukes nederst på
+% hver slide:
+\title[Adaptive Aggregation of Recommender Systems]%
+{Adaptive Aggregation of\\Recommender Systems}
+
+% Denne kan du også bruke hvis det passer seg:
+%\subtitle{Valgfri undertittel}
+
+% Angir foredragsholder, også en (valgfri) kortversjon i
+% hakeparanteser først som kommer nederst på hver slide:
+\author{Olav Bj{\o}rk{\o}y}
+
+% Institusjon. Bruk gjerne disse slik det passer best med det du vil
+% ha.  Valgfri kortversjon her også
+\institute[NTNU]{Department of Computer and Information Science}
+
+% Datoen blir også trykket på forsida. 
+\date{October 3rd, 2011}
+%\date{} % Bruk denne hvis du ikke vil ha noe dato på forsida.
+
+% Fra her av begynner selve dokumentet
+\begin{document}
+
+% Siden NTNU-malen har en annen bakgrunn på forsida, må dette gjøres
+% i en egen kommando, ikke på vanlig beamer-måte:
+\ntnutitlepage
+
+% Her begynner første slide/frame, (nummer to etter forsida). 
+
+\begin{frame}
+  \frametitle{2006: The Netflix Challenge}
+    \begin{itemize}
+      \item USD 1,000,000 prize for a 10\% improvement in recommendation accuracy.\\
+      \item Progress was slow until teams started combining their efforts.\\
+      \item Team BellKor finally achieved a 10.06\% improvement by combining 107 different recommender algorithms.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Today: Web Search}
+    \begin{block}{Google}
+      "Today we use more than 200 signals, including PageRank, to order websites, and we update these algorithms on a weekly basis."
+      (\url{google.com/corporate/tech.html})
+    \end{block}
+    \begin{block}{Bing}
+      "We use over 1,000 different signals and features in our ranking algorithm."
+      (\url{bing.com/community/site_blogs/b/search/archive/2011/02/01/thoughts-on-search-quality.aspx})
+    \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Why multiple recommenders?}
+  \begin{itemize}
+    \item One method can not capture the predictive nature of all available data.
+    \item Number of different recommender systems only limited by patterns found in data.
+    \item Accuracy of the combined blend is not determined by that of the individual recommenders.
+  \end{itemize}
+  
+  \begin{block}{Bell, R., Koren, Y., and Volinsky, C. (2007) (Netflix)}
+    "Quite frequently we have found that the more accurate predictors are less useful within the full blend."
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Problem: Latent Subjectivity}
+  \begin{itemize}
+    \item Aggregation of predictions through generalized weights.
+    \item Generalized weights treat all users and items the same.
+    \item The system decides the individual algorithm importance.
+    \item Varying accuracy for recommenders across users.
+    \item Varying accuracy for recommenders across items.
+    \item A case of misplaced subjectivity.
+  \end{itemize}
+  \begin{eqnarray}
+    \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i)
+  \end{eqnarray}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Adaptive Recommenders}
+  \begin{itemize}
+    \item Combine multiple disjoint recommender systems that look at various predictive patterns 
+      (content-based, collaborative filtering, auxilliary social data, etc).
+    \item Automatically predict how relevant each recommender will be for each user,
+      based on previous recommendations.
+    \item Weigh each recommender prediction accordingly.
+  \end{itemize}
+  \begin{eqnarray}
+    \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
+  \end{eqnarray}
+\end{frame}
+
+\begin{frame}
+  \input{figure.layers}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Training phase}
+  
+  \begin{itemize}
+    \item Split into two sets using bootstrap aggregation: $(t_1,t_2)$.
+    \item Use $t_1$ to train the basic recommenders.
+    \item Create an error matrix using the basic recommenders and $t_2$. 
+    \item The error matrix values are predicted errors for $(u,i,m)$.
+    \item Train adaptive recommenders on the error matrix.
+  \end{itemize}
+  
+  \begin{eqnarray}
+    \forall (u,i,r) \in (d_e - d_m): E(m)_{u,i} = |r - p(m,u,i)|
+  \end{eqnarray}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Prediction phase}
+  
+  \begin{itemize}
+    \item Calculate each prediction $\hat{r}_{(u,i,m)}$.
+    \item Calculate each predicted error $\hat{e}_{(u,i,m)}$.
+    \item The adaptive weights are the inverses of the normalized error.
+    \item Sum the weighted predictions to get the final $\hat{r}$.
+  \end{itemize}
+  
+  \begin{figure}[!t]
+  \tiny
+  \begin{eqnarray}
+    \label{eq:adaptive}
+    \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - 
+    \frac{
+      p(m_{e},u,i)
+    }{
+      error(u,i)
+    }) \times p(m_{r},u,i)
+    \quad
+    \text{where}
+    \quad
+    error(u,i) = \sum_{m_e \in M} p(m_e,u,i) 
+  \end{eqnarray}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results}
+  \begin{itemize}
+    \item Calculate RMSE values for basic recommenders, simple aggregations and adaptive aggregation.
+    \item Used the Movielens movie rating dataset and the following recommenders (see paper for more details):
+    \item Basic recommenders: 4x SVD, Slope One, Item Average, Baseline, Cosine Similarity, Pearson Correlation.
+    \item Aggregate recommenders: Median, Average, Adaptive.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \input{table.movielens}
+\end{frame}
+
+\begin{frame}
+  \input{plot.movielens}
+\end{frame}
+
+\begin{frame}
+  \input{plot.sigma}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Limitations}
+  \begin{itemize}
+    \item Lots of added complexity for uncertain gains.
+    \item Only tested on a few datasets, no real world situations.
+    \item Only compared to simple aggregation methods.
+    \item Neither the aggregators nor the basic recommenders were
+      heavily optimized to the domain of the dataset.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Resulting Adaptive Aggregation}
+  \begin{itemize}
+    \item Each recommender is weighted based on predicted accuracy.
+    \item Accuracy predictions are contextually dependent on $(u,i,m)$.
+    \item \emph{Any} applicable recommender becomes a worthy addition.
+  \end{itemize}
+\end{frame}
+
+\end{document}

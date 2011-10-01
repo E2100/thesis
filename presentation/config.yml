@@ -1,0 +1,20 @@
+---
+
+# Dirs
+:build_dir: build
+:graphics_dir: gfx
+:vendor_dir: vendor
+
+# Output engine
+:engine: :pdflatex
+
+# Output settings
+:color: true
+:view_build: true
+:verbose: true
+
+# Dist file name
+:distribution_name: presentation
+
+# Build for changes in other than .tex
+:force: true 
