@@ -27,14 +27,13 @@
 % Bruk NTNU-temaet for beamer (her i bokmålvariant), alternativer er
 % ntnunynorsk og ntnuenglish.
 \usetheme{ntnuenglish}
+
+\setbeamertemplate{footline}[ntnu theme nologo]
  
 % Angi tittelen, vi gir også en kortere variant som brukes nederst på
 % hver slide:
 \title[Adaptive Aggregation of Recommender Systems]%
 {Adaptive Aggregation of\\Recommender Systems}
-
-% Denne kan du også bruke hvis det passer seg:
-%\subtitle{Valgfri undertittel}
 
 % Angir foredragsholder, også en (valgfri) kortversjon i
 % hakeparanteser først som kommer nederst på hver slide:
@@ -54,22 +53,23 @@
 % Siden NTNU-malen har en annen bakgrunn på forsida, må dette gjøres
 % i en egen kommando, ikke på vanlig beamer-måte:
 \ntnutitlepage
+%\titlepage
 
 % Her begynner første slide/frame, (nummer to etter forsida). 
 
 \begin{frame}
   \frametitle{Terminology}
-  \begin{tabular*}{0.9\textwidth}{ l l }
+  \begin{tabular*}{1\textwidth}{ l l }
     \hline
     $u$ & user \\
     \hline
-    $i$ & item (article, website, movie, product, other user...)\\
+    $i$ & item (article, website, movie, product...)\\
     \hline
-    $r$ & rating, relevance, connection (domain specific)\\
-    \hline
-    $p(u,i)$ & predicted rating for a user and an item.\\
+    $r$ & rating, relevance, utility (domain specific)\\
     \hline
     $m$ & a method for predicting ratings.\\
+    \hline
+    $p(m,u,i)$ & predicted rating of a method for $(u,i)$.\\
     \hline
   \end{tabular*}
 \end{frame}
@@ -109,15 +109,12 @@
 \end{frame}
 
 \begin{frame}
-  \begin{eqnarray*}
-    \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p(m,u,i)
-  \end{eqnarray*}
-\end{frame}
-
-\begin{frame}
   \frametitle{The Problem: Latent Subjectivity}
+  \begin{eqnarray}
+    \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p_{r}(m,u,i)
+  \end{eqnarray}
   \begin{itemize}
-    \item Generalized weights.
+    \item Generalized optimal weights.
     \item Treats all users and items the same.
     \item Varying accuracy across users.
     \item Varying accuracy across items.
@@ -126,22 +123,24 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{The Problem: Latent Subjectivity}
   \huge
-  \linespread{1.6}
-  Systems that insist on being adaptive in a certain way
-  are not really adaptive at all.
+  \linespread{2}{
+    Systems that insist on being adaptive in a certain way
+    are not really adaptive at all.  
+  }
 \end{frame}
 
 \begin{frame}
   \frametitle{Adaptive Recommenders}
-  \begin{itemize}
-    \item Combine multiple disjoint recommender systems.
-    \item Use content-based, collaborative filtering and hybrids.
-    \item Automatically predict their contextual accuracy.
-  \end{itemize}
   \begin{eqnarray}
     \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
   \end{eqnarray}
+  \begin{itemize}
+    \item $p_r$: predicted rating from method $m$ for $(u,i)$.
+    \item $p_w$: predicted optimal weight for method $m$ for $(u,i)$.
+    \item We can use standard recommenders for both $p_r$ and $p_w$.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -152,9 +151,9 @@
   \frametitle{Training phase}
   
   \begin{itemize}
-    \item Split into two sets using bootstrap aggregation: $(t_1,t_2)$.
-    \item Use $t_1$ to train the basic recommenders.
-    \item Create an error matrix using the basic recommenders and $t_2$. 
+    \item Split into two sets using bootstrap aggregation: $(d_m,d_e)$.
+    \item Use $d_m$ to train the basic recommenders.
+    \item Create an error matrix using the basic recommenders and $d_e$. 
     \item The error matrix values are predicted errors for $(u,i,m)$.
     \item Train adaptive recommenders on the error matrix.
   \end{itemize}
@@ -165,6 +164,35 @@
 \end{frame}
 
 \begin{frame}
+  \begin{equation*}
+     R_{u,i} =
+     \begin{pmatrix}
+      r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
+      r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
+      \vdots  & \vdots  & \ddots & \vdots  \\
+      r_{u,1} & r_{u,2} & \cdots & r_{u,i}
+     \end{pmatrix}
+    \end{equation*}
+
+  \vspace{1em}
+  
+    \begin{equation*}
+     E_{u,i} =
+     \begin{pmatrix}
+        e_{1,1} & e_{1,2} & \cdots & e_{1,i} \\
+        e_{2,1} & e_{2,2} & \cdots & e_{2,i} \\
+        \vdots  & \vdots  & \ddots & \vdots  \\
+        e_{u,1} & e_{u,2} & \cdots & e_{u,i}
+     \end{pmatrix}
+    \end{equation*}
+    
+    \vspace{1em}
+    \begin{center}
+      Train $p_r$ with $R$ and $p_w$ with $E$.
+    \end{center}
+\end{frame}
+
+\begin{frame}
   \frametitle{Prediction phase}
   
   \begin{itemize}
@@ -172,11 +200,11 @@
     \item Calculate each predicted error $\hat{e}_{(u,i,m)}$.
     \item The adaptive weights are the inverses of the normalized error.
     \item Sum the weighted predictions to get the final $\hat{r}$.
-  \end{itemize}
-  
-  \begin{figure}[!t]
-  \tiny
-  \begin{eqnarray}
+  \end{itemize}  
+\end{frame}
+
+\begin{frame}
+  \begin{equation}
     \label{eq:adaptive}
     \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - 
     \frac{
@@ -184,12 +212,11 @@
     }{
       error(u,i)
     }) \times p(m_{r},u,i)
-    \quad
-    \text{where}
-    \quad
-    error(u,i) = \sum_{m_e \in M} p(m_e,u,i) 
-  \end{eqnarray}
-  \end{figure}
+  \end{equation}
+  \vspace{2em}
+  \begin{equation}
+    error(u,i) = \sum_{m_e \in M} p(m_e,u,i)     
+  \end{equation}
 \end{frame}
 
 \begin{frame}
@@ -235,7 +262,7 @@
 \begin{frame}
   \frametitle{Adaptive Recommenders}
   \begin{itemize}
-    \item Combine disjoint recommenders
+    \item Combine disjoint algorithms
     \item Weight recommenders by predicted accuracy.
     \item Accuracy predictions are contextually dependent on $(u,i,m)$.
     \item \emph{Any} applicable recommender becomes a worthy addition.
