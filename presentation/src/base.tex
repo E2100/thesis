@@ -143,7 +143,7 @@ October 3rd, 2011}
 \begin{frame}
   \frametitle{Adaptive Recommenders}
   \begin{itemize}
-    \item Multiple rating algorithms weighed by contextual accuracy.
+    \item Combining predictors by estimated contextual accuracy.
   \end{itemize}
   \begin{eqnarray}
     \hat{r}_{u,i} = \sum_{m \in M} p_{w}(m,u,i) \times p_{r}(m,u,i)
@@ -166,9 +166,9 @@ October 3rd, 2011}
   \begin{enumerate}
     \item Split data into two sets: $(d_m,d_e)$.
     \item Use $d_m$ to train the rating predictors.
-    \item Create an \emph{error matrix} for the rating predictors and $d_e$. 
-    \item The error matrix now holds known errors for some $(m,u,i)$.
-    \item Train error predictors from the error matrix.
+    \item Create \emph{error matrices} for the rating predictors and $d_e$. 
+    \item The error matrices now hold known errors for some $(m,u,i)$.
+    \item Train error predictors from the error matrices.
   \end{enumerate}
   
   \begin{eqnarray}
@@ -180,7 +180,7 @@ October 3rd, 2011}
   \frametitle{Training phase}
   
   \begin{equation*}
-     R_{u,i} =
+     Rating_{u,i} =
      \begin{pmatrix}
       r_{1,1} & r_{1,2} & \cdots & r_{1,i} \\
       r_{2,1} & r_{2,2} & \cdots & r_{2,i} \\
@@ -192,7 +192,7 @@ October 3rd, 2011}
   \vspace{1em}
   
     \begin{equation*}
-     E_{u,i} =
+     Error(m)_{u,i} =
      \begin{pmatrix}
         e_{1,1} & e_{1,2} & \cdots & e_{1,i} \\
         e_{2,1} & e_{2,2} & \cdots & e_{2,i} \\
@@ -203,8 +203,8 @@ October 3rd, 2011}
     
     \vspace{1em}
     \begin{itemize}
-      \item $\mathrm{train(m, R)} \rightarrow \mathrm{rating\_predictor}$
-      \item $\mathrm{train(m, E)} \rightarrow \mathrm{error\_predictor}$
+      \item $\mathrm{train(m_1, R)} \rightarrow \text{rating predictor for } m_1$
+      \item $\mathrm{train(m_2, E(m_1))} \rightarrow \text{error predictor for } m_1$
     \end{itemize}
 \end{frame}
 
@@ -221,19 +221,16 @@ October 3rd, 2011}
 
 \begin{frame}
   \frametitle{Prediction phase}
-  \begin{equation}
+  \begin{eqnarray}
     \label{eq:adaptive}
-    \hat{r}_{u,i} = \sum_{(m_{e}, m_{r}) \in M} (1 - 
+    \hat{r}_{u,i} &=& \sum_{(m_{e}, m_{r}) \in M} (1 - 
     \frac{
       p(m_{e},u,i)
     }{
       error(u,i)
-    }) \times p(m_{r},u,i)
-  \end{equation}
-  \vspace{2em}
-  \begin{equation}
-    error(u,i) = \sum_{m_e \in M} p(m_e,u,i)     
-  \end{equation}
+    }) \times p(m_{r},u,i)\\[2em]
+    error(u,i) &=& \sum_{m_e \in M} p(m_e,u,i)     
+  \end{eqnarray}
 \end{frame}
 
 \begin{frame}
