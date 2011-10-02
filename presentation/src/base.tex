@@ -70,11 +70,11 @@ October 3rd, 2011}
     \hline
     $u$ & a user \\
     \hline
-    $i$ & an item (article, website, movie, product...)\\
+    $i$ & an item (article, website, movie, email...)\\
     \hline
-    $r$ & the rating, relevance, utility (domain specific)\\
+    $r$ & the rating (relevance, utility, other domain term)\\
     \hline
-    $m$ & a method for predicting ratings.\\
+    $m$ & a method/algorithm for predicting ratings.\\
     \hline
     $p(m,u,i)$ & rating prediction from method $m$ for $(u,i)$\\
     \hline
@@ -163,13 +163,13 @@ October 3rd, 2011}
 \begin{frame}
   \frametitle{Training phase}
   
-  \begin{itemize}
-    \item Split into two sets using bootstrap aggregation: $(d_m,d_e)$.
-    \item Use $d_m$ to train the basic recommenders.
-    \item Create an error matrix using the basic recommenders and $d_e$. 
-    \item The error matrix values are predicted errors for $(u,i,m)$.
-    \item Train adaptive recommenders on the error matrix.
-  \end{itemize}
+  \begin{enumerate}
+    \item Split data into two sets: $(d_m,d_e)$.
+    \item Use $d_m$ to train the rating predictors.
+    \item Create an \emph{error matrix} for the rating predictors and $d_e$. 
+    \item The error matrix now holds known errors for some $(m,u,i)$.
+    \item Train error predictors from the error matrix.
+  \end{enumerate}
   
   \begin{eqnarray}
     \forall (u,i,r) \in (d_e - d_m): E(m)_{u,i} = |r - p(m,u,i)|
@@ -202,20 +202,21 @@ October 3rd, 2011}
     \end{equation*}
     
     \vspace{1em}
-    \begin{center}
-      Train $p_r$ with $R$ and $p_w$ ($p_e$) with $E$.
-    \end{center}
+    \begin{itemize}
+      \item $\mathrm{train(m, R)} \rightarrow \mathrm{rating\_predictor}$
+      \item $\mathrm{train(m, E)} \rightarrow \mathrm{error\_predictor}$
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Prediction phase}
   
-  \begin{itemize}
-    \item Calculate each prediction $\hat{r}_{(u,i,m)}$.
-    \item Calculate each predicted error $\hat{e}_{(u,i,m)}$.
-    \item The adaptive weights are the inverses of the normalized error.
+  \begin{enumerate}
+    \item Predict ratings $\hat{r}_{(u,i,m)}$.
+    \item Predict errors $\hat{e}_{(u,i,m)}$.
+    \item Create adaptive weights by inversing the normalized errors.
     \item Sum the weighted predictions to get the final $\hat{r}$.
-  \end{itemize}  
+  \end{enumerate}  
 \end{frame}
 
 \begin{frame}
@@ -236,9 +237,9 @@ October 3rd, 2011}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Results}
+  \frametitle{Experiment}
   \begin{itemize}
-    \item Experiment: RMSE values for basic recommenders, simple aggregations and adaptive aggregation.
+    \item RMSE values for basic recommenders, simple aggregations and adaptive aggregation.
     \item Used the Movielens movie rating dataset.
     \item See paper for more details.
     \vspace{2em}
