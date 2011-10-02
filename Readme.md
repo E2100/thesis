@@ -60,5 +60,5 @@ at the Norwegian University of Science and Technology (NTNU).
 The thesis can be found in the "thesis/dist" folder.
 The corresponding implementation is in the "code" folder.
 A short version of the thesis is available as a paper in the "paper/dist" folder.
-
+A presentation of the subject can be found in the "presentation/dist" folder.
 
