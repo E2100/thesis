@@ -72,13 +72,12 @@ October 3rd, 2011}
 \begin{frame}
   \frametitle{Recommender Systems Terminology}
   \begin{tabular*}{1\textwidth}{ l l }
-    \textbf{term} & \textbf{description} \\
     \hline
     $u$ & a user \\
     \hline
     $i$ & an item (article, website, movie, email...)\\
     \hline
-    $r$ & the rating (relevance, utility, other domain term)\\
+    $r$ & a rating (relevance, utility, other domain term)\\
     \hline
     $m$ & a method/algorithm for predicting ratings.\\
     \hline
@@ -125,7 +124,7 @@ October 3rd, 2011}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Problem: Latent Subjectivity}
+  \frametitle{The Problem}
   \begin{eqnarray}
     \hat{r}_{u,i} = \sum_{m \in M} w_{m} \times p_{r}(m,u,i)
   \end{eqnarray}
@@ -138,7 +137,7 @@ October 3rd, 2011}
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Problem: Latent Subjectivity}
+  \frametitle{The Problem}
   \huge
   \linespread{2}{
     The \emph{amount} and \emph{type} of personalization
