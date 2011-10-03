@@ -64,7 +64,7 @@ October 3rd, 2011}
 
 
 \begin{frame}
-  \frametitle{Terminology}
+  \frametitle{Recommender Systems Terminology}
   \begin{tabular*}{1\textwidth}{ l l }
     \textbf{term} & \textbf{description} \\
     \hline
@@ -128,6 +128,7 @@ October 3rd, 2011}
     \item Treats all users and items the same.
     \item Varying accuracy across users and items.
     \item Methods are chosen by the system, not the users or items.
+    \item Personalization should be adaptive.
   \end{itemize}
 \end{frame}
 
@@ -203,7 +204,7 @@ October 3rd, 2011}
     
     \vspace{1em}
     \begin{itemize}
-      \item $\mathrm{train(m_1, R)} \rightarrow \text{rating predictor for } m_1$
+      \item $\mathrm{train(m_1, R)} \rightarrow \text{rating predictor } m_1$
       \item $\mathrm{train(m_2, E(m_1))} \rightarrow \text{error predictor for } m_1$
     \end{itemize}
 \end{frame}
